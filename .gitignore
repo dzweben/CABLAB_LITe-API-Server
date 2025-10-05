@@ -1,0 +1,38 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python cache & env
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.env
+.venv/
+venv/
+*.egg-info/
+*.egg
+
+# Jupyter & notebook checkpoints
+.ipynb_checkpoints/
+
+# IDE junk
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS/metadata files
+Thumbs.db
+Desktop.ini
+
+# Google API credentials (sensitive)
+# === Individual credential files to ignore ===
+lite_redcap_api_token.txt
+sessionnotes-googleid.txt
+arcane-boulder-445318-e0-ae3efe15a20e.json
+TOKEN_LITE_API.rtf
+# macOS cruft
+.DS_Store
