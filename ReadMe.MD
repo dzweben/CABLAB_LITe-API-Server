@@ -35,7 +35,7 @@ All scripts are **automated on a local drive** and run via scheduled cron jobs.
 
 ---
 
-### `FollowupText/` *(not shown here, but integrated)*
+### `FollowupText/` 
 - Sends **monthly survey reminders** to participants
 - Uses **Gmail, OpenPhone, and REDCap APIs** to automate outreach
 - Tailors messages based on who still needs to complete what
