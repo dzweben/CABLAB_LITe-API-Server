@@ -24,7 +24,7 @@ All scripts are **automated on a local drive** and run via scheduled cron jobs.
 - Filters and pivots survey completion info
 - Updates the shared Google Sheet with the latest data
 
-> This is the data ingestion and syncing engine of the server.
+> This is the data ingestion and syncing engine of the server. 
 
 ---
 
@@ -73,5 +73,5 @@ Built and maintained by **Danny Zweben**
 For questions or setup help: `danny.zweben99@gmail.com`
 
 ---
-
-> This isn’t just a script — it’s a local server powering a massive longitudinal study.
+ This local server powers a massive longitudinal study (4 years, 400+ participants across 3 cohorts).
+---
