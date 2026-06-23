@@ -43,7 +43,13 @@ jobs:
             echo "No data changes to commit."
           else
             git commit -m "Auto-refresh LITe REDCap data [$(date -u '+%Y-%m-%d %H:%M UTC')]"
-            git push
+            # Rebase on top of any commit that landed since checkout
+            # (e.g. a concurrent push) so we don't lose to a race.
+            for attempt in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              echo "push retry $attempt failed, sleeping…"
+              sleep 5
+            done
           fi
 
       - name: Deploy to Vercel
