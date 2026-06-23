@@ -32,23 +32,19 @@ jobs:
           REDCAP_LITE_TOKEN: ${{ secrets.REDCAP_LITE_TOKEN }}
         run: node --max-old-space-size=6144 scripts/fetch-data.mjs
 
-      - name: Check if data changed
-        id: check
-        run: |
-          if git diff --quiet private/data/participants.json private/data/due-reminders.json; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-
       - name: Commit and push updated data
-        if: steps.check.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add private/data/participants.json private/data/due-reminders.json private/data/last-fetch.json
-          git commit -m "Auto-refresh LITe REDCap data [$(date -u '+%Y-%m-%d %H:%M UTC')]"
-          git push
+          # --quiet on `diff --cached` (staged index) — covers both
+          # modified-tracked and brand-new-untracked files.
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Auto-refresh LITe REDCap data [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+            git push
+          fi
 
       - name: Deploy to Vercel
         env:
