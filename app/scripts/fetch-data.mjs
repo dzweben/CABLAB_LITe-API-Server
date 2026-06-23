@@ -116,8 +116,10 @@ async function redcapPost(params, attempt = 1) {
 }
 
 // Chunked record fetch — LITe is large enough that a single bulk export
-// blows out REDCap's server memory. We loop per-event and concatenate.
-async function fetchAllRecords() {
+// blows out REDCap's server memory. We loop per-event and stream each
+// chunk straight into the per-record bucket so we never hold more than
+// one event's worth of raw rows in memory at once.
+async function fetchAllRecordsStreaming(byRecord) {
   const events = [eventName("pre")];
   for (const w of WAVES) {
     for (const k of ["v1", "athome", "sts1", "sts2", "ema", "v2"]) {
@@ -125,7 +127,7 @@ async function fetchAllRecords() {
     }
   }
   console.log(`  Will fetch ${events.length} events in series…`);
-  const all = [];
+  let total = 0;
   for (const evt of events) {
     try {
       const csv = await redcapPost({
@@ -136,12 +138,18 @@ async function fetchAllRecords() {
       });
       const rows = parseCSV(csv);
       console.log(`    ${evt}: ${rows.length} rows`);
-      all.push(...rows);
+      total += rows.length;
+      for (const r of rows) {
+        const id = r.record_id;
+        if (!id) continue;
+        if (!byRecord[id]) byRecord[id] = [];
+        byRecord[id].push(r);
+      }
     } catch (err) {
       console.warn(`    ${evt}: SKIPPED (${err.message})`);
     }
   }
-  return all;
+  return total;
 }
 
 async function fetchSurveyLink(recordId, evtName, instrument) {
@@ -372,17 +380,9 @@ function computeDueReminders(participants) {
 
 async function main() {
   console.log("=== LITe REDCap fetch ===");
-  console.log("Pulling all records (single bulk export)…");
-  const rows = await fetchAllRecords();
-  console.log(`  Got ${rows.length} REDCap rows`);
-
   const byRecord = {};
-  for (const r of rows) {
-    const id = r.record_id || r.RECORD_ID || "";
-    if (!id) continue;
-    if (!byRecord[id]) byRecord[id] = [];
-    byRecord[id].push(r);
-  }
+  const total = await fetchAllRecordsStreaming(byRecord);
+  console.log(`  Got ${total} REDCap rows, grouped into ${Object.keys(byRecord).length} records`);
 
   const participants = [];
   for (const recordRows of Object.values(byRecord)) {
