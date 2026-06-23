@@ -115,13 +115,33 @@ async function redcapPost(params, attempt = 1) {
   }
 }
 
+// Chunked record fetch — LITe is large enough that a single bulk export
+// blows out REDCap's server memory. We loop per-event and concatenate.
 async function fetchAllRecords() {
-  const csv = await redcapPost({
-    content: "record", format: "csv", type: "flat",
-    rawOrLabel: "raw", rawOrLabelHeaders: "raw",
-    exportSurveyFields: "true",
-  });
-  return parseCSV(csv);
+  const events = [eventName("pre")];
+  for (const w of WAVES) {
+    for (const k of ["v1", "athome", "sts1", "sts2", "ema", "v2"]) {
+      events.push(eventName(k, w));
+    }
+  }
+  console.log(`  Will fetch ${events.length} events in series…`);
+  const all = [];
+  for (const evt of events) {
+    try {
+      const csv = await redcapPost({
+        content: "record", format: "csv", type: "flat",
+        rawOrLabel: "raw", rawOrLabelHeaders: "raw",
+        exportSurveyFields: "true",
+        "events[0]": evt,
+      });
+      const rows = parseCSV(csv);
+      console.log(`    ${evt}: ${rows.length} rows`);
+      all.push(...rows);
+    } catch (err) {
+      console.warn(`    ${evt}: SKIPPED (${err.message})`);
+    }
+  }
+  return all;
 }
 
 async function fetchSurveyLink(recordId, evtName, instrument) {
