@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model CachedReport {
+  id        String   @id @default(cuid())
+  reportId  String   @unique
+  data      String
+  fetchedAt DateTime @default(now())
+}
+
+model CachedParticipant {
+  id        String   @id @default(cuid())
+  subId     String
+  data      String
+  fetchedAt DateTime @default(now())
+
+  @@unique([subId])
+}
+
+model Reminder {
+  id              String   @id @default(cuid())
+  subId           String
+  visitType       String
+  scheduledDate   DateTime
+  reminderNumber  Int
+  channel         String
+  status          String   @default("would-send")
+  recipientEmail  String?
+  recipientPhone  String?
+  surveyLinks     String?
+  surveyNames     String?
+  createdAt       DateTime @default(now())
+
+  @@index([subId])
+  @@index([scheduledDate])
+  @@index([status])
+  @@index([visitType])
+}

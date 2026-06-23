@@ -1,0 +1,62 @@
+name: Send LITe Due Messages
+
+on:
+  schedule:
+    # Every 5 minutes. EMA prompts are scheduled to specific clock times
+    # (e.g. Monday 7:34 AM); this polls for any whose scheduledAt falls
+    # within ±2.5 minutes of "now" and sends them.
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Cancel any in-flight run when a new one starts so we don't double-send.
+concurrency:
+  group: send-due-messages
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Refresh due-reminders from REDCap
+        env:
+          REDCAP_API_URL: ${{ secrets.REDCAP_API_URL }}
+          REDCAP_LITE_TOKEN: ${{ secrets.REDCAP_LITE_TOKEN }}
+        run: node scripts/fetch-data.mjs
+
+      - name: Fire due messages
+        env:
+          REDCAP_API_URL: ${{ secrets.REDCAP_API_URL }}
+          REDCAP_LITE_TOKEN: ${{ secrets.REDCAP_LITE_TOKEN }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          QUO_API_KEY: ${{ secrets.QUO_API_KEY }}
+          QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
+        run: node scripts/send-due-messages.mjs
+
+      - name: Commit updated data and logs
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add private/data/ 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "LITe send-cycle [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+          git push 2>/dev/null || true

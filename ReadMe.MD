@@ -1,77 +1,46 @@
-# 🧠 Project LITe Survey Automation Server
+# Project LITe — Survey Automation Server
 
-Welcome to the **Project LITe Survey Automation Server** — a locally automated system developed by **Danny Zweben** to handle survey tracking, delivery, and data syncing for [Project LITe](https://reporter.nih.gov/search/Hi84xz6vkkC3zbsmPU9sHw/project-details/10764006), a 4-year NIH-funded study with over 430 participants.
+NIH-funded 4-year longitudinal study (~430 participants, 3 cohorts × 3
+waves) for the **Control + Adaptive Behavior Lab** at Temple University.
 
----
+This repo now contains **two implementations** side-by-side:
 
-## 🚀 What This Server Does
+## ✨ New: `app/` — Next.js dashboard server
 
-Participants complete up to 9 surveys per year across multiple time points. Manually tracking and messaging participants would be overwhelming — so this server was built to:
+The web-based replacement for the legacy local-cron Python scripts. Same
+architectural philosophy as the SDN / Project SPARK dashboard:
 
-- Automatically update a central Google Sheets tracker from REDCap data  
-- Visually flag survey progress with dynamic conditional formatting  
-- Send monthly email and text reminders using Gmail, OpenPhone, and REDCap APIs  
-- Keep everything in sync — no human input needed
+- REDCap → JSON snapshots committed by GitHub Actions
+- Live dashboard at a Vercel URL with password-gated coordinator UI
+- All ~92 message templates baked in from the
+  `Timeline of Automated Messages.xlsx` workbook
+- 5-minute outgoing-message poller (Gmail SMTP + OpenPhone SMS)
+- No more Google Sheet or local cron required
 
-All scripts are **automated on a local drive** and run via scheduled cron jobs.
+**Start here:** [`app/README.md`](app/README.md). It includes:
 
----
+- the generated dashboard password
+- the full GitHub secrets list
+- Vercel-project setup steps
+- which legacy field names need verification
 
-## 📂 Folder Overview
+## 📂 Legacy directories
 
-### `FollowupCheck/`
-- Pulls REDCap data via API
-- Filters and pivots survey completion info
-- Updates the shared Google Sheet with the latest data
+The folders below are the pre-2026 implementation that ran on a local Mac
+mini. They remain in the repo for historical reference and as
+field-name documentation for the new server. They are **not** running
+anymore (paths were hardcoded to `/Users/tur50045/`).
 
-> This is the data ingestion and syncing engine of the server. 
+- `FollowupCheck/` — REDCap report 8040 → Google Sheet sync
+- `ConditionalFormatting/` — color-code completion in Google Sheet
+- `FollowupText/` — monthly outreach (SMS + email)
+- `stsemaimport/` — survey-cycle scheduling (Y1/Y2 STS/EMA)
+- `Wave-2/` — Y2 versions of the same
+- `API_INFO/`, `Contacts/`, `Google_API/` — credentials + contact lists
 
----
-
-### `Conditional Formatting/`
-- Applies color-coded conditional formatting rules to the tracker
-- Highlights completed or missing entries based on REDCap data
-- Works alongside `FollowupCheck` to provide real-time visual status
-
----
-
-### `FollowupText/` 
-- Sends **monthly survey reminders** to participants
-- Uses **Gmail, OpenPhone, and REDCap APIs** to automate outreach
-- Tailors messages based on who still needs to complete what
-
-> This is the outreach engine of the server.
-
----
-
-## 🧠 Why It Matters
-
-With 430+ participants and over 30 potential surveys per person across 4 years, this system automates:
-
-- ~3,800+ survey sends per year  
-- Ongoing completion tracking  
-- Real-time updates to shared logs  
-- Survey reminder logic — email & SMS  
-
-What used to take hours… now runs silently.
-
----
-
-## 🔐 Security & Setup
-
-The files containing API tokens and credentials are **not included in this public GitHub repository** for security reasons. If you need access or help setting things up, feel free to reach out.
-
-- All credentials (`.txt`, `.json`) are stored locally in secure folders
-- Automation runs through local cron jobs
-- No sensitive data is committed or shared publicly
-
----
+Once the new dashboard is verified in production, these can be archived.
 
 ## 👨‍💻 Developer
 
-Built and maintained by **Danny Zweben**  
-For questions or setup help: `danny.zweben99@gmail.com`
-
----
- This local server powers a massive longitudinal study (4 years, 400+ participants across 3 cohorts).
----
+Built and maintained by **Danny Zweben** —
+[`danny.zweben99@gmail.com`](mailto:danny.zweben99@gmail.com)
