@@ -46,10 +46,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Refresh due-reminders from REDCap
+      - name: Refresh due-reminders from REDCap + Google Sheet
         env:
           REDCAP_API_URL: ${{ secrets.REDCAP_API_URL }}
           REDCAP_LITE_TOKEN: ${{ secrets.REDCAP_LITE_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          LITE_GOOGLE_SHEET_ID: ${{ secrets.LITE_GOOGLE_SHEET_ID }}
         run: node --max-old-space-size=6144 scripts/fetch-data.mjs
 
       - name: Fire due messages

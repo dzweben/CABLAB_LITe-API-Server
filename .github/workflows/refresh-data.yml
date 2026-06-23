@@ -26,10 +26,12 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Fetch data from REDCap
+      - name: Fetch data from REDCap + Google Sheet
         env:
           REDCAP_API_URL: ${{ secrets.REDCAP_API_URL }}
           REDCAP_LITE_TOKEN: ${{ secrets.REDCAP_LITE_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          LITE_GOOGLE_SHEET_ID: ${{ secrets.LITE_GOOGLE_SHEET_ID }}
         run: node --max-old-space-size=6144 scripts/fetch-data.mjs
 
       - name: Commit and push updated data

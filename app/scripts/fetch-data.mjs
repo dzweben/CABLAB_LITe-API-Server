@@ -19,6 +19,7 @@
 
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -26,6 +27,8 @@ const DATA_DIR = path.join(__dirname, "..", "private", "data");
 
 const REDCAP_API_URL = process.env.REDCAP_API_URL || "https://cphapps.temple.edu/redcap/api/";
 const LITE_TOKEN = process.env.REDCAP_LITE_TOKEN;
+const GOOGLE_SHEET_ID = process.env.LITE_GOOGLE_SHEET_ID || "18LScSoBcT8XmwA_WjfeN4Lt2PZESDm7FycAqocZ1cH4";
+const GOOGLE_SA_JSON = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;  // full JSON string
 
 if (!LITE_TOKEN) {
   console.error("Missing REDCAP_LITE_TOKEN env var.");
@@ -256,10 +259,19 @@ function pivotParticipant(recordRows) {
     const buildSTS = (row, count) => {
       if (!row) return null;
       const cycles = [];
+      // STS1 dates: screen_time_1_1_date … screen_time_1_6_date
+      // STS1 complete: screen_time_1_complete … screen_time_6_complete
+      // STS2 dates: screen_time_2_1_date … screen_time_2_3_date
+      // STS2 complete: screen_time_1_2_complete, screen_time_2_2_complete,
+      //   screen_time_3_2_complete  (the "_2_" suffix marks the STS2 instrument).
+      // This matches REDCap reports 8040 (Y1) / 8430 (Y2) used by the legacy
+      // followup_download scripts.
       const which = count === 6 ? "1" : "2";
       for (let i = 1; i <= count; i++) {
         const datefield = `screen_time_${which}_${i}_date`;
-        const compField = which === "1" ? `screen_time_${i}_complete` : `screen_time_2_${i}_complete`;
+        const compField = which === "1"
+          ? `screen_time_${i}_complete`
+          : `screen_time_${i}_2_complete`;
         cycles.push({
           index: i,
           date: row[datefield] || null,
@@ -415,6 +427,150 @@ function computeDueReminders(participants) {
   return out;
 }
 
+// --- Google Sheets read (PID Session Notes) ---
+//
+// The Excel mirror is /Users/dannyzweben/Downloads/0.LITe.1_PID_sessionnotes.xlsx.
+// Tabs we care about:
+//   Follow up.1 — Y1 follow-up: header row 3, V2 date col N, STS1 P-U, STS2 AB-AD, EMA W/X
+//   Follow up.2 — Y2 follow-up: header row 8, V2 date col M, STS1 O-T, STS2 AB-AD, EMA W/X
+//
+// We index by PID and merge into participants[].waves[N].followupSheet so the
+// dashboard can show V1/V2 completion the team manually tracks here.
+
+function base64url(buf) {
+  return Buffer.from(buf).toString("base64").replace(/=+$/, "").replace(/\+/g, "-").replace(/\//g, "_");
+}
+
+async function googleAccessToken() {
+  if (!GOOGLE_SA_JSON) return null;
+  let sa;
+  try { sa = JSON.parse(GOOGLE_SA_JSON); }
+  catch { console.warn("  ! GOOGLE_SERVICE_ACCOUNT_JSON not valid JSON"); return null; }
+
+  const now = Math.floor(Date.now() / 1000);
+  const header = base64url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
+  const claims = base64url(JSON.stringify({
+    iss: sa.client_email,
+    scope: "https://www.googleapis.com/auth/spreadsheets.readonly",
+    aud: "https://oauth2.googleapis.com/token",
+    exp: now + 3600,
+    iat: now,
+  }));
+  const unsigned = `${header}.${claims}`;
+  const signer = crypto.createSign("RSA-SHA256");
+  signer.update(unsigned);
+  const signature = base64url(signer.sign(sa.private_key));
+  const jwt = `${unsigned}.${signature}`;
+
+  const res = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+      assertion: jwt,
+    }),
+  });
+  if (!res.ok) {
+    console.warn(`  ! Google auth ${res.status}: ${await res.text()}`);
+    return null;
+  }
+  const { access_token } = await res.json();
+  return access_token;
+}
+
+async function readSheetTab(accessToken, range) {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${GOOGLE_SHEET_ID}/values/${encodeURIComponent(range)}?majorDimension=ROWS&valueRenderOption=UNFORMATTED_VALUE`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
+  if (!res.ok) {
+    console.warn(`  ! Sheet read ${range} ${res.status}: ${await res.text()}`);
+    return [];
+  }
+  const data = await res.json();
+  return data.values || [];
+}
+
+// Excel-style column letter → 0-based index. "A"=0, "Z"=25, "AA"=26, "AF"=31
+function col(letter) {
+  let n = 0;
+  for (const ch of letter.toUpperCase()) n = n * 26 + (ch.charCodeAt(0) - 64);
+  return n - 1;
+}
+
+function cell(row, letter) {
+  const v = row[col(letter)];
+  if (v === undefined || v === null || v === "") return null;
+  return v;
+}
+
+// Returns true-ish if the cell holds a date or a non-empty value indicating
+// the column has been actioned. Excel dates come back as ISO strings when we
+// use UNFORMATTED_VALUE+sheet API, or numeric serial dates, or already-text.
+function hasValue(v) {
+  if (v === null || v === undefined) return false;
+  if (typeof v === "string") return v.trim().length > 0;
+  if (typeof v === "number") return v !== 0;
+  return true;
+}
+
+async function fetchFollowupSheet() {
+  if (!GOOGLE_SA_JSON) {
+    console.log("  Skipping Google Sheets pull (GOOGLE_SERVICE_ACCOUNT_JSON not set)");
+    return {};
+  }
+  const tok = await googleAccessToken();
+  if (!tok) return {};
+
+  // Follow up.1 (Y1) — header row 3, data from row 6 onward (rows 4-5 are notes/cohort marker).
+  // Follow up.2 (Y2) — header row 8, data from row 11 onward.
+  const followupByPid = {};
+
+  const f1 = await readSheetTab(tok, "Follow up.1!A1:AZ700");
+  for (let i = 5; i < f1.length; i++) {  // 0-indexed row 5 == sheet row 6
+    const row = f1[i];
+    if (!row?.length) continue;
+    const pid = String(cell(row, "D") || "").trim().replace(/\.0$/, "");
+    if (!pid || pid === "PID") continue;
+    if (!followupByPid[pid]) followupByPid[pid] = {};
+    followupByPid[pid].y1 = {
+      record: cell(row, "A"),
+      v2Date: cell(row, "N"),       // "Visit 2" date → V2Y1 complete if set
+      sts1Months: [cell(row, "P"), cell(row, "Q"), cell(row, "R"), cell(row, "S"), cell(row, "T"), cell(row, "U")],
+      emaDate: cell(row, "W"),
+      emaStatus: cell(row, "X"),
+      w1Comp: cell(row, "AA"),
+      sts2Months: [cell(row, "AB"), cell(row, "AC"), cell(row, "AD")],
+      wave2StartDate: cell(row, "AF"),
+      raTag: cell(row, "L"),
+      notes: cell(row, "I"),
+    };
+  }
+
+  const f2 = await readSheetTab(tok, "Follow up.2!A1:AZ700");
+  for (let i = 10; i < f2.length; i++) {  // header row 8, data row 11+
+    const row = f2[i];
+    if (!row?.length) continue;
+    const pid = String(cell(row, "A") || "").trim().replace(/\.0$/, "");
+    if (!pid || pid === "PID") continue;
+    if (!followupByPid[pid]) followupByPid[pid] = {};
+    followupByPid[pid].y2 = {
+      record: cell(row, "B"),
+      v2Date: cell(row, "M"),       // "WAVE 2, V2 Date" → V2Y2 complete if set
+      sts1Months: [cell(row, "O"), cell(row, "P"), cell(row, "Q"), cell(row, "R"), cell(row, "S"), cell(row, "T")],
+      emaDate: cell(row, "W"),
+      emaStatus: cell(row, "X"),
+      w2Comp: cell(row, "Z"),
+      sts2Months: [cell(row, "AB"), cell(row, "AC"), cell(row, "AD")],
+      wave3StartDate: cell(row, "AF"),
+      notes: cell(row, "J"),
+    };
+  }
+
+  console.log(`  Followup sheet: ${Object.keys(followupByPid).length} PIDs (` +
+    `${Object.values(followupByPid).filter(x => x.y1).length} Y1, ` +
+    `${Object.values(followupByPid).filter(x => x.y2).length} Y2)`);
+  return followupByPid;
+}
+
 async function main() {
   console.log("=== LITe REDCap fetch ===");
   const byRecord = {};
@@ -428,6 +584,41 @@ async function main() {
   }
   participants.sort((a, b) => a.pid.localeCompare(b.pid));
   console.log(`  Pivoted to ${participants.length} participants`);
+
+  // Merge in Google Sheets data (Follow up.1 + .2)
+  const followupByPid = await fetchFollowupSheet();
+  let merged = 0;
+  for (const p of participants) {
+    const key = String(p.pid || "").replace(/\.0$/, "");
+    const sheet = followupByPid[key];
+    if (!sheet) continue;
+    merged++;
+    if (sheet.y1) {
+      if (!p.waves[1]) p.waves[1] = { year: 1, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
+      p.waves[1].followupSheet = sheet.y1;
+      // Mark V2 complete if the V2 date is filled in.
+      if (hasValue(sheet.y1.v2Date)) {
+        if (!p.waves[1].v2) p.waves[1].v2 = { date: null, forms: {}, allComplete: false };
+        p.waves[1].v2.date = String(sheet.y1.v2Date);
+        p.waves[1].v2.allComplete = true;
+      }
+      // V1 done = exists in Follow up.1
+      if (!p.waves[1].v1) p.waves[1].v1 = { date: null, forms: {}, allComplete: true };
+      else p.waves[1].v1.allComplete = true;
+    }
+    if (sheet.y2) {
+      if (!p.waves[2]) p.waves[2] = { year: 2, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
+      p.waves[2].followupSheet = sheet.y2;
+      if (hasValue(sheet.y2.v2Date)) {
+        if (!p.waves[2].v2) p.waves[2].v2 = { date: null, forms: {}, allComplete: false };
+        p.waves[2].v2.date = String(sheet.y2.v2Date);
+        p.waves[2].v2.allComplete = true;
+      }
+      if (!p.waves[2].v1) p.waves[2].v1 = { date: null, forms: {}, allComplete: true };
+      else p.waves[2].v1.allComplete = true;
+    }
+  }
+  console.log(`  Merged followup-sheet data into ${merged} participants`);
 
   const linkTasks = [];
   for (const p of participants) {
@@ -447,7 +638,7 @@ async function main() {
         wave.sts2.cycles.forEach((c, idx) => {
           if (c.complete !== 2 && c.date) {
             linkTasks.push(async () => {
-              c.surveyLink = await fetchSurveyLink(p.recordId, eventName("sts2", w), `screen_time_2_${idx + 1}`);
+              c.surveyLink = await fetchSurveyLink(p.recordId, eventName("sts2", w), `screen_time_${idx + 1}_2`);
             });
           }
         });

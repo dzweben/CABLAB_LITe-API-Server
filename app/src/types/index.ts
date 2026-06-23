@@ -72,6 +72,25 @@ export interface VisitStatus {
   allComplete: boolean;
 }
 
+// Per-participant per-wave row pulled directly from the team-maintained
+// Follow up.{N} Google Sheet. This is the source of truth for V1/V2
+// completion (and the human-friendly month-labels for STS sends) until
+// REDCap exposes the corresponding fields.
+export interface FollowupSheetRow {
+  record?: string | number | null;
+  v2Date?: string | number | null;          // "Visit 2" date — V2 done if filled
+  sts1Months?: (string | number | null)[];  // 6 entries — month/year labels for STS1.1..1.6
+  sts2Months?: (string | number | null)[];  // 3 entries
+  emaDate?: string | number | null;
+  emaStatus?: string | null;                // e.g. "COMPLETE"
+  w1Comp?: string | number | null;
+  w2Comp?: string | number | null;
+  wave2StartDate?: string | number | null;
+  wave3StartDate?: string | number | null;
+  raTag?: string | null;
+  notes?: string | null;
+}
+
 export interface WaveStatus {
   year: WaveYear;
   // null if the participant hasn't started this wave yet.
@@ -81,6 +100,8 @@ export interface WaveStatus {
   sts2: STSStatus | null;
   ema: EMAStatus | null;
   v2: VisitStatus | null;
+  // Source-of-truth tracker pulled from the Google Sheet (Follow up.{year}).
+  followupSheet?: FollowupSheetRow;
 }
 
 export interface Participant {
