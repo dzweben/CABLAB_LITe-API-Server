@@ -342,21 +342,53 @@ function pivotParticipant(recordRows) {
   };
 }
 
+// Eastern-time offset for a given UTC instant. CABLAB lives in
+// Philadelphia, EST/EDT. DST: 2nd Sun of March → 1st Sun of November.
+// Returns "-04:00" during EDT, "-05:00" during EST. Approximated by month
+// boundaries — accurate enough for display fidelity on a 60-day horizon.
+function easternOffset(yyyyMmDd) {
+  // Parse year + month from the bare date string to avoid a recursive new Date.
+  const m = /^(\d{4})-(\d{2})/.exec(String(yyyyMmDd));
+  if (!m) return "-04:00";
+  const month = Number(m[2]);
+  // DST roughly mid-March through early November
+  return (month >= 4 && month <= 10) ? "-04:00" : "-05:00";
+}
+
 // REDCap returns dates in several flavours: "YYYY-MM-DD",
 // "YYYY-MM-DD HH:MM", "YYYY-MM-DD HH:MM:SS". Coerce to ISO and ignore
 // anything we can't parse so a single bad row doesn't tank the whole run.
+//
+// CRITICAL: REDCap stores local Eastern times without a timezone marker
+// ("2026-07-21 18:45:00"). Constructing `new Date("...T18:45:00")` on the
+// GitHub Actions UTC runner interprets it as UTC, then the browser shifts
+// it back to Eastern → 18:45 UTC → 2:45 PM Eastern (off by hours). And
+// when we attach our own default-hour (T09:00:00) without a tz, 09:00 UTC
+// renders as 5:00 AM Eastern — the "5 AM" bug. Attach the right Eastern
+// offset to every constructed timestamp.
 function toEpoch(s, defaultHour = 9) {
   if (!s) return null;
-  // Strip whatever time the row had so we can attach our own default-hour.
-  const dateOnly = String(s).slice(0, 10);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateOnly)) {
-    // Already has time component or in an unknown shape — try direct parse.
-    const direct = new Date(s).getTime();
-    return isFinite(direct) ? direct : null;
+  const raw = String(s).trim();
+
+  // Already has time component → keep it, just attach Eastern.
+  const dt = /^(\d{4}-\d{2}-\d{2})[T ](\d{2}:\d{2}(?::\d{2})?)$/.exec(raw);
+  if (dt) {
+    const off = easternOffset(dt[1]);
+    const t = new Date(`${dt[1]}T${dt[2]}${off}`).getTime();
+    if (isFinite(t)) return t;
   }
-  const hh = String(defaultHour).padStart(2, "0");
-  const t = new Date(`${dateOnly}T${hh}:00:00`).getTime();
-  return isFinite(t) ? t : null;
+
+  // Date-only → attach defaultHour Eastern.
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+    const off = easternOffset(raw);
+    const hh = String(defaultHour).padStart(2, "0");
+    const t = new Date(`${raw}T${hh}:00:00${off}`).getTime();
+    if (isFinite(t)) return t;
+  }
+
+  // Last resort
+  const direct = new Date(raw).getTime();
+  return isFinite(direct) ? direct : null;
 }
 
 function safeIso(epoch) {
@@ -373,29 +405,65 @@ function computeDueReminders(participants) {
       const wave = p.waves[w];
       if (!wave) continue;
 
+      // STS1: initial invite on the cycle date (alerts 48-53), then a
+      // daily follow-up for up to 6 days after if the survey isn't done
+      // (alerts 54-59 per the Timeline xlsx).
       wave.sts1?.cycles.forEach((c, idx) => {
-        const t = toEpoch(c.date);
-        if (t == null || t < now || t > horizon) return;
-        const iso = safeIso(t); if (!iso) return;
-        out.push({
-          pid: p.pid, recordId: p.recordId, wave: w,
-          alertId: 48 + idx, kind: "sts1_invite",
-          instrument: `Screen Time Auto Invite 1.${idx + 1}`,
-          scheduledAt: iso,
-          complete: c.complete === 2,
-        });
+        const baseT = toEpoch(c.date);
+        if (baseT == null) return;
+        const done = c.complete === 2;
+        // Initial invite
+        if (baseT >= now && baseT <= horizon) {
+          const iso = safeIso(baseT);
+          if (iso) out.push({
+            pid: p.pid, recordId: p.recordId, wave: w,
+            alertId: 48 + idx, kind: "sts1_invite",
+            instrument: `Screen Time Auto Invite 1.${idx + 1}`,
+            scheduledAt: iso, complete: done,
+          });
+        }
+        // Daily follow-ups while incomplete
+        if (!done) {
+          for (let d = 1; d <= 6; d++) {
+            const t = baseT + d * 24 * 3600 * 1000;
+            if (t < now || t > horizon) continue;
+            const iso = safeIso(t); if (!iso) continue;
+            out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId: 54 + idx, kind: "sts1_followup",
+              instrument: `Screen Time Follow Up 1.${idx + 1} (day ${d})`,
+              scheduledAt: iso, complete: false,
+            });
+          }
+        }
       });
+      // STS2: initial invite (alerts 89-91) + daily follow-up x6 (93-95).
       wave.sts2?.cycles.forEach((c, idx) => {
-        const t = toEpoch(c.date);
-        if (t == null || t < now || t > horizon) return;
-        const iso = safeIso(t); if (!iso) return;
-        out.push({
-          pid: p.pid, recordId: p.recordId, wave: w,
-          alertId: 89 + idx, kind: "sts2_invite",
-          instrument: `Screen Time Auto Invite 2.${idx + 1}`,
-          scheduledAt: iso,
-          complete: c.complete === 2,
-        });
+        const baseT = toEpoch(c.date);
+        if (baseT == null) return;
+        const done = c.complete === 2;
+        if (baseT >= now && baseT <= horizon) {
+          const iso = safeIso(baseT);
+          if (iso) out.push({
+            pid: p.pid, recordId: p.recordId, wave: w,
+            alertId: 89 + idx, kind: "sts2_invite",
+            instrument: `Screen Time Auto Invite 2.${idx + 1}`,
+            scheduledAt: iso, complete: done,
+          });
+        }
+        if (!done) {
+          for (let d = 1; d <= 6; d++) {
+            const t = baseT + d * 24 * 3600 * 1000;
+            if (t < now || t > horizon) continue;
+            const iso = safeIso(t); if (!iso) continue;
+            out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId: 93 + idx, kind: "sts2_followup",
+              instrument: `Screen Time Follow Up 2.${idx + 1} (day ${d})`,
+              scheduledAt: iso, complete: false,
+            });
+          }
+        }
       });
       wave.ema?.prompts.forEach(prompt => {
         if (!prompt.scheduledAt) return;
