@@ -306,6 +306,28 @@ function pivotParticipant(recordRows) {
   };
 }
 
+// REDCap returns dates in several flavours: "YYYY-MM-DD",
+// "YYYY-MM-DD HH:MM", "YYYY-MM-DD HH:MM:SS". Coerce to ISO and ignore
+// anything we can't parse so a single bad row doesn't tank the whole run.
+function toEpoch(s, defaultHour = 9) {
+  if (!s) return null;
+  // Strip whatever time the row had so we can attach our own default-hour.
+  const dateOnly = String(s).slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateOnly)) {
+    // Already has time component or in an unknown shape — try direct parse.
+    const direct = new Date(s).getTime();
+    return isFinite(direct) ? direct : null;
+  }
+  const hh = String(defaultHour).padStart(2, "0");
+  const t = new Date(`${dateOnly}T${hh}:00:00`).getTime();
+  return isFinite(t) ? t : null;
+}
+
+function safeIso(epoch) {
+  if (!isFinite(epoch)) return null;
+  try { return new Date(epoch).toISOString(); } catch { return null; }
+}
+
 function computeDueReminders(participants) {
   const out = [];
   const now = Date.now();
@@ -316,58 +338,61 @@ function computeDueReminders(participants) {
       if (!wave) continue;
 
       wave.sts1?.cycles.forEach((c, idx) => {
-        if (!c.date) return;
-        const t = new Date(c.date + "T09:00:00").getTime();
-        if (t < now || t > horizon) return;
+        const t = toEpoch(c.date);
+        if (t == null || t < now || t > horizon) return;
+        const iso = safeIso(t); if (!iso) return;
         out.push({
           pid: p.pid, recordId: p.recordId, wave: w,
           alertId: 48 + idx, kind: "sts1_invite",
           instrument: `Screen Time Auto Invite 1.${idx + 1}`,
-          scheduledAt: new Date(t).toISOString(),
+          scheduledAt: iso,
           complete: c.complete === 2,
         });
       });
       wave.sts2?.cycles.forEach((c, idx) => {
-        if (!c.date) return;
-        const t = new Date(c.date + "T09:00:00").getTime();
-        if (t < now || t > horizon) return;
+        const t = toEpoch(c.date);
+        if (t == null || t < now || t > horizon) return;
+        const iso = safeIso(t); if (!iso) return;
         out.push({
           pid: p.pid, recordId: p.recordId, wave: w,
           alertId: 89 + idx, kind: "sts2_invite",
           instrument: `Screen Time Auto Invite 2.${idx + 1}`,
-          scheduledAt: new Date(t).toISOString(),
+          scheduledAt: iso,
           complete: c.complete === 2,
         });
       });
       wave.ema?.prompts.forEach(prompt => {
         if (!prompt.scheduledAt) return;
         const t = new Date(prompt.scheduledAt).getTime();
-        if (isNaN(t) || t < now || t > horizon) return;
+        if (!isFinite(t) || t < now || t > horizon) return;
+        const iso = safeIso(t); if (!iso) return;
         out.push({
           pid: p.pid, recordId: p.recordId, wave: w,
           alertId: 64, kind: "ema_prompt",
           emaKey: prompt.key,
           instrument: `EMA ${prompt.dayLabel} ${prompt.timeLabel}`,
-          scheduledAt: new Date(t).toISOString(),
+          scheduledAt: iso,
           complete: prompt.complete,
         });
       });
       if (wave.atHome?.timestamp && wave.atHome.break1Complete === 2) {
         const base = new Date(wave.atHome.timestamp).getTime();
+        if (!isFinite(base)) continue;
         const t = base + (3 * 60 + 45) * 60 * 1000;
         if (t >= now && t <= horizon) {
+          const iso = safeIso(t); if (!iso) continue;
           out.push({
             pid: p.pid, recordId: p.recordId, wave: w,
             alertId: 60, kind: "athome_sms",
             instrument: "At-Home Survey Send (Text)",
-            scheduledAt: new Date(t).toISOString(),
+            scheduledAt: iso,
             complete: wave.atHome.athomeMeasuresComplete === 2,
           });
           out.push({
             pid: p.pid, recordId: p.recordId, wave: w,
             alertId: 61, kind: "athome_email",
             instrument: "At-Home Survey Send (Email)",
-            scheduledAt: new Date(t).toISOString(),
+            scheduledAt: iso,
             complete: wave.atHome.athomeMeasuresComplete === 2,
           });
         }
