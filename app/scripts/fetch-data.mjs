@@ -34,11 +34,11 @@ if (!LITE_TOKEN) {
 
 const WAVES = [1, 2, 3];
 
-// Canonical event names per the Timeline workbook. If REDCap is using
-// different arm numbers or event slugs adjust here.
+// Canonical event names per the Timeline workbook + REDCap metadata.
 function eventName(kind, wave) {
   switch (kind) {
     case "pre":     return "preenrollment_arm_1";
+    case "enroll":  return "enrollment_arm_1";
     case "v1":      return `visit_1_y${wave}_arm_1`;
     case "athome":  return `athome_measures_y${wave}_arm_1`;
     case "sts1":    return `screen_time_y${wave}_arm_1`;
@@ -120,7 +120,7 @@ async function redcapPost(params, attempt = 1) {
 // chunk straight into the per-record bucket so we never hold more than
 // one event's worth of raw rows in memory at once.
 async function fetchAllRecordsStreaming(byRecord) {
-  const events = [eventName("pre")];
+  const events = [eventName("pre"), eventName("enroll")];
   for (const w of WAVES) {
     for (const k of ["v1", "athome", "sts1", "sts2", "ema", "v2"]) {
       events.push(eventName(k, w));
@@ -206,18 +206,30 @@ function pivotParticipant(recordRows) {
   const byEvent = {};
   for (const r of recordRows) byEvent[r.redcap_event_name || ""] = r;
 
-  const pre = byEvent[eventName("pre")] || recordRows[0];
+  // ONLY count someone as a participant once they have an enrollment row —
+  // preenrollment alone is just a signup form, ~3x more rows than real
+  // enrollees, and is what was polluting the dashboard's contact display.
+  const enroll = byEvent[eventName("enroll")];
+  if (!enroll) return null;
+
+  // Pull contact info from enrollment, falling back to preenrollment.
+  const pre = byEvent[eventName("pre")] || {};
+  const pick = (field) => enroll[field] || pre[field] || "";
   const contact = {
-    firstName: pre.first_name || "",
-    lastName: pre.last_name || "",
-    parentName: pre.parent_name || "",
-    email: pre.email || "",
-    phonePrimary: pre.phone_primary || "",
-    phoneSecondary: pre.phone_secondary || "",
-    childPhone: pre.child_phone || "",
-    cohortGroup: pre.cohort_group || pre.pid_group || "",
+    firstName: pick("first_name"),
+    lastName: pick("last_name"),
+    parentName: pick("parent_name"),
+    email: pick("email"),
+    phonePrimary: pick("phone_primary"),
+    phoneSecondary: pick("phone_secondary"),
+    childPhone: pick("child_phone"),
+    // Cohort group is derivable from the record_id range: 1-999 -> "Y1 cohort",
+    // 1000-1999 -> "Y2 cohort", 2000+ -> "Y3 cohort" per the session-notes
+    // workbook convention. Keep the raw record_id range as the label.
+    cohortGroup: pick("cohort_group") || pick("tppid") || "",
   };
-  const pid = pre.pid || pre.record_id || recordId;
+  // The friendly PID for coordinators is the REDCap record_id (1-3160 range).
+  const pid = String(recordId);
 
   const waves = {};
   let activeWave = null;
