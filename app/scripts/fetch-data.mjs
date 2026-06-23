@@ -242,6 +242,8 @@ function pivotParticipant(recordRows) {
     // 1000-1999 -> "Y2 cohort", 2000+ -> "Y3 cohort" per the session-notes
     // workbook convention. Keep the raw record_id range as the label.
     cohortGroup: pick("cohort_group") || pick("tppid") || "",
+    // Age — controls which payment-email variant fires (#287 13+ vs #288 <13).
+    age: Number(pick("age") || pick("participant_age") || 0) || null,
   };
   // The friendly PID for coordinators is the REDCap record_id (1-3160 range).
   const pid = String(recordId);
@@ -306,10 +308,24 @@ function pivotParticipant(recordRows) {
         scheduledAt: row[k] || null,
         complete: num(row[`${k}_complete`] || row.ema_response_complete) === 2,
       }));
+      // ema_start_day_calc sums (1..4) count down weekly while waiting for
+      // the participant to enable. When the sum hits 0, the cycle is ready
+      // to fire and ema_start_day is locked. After 4 weeks of waiting the
+      // calcs auto-resolve and the prompts go regardless.
+      const startDayCalcSum =
+        num(row.ema_start_day_calc) +
+        num(row.ema_start_day_calc_2) +
+        num(row.ema_start_day_calc_3) +
+        num(row.ema_start_day_calc_4);
       return {
         active: row.ema_cycle === "1",
         startDay: row.ema_start_day || null,
         startDayCalc: row.ema_start_day_calc ? Number(row.ema_start_day_calc) : null,
+        startDayCalcSum,
+        enableConfirmed: row.ema_enable === "1",
+        settingsComplete: num(row.ema_settings_complete),
+        paymentEmailButton: row.ema_payment_email_button === "1",
+        paymentComplete: num(row.ema_payment_complete),
         enableSent: false,
         phone: row.ema_phone || contact.phonePrimary,
         prompts,
@@ -465,10 +481,14 @@ function computeDueReminders(participants) {
           }
         }
       });
+      // EMA prompts (alerts 64-88) — each fires at its own REDCap-computed
+      // datetime. Conditions: cycle active, settings not yet locked.
       wave.ema?.prompts.forEach(prompt => {
+        if (!wave.ema?.active) return;
+        if (wave.ema.settingsComplete === 2 || wave.ema.settingsComplete === 1) return;
         if (!prompt.scheduledAt) return;
-        const t = new Date(prompt.scheduledAt).getTime();
-        if (!isFinite(t) || t < now || t > horizon) return;
+        const t = toEpoch(prompt.scheduledAt);
+        if (t == null || t < now || t > horizon) return;
         const iso = safeIso(t); if (!iso) return;
         out.push({
           pid: p.pid, recordId: p.recordId, wave: w,
@@ -479,6 +499,52 @@ function computeDueReminders(participants) {
           complete: prompt.complete,
         });
       });
+
+      // EMA Enable (alert 63) — fires 3d8h before ema_start_day when:
+      //   - participant enabled (ema_enable=1)
+      //   - start_day_calc sum has resolved to 0 (rolling 4-week window
+      //     done) OR REDCap auto-resolved after week 5
+      //   - cycle hasn't already activated
+      if (wave.ema?.enableConfirmed && wave.ema.startDay && !wave.ema.active && wave.ema.startDayCalcSum === 0) {
+        const startT = toEpoch(wave.ema.startDay);
+        if (startT != null) {
+          const sendT = startT - (3 * 24 + 8) * 3600 * 1000;
+          if (sendT >= now && sendT <= horizon) {
+            const iso = safeIso(sendT);
+            if (iso) out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId: 63, kind: "ema_enable",
+              instrument: `EMA Y${w} Enable`,
+              scheduledAt: iso,
+              complete: false,
+            });
+          }
+        }
+      }
+
+      // Payment email (alerts 287 / 288) — fires 5 days after the last
+      // STS1 invite date, when ema_payment_email_button is set and the
+      // payment instrument hasn't been completed yet. 287 = 13+, 288 = <13.
+      if (wave.ema?.paymentEmailButton && wave.ema.paymentComplete !== 2) {
+        const lastCycle = wave.sts1?.cycles[wave.sts1.cycles.length - 1];
+        const baseT = lastCycle?.date ? toEpoch(lastCycle.date) : null;
+        if (baseT != null) {
+          const sendT = baseT + 5 * 24 * 3600 * 1000;
+          if (sendT >= now && sendT <= horizon) {
+            const iso = safeIso(sendT);
+            const age = p.contact?.age;
+            const alertId = (age != null && age < 13) ? 288 : 287;
+            const variant = (age != null && age < 13) ? "<13" : "13+";
+            if (iso) out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId, kind: "payment_email",
+              instrument: `W${w} ${variant} STS-EMA Payment email`,
+              scheduledAt: iso,
+              complete: false,
+            });
+          }
+        }
+      }
       if (wave.atHome?.timestamp && wave.atHome.break1Complete === 2) {
         const base = new Date(wave.atHome.timestamp).getTime();
         if (!isFinite(base)) continue;

@@ -25,7 +25,7 @@ const NAV_ITEMS = [
   },
   {
     href: "/dashboard/waves",
-    label: "Waves Y1 / Y2 / Y3",
+    label: "Total Overview",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0M3 18c2-4 4-4 6 0s4 4 6 0 4-4 6 0" />

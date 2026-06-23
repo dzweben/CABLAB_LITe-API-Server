@@ -1,7 +1,7 @@
-// AUTO-GENERATED from app/private/docs/Timeline_of_Automated_Messages.xlsx.
-// Don't hand-edit; regenerate with scripts/regen-timeline.py if needed.
+// AUTO-GENERATED from private/docs/timeline_wave{2,3}.csv.
+// Don't hand-edit; regenerate with scripts/regen-timeline.py.
 //
-// Each entry corresponds to a single 'Alert #' row in the source workbook.
+// Each entry corresponds to one 'Alert #' row in the source CSVs.
 // Together these define every automated message Project LITe sends.
 
 import type { Channel, WaveYear } from "@/types";
@@ -15,6 +15,7 @@ export type AlertKind =
   | "sts2_followup"
   | "ema_enable"
   | "ema_prompt"
+  | "payment_email"
   | "other";
 
 export interface TimelineAlert {
@@ -24,12 +25,10 @@ export interface TimelineAlert {
   instrument: string;
   trigger: string | null;
   condition: string | null;
-  sendDateSpec: string | null;        // human-readable spec from the workbook
+  sendDateSpec: string | null;
   destinationSpec: string | null;
-  channels: Channel[];                // parsed from destinationSpec
-  emaKey: string | null;              // ema_m1_734 etc — the REDCap date field for EMA prompts
-  // raw, with [event][field] placeholders. Some rows in the source
-  // workbook are continuation rows without their own message text.
+  channels: Channel[];
+  emaKey: string | null;
   message: string | null;
 }
 
@@ -43,30 +42,6 @@ function parseChannels(spec: string | null): Channel[] {
 }
 
 const RAW: Omit<TimelineAlert, "channels">[] = [
-  {
-    alertId: 60,
-    wave: 2 as WaveYear,
-    kind: "athome_sms",
-    instrument: "At-Home Survey Send (Text)",
-    trigger: "na",
-    condition: "[visit_1_y2_arm_1][break_1_complete]=2",
-    sendDateSpec: "3 hours, 45 minutes after [visit_1_y2_arm_1][timestamp_athome]",
-    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
-    emaKey: null,
-    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending an 8 section, 10-15 minute at-home survey section to complete. We will reach out to schedule the second visit once this survey has been completed: [athome_measures_y2_arm_1][survey-link:texi]",
-  },
-  {
-    alertId: 61,
-    wave: 2 as WaveYear,
-    kind: "athome_email",
-    instrument: "At-Home Survey Send (Email)",
-    trigger: "na",
-    condition: "[visit_1_y2_arm_1][break_1_complete]=2",
-    sendDateSpec: "3 hours, 45 minutes after [visit_1_y2_arm_1][timestamp_athome]",
-    destinationSpec: "\t[preenrollment_arm_1][email]",
-    emaKey: null,
-    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending an 8 section, 10-15 minute at-home survey section to complete. We will reach out to schedule the second visit once this survey has been completed: [athome_measures_y2_arm_1][survey-link:texi] Project LITe Team",
-  },
   {
     alertId: 48,
     wave: 2 as WaveYear,
@@ -125,7 +100,7 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     sendDateSpec: "[screen_time_y2_arm_1][screen_time_1_5_date]",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
-    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 5/9 [screen_time_y2_arm_1][survey-link:screen_time_5] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE",
+    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 5/9 [screen_time_y2_arm_1][survey-link:screen_time_5] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE",
   },
   {
     alertId: 53,
@@ -137,7 +112,7 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     sendDateSpec: "[screen_time_y2_arm_1][screen_time_1_6_date]",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
-    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 6/9 [screen_time_y2_arm_1][survey-link:screen_time_6] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE",
+    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 6/9 [screen_time_y2_arm_1][survey-link:screen_time_6] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE",
   },
   {
     alertId: 54,
@@ -146,8 +121,8 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     instrument: "Screen Time Follow Up 1.1",
     trigger: null,
     condition: "[screen_time_y2_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y2_arm_1][screen_time_1_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_1_date].   Repeat every day – Send up to 6 times total",
-    destinationSpec: "\t[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
+    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_1_date].   Repeat every day  Send up to 6 times total",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? - [screen_time_y2_arm_1][survey-link:screen_time_1] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
   },
@@ -158,8 +133,8 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     instrument: "Screen Time Follow Up 1.2",
     trigger: null,
     condition: "[screen_time_y2_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y2_arm_1][screen_time_2_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_2_date].   Repeat every day – Send up to 6 times total",
-    destinationSpec: "\t[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
+    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_2_date].   Repeat every day  Send up to 6 times total",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y2_arm_1][survey-link:screen_time_2] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
   },
@@ -170,7 +145,7 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     instrument: "Screen Time Follow Up 1.3",
     trigger: null,
     condition: "[screen_time_y2_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y2_arm_1][screen_time_3_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_3_date].   Repeat every day – Send up to 6 times total",
+    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_3_date].   Repeat every day  Send up to 6 times total",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y2_arm_1][survey-link:screen_time_3] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey. ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
@@ -182,7 +157,7 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     instrument: "Screen Time Follow Up 1.4",
     trigger: null,
     condition: "[screen_time_y2_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y2_arm_1][screen_time_4_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_4_date].   Repeat every day – Send up to 6 times total",
+    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_4_date].   Repeat every day  Send up to 6 times total",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y2_arm_1][survey-link:screen_time_4] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey.",
@@ -192,9 +167,9 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     wave: 2 as WaveYear,
     kind: "sts1_followup",
     instrument: "Screen Time Follow Up 1.5",
-    trigger: "na",
+    trigger: null,
     condition: "[screen_time_y2_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y2_arm_1][screen_time_5_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_5_date].   Repeat every day – Send up to 6 times total",
+    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_5_date].   Repeat every day  Send up to 6 times total",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y2_arm_1][survey-link:screen_time_5] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey. ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
@@ -204,32 +179,56 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     wave: 2 as WaveYear,
     kind: "sts1_followup",
     instrument: "Screen Time Follow Up 1.6",
-    trigger: "na",
+    trigger: null,
     condition: "[screen_time_y2_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y2_arm_1][screen_time_6_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_6_date].   Repeat every day – Send up to 6 times total",
+    sendDateSpec: "1 days after [screen_time_y2_arm_1][screen_time_1_6_date].   Repeat every day  Send up to 6 times total",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y2_arm_1][survey-link:screen_time_6] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
+  },
+  {
+    alertId: 60,
+    wave: 2 as WaveYear,
+    kind: "athome_sms",
+    instrument: "At-Home Survey Send (Text)",
+    trigger: null,
+    condition: "[visit_1_y2_arm_1][break_1_complete]=2",
+    sendDateSpec: "3 hours, 45 minutes after [visit_1_y2_arm_1][timestamp_athome]",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
+    emaKey: null,
+    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending an 8 section, 10-15 minute at-home survey section to complete. We will reach out to schedule the second visit once this survey has been completed: [athome_measures_y2_arm_1][survey-link:texi]",
+  },
+  {
+    alertId: 61,
+    wave: 2 as WaveYear,
+    kind: "athome_email",
+    instrument: "At-Home Survey Send (Email)",
+    trigger: null,
+    condition: "[visit_1_y2_arm_1][break_1_complete]=2",
+    sendDateSpec: "3 hours, 45 minutes after [visit_1_y2_arm_1][timestamp_athome]",
+    destinationSpec: "[preenrollment_arm_1][email]",
+    emaKey: null,
+    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending an 8 section, 10-15 minute at-home survey section to complete. We will reach out to schedule the second visit once this survey has been completed: [athome_measures_y2_arm_1][survey-link:texi] Project LITe Team",
   },
   {
     alertId: 63,
     wave: 2 as WaveYear,
     kind: "ema_enable",
     instrument: "EMA Y1 Enable",
-    trigger: "[ema_settings][any-event] is saved wirth any status",
-    condition: "[ema_y2_arm_1][ema_start_day_calc]+[ema_y2_arm_1][ema_start_day_calc_2]+[ema_y2_arm_1][ema_start_day_calc_3]+[ema_y2_arm_1][ema_start_day_calc_4]=0\nAND\n[ema_y2_arm_1][ema_enable]=1\n\nAND\n[ema_y2_arm_1][ema_cycle]<>1\nAND\n[ema_y2_arm_1][ema_cycle_2]<>1\nAND\n[ema_y2_arm_1][ema_cycle_3]<>1\n\n\n",
+    trigger: "4 months after invite 1.6 on the first 1st of the month",
+    condition: "[ema_y2_arm_1][ema_start_day_calc]+[ema_y2_arm_1][ema_start_day_calc_2]+[ema_y2_arm_1][ema_start_day_calc_3]+[ema_y2_arm_1][ema_start_day_calc_4]=0\nAND\n[ema_y2_arm_1][ema_enable]=1\n\nAND\n[ema_y2_arm_1][ema_cycle]<>1\nAND\n[ema_y2_arm_1][ema_cycle_2]<>1\nAND\n[ema_y2_arm_1][ema_cycle_3]<>1",
     sendDateSpec: "3 days, 8 hours before [ema_y2_arm_1][ema_start_day]",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]",
     emaKey: null,
-    message: "Hi [preenrollment_arm_1][first_name]! This is the project LITe Team.\n\n\nWe are beginning our social check next week on Monday. This will be a 10 day period, where we will be sending you 2 or 3 surveys a day, at random times. If you complete enough of them we will send you 70 dollars.\n\n\nPLEASE CLICK THIS LINK TO ENABLE THE SOCIAL CHECK:  [ema_y2_arm_1][survey-link:ema_participant_confirmation]",
+    message: "Hi [preenrollment_arm_1][first_name]! This is the project LITe Team.\n\n\nWe are beginning our social check next week on Monday. This will be a 10 day period, where we will be sending you 2 or 3 surveys a day, at random times. If you complete enough of them we will send you 70 dollars.\n\n\nPLEASE CLICK THIS LINK TO ENABLE THE SOCIAL CHECK:  [ema_y2_arm_1][survey-link:ema_participant_confirmation]",
   },
   {
     alertId: 64,
     wave: 2 as WaveYear,
     kind: "ema_prompt",
     instrument: "EMA.1.1 Monday 1 7:34 AM",
-    trigger: "na",
-    condition: "[ema_y2_arm_1][ema_cycle]=1\nAND\n[ema_y2_arm_1][ema_start_day_calc]<1\n\nAND\n[ema_y2_arm_1][ema_settings_complete]<>2\nAND\n[ema_y2_arm_1][ema_settings_complete]<>1\n\n",
+    trigger: null,
+    condition: "[ema_y2_arm_1][ema_cycle]=1\nAND\n[ema_y2_arm_1][ema_start_day_calc]<1\n\nAND\n[ema_y2_arm_1][ema_settings_complete]<>2\nAND\n[ema_y2_arm_1][ema_settings_complete]<>1",
     sendDateSpec: "[ema_y2_arm_1][ema_m1_734]",
     destinationSpec: "[ema_y2_arm_1][ema_phone]",
     emaKey: "ema_m1_734",
@@ -591,33 +590,33 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     trigger: null,
     condition: "[screen_time_2_y2_arm_1][screen_time_cycle_2]=1\nAND\n[screen_time_2_y2_arm_1][screen_time_3_2_complete]<>2",
     sendDateSpec: "1 days after [screen_time_2_y2_arm_1][screen_time_2_3_date]",
-    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? - [screen_time_2_y2_arm_1][survey-link:screen_time_3_2] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
   },
   {
-    alertId: 60,
-    wave: 3 as WaveYear,
-    kind: "athome_sms",
-    instrument: "At-Home Survey Send (Text)",
-    trigger: "na",
-    condition: "[visit_1_y3_arm_1][break_1_complete]=2",
-    sendDateSpec: "3 hours, 45 minutes after [visit_1_y3_arm_1][timestamp_athome]",
-    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
+    alertId: 287,
+    wave: 2 as WaveYear,
+    kind: "payment_email",
+    instrument: "W2 13+ STS-EMA Payment email",
+    trigger: null,
+    condition: "[ema_y2_arm_1][ema_payment_email_button]=1\n\nAND\n\n[ema_y2_arm_1][ema_payment_complete]<>2\n\nAND\n//they are 13+\n[preenrollment_arm_1][participant_age]>=13\n\nAND\n//They have done at least 3 of the first 6 STS surveys\nsum(\n[screen_time_y2_arm_1][screen_time_1_complete],\n[screen_time_y2_arm_1][screen_time_2_complete],\n[screen_time_y2_arm_1][screen_time_3_complete],\n[screen_time_y2_arm_1][screen_time_4_complete],\n[screen_time_y2_arm_1][screen_time_5_complete],\n[screen_time_y2_arm_1][screen_time_6_complete])/2 >= 5",
+    sendDateSpec: "5 days after \"Date to send sixth screen time survey\" (Screen Time (Y2)) - [screen_time_1_6_date]",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]",
     emaKey: null,
-    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending an 8 section, 10-15 minute at-home survey section to complete. We will reach out to schedule the second visit once this survey has been completed: [athome_measures_y3_arm_1][survey-link:texi]",
+    message: "Hi [preenrollment_arm_1][first_name]!\n\nThank you for completing the screen time survey cycle! Click this link to redeem your payment.\n\n[ema_y2_arm_1][survey-link:ema_payment]",
   },
   {
-    alertId: 61,
-    wave: 3 as WaveYear,
-    kind: "athome_email",
-    instrument: "At-Home Survey Send (Email)",
-    trigger: "na",
-    condition: "[visit_1_y3_arm_1][break_1_complete]=2",
-    sendDateSpec: "3 hours, 45 minutes after [visit_1_y3_arm_1][timestamp_athome]",
-    destinationSpec: "\t[preenrollment_arm_1][email]",
+    alertId: 288,
+    wave: 2 as WaveYear,
+    kind: "payment_email",
+    instrument: "W2 <13 STS Payment email",
+    trigger: null,
+    condition: "[ema_y2_arm_1][ema_payment_email_button]=1\n\nAND\n\n[ema_y2_arm_1][ema_payment_complete]<>2\n\nAND\n//they are less than 13\n[preenrollment_arm_1][participant_age]<13\n\nAND\n//They have done at least 3 of the first 6 STS surveys\nsum(\n[screen_time_y2_arm_1][screen_time_1_complete],\n[screen_time_y2_arm_1][screen_time_2_complete],\n[screen_time_y2_arm_1][screen_time_3_complete],\n[screen_time_y2_arm_1][screen_time_4_complete],\n[screen_time_y2_arm_1][screen_time_5_complete],\n[screen_time_y2_arm_1][screen_time_6_complete])/2 >= 5",
+    sendDateSpec: "5 days after \"Date to send sixth screen time survey\" (Screen Time (Y2)) - [screen_time_1_6_date]",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]",
     emaKey: null,
-    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending an 8 section, 10-15 minute at-home survey section to complete. We will reach out to schedule the second visit once this survey has been completed: [athome_measures_y3_arm_1][survey-link:texi] Project LITe Team",
+    message: "Hi [preenrollment_arm_1][first_name]!\n\nThank you for completing the screen time survey cycle! Click this link to redeem your payment.\n\n[ema_y2_arm_1][survey-link:ema_payment]",
   },
   {
     alertId: 48,
@@ -677,7 +676,7 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     sendDateSpec: "[screen_time_y3_arm_1][screen_time_1_5_date]",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
-    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 5/9 [screen_time_y3_arm_1][survey-link:screen_time_5] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE",
+    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 5/9 [screen_time_y3_arm_1][survey-link:screen_time_5] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE",
   },
   {
     alertId: 53,
@@ -689,7 +688,7 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     sendDateSpec: "[screen_time_y3_arm_1][screen_time_1_6_date]",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
-    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 6/9 [screen_time_y3_arm_1][survey-link:screen_time_6] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE",
+    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 6/9 [screen_time_y3_arm_1][survey-link:screen_time_6] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE",
   },
   {
     alertId: 54,
@@ -698,8 +697,8 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     instrument: "Screen Time Follow Up 1.1",
     trigger: null,
     condition: "[screen_time_y3_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y3_arm_1][screen_time_1_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_1_date].   Repeat every day – Send up to 6 times total",
-    destinationSpec: "\t[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
+    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_1_date].   Repeat every day  Send up to 6 times total",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? - [screen_time_y3_arm_1][survey-link:screen_time_1] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
   },
@@ -710,8 +709,8 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     instrument: "Screen Time Follow Up 1.2",
     trigger: null,
     condition: "[screen_time_y3_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y3_arm_1][screen_time_2_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_2_date].   Repeat every day – Send up to 6 times total",
-    destinationSpec: "\t[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
+    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_2_date].   Repeat every day  Send up to 6 times total",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y3_arm_1][survey-link:screen_time_2] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
   },
@@ -722,7 +721,7 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     instrument: "Screen Time Follow Up 1.3",
     trigger: null,
     condition: "[screen_time_y3_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y3_arm_1][screen_time_3_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_3_date].   Repeat every day – Send up to 6 times total",
+    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_3_date].   Repeat every day  Send up to 6 times total",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y3_arm_1][survey-link:screen_time_3] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey. ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
@@ -734,7 +733,7 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     instrument: "Screen Time Follow Up 1.4",
     trigger: null,
     condition: "[screen_time_y3_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y3_arm_1][screen_time_4_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_4_date].   Repeat every day – Send up to 6 times total",
+    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_4_date].   Repeat every day  Send up to 6 times total",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y3_arm_1][survey-link:screen_time_4] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey.",
@@ -744,9 +743,9 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     wave: 3 as WaveYear,
     kind: "sts1_followup",
     instrument: "Screen Time Follow Up 1.5",
-    trigger: "na",
+    trigger: null,
     condition: "[screen_time_y3_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y3_arm_1][screen_time_5_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_5_date].   Repeat every day – Send up to 6 times total",
+    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_5_date].   Repeat every day  Send up to 6 times total",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y3_arm_1][survey-link:screen_time_5] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey. ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
@@ -756,32 +755,56 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     wave: 3 as WaveYear,
     kind: "sts1_followup",
     instrument: "Screen Time Follow Up 1.6",
-    trigger: "na",
+    trigger: null,
     condition: "[screen_time_y3_arm_1][screen_time_cycle_1]=1\nAND\n[screen_time_y3_arm_1][screen_time_6_complete]<>2",
-    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_6_date].   Repeat every day – Send up to 6 times total",
+    sendDateSpec: "1 days after [screen_time_y3_arm_1][screen_time_1_6_date].   Repeat every day  Send up to 6 times total",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y3_arm_1][survey-link:screen_time_6] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
+  },
+  {
+    alertId: 60,
+    wave: 3 as WaveYear,
+    kind: "athome_sms",
+    instrument: "At-Home Survey Send (Text)",
+    trigger: null,
+    condition: "[visit_1_y3_arm_1][break_1_complete]=2",
+    sendDateSpec: "3 hours, 45 minutes after [visit_1_y3_arm_1][timestamp_athome]",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]\t[email]",
+    emaKey: null,
+    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending an 8 section, 10-15 minute at-home survey section to complete. We will reach out to schedule the second visit once this survey has been completed: [athome_measures_y3_arm_1][survey-link:texi]",
+  },
+  {
+    alertId: 61,
+    wave: 3 as WaveYear,
+    kind: "athome_email",
+    instrument: "At-Home Survey Send (Email)",
+    trigger: null,
+    condition: "[visit_1_y3_arm_1][break_1_complete]=2",
+    sendDateSpec: "3 hours, 45 minutes after [visit_1_y3_arm_1][timestamp_athome]",
+    destinationSpec: "[preenrollment_arm_1][email]",
+    emaKey: null,
+    message: "Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending an 8 section, 10-15 minute at-home survey section to complete. We will reach out to schedule the second visit once this survey has been completed: [athome_measures_y3_arm_1][survey-link:texi] Project LITe Team",
   },
   {
     alertId: 63,
     wave: 3 as WaveYear,
     kind: "ema_enable",
     instrument: "EMA Y1 Enable",
-    trigger: "[ema_settings][any-event] is saved wirth any status",
-    condition: "[ema_y3_arm_1][ema_start_day_calc]+[ema_y3_arm_1][ema_start_day_calc_2]+[ema_y3_arm_1][ema_start_day_calc_3]+[ema_y3_arm_1][ema_start_day_calc_4]=0\nAND\n[ema_y3_arm_1][ema_enable]=1\n\nAND\n[ema_y3_arm_1][ema_cycle]<>1\nAND\n[ema_y3_arm_1][ema_cycle_2]<>1\nAND\n[ema_y3_arm_1][ema_cycle_3]<>1\n\n\n",
+    trigger: "4 months after invite 1.6 on the first 1st of the month",
+    condition: "[ema_y3_arm_1][ema_start_day_calc]+[ema_y3_arm_1][ema_start_day_calc_2]+[ema_y3_arm_1][ema_start_day_calc_3]+[ema_y3_arm_1][ema_start_day_calc_4]=0\nAND\n[ema_y3_arm_1][ema_enable]=1\n\nAND\n[ema_y3_arm_1][ema_cycle]<>1\nAND\n[ema_y3_arm_1][ema_cycle_2]<>1\nAND\n[ema_y3_arm_1][ema_cycle_3]<>1",
     sendDateSpec: "3 days, 8 hours before [ema_y3_arm_1][ema_start_day]",
     destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]",
     emaKey: null,
-    message: "Hi [preenrollment_arm_1][first_name]! This is the project LITe Team.\n\n\nWe are beginning our social check next week on Monday. This will be a 10 day period, where we will be sending you 2 or 3 surveys a day, at random times. If you complete enough of them we will send you 70 dollars.\n\n\nPLEASE CLICK THIS LINK TO ENABLE THE SOCIAL CHECK:  [ema_y3_arm_1][survey-link:ema_participant_confirmation]",
+    message: "Hi [preenrollment_arm_1][first_name]! This is the project LITe Team.\n\n\nWe are beginning our social check next week on Monday. This will be a 10 day period, where we will be sending you 2 or 3 surveys a day, at random times. If you complete enough of them we will send you 70 dollars.\n\n\nPLEASE CLICK THIS LINK TO ENABLE THE SOCIAL CHECK:  [ema_y3_arm_1][survey-link:ema_participant_confirmation]",
   },
   {
     alertId: 64,
     wave: 3 as WaveYear,
     kind: "ema_prompt",
     instrument: "EMA.1.1 Monday 1 7:34 AM",
-    trigger: "na",
-    condition: "[ema_y3_arm_1][ema_cycle]=1\nAND\n[ema_y3_arm_1][ema_start_day_calc]<1\n\nAND\n[ema_y3_arm_1][ema_settings_complete]<>2\nAND\n[ema_y3_arm_1][ema_settings_complete]<>1\n\n",
+    trigger: null,
+    condition: "[ema_y3_arm_1][ema_cycle]=1\nAND\n[ema_y3_arm_1][ema_start_day_calc]<1\n\nAND\n[ema_y3_arm_1][ema_settings_complete]<>2\nAND\n[ema_y3_arm_1][ema_settings_complete]<>1",
     sendDateSpec: "[ema_y3_arm_1][ema_m1_734]",
     destinationSpec: "[ema_y3_arm_1][ema_phone]",
     emaKey: "ema_m1_734",
@@ -1147,6 +1170,30 @@ const RAW: Omit<TimelineAlert, "channels">[] = [
     emaKey: null,
     message: "Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? - [screen_time_2_y3_arm_1][survey-link:screen_time_3_2] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)",
   },
+  {
+    alertId: 287,
+    wave: 3 as WaveYear,
+    kind: "payment_email",
+    instrument: "W2 13+ STS-EMA Payment email",
+    trigger: null,
+    condition: "[ema_y3_arm_1][ema_payment_email_button]=1\n\nAND\n\n[ema_y3_arm_1][ema_payment_complete]<>2\n\nAND\n//they are 13+\n[preenrollment_arm_1][participant_age]>=13\n\nAND\n//They have done at least 3 of the first 6 STS surveys\nsum(\n[screen_time_y3_arm_1][screen_time_1_complete],\n[screen_time_y3_arm_1][screen_time_2_complete],\n[screen_time_y3_arm_1][screen_time_3_complete],\n[screen_time_y3_arm_1][screen_time_4_complete],\n[screen_time_y3_arm_1][screen_time_5_complete],\n[screen_time_y3_arm_1][screen_time_6_complete])/2 >= 5",
+    sendDateSpec: "5 days after \"Date to send sixth screen time survey\" (Screen Time (Y3)) - [screen_time_1_6_date]",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]",
+    emaKey: null,
+    message: "Hi [preenrollment_arm_1][first_name]!\n\nThank you for completing the screen time survey cycle! Click this link to redeem your payment.\n\n[ema_y3_arm_1][survey-link:ema_payment]",
+  },
+  {
+    alertId: 288,
+    wave: 3 as WaveYear,
+    kind: "payment_email",
+    instrument: "W2 <13 STS Payment email",
+    trigger: null,
+    condition: "[ema_y3_arm_1][ema_payment_email_button]=1\n\nAND\n\n[ema_y3_arm_1][ema_payment_complete]<>2\n\nAND\n//they are less than 13\n[preenrollment_arm_1][participant_age]<13\n\nAND\n//They have done at least 3 of the first 6 STS surveys\nsum(\n[screen_time_y3_arm_1][screen_time_1_complete],\n[screen_time_y3_arm_1][screen_time_2_complete],\n[screen_time_y3_arm_1][screen_time_3_complete],\n[screen_time_y3_arm_1][screen_time_4_complete],\n[screen_time_y3_arm_1][screen_time_5_complete],\n[screen_time_y3_arm_1][screen_time_6_complete])/2 >= 5",
+    sendDateSpec: "5 days after \"Date to send sixth screen time survey\" (Screen Time (Y3)) - [screen_time_1_6_date]",
+    destinationSpec: "[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]",
+    emaKey: null,
+    message: "Hi [preenrollment_arm_1][first_name]!\n\nThank you for completing the screen time survey cycle! Click this link to redeem your payment.\n\n[ema_y3_arm_1][survey-link:ema_payment]",
+  },
 ];
 
 export const TIMELINE_ALERTS: TimelineAlert[] = RAW.map((a) => ({
@@ -1160,4 +1207,10 @@ export function alertsForWave(wave: WaveYear): TimelineAlert[] {
 
 export function alertById(alertId: number, wave: WaveYear): TimelineAlert | undefined {
   return TIMELINE_ALERTS.find((a) => a.alertId === alertId && a.wave === wave);
+}
+
+// Wave 1 uses the same schedule as Wave 2 (the team treats Y1 as the
+// canonical template). Fetch-time field bindings rewrite the event slug.
+export function alertsForRuntimeWave(wave: WaveYear): TimelineAlert[] {
+  return TIMELINE_ALERTS.filter((a) => a.wave === (wave === 3 ? 3 : 2));
 }

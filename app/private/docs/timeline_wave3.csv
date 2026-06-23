@@ -1,0 +1,180 @@
+Alert #,Instrument,Notes,Alert Trigger,Conditional Logic,Message Send Date,Message Destination ,Message
+60,At-Home Survey Send (Text) ,,na,[visit_1_y3_arm_1][break_1_complete]=2,"3 hours, 45 minutes after [visit_1_y3_arm_1][timestamp_athome]","[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]","Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending an 8 section, 10-15 minute at-home survey section to complete. We will reach out to schedule the second visit once this survey has been completed: [athome_measures_y3_arm_1][survey-link:texi]"
+61,At-Home Survey Send (Email),,na,[visit_1_y3_arm_1][break_1_complete]=2,"3 hours, 45 minutes after [visit_1_y3_arm_1][timestamp_athome]","	[preenrollment_arm_1][email]","Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending an 8 section, 10-15 minute at-home survey section to complete. We will reach out to schedule the second visit once this survey has been completed: [athome_measures_y3_arm_1][survey-link:texi] Project LITe Team"
+,,,,,,,
+,,,,,,,
+48,Screen Time Auto Invite 1.1 ,,,[screen_time_y3_arm_1][screen_time_cycle_1]=1AND[screen_time_y3_arm_1][screen_time_1_complete]<>2,[screen_time_y3_arm_1][screen_time_1_1_date],"[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]",Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 1/9 [screen_time_y3_arm_1][survey-link:screen_time_1] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE
+49,Screen Time Auto Invite 1.2 ,,,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_2_complete]<>2",[screen_time_y3_arm_1][screen_time_1_2_date],"[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]",Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 2/9 [screen_time_y3_arm_1][survey-link:screen_time_2] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE
+50,Screen Time Auto invite 1.3 ,,,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_3_complete]<>2",[screen_time_y3_arm_1][screen_time_1_3_date],"[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]",Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 3/9 [screen_time_y3_arm_1][survey-link:screen_time_3] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE
+51,Screen time Auto invite 1.4 ,,,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_4_complete]<>2",[screen_time_y3_arm_1][screen_time_1_4_date],"[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]",Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 4/9 [screen_time_y3_arm_1][survey-link:screen_time_4] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE
+52,Screen Time Auto Invite 1.5 ,,,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_5_complete]<>2",[screen_time_y3_arm_1][screen_time_1_5_date],"[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]",Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 5/9 [screen_time_y3_arm_1][survey-link:screen_time_5] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE
+53,Screen Time Auto Invite 1.6 ,,,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_6_complete]<>2",[screen_time_y3_arm_1][screen_time_1_6_date],"[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]",Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. We also want to remind you that for sticking with us and completing these surveys you will be compensated with $70 after 10 months. 6/9 [screen_time_y3_arm_1][survey-link:screen_time_6] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE
+54,Screen Time Follow Up 1.1 ,,,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_1_complete]<>2",1 days after [screen_time_y3_arm_1][screen_time_1_1_date].   Repeat every day – Send up to 6 times total,"	[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]","Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? - [screen_time_y3_arm_1][survey-link:screen_time_1] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)"
+55,Screen Time Follow Up 1.2 ,,,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_2_complete]<>2",1 days after [screen_time_y3_arm_1][screen_time_1_2_date].   Repeat every day – Send up to 6 times total,"	[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]","Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y3_arm_1][survey-link:screen_time_2] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)"
+56,Screen Time Follow Up 1.3 ,,,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_3_complete]<>2",1 days after [screen_time_y3_arm_1][screen_time_1_3_date].   Repeat every day – Send up to 6 times total,"[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]","Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y3_arm_1][survey-link:screen_time_3] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey. ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)"
+57,Screen Time Follow Up 1.4 ,,,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_4_complete]<>2",1 days after [screen_time_y3_arm_1][screen_time_1_4_date].   Repeat every day – Send up to 6 times total,"[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]","Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y3_arm_1][survey-link:screen_time_4] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey."
+58,Screen Time Follow Up 1.5 ,,na,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_5_complete]<>2",1 days after [screen_time_y3_arm_1][screen_time_1_5_date].   Repeat every day – Send up to 6 times total,"[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]","Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y3_arm_1][survey-link:screen_time_5] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey. ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)"
+59,Screen Time Follow Up 1.6 ,,na,"[screen_time_y3_arm_1][screen_time_cycle_1]=1
+AND
+[screen_time_y3_arm_1][screen_time_6_complete]<>2",1 days after [screen_time_y3_arm_1][screen_time_1_6_date].   Repeat every day – Send up to 6 times total,"[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary]	[email]","Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? [screen_time_y3_arm_1][survey-link:screen_time_6] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)"
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+63,EMA Y1 Enable,https://tuprd-my.sharepoint.com/:w:/r/personal/jchein_temple_edu/_layouts/15/Doc.aspx?sourcedoc=%7B717D9374-4D17-4639-BA7E-C7431F1D9B87%7D&file=REDCap%20EMA%20Code.docx&action=default&mobileredirect=true,4 months after invite 1.6 on the first 1st of the month,"[ema_y3_arm_1][ema_start_day_calc]+[ema_y3_arm_1][ema_start_day_calc_2]+[ema_y3_arm_1][ema_start_day_calc_3]+[ema_y3_arm_1][ema_start_day_calc_4]=0
+AND
+[ema_y3_arm_1][ema_enable]=1
+
+AND
+[ema_y3_arm_1][ema_cycle]<>1
+AND
+[ema_y3_arm_1][ema_cycle_2]<>1
+AND
+[ema_y3_arm_1][ema_cycle_3]<>1
+
+
+","3 days, 8 hours before [ema_y3_arm_1][ema_start_day]",[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"Hi [preenrollment_arm_1][first_name]! This is the project LITe Team.
+
+
+We are beginning our social check next week on Monday. This will be a 10 day period, where we will be sending you 2 or 3 surveys a day, at random times. If you complete enough of them we will send you 70 dollars.
+
+
+PLEASE CLICK THIS LINK TO ENABLE THE SOCIAL CHECK:  [ema_y3_arm_1][survey-link:ema_participant_confirmation]"
+64,EMA.1.1 Monday 1 7:34 AM,https://tuprd-my.sharepoint.com/:w:/r/personal/jchein_temple_edu/_layouts/15/Doc.aspx?sourcedoc=%7B717D9374-4D17-4639-BA7E-C7431F1D9B87%7D&file=REDCap%20EMA%20Code.docx&action=default&mobileredirect=true,na,"[ema_y3_arm_1][ema_cycle]=1
+AND
+[ema_y3_arm_1][ema_start_day_calc]<1
+
+AND
+[ema_y3_arm_1][ema_settings_complete]<>2
+AND
+[ema_y3_arm_1][ema_settings_complete]<>1
+
+",[ema_y3_arm_1][ema_m1_734],[ema_y3_arm_1][ema_phone],"Hi [preenrollment_arm_1][first_name]!
+
+This is a PROJECT LITe social check survey! It is meant to gauge your experience at this moment - and should only take 2-3 minutes to complete!
+
+
+
+[ema_y3_arm_1][survey-link:ema_report_1]
+
+
+**IF 30 MINUTES HAS PASSED SINCE YOU RECEIVED THIS SURVEY WITHOUT COMPLETION, PLEASE SKIP THIS ONE! (No worries! We'll send more)"
+65,EMA.1.1 Monday 1 5:17 PM,,,,,,
+66,EMA.1.1 Monday 1 8:46 PM,,,,,,
+67,EMA.1.1 Tuesday 1 8:32 AM,,,,,,
+68,EMA.1.1 Tuesday 1 6:34 PM,,,,,,
+69,EMA.1.1 Tuesday 1 8:58 PM,,,,,,
+70,EMA.1.1 Wednesday 1 8:12 AM,,,,,,
+71,EMA.1.1 Wednesday 1 9:00 PM,,,,,,
+72,EMA.1.1 Thursday 7:11 AM,,,,,,
+73,EMA.1.1 Thursday 5:32 PM,,,,,,
+74,EMA.1.1 Friday 9:00 AM,,,,,,
+75,EMA.1.1 Friday 7:04 PM,,,,,,
+76,EMA.1.1 Friday 8:41 PM,,,,,,
+77,EMA.1.1 Saturday 8:56 AM,,,,,,
+78,EMA.1.1 Saturday 5:01 PM,,,,,,
+79,EMA.1.1 Sunday 7:55 AM,,,,,,
+80,EMA.1.1 Sunday 6:01 PM,,,,,,
+81,EMA.1.1 Sunday 7:36 PM,,,,,,
+82,EMA.1.1 Monday 2 8:49 AM,,,,,,
+83,EMA.1.1 Monday 2 8:09 PM,,,,,,
+84,EMA.1.1 Tuesday 2 7:33 AM,,,,,,
+85,EMA.1.1 Tuesday 2 5:12 PM,,,,,,
+86,EMA.1.1 Wednesday 2 8:40 AM,,,,,,
+87,EMA.1.1 Wednesday 2 6:01 PM,,,,,,
+88,EMA.1.1 Wednesday 2 7:36 PM,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+89,Screen Time Auto Invite 2.1 ,,,[screen_time_2_y3_arm_1][screen_time_cycle_2]=1,[screen_time_2_y3_arm_1][screen_time_2_1_date],[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. After completion of your first wave of the study, we are sending another 3 surveys before inviting you back in for the second wave! 7/9 [screen_time_2_y3_arm_1][survey-link:screen_time_1_2] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE"
+90,Screen Time Auto Invite 2.2 ,,,[screen_time_2_y3_arm_1][screen_time_cycle_2]=1,[screen_time_2_y3_arm_1][screen_time_2_2_date],[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. After completion of your first wave of the study, we are sending another 3 surveys before inviting you back in for the second wave! 8/9 [screen_time_2_y3_arm_1][survey-link:screen_time_2_2]"
+91,Screen Time Auto Invite 2.3 ,,,[screen_time_2_y3_arm_1][screen_time_cycle_2]=1,[screen_time_2_y3_arm_1][screen_time_2_3_date],[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"Hi this is project LITe. This is for [preenrollment_arm_1][first_name]. We are sending a brief 2-3 minute at screen-time survey to complete. After completion of your first wave of the study, we are sending another 3 surveys before inviting you back in for the second wave! 9/9 [screen_time_2_y3_arm_1][survey-link:screen_time_3_2] THERE WILL BE DAILY AUTOMATED REMINDERS FOR THE NEXT WEEK UNTIL THE SURVEY IS COMPLETE"
+93,Screen Time Follow up 2.1 ,,,"[screen_time_2_y3_arm_1][screen_time_cycle_2]=1
+AND
+[screen_time_2_y3_arm_1][screen_time_1_2_complete]<>2",1 days after [screen_time_2_y3_arm_1][screen_time_2_1_date],[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? - [screen_time_2_y3_arm_1][survey-link:screen_time_1_2] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)"
+94,Screen Time Follow up 2.2 ,,,"[screen_time_2_y3_arm_1][screen_time_cycle_2]=1
+AND
+[screen_time_2_y3_arm_1][screen_time_2_2_complete]<>2",1 days after [screen_time_2_y3_arm_1][screen_time_2_2_date],[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? - [screen_time_2_y3_arm_1][survey-link:screen_time_2_2] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)"
+95,Screen Time Follow up 2.3 ,,,"[screen_time_2_y3_arm_1][screen_time_cycle_2]=1
+AND
+[screen_time_2_y3_arm_1][screen_time_3_2_complete]<>2",1 days after [screen_time_2_y3_arm_1][screen_time_2_3_date],[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"Hello, we just wanted to follow up about the screentime survey. Whenever you get the chance can you please fill out the survey? - [screen_time_2_y3_arm_1][survey-link:screen_time_3_2] If you opened the survey but are still receiving the message, it it because you likely left it incomplete - please restart the survey ( this is an automated reminder and it will send for the next week - feel free to respond and let us know if there is a reason you can't get to it this month)"
+,,,,,,,
+,,,,,,,
+Payment,,,,,,,
+287,W2 13+ STS-EMA Payment email,,,"[ema_y3_arm_1][ema_payment_email_button]=1
+
+AND
+
+[ema_y3_arm_1][ema_payment_complete]<>2
+
+AND
+//they are 13+
+[preenrollment_arm_1][participant_age]>=13
+
+AND
+//They have done at least 3 of the first 6 STS surveys
+sum(
+[screen_time_y3_arm_1][screen_time_1_complete],
+[screen_time_y3_arm_1][screen_time_2_complete],
+[screen_time_y3_arm_1][screen_time_3_complete],
+[screen_time_y3_arm_1][screen_time_4_complete],
+[screen_time_y3_arm_1][screen_time_5_complete],
+[screen_time_y3_arm_1][screen_time_6_complete])/2 >= 5","5 days after ""Date to send sixth screen time survey"" (Screen Time (Y3)) - [screen_time_1_6_date]",[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"Hi [preenrollment_arm_1][first_name]!
+
+Thank you for completing the screen time survey cycle! Click this link to redeem your payment.
+
+[ema_y3_arm_1][survey-link:ema_payment] "
+288,W2 <13 STS Payment email,,,"[ema_y3_arm_1][ema_payment_email_button]=1
+
+AND
+
+[ema_y3_arm_1][ema_payment_complete]<>2
+
+AND
+//they are less than 13
+[preenrollment_arm_1][participant_age]<13
+
+AND
+//They have done at least 3 of the first 6 STS surveys
+sum(
+[screen_time_y3_arm_1][screen_time_1_complete],
+[screen_time_y3_arm_1][screen_time_2_complete],
+[screen_time_y3_arm_1][screen_time_3_complete],
+[screen_time_y3_arm_1][screen_time_4_complete],
+[screen_time_y3_arm_1][screen_time_5_complete],
+[screen_time_y3_arm_1][screen_time_6_complete])/2 >= 5","5 days after ""Date to send sixth screen time survey"" (Screen Time (Y3)) - [screen_time_1_6_date]",[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"Hi [preenrollment_arm_1][first_name]!
+
+Thank you for completing the screen time survey cycle! Click this link to redeem your payment.
+
+[ema_y3_arm_1][survey-link:ema_payment] "
+,,,,,,,
+,,,,,,,
+At-Home,,,,,,,
+,Wave 3 At Home Screener (after screener),,"""Wave 3 Screener + Scheduling"" [Any event] is saved with any form status",[athome_measures_y3_arm_1][phq_complete]<>2,"when ""Wave 3 Screener + Scheduling"" [Any event] is saved with any form status",[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"It was a pleasure speaking with you today! We're excited to see you for your wave 3 visits! Before you come in for your visit we ask that you complete the following surveys at home. 
+
+[athome_measures_y3_arm_1][survey-link:texi]"
+,Wave 3 At Home Screener (after w2v1),,"""DES"" (Visit 1 (Y3)) is saved with Complete status only",[athome_measures_y3_arm_1][phq_complete]<>2,"when ""DES"" (Visit 1 (Y3)) is saved with Complete status only",[preenrollment_arm_1][phone_primary]; [preenrollment_arm_1][phone_secondary],"We're excited for your second visit! Before you come in for your visit we ask that you complete the following surveys at home. 
+
+[athome_measures_y3_arm_1][survey-link:texi]"

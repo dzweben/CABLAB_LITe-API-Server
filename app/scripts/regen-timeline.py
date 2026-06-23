@@ -1,30 +1,37 @@
 #!/usr/bin/env python3
-"""Regenerate src/lib/timeline.ts from private/docs/Timeline_of_Automated_Messages.xlsx.
+"""Regenerate src/lib/timeline.ts from the wave 2 + wave 3 CSVs.
 
-The TS file is auto-generated and should not be hand-edited — if the
-spreadsheet changes (new alerts, message-text edits, schedule updates),
-rerun:
+Sources of truth (canonical, edited by the team):
+    private/docs/timeline_wave2.csv
+    private/docs/timeline_wave3.csv
 
+Each CSV exports one tab of the Timeline of Automated Messages workbook.
+They share alert numbers; the only delta is the REDCap event slug
+(screen_time_y2_arm_1 vs screen_time_y3_arm_1) and the per-wave message
+copies. Wave 1 is not separately defined — the team treats the wave 2
+schedule as the canonical Y1 template and rebinds event names at fetch
+time.
+
+Run after the team edits the CSVs:
     python3 scripts/regen-timeline.py
-
-Requires: pip install openpyxl
 """
-import json, os, re, sys
+
+import csv
+import json
+import os
+import re
+import sys
 from pathlib import Path
 
-try:
-    import openpyxl
-except ImportError:
-    print("openpyxl not installed. Run: pip install openpyxl", file=sys.stderr)
-    sys.exit(1)
-
 ROOT = Path(__file__).resolve().parent.parent
-XLSX = ROOT / "private" / "docs" / "Timeline_of_Automated_Messages.xlsx"
-OUT  = ROOT / "src" / "lib" / "timeline.ts"
+SRC_W2 = ROOT / "private" / "docs" / "timeline_wave2.csv"
+SRC_W3 = ROOT / "private" / "docs" / "timeline_wave3.csv"
+OUT    = ROOT / "src" / "lib" / "timeline.ts"
 
 
 def js_str(s):
-    if s is None: return "null"
+    if s is None or s == "":
+        return "null"
     return json.dumps(s, ensure_ascii=False)
 
 
@@ -32,18 +39,20 @@ def classify(instr):
     n = (instr or "").lower()
     if "at-home" in n and "text" in n: return "athome_sms"
     if "at-home" in n and "email" in n: return "athome_email"
-    if "auto invite 1." in n: return "sts1_invite"
+    if "auto invite 1." in n or "auto invite 1 " in n: return "sts1_invite"
     if "follow up 1." in n: return "sts1_followup"
     if "auto invite 2." in n: return "sts2_invite"
     if "follow up 2." in n: return "sts2_followup"
-    if "ema y1 enable" in n: return "ema_enable"
+    if "ema y1 enable" in n or "ema y2 enable" in n or "ema y3 enable" in n: return "ema_enable"
     if n.startswith("ema."): return "ema_prompt"
+    if "payment email" in n or "payment" in n: return "payment_email"
     return "other"
 
 
 def ema_key(instr):
     if not instr or not instr.lower().startswith("ema."): return None
-    m = re.search(r"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*(\d+)?\s+(\d+):(\d+)\s*(AM|PM)", instr, re.IGNORECASE)
+    m = re.search(r"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*(\d+)?\s+(\d+):(\d+)\s*(AM|PM)",
+                  instr, re.IGNORECASE)
     if not m: return None
     full_day = m.group(1).lower()
     week_num = m.group(2) or "1"
@@ -60,42 +69,46 @@ def ema_key(instr):
 
 
 def normalize(s):
-    if not s: return s
-    return re.sub(r"\s+", " ", str(s).strip())
+    if not s: return None
+    return re.sub(r"\s+", " ", str(s).replace("\xa0", " ").strip()) or None
+
+
+def read_csv(path, wave):
+    rows = []
+    with open(path, encoding="latin-1") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            if not row: continue
+            while len(row) < 8: row.append("")
+            alert_id, instr, notes, trigger, condition, send_date, destination, message = row[:8]
+            try:
+                aid = int(alert_id.strip())
+            except (ValueError, AttributeError):
+                continue
+            rows.append({
+                "wave": wave,
+                "alertId": aid,
+                "kind": classify(instr),
+                "instrument": normalize(instr),
+                "trigger": normalize(trigger) if trigger and trigger.strip().lower() != "na" else None,
+                "condition": (condition or "").replace("\xa0", " ").strip() or None,
+                "sendDateSpec": (send_date or "").replace("\xa0", " ").strip() or None,
+                "destinationSpec": (destination or "").replace("\xa0", " ").strip() or None,
+                "emaKey": ema_key(instr),
+                "message": (message or "").replace("\xa0", " ").strip() or None,
+            })
+    return rows
 
 
 def main():
-    wb = openpyxl.load_workbook(str(XLSX), data_only=True)
-    entries = []
-    for sheet_name in ["wave 2", "wave 3"]:
-        wave = 2 if "2" in sheet_name else 3
-        ws = wb[sheet_name]
-        for row in ws.iter_rows(values_only=True):
-            cells = list(row)
-            while cells and cells[-1] is None: cells.pop()
-            if not cells or len(cells) < 2: continue
-            if isinstance(cells[0], str) and "Alert" in cells[0]: continue
-            while len(cells) < 8: cells.append(None)
-            alert_id, instrument, _notes, trigger, condition, send_date, destination, message = cells[:8]
-            if not isinstance(alert_id, (int, float)): continue
-            entries.append({
-                "wave": wave,
-                "alertId": int(alert_id),
-                "kind": classify(instrument),
-                "instrument": normalize(instrument),
-                "trigger": normalize(trigger) if trigger else None,
-                "condition": str(condition) if condition else None,
-                "sendDateSpec": str(send_date) if send_date else None,
-                "destinationSpec": str(destination) if destination else None,
-                "emaKey": ema_key(instrument),
-                "message": message,
-            })
+    entries = read_csv(SRC_W2, 2) + read_csv(SRC_W3, 3)
+    entries.sort(key=lambda e: (e["wave"], e["alertId"]))
 
     lines = [
-        "// AUTO-GENERATED from app/private/docs/Timeline_of_Automated_Messages.xlsx.",
-        "// Don't hand-edit; regenerate with scripts/regen-timeline.py if needed.",
+        "// AUTO-GENERATED from private/docs/timeline_wave{2,3}.csv.",
+        "// Don't hand-edit; regenerate with scripts/regen-timeline.py.",
         "//",
-        "// Each entry corresponds to a single 'Alert #' row in the source workbook.",
+        "// Each entry corresponds to one 'Alert #' row in the source CSVs.",
         "// Together these define every automated message Project LITe sends.",
         "",
         'import type { Channel, WaveYear } from "@/types";',
@@ -109,6 +122,7 @@ def main():
         '  | "sts2_followup"',
         '  | "ema_enable"',
         '  | "ema_prompt"',
+        '  | "payment_email"',
         '  | "other";',
         "",
         "export interface TimelineAlert {",
@@ -138,13 +152,16 @@ def main():
     ]
     for e in entries:
         lines.append("  {")
-        for k in ("alertId","wave","kind","instrument","trigger","condition","sendDateSpec","destinationSpec","emaKey","message"):
-            if k == "wave":
-                lines.append(f'    {k}: {e[k]} as WaveYear,')
-            elif k == "alertId":
-                lines.append(f'    {k}: {e[k]},')
-            else:
-                lines.append(f'    {k}: {js_str(e[k])},')
+        lines.append(f'    alertId: {e["alertId"]},')
+        lines.append(f'    wave: {e["wave"]} as WaveYear,')
+        lines.append(f'    kind: {js_str(e["kind"])},')
+        lines.append(f'    instrument: {js_str(e["instrument"])},')
+        lines.append(f'    trigger: {js_str(e["trigger"])},')
+        lines.append(f'    condition: {js_str(e["condition"])},')
+        lines.append(f'    sendDateSpec: {js_str(e["sendDateSpec"])},')
+        lines.append(f'    destinationSpec: {js_str(e["destinationSpec"])},')
+        lines.append(f'    emaKey: {js_str(e["emaKey"])},')
+        lines.append(f'    message: {js_str(e["message"])},')
         lines.append("  },")
     lines += [
         "];",
@@ -162,9 +179,21 @@ def main():
         "  return TIMELINE_ALERTS.find((a) => a.alertId === alertId && a.wave === wave);",
         "}",
         "",
+        "// Wave 1 uses the same schedule as Wave 2 (the team treats Y1 as the",
+        "// canonical template). Fetch-time field bindings rewrite the event slug.",
+        "export function alertsForRuntimeWave(wave: WaveYear): TimelineAlert[] {",
+        "  return TIMELINE_ALERTS.filter((a) => a.wave === (wave === 3 ? 3 : 2));",
+        "}",
+        "",
     ]
     OUT.write_text("\n".join(lines))
-    print(f"Wrote {OUT} — {len(entries)} alerts")
+    print(f"Wrote {OUT}  ({len(entries)} alerts total)")
+    # Stats
+    by_kind = {}
+    for e in entries:
+        by_kind[e["kind"]] = by_kind.get(e["kind"], 0) + 1
+    for k, n in sorted(by_kind.items(), key=lambda x: -x[1]):
+        print(f"  {k:>18}: {n}")
 
 
 if __name__ == "__main__":
