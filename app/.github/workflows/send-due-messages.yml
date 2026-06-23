@@ -1,12 +1,22 @@
 name: Send LITe Due Messages
 
 on:
-  schedule:
-    # Every 5 minutes. EMA prompts are scheduled to specific clock times
-    # (e.g. Monday 7:34 AM); this polls for any whose scheduledAt falls
-    # within ±2.5 minutes of "now" and sends them.
-    - cron: "*/5 * * * *"
+  # Cron is COMMENTED OUT until the first refresh-data run is verified
+  # and the data on the dashboard looks correct. Enable by uncommenting
+  # the schedule block below.
+  #
+  # schedule:
+  #   - cron: "*/5 * * * *"
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "true = preview only, no actual sends"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
 
 permissions:
   contents: write
@@ -50,6 +60,7 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           QUO_API_KEY: ${{ secrets.QUO_API_KEY }}
           QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: node scripts/send-due-messages.mjs
 
       - name: Commit updated data and logs
