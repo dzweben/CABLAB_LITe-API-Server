@@ -50,7 +50,7 @@ jobs:
         env:
           REDCAP_API_URL: ${{ secrets.REDCAP_API_URL }}
           REDCAP_LITE_TOKEN: ${{ secrets.REDCAP_LITE_TOKEN }}
-        run: node scripts/fetch-data.mjs
+        run: node --max-old-space-size=6144 scripts/fetch-data.mjs
 
       - name: Fire due messages
         env:
