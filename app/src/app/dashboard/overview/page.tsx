@@ -16,7 +16,7 @@ interface LastFetch {
 export default function OverviewPage() {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [lastFetch, setLastFetch] = useState<LastFetch | null>(null);
-  const [dueCount, setDueCount] = useState(0);
+  const [due, setDue] = useState<{ pid: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,7 +33,7 @@ export default function OverviewPage() {
         if (lRes.ok) setLastFetch(await lRes.json());
         if (dRes.ok) {
           const arr = await dRes.json();
-          setDueCount(Array.isArray(arr) ? arr.length : 0);
+          setDue(Array.isArray(arr) ? arr : []);
         }
       } catch (e) {
         setError(e instanceof Error ? e.message : "Unknown error");
@@ -47,6 +47,7 @@ export default function OverviewPage() {
   const [cohort] = useCohort();
   const scoped = useMemo(() => participants.filter(p => cohortMatches(p.pid, cohort)), [participants, cohort]);
   const stats = useMemo(() => computeStats(scoped), [scoped]);
+  const dueCount = useMemo(() => due.filter(d => cohortMatches(d.pid, cohort)).length, [due, cohort]);
 
   if (loading) return <Spinner label="Loading overview…" />;
   if (error) return <ErrorBox error={error} />;
