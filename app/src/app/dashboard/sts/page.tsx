@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import type { Participant, WaveYear } from "@/types";
-import { WAVE_YEARS, WAVE_LABELS, pidSort, formatDate, COMPLETION_LABELS } from "@/lib/lite-utils";
+import { WAVE_YEARS, WAVE_LABELS, pidSort, formatMonthShort, COMPLETION_LABELS } from "@/lib/lite-utils";
 
 type STSWhich = "sts1" | "sts2";
 
@@ -140,7 +140,7 @@ function CycleCell({ complete, date, link }: { complete: 0 | 1 | 2; date: string
   const cell = (
     <div className={`inline-flex flex-col items-center px-2 py-1 rounded min-w-[64px] ${colorMap[complete]}`}>
       <span className="text-xs font-semibold">{COMPLETION_LABELS[complete][0]}</span>
-      <span className="text-[10px] font-mono mt-0.5 opacity-75">{date ? formatDate(date).slice(4) : "—"}</span>
+      <span className="text-[10px] font-mono mt-0.5 opacity-75">{date ? formatMonthShort(date) : "—"}</span>
     </div>
   );
   if (link && complete !== 2) {

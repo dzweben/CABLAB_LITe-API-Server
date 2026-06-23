@@ -20,6 +20,17 @@ export function formatDate(s: string | null | undefined): string {
   return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 }
 
+// Short "MM/YY" — for STS schedule cells where we want to match the
+// month/year shorthand the team uses in the Follow up.{N} Google Sheet.
+export function formatMonthShort(s: string | null | undefined): string {
+  if (!s) return "";
+  const d = new Date(typeof s === "string" && s.length === 10 ? s + "T12:00:00" : (s as string));
+  if (isNaN(d.getTime())) return String(s);
+  const mm = d.getMonth() + 1;
+  const yy = String(d.getFullYear()).slice(-2);
+  return `${mm}/${yy}`;
+}
+
 export function formatTime(s: string | null | undefined): string {
   if (!s) return "—";
   const d = new Date(s);

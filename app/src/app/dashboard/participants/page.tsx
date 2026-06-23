@@ -26,7 +26,6 @@ export default function ParticipantsPage() {
       const s = search.trim().toLowerCase();
       xs = xs.filter(p =>
         p.pid.toLowerCase().includes(s)
-        || (p.contact.firstName + " " + p.contact.lastName).toLowerCase().includes(s)
         || p.contact.email.toLowerCase().includes(s)
       );
     }
@@ -76,7 +75,6 @@ export default function ParticipantsPage() {
           <thead>
             <tr className="bg-gray-50 border-b border-gray-200 text-gray-600">
               <th className="text-left px-4 py-3 font-semibold">PID</th>
-              <th className="text-left px-4 py-3 font-semibold">Name</th>
               <th className="text-left px-4 py-3 font-semibold">Email</th>
               <th className="text-left px-4 py-3 font-semibold">Phone</th>
               <th className="text-center px-4 py-3 font-semibold">Active Wave</th>
@@ -85,7 +83,7 @@ export default function ParticipantsPage() {
           </thead>
           <tbody>
             {filtered.length === 0 && (
-              <tr><td colSpan={6} className="py-10 text-center text-gray-400">No participants match.</td></tr>
+              <tr><td colSpan={5} className="py-10 text-center text-gray-400">No participants match.</td></tr>
             )}
             {filtered.map(p => (
               <ParticipantRow
@@ -110,9 +108,6 @@ function ParticipantRow({ p, expanded, onToggle }: { p: Participant; expanded: b
         onClick={onToggle}
       >
         <td className="px-4 py-3 font-mono font-medium text-gray-900">{p.pid}</td>
-        <td className="px-4 py-3 text-gray-900">
-          {p.contact.firstName} {p.contact.lastName}
-        </td>
         <td className="px-4 py-3 text-gray-600 truncate max-w-xs">{p.contact.email || "—"}</td>
         <td className="px-4 py-3 text-gray-600">{p.contact.phonePrimary || "—"}</td>
         <td className="px-4 py-3 text-center">
@@ -126,7 +121,7 @@ function ParticipantRow({ p, expanded, onToggle }: { p: Participant; expanded: b
       </tr>
       {expanded && (
         <tr>
-          <td colSpan={6} className="bg-gray-50 px-6 py-5 border-b border-gray-200">
+          <td colSpan={5} className="bg-gray-50 px-6 py-5 border-b border-gray-200">
             <ParticipantDetail p={p} />
           </td>
         </tr>
