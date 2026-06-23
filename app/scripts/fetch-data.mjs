@@ -502,6 +502,25 @@ function cell(row, letter) {
   return v;
 }
 
+// Excel/Sheets stores real dates as serial day-counts since 1899-12-30.
+// "v2Date: 45065" → "2023-04-09". Text-like strings (" 6/24" etc.) pass through.
+function excelDateToIso(v) {
+  if (typeof v !== "number" || !isFinite(v) || v < 1 || v > 80000) return v;
+  const ms = Math.round((v - 25569) * 86400 * 1000);
+  const d = new Date(ms);
+  if (!isFinite(d.getTime())) return v;
+  return d.toISOString().slice(0, 10);
+}
+
+function normalizeSheetCell(v) {
+  if (v === null || v === undefined) return null;
+  if (typeof v === "number") {
+    const iso = excelDateToIso(v);
+    return iso === v ? v : iso;
+  }
+  return v;
+}
+
 // Returns true-ish if the cell holds a date or a non-empty value indicating
 // the column has been actioned. Excel dates come back as ISO strings when we
 // use UNFORMATTED_VALUE+sheet API, or numeric serial dates, or already-text.
@@ -533,13 +552,13 @@ async function fetchFollowupSheet() {
     if (!followupByPid[pid]) followupByPid[pid] = {};
     followupByPid[pid].y1 = {
       record: cell(row, "A"),
-      v2Date: cell(row, "N"),       // "Visit 2" date → V2Y1 complete if set
-      sts1Months: [cell(row, "P"), cell(row, "Q"), cell(row, "R"), cell(row, "S"), cell(row, "T"), cell(row, "U")],
-      emaDate: cell(row, "W"),
+      v2Date: normalizeSheetCell(cell(row, "N")),       // "Visit 2" date → V2Y1 complete if set
+      sts1Months: [cell(row, "P"), cell(row, "Q"), cell(row, "R"), cell(row, "S"), cell(row, "T"), cell(row, "U")].map(normalizeSheetCell),
+      emaDate: normalizeSheetCell(cell(row, "W")),
       emaStatus: cell(row, "X"),
       w1Comp: cell(row, "AA"),
-      sts2Months: [cell(row, "AB"), cell(row, "AC"), cell(row, "AD")],
-      wave2StartDate: cell(row, "AF"),
+      sts2Months: [cell(row, "AB"), cell(row, "AC"), cell(row, "AD")].map(normalizeSheetCell),
+      wave2StartDate: normalizeSheetCell(cell(row, "AF")),
       raTag: cell(row, "L"),
       notes: cell(row, "I"),
     };
@@ -554,13 +573,13 @@ async function fetchFollowupSheet() {
     if (!followupByPid[pid]) followupByPid[pid] = {};
     followupByPid[pid].y2 = {
       record: cell(row, "B"),
-      v2Date: cell(row, "M"),       // "WAVE 2, V2 Date" → V2Y2 complete if set
-      sts1Months: [cell(row, "O"), cell(row, "P"), cell(row, "Q"), cell(row, "R"), cell(row, "S"), cell(row, "T")],
-      emaDate: cell(row, "W"),
+      v2Date: normalizeSheetCell(cell(row, "M")),       // "WAVE 2, V2 Date" → V2Y2 complete if set
+      sts1Months: [cell(row, "O"), cell(row, "P"), cell(row, "Q"), cell(row, "R"), cell(row, "S"), cell(row, "T")].map(normalizeSheetCell),
+      emaDate: normalizeSheetCell(cell(row, "W")),
       emaStatus: cell(row, "X"),
       w2Comp: cell(row, "Z"),
-      sts2Months: [cell(row, "AB"), cell(row, "AC"), cell(row, "AD")],
-      wave3StartDate: cell(row, "AF"),
+      sts2Months: [cell(row, "AB"), cell(row, "AC"), cell(row, "AD")].map(normalizeSheetCell),
+      wave3StartDate: normalizeSheetCell(cell(row, "AF")),
       notes: cell(row, "J"),
     };
   }
