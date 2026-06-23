@@ -14,10 +14,10 @@ folder. Same architecture as the SDN/Project SPARK dashboard:
 
 ---
 
-## Generated dashboard password
+## Dashboard password
 
 ```
-Mg6wz1wk2NO5nAGdsPf2
+LITe_g23!
 ```
 
 Set this as the `DASHBOARD_PASSWORD` env var in Vercel (production). The
@@ -108,7 +108,7 @@ The two Vercel IDs are auto-populated by `vercel link` — see step 4 below.
    - Don't deploy yet — first add env vars
 
 2. **Add the Vercel env vars** (Project Settings → Environment Variables, production):
-   - `DASHBOARD_PASSWORD` = `Mg6wz1wk2NO5nAGdsPf2`
+   - `DASHBOARD_PASSWORD` = `LITe_g23!`
    - `COOKIE_SECRET` = anything random (or just reuse `DASHBOARD_PASSWORD`)
    - `REDCAP_API_URL`, `REDCAP_LITE_TOKEN` (so any SSR rendering still works if you ever add one)
 
@@ -188,7 +188,7 @@ python3 scripts/regen-timeline.py
 ```bash
 cd app
 npm install
-echo 'DASHBOARD_PASSWORD=Mg6wz1wk2NO5nAGdsPf2' > .env.local
+echo 'DASHBOARD_PASSWORD=LITe_g23!' > .env.local
 echo 'COOKIE_SECRET=anything-random-here' >> .env.local
 echo 'REDCAP_LITE_TOKEN=put-it-here-to-fetch-locally' >> .env.local
 npm run dev
