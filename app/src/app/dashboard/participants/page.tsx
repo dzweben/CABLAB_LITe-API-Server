@@ -3,6 +3,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import type { Participant } from "@/types";
 import { pidSort, formatDate, WAVE_LABELS } from "@/lib/lite-utils";
+import { useCohort, cohortMatches } from "@/lib/cohort";
+import CohortFilter from "@/components/CohortFilter";
 
 export default function ParticipantsPage() {
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -11,6 +13,7 @@ export default function ParticipantsPage() {
   const [search, setSearch] = useState("");
   const [waveFilter, setWaveFilter] = useState<"all" | "1" | "2" | "3">("all");
   const [expandedPid, setExpandedPid] = useState<string | null>(null);
+  const [cohort] = useCohort();
 
   useEffect(() => {
     fetch("/api/data/participants")
@@ -21,7 +24,7 @@ export default function ParticipantsPage() {
   }, []);
 
   const filtered = useMemo(() => {
-    let xs = participants;
+    let xs = participants.filter(p => cohortMatches(p.pid, cohort));
     if (search.trim()) {
       const s = search.trim().toLowerCase();
       xs = xs.filter(p =>
@@ -34,18 +37,21 @@ export default function ParticipantsPage() {
       xs = xs.filter(p => p.waves[w]);
     }
     return xs;
-  }, [participants, search, waveFilter]);
+  }, [participants, search, waveFilter, cohort]);
 
   if (loading) return <p className="text-gray-500 text-sm">Loading…</p>;
   if (error) return <p className="text-red-600 text-sm">{error}</p>;
 
   return (
     <div className="space-y-5">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900">Participants</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          {participants.length} total · contact info, active wave, and quick status.
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Participants</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            {participants.length} total · contact info, active wave, and quick status.
+          </p>
+        </div>
+        <CohortFilter />
       </div>
 
       {/* Controls */}

@@ -3,6 +3,8 @@
 import { useEffect, useState, useMemo } from "react";
 import type { Participant } from "@/types";
 import { WAVE_YEARS, WAVE_LABELS, computeStats, formatDateTime } from "@/lib/lite-utils";
+import { useCohort, cohortMatches } from "@/lib/cohort";
+import CohortFilter from "@/components/CohortFilter";
 
 interface LastFetch {
   ok: boolean;
@@ -42,20 +44,25 @@ export default function OverviewPage() {
     load();
   }, []);
 
-  const stats = useMemo(() => computeStats(participants), [participants]);
+  const [cohort] = useCohort();
+  const scoped = useMemo(() => participants.filter(p => cohortMatches(p.pid, cohort)), [participants, cohort]);
+  const stats = useMemo(() => computeStats(scoped), [scoped]);
 
   if (loading) return <Spinner label="Loading overview…" />;
   if (error) return <ErrorBox error={error} />;
 
-  const isEmpty = participants.length === 0;
+  const isEmpty = scoped.length === 0;
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900">Project LITe — Overview</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          Wave-by-wave participation, completion, and outgoing-message status.
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Project LITe — Overview</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Wave-by-wave participation, completion, and outgoing-message status.
+          </p>
+        </div>
+        <CohortFilter />
       </div>
 
       {/* Fetch freshness banner */}

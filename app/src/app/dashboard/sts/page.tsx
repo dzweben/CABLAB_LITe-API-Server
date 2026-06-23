@@ -3,6 +3,8 @@
 import { useEffect, useState, useMemo } from "react";
 import type { Participant, WaveYear } from "@/types";
 import { WAVE_YEARS, WAVE_LABELS, pidSort, formatMonthShort, COMPLETION_LABELS } from "@/lib/lite-utils";
+import { useCohort, cohortMatches } from "@/lib/cohort";
+import CohortFilter from "@/components/CohortFilter";
 
 type STSWhich = "sts1" | "sts2";
 
@@ -13,6 +15,7 @@ export default function STSPage() {
   const [which, setWhich] = useState<STSWhich>("sts1");
   const [showOnlyActive, setShowOnlyActive] = useState(true);
   const [search, setSearch] = useState("");
+  const [cohort] = useCohort();
 
   useEffect(() => {
     fetch("/api/data/participants").then(r => r.json()).then(d => {
@@ -24,22 +27,25 @@ export default function STSPage() {
   const cycleLabel = which === "sts1" ? "STS1 (6 cycles)" : "STS2 (3 cycles)";
 
   const rows = useMemo(() => {
-    let xs = participants.filter(p => p.waves[wave]?.[which]);
+    let xs = participants.filter(p => p.waves[wave]?.[which] && cohortMatches(p.pid, cohort));
     if (showOnlyActive) xs = xs.filter(p => p.waves[wave]?.[which]?.active);
     if (search.trim()) {
       const s = search.trim().toLowerCase();
       xs = xs.filter(p => p.pid.toLowerCase().includes(s));
     }
     return xs;
-  }, [participants, wave, which, showOnlyActive, search]);
+  }, [participants, wave, which, showOnlyActive, search, cohort]);
 
   return (
     <div className="space-y-5">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900">Screen Time Surveys</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          STS1 (6 cycles, ~weekly) and STS2 (3 cycles) for each active wave.
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Screen Time Surveys</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            STS1 (6 cycles, ~weekly) and STS2 (3 cycles) for each active wave.
+          </p>
+        </div>
+        <CohortFilter />
       </div>
 
       <div className="flex flex-wrap items-center gap-3">

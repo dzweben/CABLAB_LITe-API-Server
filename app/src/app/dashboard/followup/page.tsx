@@ -3,6 +3,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import type { Participant, WaveYear, SentLogEntry } from "@/types";
 import { WAVE_YEARS, WAVE_LABELS, pidSort, formatDate, formatDateTime } from "@/lib/lite-utils";
+import { useCohort, cohortMatches } from "@/lib/cohort";
+import CohortFilter from "@/components/CohortFilter";
 
 // Mirrors the Follow up.{N} Google Sheet the team has been maintaining
 // for years. Rows match the sheet 1:1 so coordinators see the same
@@ -16,6 +18,7 @@ export default function FollowupPage() {
   const [statusFilter, setStatusFilter] = useState<"all" | "outstanding" | "v2_done" | "v1_only">("all");
   const [search, setSearch] = useState("");
   const [expandedPid, setExpandedPid] = useState<string | null>(null);
+  const [cohort] = useCohort();
 
   useEffect(() => {
     Promise.all([
@@ -38,7 +41,7 @@ export default function FollowupPage() {
   }, [sent]);
 
   const rows = useMemo(() => {
-    let xs = participants.filter(p => p.waves[wave]);
+    let xs = participants.filter(p => p.waves[wave] && cohortMatches(p.pid, cohort));
     if (statusFilter === "v2_done") {
       xs = xs.filter(p => p.waves[wave]?.v2?.allComplete);
     } else if (statusFilter === "v1_only") {
@@ -48,28 +51,31 @@ export default function FollowupPage() {
     }
     if (search.trim()) {
       const s = search.trim().toLowerCase();
-      xs = xs.filter(p => p.pid.toLowerCase().includes(s)
-        || (p.contact.firstName + " " + p.contact.lastName).toLowerCase().includes(s));
+      xs = xs.filter(p => p.pid.toLowerCase().includes(s));
     }
     return xs;
-  }, [participants, wave, statusFilter, search]);
+  }, [participants, wave, statusFilter, search, cohort]);
 
   const stats = useMemo(() => {
-    const inWave = participants.filter(p => p.waves[wave]).length;
-    const v1Done = participants.filter(p => p.waves[wave]?.v1?.allComplete).length;
-    const v2Done = participants.filter(p => p.waves[wave]?.v2?.allComplete).length;
-    const fromSheet = participants.filter(p => p.waves[wave]?.followupSheet).length;
+    const scoped = participants.filter(p => cohortMatches(p.pid, cohort));
+    const inWave = scoped.filter(p => p.waves[wave]).length;
+    const v1Done = scoped.filter(p => p.waves[wave]?.v1?.allComplete).length;
+    const v2Done = scoped.filter(p => p.waves[wave]?.v2?.allComplete).length;
+    const fromSheet = scoped.filter(p => p.waves[wave]?.followupSheet).length;
     return { inWave, v1Done, v2Done, fromSheet };
-  }, [participants, wave]);
+  }, [participants, wave, cohort]);
 
   return (
     <div className="space-y-5">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900">Follow-up Tracker</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          V1 → V2 lifecycle plus the team-maintained STS / EMA send log
-          from the <code className="text-xs px-1 py-0.5 bg-gray-100 rounded">Follow&nbsp;up.{wave}</code> Google Sheet.
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Follow-up Tracker</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            V1 → V2 lifecycle plus the team-maintained STS / EMA send log
+            from the <code className="text-xs px-1 py-0.5 bg-gray-100 rounded">Follow&nbsp;up.{wave}</code> Google Sheet.
+          </p>
+        </div>
+        <CohortFilter />
       </div>
 
       {/* Stat row */}

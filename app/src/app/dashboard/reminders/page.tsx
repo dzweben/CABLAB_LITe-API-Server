@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { WAVE_LABELS, formatDateTime, relativeDate } from "@/lib/lite-utils";
+import { useCohort, cohortMatches } from "@/lib/cohort";
+import CohortFilter from "@/components/CohortFilter";
 
 interface DueRow {
   pid: string;
@@ -21,6 +23,7 @@ export default function RemindersPage() {
   const [search, setSearch] = useState("");
   const [scope, setScope] = useState<"all" | "today" | "next24" | "next7">("today");
   const [kindFilter, setKindFilter] = useState<"all" | "sts1" | "sts2" | "ema" | "athome">("all");
+  const [cohort] = useCohort();
 
   useEffect(() => {
     fetch("/api/data/due-reminders").then(r => r.json()).then(d => {
@@ -29,7 +32,7 @@ export default function RemindersPage() {
   }, []);
 
   const filtered = useMemo(() => {
-    let xs = due;
+    let xs = due.filter(d => cohortMatches(d.pid, cohort));
     const now = Date.now();
     if (scope === "today") {
       const end = new Date(); end.setHours(23, 59, 59, 999);
@@ -56,7 +59,7 @@ export default function RemindersPage() {
       xs = xs.filter(d => d.pid.toLowerCase().includes(s) || d.instrument.toLowerCase().includes(s));
     }
     return xs;
-  }, [due, search, scope, kindFilter]);
+  }, [due, search, scope, kindFilter, cohort]);
 
   const byKind = useMemo(() => {
     const m: Record<string, number> = {};
@@ -66,11 +69,14 @@ export default function RemindersPage() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900">Outgoing Queue</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          Reminders the next refresh cycle will send. Drawn from <code className="text-xs">private/data/due-reminders.json</code>.
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Outgoing Queue</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Reminders the next refresh cycle will send. Drawn from <code className="text-xs">private/data/due-reminders.json</code>.
+          </p>
+        </div>
+        <CohortFilter />
       </div>
 
       {/* Kind summary chips */}

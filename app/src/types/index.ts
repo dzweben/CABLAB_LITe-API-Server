@@ -34,6 +34,10 @@ export interface AtHomeStatus {
   timestamp: string | null;       // [visit_1_y{N}_arm_1][timestamp_athome] — set when in-lab break_1 hits 2
   break1Complete: CompletionCode; // gates the at-home send
   athomeMeasuresComplete: CompletionCode;
+  // Every <something>_complete code surfaced from the per-wave at-home
+  // REDCap report (e.g. 10824 for Y1). Lets the dashboard show generic
+  // section-by-section completion without hard-coding instrument names.
+  formsFromReport?: Record<string, CompletionCode>;
 }
 
 export interface STSCycle {
@@ -63,6 +67,8 @@ export interface EMAStatus {
   enableSent: boolean;            // tracked client-side via sent-log
   phone: string;                  // ema_phone (which line to text for EMA)
   prompts: EMAPrompt[];           // ~20 timed prompts per cycle
+  // Non-prompt _complete codes surfaced from the per-wave EMA report.
+  formsFromReport?: Record<string, CompletionCode>;
 }
 
 export interface VisitStatus {

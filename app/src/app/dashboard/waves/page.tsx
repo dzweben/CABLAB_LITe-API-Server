@@ -3,12 +3,15 @@
 import { useEffect, useState, useMemo } from "react";
 import type { Participant, WaveYear } from "@/types";
 import { WAVE_YEARS, WAVE_LABELS, pidSort, formatDate, pillColor, stsCompleteCount, stsAllComplete } from "@/lib/lite-utils";
+import { useCohort, cohortMatches } from "@/lib/cohort";
+import CohortFilter from "@/components/CohortFilter";
 
 export default function WavesPage() {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeWave, setActiveWave] = useState<WaveYear>(1);
   const [search, setSearch] = useState("");
+  const [cohort] = useCohort();
 
   useEffect(() => {
     fetch("/api/data/participants").then(r => r.json()).then(d => {
@@ -17,22 +20,25 @@ export default function WavesPage() {
   }, []);
 
   const rows = useMemo(() => {
-    let xs = participants.filter(p => p.waves[activeWave]);
+    let xs = participants.filter(p => p.waves[activeWave] && cohortMatches(p.pid, cohort));
     if (search.trim()) {
       const s = search.trim().toLowerCase();
       xs = xs.filter(p => p.pid.toLowerCase().includes(s));
     }
     return xs;
-  }, [participants, activeWave, search]);
+  }, [participants, activeWave, search, cohort]);
 
   return (
     <div className="space-y-5">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900">Waves Y1 / Y2 / Y3</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          Per-wave participant grid. Each row shows the full lifecycle:
-          V1 → at-home → STS1 → STS2 → EMA → V2.
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Waves Y1 / Y2 / Y3</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Per-wave participant grid. Each row shows the full lifecycle:
+            V1 → at-home → STS1 → STS2 → EMA → V2.
+          </p>
+        </div>
+        <CohortFilter />
       </div>
 
       <div className="flex flex-wrap items-center gap-3">

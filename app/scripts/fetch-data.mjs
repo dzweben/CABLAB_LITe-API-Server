@@ -174,6 +174,14 @@ async function fetchAllRecordsStreaming(byRecord) {
   return total;
 }
 
+async function fetchReport(reportId) {
+  const csv = await redcapPost({
+    content: "report", format: "csv", report_id: String(reportId),
+    rawOrLabel: "raw", rawOrLabelHeaders: "raw",
+  });
+  return parseCSV(csv);
+}
+
 async function fetchSurveyLink(recordId, evtName, instrument) {
   try {
     const txt = await redcapPost({
@@ -601,12 +609,90 @@ async function main() {
   console.log(`  Got ${total} REDCap rows, grouped into ${Object.keys(byRecord).length} records`);
 
   const participants = [];
+  let droppedOutOfRange = 0;
   for (const recordRows of Object.values(byRecord)) {
     const p = pivotParticipant(recordRows);
-    if (p) participants.push(p);
+    if (!p) continue;
+    // Cohort scope: only PIDs in [1000, 3999]. Everything else is a test
+    // record, screener residue, or pre-cohort entry that shouldn't appear
+    // on the dashboard.
+    const pidNum = Number(String(p.pid).replace(/\.0$/, ""));
+    if (!isFinite(pidNum) || pidNum < 1000 || pidNum > 3999) { droppedOutOfRange++; continue; }
+    participants.push(p);
   }
   participants.sort((a, b) => a.pid.localeCompare(b.pid));
-  console.log(`  Pivoted to ${participants.length} participants`);
+  console.log(`  Pivoted to ${participants.length} participants (dropped ${droppedOutOfRange} out-of-range)`);
+
+  // EMA + at-home completion reports per wave (saved REDCap reports the
+  // legacy team already maintains). Each row is indexed by record_id.
+  const COMPLETION_REPORTS = {
+    1: { ema: "10821", atHome: "10824" },
+    2: { ema: "7111",  atHome: "6787"  },
+    3: { ema: "10820", atHome: "10823" },
+  };
+  const reportData = {};  // recordId → { emaY1: {...}, atHomeY1: {...}, ... }
+  for (const w of WAVES) {
+    const ids = COMPLETION_REPORTS[w];
+    for (const kind of ["ema", "atHome"]) {
+      try {
+        const rows = await fetchReport(ids[kind]);
+        console.log(`  Report ${ids[kind]} (${kind} y${w}): ${rows.length} rows`);
+        for (const r of rows) {
+          const rid = r.record_id;
+          if (!rid) continue;
+          if (!reportData[rid]) reportData[rid] = {};
+          reportData[rid][`${kind}Y${w}`] = r;
+        }
+      } catch (err) {
+        console.warn(`  ! Report ${ids[kind]} failed: ${err.message}`);
+      }
+    }
+  }
+  // Stitch the report rows into the participant's wave structure.
+  // The reports vary in field names, but a row indicates the participant
+  // has at least started that event. We harvest every key ending in
+  // _complete and store it as forms[k] = code so the dashboard can render
+  // generic completion counts even when we don't know the exact form name.
+  for (const p of participants) {
+    const rd = reportData[p.recordId];
+    if (!rd) continue;
+    for (const w of WAVES) {
+      const wave = p.waves[w];
+      if (!wave) continue;
+      const ema = rd[`emaY${w}`];
+      if (ema && wave.ema) {
+        // Overlay EMA prompt completion using the report's _complete fields
+        for (const prompt of wave.ema.prompts) {
+          const compField = `${prompt.key}_complete`;
+          if (ema[compField] !== undefined) {
+            prompt.complete = num(ema[compField]) === 2;
+          }
+        }
+        // Surface any other _complete codes onto a forms map
+        const forms = {};
+        for (const k of Object.keys(ema)) {
+          if (k.endsWith("_complete") && !k.match(/^ema_[a-z]+\d?_\d+_complete$/)) {
+            forms[k.replace(/_complete$/, "")] = num(ema[k]);
+          }
+        }
+        wave.ema.formsFromReport = forms;
+      }
+      const ah = rd[`atHomeY${w}`];
+      if (ah) {
+        // Build/overlay the at-home status with whatever the report knows
+        if (!wave.atHome) wave.atHome = { timestamp: null, break1Complete: 0, athomeMeasuresComplete: 0 };
+        if (ah.timestamp_athome) wave.atHome.timestamp = ah.timestamp_athome;
+        if (ah.break_1_complete !== undefined) wave.atHome.break1Complete = num(ah.break_1_complete);
+        if (ah.athome_measures_complete !== undefined) wave.atHome.athomeMeasuresComplete = num(ah.athome_measures_complete);
+        // Detail completion codes for every _complete field in the report
+        const forms = {};
+        for (const k of Object.keys(ah)) {
+          if (k.endsWith("_complete")) forms[k.replace(/_complete$/, "")] = num(ah[k]);
+        }
+        wave.atHome.formsFromReport = forms;
+      }
+    }
+  }
 
   // Merge in Google Sheets data (Follow up.1 + .2)
   const followupByPid = await fetchFollowupSheet();

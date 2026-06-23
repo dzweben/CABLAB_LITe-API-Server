@@ -3,6 +3,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import type { Participant, WaveYear } from "@/types";
 import { WAVE_YEARS, WAVE_LABELS, pidSort, formatDateTime } from "@/lib/lite-utils";
+import { useCohort, cohortMatches } from "@/lib/cohort";
+import CohortFilter from "@/components/CohortFilter";
 
 export default function EMAPage() {
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -11,6 +13,7 @@ export default function EMAPage() {
   const [showOnlyActive, setShowOnlyActive] = useState(true);
   const [expandedPid, setExpandedPid] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [cohort] = useCohort();
 
   useEffect(() => {
     fetch("/api/data/participants").then(r => r.json()).then(d => {
@@ -19,22 +22,25 @@ export default function EMAPage() {
   }, []);
 
   const rows = useMemo(() => {
-    let xs = participants.filter(p => p.waves[wave]?.ema);
+    let xs = participants.filter(p => p.waves[wave]?.ema && cohortMatches(p.pid, cohort));
     if (showOnlyActive) xs = xs.filter(p => p.waves[wave]?.ema?.active);
     if (search.trim()) {
       const s = search.trim().toLowerCase();
       xs = xs.filter(p => p.pid.toLowerCase().includes(s));
     }
     return xs;
-  }, [participants, wave, showOnlyActive, search]);
+  }, [participants, wave, showOnlyActive, search, cohort]);
 
   return (
     <div className="space-y-5">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900">EMA Tracker</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          Ecological Momentary Assessment — 25 timed micro-surveys over 2 weeks per active cycle.
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">EMA Tracker</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Ecological Momentary Assessment — 25 timed micro-surveys over 2 weeks per active cycle.
+          </p>
+        </div>
+        <CohortFilter />
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
