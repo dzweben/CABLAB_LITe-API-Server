@@ -428,68 +428,82 @@ function computeDueReminders(participants) {
       // and moved on. No sends for this wave anymore.
       if (wave.v2?.allComplete) continue;
 
-      // STS1 + STS2 — canonical schedule only.
-      //   Invite fires at the cycle date.
-      //   Daily follow-up (alerts 54–59 / 93–95) for days 1–6 after if
-      //   the survey is still incomplete.
-      // We do NOT re-invite cycles whose date is already past — those
-      // sends already happened (or were skipped); the team handles
-      // chasing those manually.
+      // STS1 + STS2 — two regimes, both surfaced on the dashboard but
+      // only the canonical one auto-sends:
+      //   AUTO (mode:"auto"):  canonical invite at the cycle date +
+      //                        days 1–6 follow-ups if incomplete.
+      //   MANUAL (mode:"manual"): cycle date is already past AND the
+      //                        survey is still incomplete. The original
+      //                        auto-send fired; the team needs to chase
+      //                        manually. Surfaces in the dashboard so
+      //                        coordinators see who's behind, but the
+      //                        send-script ignores anything mode:manual.
       const queueSts = (cycles, kind, inviteAlertBase, followupAlertBase, instrumentNum) => {
         cycles?.forEach((c, idx) => {
           const baseT = toEpoch(c.date);
           if (baseT == null) return;
           const done = c.complete === 2;
+          if (done) return;  // nothing to do once the survey is complete
 
-          // Initial invite — only when the cycle date is upcoming.
           if (baseT >= now && baseT <= horizon) {
+            // AUTO: upcoming canonical invite
             const iso = safeIso(baseT);
             if (iso) out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
               alertId: inviteAlertBase + idx,
               kind: `${kind}_invite`,
               instrument: `Screen Time Auto Invite ${instrumentNum}.${idx + 1}`,
-              scheduledAt: iso, complete: done, overdue: false,
+              scheduledAt: iso, complete: false, mode: "auto",
             });
-          }
-
-          // 6-day follow-up window. Works whether base is past or future
-          // as long as some of the follow-up days land in [now, horizon].
-          if (!done) {
+            // AUTO: days 1–6 follow-up window
             for (let d = 1; d <= 6; d++) {
               const t = baseT + d * 24 * 3600 * 1000;
               if (t < now || t > horizon) continue;
-              const iso = safeIso(t); if (!iso) continue;
+              const isoFu = safeIso(t); if (!isoFu) continue;
               out.push({
                 pid: p.pid, recordId: p.recordId, wave: w,
                 alertId: followupAlertBase + idx,
                 kind: `${kind}_followup`,
                 instrument: `Screen Time Follow Up ${instrumentNum}.${idx + 1} (day ${d})`,
-                scheduledAt: iso, complete: false, overdue: false,
+                scheduledAt: isoFu, complete: false, mode: "auto",
               });
             }
+          } else if (baseT < now) {
+            // MANUAL: past-due, incomplete. Surface once per cycle so
+            // the coordinator sees who needs a chase.
+            const isoNow = safeIso(now);
+            if (isoNow) out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId: inviteAlertBase + idx,
+              kind: `${kind}_invite`,
+              instrument: `Screen Time ${instrumentNum}.${idx + 1} — needs manual chase`,
+              scheduledAt: isoNow, complete: false, mode: "manual",
+              daysOverdue: Math.floor((now - baseT) / (24 * 3600 * 1000)),
+            });
           }
+          // Otherwise (baseT > horizon) — too far out, skip
         });
       };
       queueSts(wave.sts1?.cycles, "sts1", 48, 54, "1");
       queueSts(wave.sts2?.cycles, "sts2", 89, 93, "2");
       // EMA prompts (alerts 64-88) — each fires at its own REDCap-computed
-      // datetime. Conditions: cycle active, settings not yet locked.
+      // datetime. AUTO when upcoming; MANUAL chase when past + incomplete.
       wave.ema?.prompts.forEach(prompt => {
         if (!wave.ema?.active) return;
         if (wave.ema.settingsComplete === 2 || wave.ema.settingsComplete === 1) return;
+        if (prompt.complete) return;
         if (!prompt.scheduledAt) return;
         const t = toEpoch(prompt.scheduledAt);
-        if (t == null || t < now || t > horizon) return;
-        const iso = safeIso(t); if (!iso) return;
-        out.push({
-          pid: p.pid, recordId: p.recordId, wave: w,
-          alertId: 64, kind: "ema_prompt",
-          emaKey: prompt.key,
-          instrument: `EMA ${prompt.dayLabel} ${prompt.timeLabel}`,
-          scheduledAt: iso,
-          complete: prompt.complete,
-        });
+        if (t == null) return;
+        if (t >= now && t <= horizon) {
+          const iso = safeIso(t); if (!iso) return;
+          out.push({
+            pid: p.pid, recordId: p.recordId, wave: w,
+            alertId: 64, kind: "ema_prompt", emaKey: prompt.key,
+            instrument: `EMA ${prompt.dayLabel} ${prompt.timeLabel}`,
+            scheduledAt: iso, complete: false, mode: "auto",
+          });
+        }
       });
 
       // EMA Enable (alert 63) — fires 3d8h before ema_start_day when:
@@ -507,8 +521,7 @@ function computeDueReminders(participants) {
               pid: p.pid, recordId: p.recordId, wave: w,
               alertId: 63, kind: "ema_enable",
               instrument: `EMA Y${w} Enable`,
-              scheduledAt: iso,
-              complete: false,
+              scheduledAt: iso, complete: false, mode: "auto",
             });
           }
         }
@@ -529,16 +542,27 @@ function computeDueReminders(participants) {
         const baseT = lastCycle?.date ? toEpoch(lastCycle.date) : null;
         if (baseT != null) {
           const sendT = baseT + 5 * 24 * 3600 * 1000;
+          const age = p.contact?.age;
+          const alertId = (age != null && age < 13) ? 288 : 287;
+          const variant = (age != null && age < 13) ? "<13" : "13+";
           if (sendT >= now && sendT <= horizon) {
             const iso = safeIso(sendT);
-            const age = p.contact?.age;
-            const alertId = (age != null && age < 13) ? 288 : 287;
-            const variant = (age != null && age < 13) ? "<13" : "13+";
             if (iso) out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
               alertId, kind: "payment_email",
               instrument: `W${w} ${variant} STS-EMA Payment email`,
-              scheduledAt: iso, complete: false,
+              scheduledAt: iso, complete: false, mode: "auto",
+            });
+          } else if (sendT < now) {
+            // MANUAL chase — payment-email window already passed but
+            // payment not yet redeemed. Coordinator sends manually.
+            const iso = safeIso(now);
+            if (iso) out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId, kind: "payment_email",
+              instrument: `W${w} ${variant} STS-EMA Payment — needs manual chase`,
+              scheduledAt: iso, complete: false, mode: "manual",
+              daysOverdue: Math.floor((now - sendT) / (24 * 3600 * 1000)),
             });
           }
         }
@@ -569,15 +593,26 @@ function computeDueReminders(participants) {
                 pid: p.pid, recordId: p.recordId, wave: w,
                 alertId: 60, kind: "athome_sms",
                 instrument: "At-Home Survey Send (Text)",
-                scheduledAt: iso, complete: false,
+                scheduledAt: iso, complete: false, mode: "auto",
               });
               out.push({
                 pid: p.pid, recordId: p.recordId, wave: w,
                 alertId: 61, kind: "athome_email",
                 instrument: "At-Home Survey Send (Email)",
-                scheduledAt: iso, complete: false,
+                scheduledAt: iso, complete: false, mode: "auto",
               });
             }
+          } else if (sendT < now) {
+            // MANUAL chase — at-home send window passed, survey
+            // incomplete, V2 still pending. Coordinator emails manually.
+            const iso = safeIso(now);
+            if (iso) out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId: 60, kind: "athome_sms",
+              instrument: "At-Home Survey — needs manual chase",
+              scheduledAt: iso, complete: false, mode: "manual",
+              daysOverdue: Math.floor((now - sendT) / (24 * 3600 * 1000)),
+            });
           }
         }
       }

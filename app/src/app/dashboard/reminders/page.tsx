@@ -19,6 +19,8 @@ interface DueRow {
   complete: boolean;
   overdue?: boolean;
   surveyLink?: string | null;
+  mode?: "auto" | "manual";
+  daysOverdue?: number;
 }
 
 // Kind → display config
@@ -42,6 +44,7 @@ export default function RemindersPage() {
   const [search, setSearch] = useState("");
   const [scope, setScope] = useState<"all" | "today" | "next24" | "next7" | "next14">("next7");
   const [kindFilter, setKindFilter] = useState<"all" | "sts1" | "sts2" | "ema" | "athome" | "payment">("all");
+  const [modeFilter, setModeFilter] = useState<"all" | "auto" | "manual">("all");
   const [hideCompleted, setHideCompleted] = useState(true);
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
   const [cohort] = useCohort();
@@ -66,6 +69,7 @@ export default function RemindersPage() {
   const filtered = useMemo(() => {
     let xs = due.filter(d => cohortMatches(d.pid, cohort));
     if (hideCompleted) xs = xs.filter(d => !d.complete);
+    if (modeFilter !== "all") xs = xs.filter(d => (d.mode || "auto") === modeFilter);
     const now = Date.now();
     if (scope === "today") {
       const start = new Date(); start.setHours(0, 0, 0, 0);
@@ -98,7 +102,7 @@ export default function RemindersPage() {
       xs = xs.filter(d => d.pid.toLowerCase().includes(s) || d.instrument.toLowerCase().includes(s));
     }
     return xs;
-  }, [due, search, scope, kindFilter, cohort, hideCompleted]);
+  }, [due, search, scope, kindFilter, cohort, hideCompleted, modeFilter]);
 
   // Group by Eastern-time day so a 10 PM Eastern send doesn't slip into
   // tomorrow's bucket. (toLocaleDateString respects the browser's tz which
@@ -151,10 +155,18 @@ export default function RemindersPage() {
 
       {/* Headline counters */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Stat label="Reminders queued" value={filtered.length} accent="indigo" />
-        <Stat label="Outgoing messages" value={totalMessages} accent="purple" suffix=" total" />
+        <Stat
+          label="Auto-send queued"
+          value={filtered.filter(d => (d.mode || "auto") === "auto").length}
+          accent="indigo"
+        />
+        <Stat
+          label="Manual chase"
+          value={filtered.filter(d => d.mode === "manual").length}
+          accent="amber"
+        />
         <Stat label="Distinct participants" value={new Set(filtered.map(d => d.pid)).size} accent="emerald" />
-        <Stat label="Days covered" value={grouped.length} accent="amber" />
+        <Stat label="Days covered" value={grouped.length} accent="purple" />
       </div>
 
       {/* Kind chips */}
@@ -171,6 +183,23 @@ export default function RemindersPage() {
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
+        <div className="inline-flex rounded-lg border border-gray-200 bg-white p-1">
+          {([
+            ["all", "Auto + Manual"],
+            ["auto", "Auto-send only"],
+            ["manual", "Manual chase only"],
+          ] as const).map(([m, label]) => (
+            <button
+              key={m}
+              onClick={() => setModeFilter(m)}
+              className={`px-3 py-1.5 text-sm font-medium rounded-md ${
+                modeFilter === m ? "bg-indigo-600 text-white" : "text-gray-600 hover:bg-gray-50"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
         <div className="inline-flex rounded-lg border border-gray-200 bg-white p-1">
           {([
             ["today", "Today"],
@@ -311,6 +340,14 @@ function DayBlock({
                 <span className="text-sm font-mono text-gray-500 w-20 shrink-0 tabular-nums">{formatTime(d.scheduledAt)}</span>
                 <span className="font-mono font-semibold text-gray-900 w-14 shrink-0">{d.pid}</span>
                 <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-semibold ${meta.color} shrink-0`}>{meta.label}</span>
+                {d.mode === "manual" && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300 shrink-0">
+                    MANUAL CHASE
+                    {typeof d.daysOverdue === "number" && d.daysOverdue > 0 && (
+                      <span className="font-mono">· {d.daysOverdue}d behind</span>
+                    )}
+                  </span>
+                )}
                 <span className="text-sm text-gray-700 truncate flex-1 min-w-0">{d.instrument}</span>
                 <span className="text-xs text-gray-400 shrink-0">W{d.wave}</span>
                 <div className="inline-flex gap-1 shrink-0">

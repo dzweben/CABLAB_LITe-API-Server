@@ -196,6 +196,7 @@ async function main() {
   const fires = due.filter(d => {
     if (postponed.has(String(d.pid).toLowerCase())) return false;
     if (d.complete) return false;                            // survey already done — don't bug them
+    if (d.mode === "manual") return false;                   // visibility only — coordinator handles
     const t = new Date(d.scheduledAt).getTime();
     if (isNaN(t) || t < lo || t > hi) return false;
     if (alreadySent.has(dueKey(d))) return false;
