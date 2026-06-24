@@ -74,10 +74,10 @@ export default function WavesPage() {
                   <th className="text-left px-4 py-3 font-semibold">PID</th>
                   <th className="text-center px-4 py-3 font-semibold">V1</th>
                   <th className="text-center px-4 py-3 font-semibold">At-home</th>
+                  <th className="text-center px-4 py-3 font-semibold">V2</th>
                   <th className="text-center px-4 py-3 font-semibold">STS1 (1-6)</th>
                   <th className="text-center px-4 py-3 font-semibold">STS2 (1-3)</th>
                   <th className="text-center px-4 py-3 font-semibold">EMA</th>
-                  <th className="text-center px-4 py-3 font-semibold">V2</th>
                 </tr>
               </thead>
               <tbody>
@@ -86,6 +86,11 @@ export default function WavesPage() {
                 )}
                 {rows.map(p => {
                   const w = p.waves[activeWave]!;
+                  const ahLabel = w.atHome?.athomeMeasuresComplete === 2
+                    ? "Complete"
+                    : (w.atHome?.sectionsTotal != null && w.atHome.sectionsTotal > 0
+                      ? `${w.atHome.sectionsComplete ?? 0}/${w.atHome.sectionsTotal}`
+                      : (w.atHome?.timestamp ? "Started" : "—"));
                   return (
                     <tr key={p.pid} className="border-b border-gray-100 hover:bg-gray-50">
                       <td className="px-4 py-3 font-mono font-medium">{p.pid}</td>
@@ -97,8 +102,14 @@ export default function WavesPage() {
                       </td>
                       <td className="px-4 py-3 text-center">
                         <Pill
-                          color={w.atHome?.athomeMeasuresComplete === 2 ? "emerald" : w.atHome?.timestamp ? "amber" : "gray"}
-                          label={w.atHome?.timestamp ? "Started" : "—"}
+                          color={w.atHome?.athomeMeasuresComplete === 2 ? "emerald" : (w.atHome?.athomeMeasuresComplete === 1 || w.atHome?.timestamp) ? "amber" : "gray"}
+                          label={ahLabel}
+                        />
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <Pill
+                          color={w.v2?.allComplete ? "emerald" : w.v2 ? "amber" : "gray"}
+                          label={w.v2?.date ? formatDate(w.v2.date) : "—"}
                         />
                       </td>
                       <td className="px-4 py-3 text-center">
@@ -110,13 +121,7 @@ export default function WavesPage() {
                       <td className="px-4 py-3 text-center">
                         <Pill
                           color={w.ema?.active ? "purple" : "gray"}
-                          label={w.ema?.active ? `${w.ema.prompts.filter(p => p.complete).length}/${w.ema.prompts.length}` : "—"}
-                        />
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <Pill
-                          color={w.v2?.allComplete ? "emerald" : w.v2 ? "amber" : "gray"}
-                          label={w.v2?.date ? formatDate(w.v2.date) : "—"}
+                          label={w.ema?.active ? `${w.ema.promptsCompleteCount ?? w.ema.prompts.filter(p => p.complete).length}/${w.ema.promptsTotal ?? w.ema.prompts.length}` : "—"}
                         />
                       </td>
                     </tr>
