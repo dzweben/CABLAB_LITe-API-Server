@@ -914,16 +914,18 @@ async function main() {
   const gated = [];
   for (const p of participants) {
     if (!p.waves[1]?.v1?.allComplete) { droppedNoY1V1++; continue; }
-    // Per-wave gate: scrub waves where this wave's V1 hasn't happened.
-    // Keep the wave entry only if v1.allComplete (or v2.allComplete — the
-    // participant has clearly been in this wave even if our V1 record is
-    // missing).
+    // Per-wave gate: keep the wave entry if the team is actively
+    // tracking the participant for that wave OR they have any actual
+    // event data for it. The only thing we drop is completely-empty
+    // wave entries (no V1, no V2, no sheet, no REDCap event rows).
     for (const w of WAVES) {
       const wave = p.waves[w];
       if (!wave) continue;
-      const hasV1 = !!wave.v1?.allComplete;
-      const hasV2 = !!wave.v2?.allComplete;
-      if (!hasV1 && !hasV2) {
+      const hasAnyData = !!(
+        wave.v1?.allComplete || wave.v2?.allComplete ||
+        wave.followupSheet || wave.sts1 || wave.sts2 || wave.ema || wave.atHome
+      );
+      if (!hasAnyData) {
         delete p.waves[w];
       }
     }
