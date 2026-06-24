@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import type { Participant } from "@/types";
-import { WAVE_LABELS, formatDateTime, relativeDate } from "@/lib/lite-utils";
+import { WAVE_LABELS, formatDateTime, formatTime, relativeDate } from "@/lib/lite-utils";
 import { useCohort, cohortMatches } from "@/lib/cohort";
 import CohortFilter from "@/components/CohortFilter";
 
@@ -96,12 +96,17 @@ export default function RemindersPage() {
     return xs;
   }, [due, search, scope, kindFilter, cohort, hideCompleted]);
 
-  // Group by day (Eastern), then within day order chronologically
+  // Group by Eastern-time day so a 10 PM Eastern send doesn't slip into
+  // tomorrow's bucket. (toLocaleDateString respects the browser's tz which
+  // for our coordinators is Philly.)
   const grouped = useMemo(() => {
     const byDay: Record<string, DueRow[]> = {};
+    const dayKey = (iso: string) => {
+      const d = new Date(iso);
+      return isNaN(d.getTime()) ? iso.slice(0, 10) : d.toLocaleDateString("en-CA"); // YYYY-MM-DD in local tz
+    };
     for (const d of filtered) {
-      const key = d.scheduledAt.slice(0, 10);
-      (byDay[key] ||= []).push(d);
+      (byDay[dayKey(d.scheduledAt)] ||= []).push(d);
     }
     return Object.entries(byDay)
       .map(([day, items]) => ({
@@ -297,7 +302,7 @@ function DayBlock({
                 onClick={() => onToggle(key)}
                 className="w-full text-left px-5 py-2.5 hover:bg-gray-50 transition-colors flex items-center gap-3 flex-wrap"
               >
-                <span className="text-sm font-mono text-gray-500 w-16 shrink-0 tabular-nums">{d.scheduledAt.slice(11, 16)}</span>
+                <span className="text-sm font-mono text-gray-500 w-20 shrink-0 tabular-nums">{formatTime(d.scheduledAt)}</span>
                 <span className="font-mono font-semibold text-gray-900 w-14 shrink-0">{d.pid}</span>
                 <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-semibold ${meta.color} shrink-0`}>{meta.label}</span>
                 <span className="text-sm text-gray-700 truncate flex-1 min-w-0">{d.instrument}</span>
