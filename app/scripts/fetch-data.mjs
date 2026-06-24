@@ -864,13 +864,14 @@ async function main() {
 
   // Merge in Google Sheets data (Follow up.1 + .2)
   //
-  // IMPORTANT: the sheet is DISPLAY context — schedule months, STS labels,
-  // V2 date (which in Follow up.2 is actually the PRIOR wave's V2 date, the
-  // entry into Y2). It is NOT a source of truth for V1/V2 *completion*.
-  // Trust REDCap's per-form completion codes for that. Setting
-  // v1.allComplete=true just because someone exists in the sheet over-counts
-  // V1 done by including participants who've only been registered for the
-  // wave but haven't actually done V1 yet.
+  // Sheet semantics the team actually uses:
+  //   Follow up.1 = added MANUALLY once Y1 V1 happens → presence = Y1 V1 done.
+  //   Follow up.2 = added MANUALLY once Y1 V2 happens (entry into Y2 tracking)
+  //                  → presence = Y1 V2 done, BUT NOT Y2 V1 done. Y2 V1 has
+  //                  to come from REDCap.
+  //   Follow up.2 col M "WAVE 2, V2 Date" = Y1's V2 date (entry into Y2),
+  //                  NOT Y2's V2 date.
+  // For Y2 V1 / V2, trust REDCap completion codes only.
   const followupByPid = await fetchFollowupSheet();
   let merged = 0;
   for (const p of participants) {
@@ -881,9 +882,10 @@ async function main() {
     if (sheet.y1) {
       if (!p.waves[1]) p.waves[1] = { year: 1, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
       p.waves[1].followupSheet = sheet.y1;
-      // Sheet's "Visit 2" date (Follow up.1 col N) IS Y1's V2 date —
-      // safe to use as a display date when REDCap doesn't have one.
-      // But only mark V2 complete if REDCap actually says so.
+      // Y1 V1 done = exists in Follow up.1 (team adds them post-V1)
+      if (!p.waves[1].v1) p.waves[1].v1 = { date: null, forms: {}, allComplete: true };
+      else p.waves[1].v1.allComplete = true;
+      // "Visit 2" col N is Y1 V2 date — display only.
       if (hasValue(sheet.y1.v2Date) && p.waves[1].v2 && !p.waves[1].v2.date) {
         p.waves[1].v2.date = String(sheet.y1.v2Date);
       }
@@ -891,12 +893,15 @@ async function main() {
     if (sheet.y2) {
       if (!p.waves[2]) p.waves[2] = { year: 2, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
       p.waves[2].followupSheet = sheet.y2;
-      // Follow up.2 col M "WAVE 2, V2 Date" is Y1's V2 date (the entry
-      // date into Y2 tracking) — NOT Y2's V2. Use it as Y1 V2 display
-      // when REDCap is missing it.
-      if (hasValue(sheet.y2.v2Date) && p.waves[1]?.v2 && !p.waves[1].v2.date) {
+      // Y1 V2 done = exists in Follow up.2 (team adds them post-Y1-V2)
+      if (!p.waves[1]) p.waves[1] = { year: 1, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
+      if (!p.waves[1].v2) p.waves[1].v2 = { date: null, forms: {}, allComplete: true };
+      else p.waves[1].v2.allComplete = true;
+      // Backfill Y1 V2 date from sheet col M when REDCap is missing it.
+      if (hasValue(sheet.y2.v2Date) && !p.waves[1].v2.date) {
         p.waves[1].v2.date = String(sheet.y2.v2Date);
       }
+      // Y2 V1/V2: do NOT set from sheet — only REDCap.
     }
   }
   console.log(`  Merged followup-sheet data into ${merged} participants`);
