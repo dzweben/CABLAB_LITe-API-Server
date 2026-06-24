@@ -28,6 +28,7 @@ const KIND_META: Record<string, { label: string; color: string; channels: string
   ema_enable:       { label: "EMA enable",     color: "bg-emerald-50 text-emerald-700",  channels: ["sms"] },
   athome_sms:       { label: "At-home (SMS)",  color: "bg-amber-100 text-amber-800",     channels: ["sms"] },
   athome_email:     { label: "At-home (email)",color: "bg-amber-50 text-amber-700",      channels: ["email"] },
+  payment_email:    { label: "Payment email",  color: "bg-rose-100 text-rose-800",       channels: ["sms", "email"] },
   other:            { label: "Other",          color: "bg-gray-100 text-gray-700",       channels: [] },
 };
 
@@ -37,7 +38,7 @@ export default function RemindersPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [scope, setScope] = useState<"all" | "today" | "next24" | "next7" | "next14">("next7");
-  const [kindFilter, setKindFilter] = useState<"all" | "sts1" | "sts2" | "ema" | "athome">("all");
+  const [kindFilter, setKindFilter] = useState<"all" | "sts1" | "sts2" | "ema" | "athome" | "payment">("all");
   const [hideCompleted, setHideCompleted] = useState(true);
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
   const [cohort] = useCohort();
@@ -196,6 +197,7 @@ export default function RemindersPage() {
           <option value="sts2">STS2 (invite + follow-up)</option>
           <option value="ema">EMA</option>
           <option value="athome">At-home</option>
+          <option value="payment">Payment emails</option>
         </select>
         <label className="flex items-center gap-2 text-sm text-gray-600">
           <input

@@ -524,51 +524,73 @@ function computeDueReminders(participants) {
 
       // Payment email (alerts 287 / 288) — fires 5 days after the LAST
       // STS2 cycle date (screen_time_2_3_date), when ema_payment_email_button
-      // is set and the payment instrument hasn't been completed yet. The
-      // source CSV mistakenly says "screen_time_1_6_date" — coordinator
-      // confirmed it should be STS 2.3. 287 = 13+, 288 = <13.
+      // is set and the payment instrument hasn't been completed yet.
+      // 287 = 13+, 288 = <13. We queue OVERDUE payments too (sendT < now)
+      // so coordinators can see who needs a manual nudge.
       if (wave.ema?.paymentEmailButton && wave.ema.paymentComplete !== 2) {
         const lastCycle = wave.sts2?.cycles[wave.sts2.cycles.length - 1];
         const baseT = lastCycle?.date ? toEpoch(lastCycle.date) : null;
-        if (baseT != null) {
-          const sendT = baseT + 5 * 24 * 3600 * 1000;
-          if (sendT >= now && sendT <= horizon) {
-            const iso = safeIso(sendT);
-            const age = p.contact?.age;
-            const alertId = (age != null && age < 13) ? 288 : 287;
-            const variant = (age != null && age < 13) ? "<13" : "13+";
-            if (iso) out.push({
-              pid: p.pid, recordId: p.recordId, wave: w,
-              alertId, kind: "payment_email",
-              instrument: `W${w} ${variant} STS-EMA Payment email`,
-              scheduledAt: iso,
-              complete: false,
-            });
+        // Always schedule for the calculated time; if it's in the past,
+        // mark it as overdue but still queue so it surfaces in the UI.
+        const sendT = baseT != null ? baseT + 5 * 24 * 3600 * 1000 : now;
+        const iso = safeIso(sendT >= now ? sendT : now);
+        const age = p.contact?.age;
+        const alertId = (age != null && age < 13) ? 288 : 287;
+        const variant = (age != null && age < 13) ? "<13" : "13+";
+        const overdue = baseT != null && sendT < now;
+        if (iso && (sendT <= horizon || overdue)) {
+          out.push({
+            pid: p.pid, recordId: p.recordId, wave: w,
+            alertId, kind: "payment_email",
+            instrument: `W${w} ${variant} STS-EMA Payment email${overdue ? " (OVERDUE)" : ""}`,
+            scheduledAt: iso,
+            complete: false,
+            overdue,
+          });
+        }
+      }
+
+      // At-home survey reminders. Per the timeline these fire 3h45m
+      // after `timestamp_athome`, but that field isn't populated for
+      // anyone in the at-home report (the team sets it manually during
+      // V1, and that practice is inconsistent). Coordinator wants
+      // anyone in-progress (athomeMeasuresComplete = 1) to get
+      // reminders too. Queue daily until they finish.
+      const ah = wave.atHome;
+      if (ah && ah.athomeMeasuresComplete !== 2) {
+        const inProgress = ah.athomeMeasuresComplete === 1;
+        const hasStarted = !!ah.timestamp;
+        if (inProgress || hasStarted) {
+          // Anchor: either timestamp_athome (preferred) or "today" so
+          // the next reminder lands tomorrow morning.
+          const anchor = hasStarted ? toEpoch(ah.timestamp) : now;
+          if (anchor != null) {
+            const baseT = hasStarted ? anchor + (3 * 60 + 45) * 60 * 1000 : anchor;
+            // Daily for up to 7 days while incomplete.
+            for (let d = (hasStarted ? 0 : 1); d <= 7; d++) {
+              const t = baseT + d * 24 * 3600 * 1000;
+              if (t < now || t > horizon) continue;
+              const iso = safeIso(t); if (!iso) continue;
+              const label = d === 0 ? "At-Home Survey Send" : `At-Home Survey reminder (day ${d})`;
+              out.push({
+                pid: p.pid, recordId: p.recordId, wave: w,
+                alertId: 60, kind: "athome_sms",
+                instrument: `${label} (Text)`,
+                scheduledAt: iso, complete: false,
+              });
+              out.push({
+                pid: p.pid, recordId: p.recordId, wave: w,
+                alertId: 61, kind: "athome_email",
+                instrument: `${label} (Email)`,
+                scheduledAt: iso, complete: false,
+              });
+            }
           }
         }
       }
-      if (wave.atHome?.timestamp && wave.atHome.break1Complete === 2) {
-        const base = new Date(wave.atHome.timestamp).getTime();
-        if (!isFinite(base)) continue;
-        const t = base + (3 * 60 + 45) * 60 * 1000;
-        if (t >= now && t <= horizon) {
-          const iso = safeIso(t); if (!iso) continue;
-          out.push({
-            pid: p.pid, recordId: p.recordId, wave: w,
-            alertId: 60, kind: "athome_sms",
-            instrument: "At-Home Survey Send (Text)",
-            scheduledAt: iso,
-            complete: wave.atHome.athomeMeasuresComplete === 2,
-          });
-          out.push({
-            pid: p.pid, recordId: p.recordId, wave: w,
-            alertId: 61, kind: "athome_email",
-            instrument: "At-Home Survey Send (Email)",
-            scheduledAt: iso,
-            complete: wave.atHome.athomeMeasuresComplete === 2,
-          });
-        }
-      }
+      // (Legacy timestamp-based at-home reminder removed — the new
+      // in-progress-aware logic above handles both initial sends and
+      // follow-ups, including the timestamp-anchored case.)
     }
   }
   out.sort((a, b) => a.scheduledAt.localeCompare(b.scheduledAt));
@@ -804,11 +826,15 @@ async function main() {
       if (!wave) continue;
       const ema = rd[`emaY${w}`];
       if (ema && wave.ema) {
-        // Overlay EMA prompt completion using the report's _complete fields
-        for (const prompt of wave.ema.prompts) {
-          const compField = `${prompt.key}_complete`;
-          if (ema[compField] !== undefined) {
-            prompt.complete = num(ema[compField]) === 2;
+        // Overlay EMA prompt completion. The report uses index-based
+        // ema_report_1_complete … ema_report_25_complete (NOT
+        // ema_<dayhhmm>_complete as the field names might suggest), so we
+        // map prompt order to report-index 1:1.
+        for (let i = 0; i < wave.ema.prompts.length; i++) {
+          const prompt = wave.ema.prompts[i];
+          const reportField = `ema_report_${i + 1}_complete`;
+          if (ema[reportField] !== undefined) {
+            prompt.complete = num(ema[reportField]) === 2;
           }
         }
         // Surface any other _complete codes onto a forms map
