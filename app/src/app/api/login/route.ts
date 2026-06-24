@@ -52,7 +52,10 @@ export async function POST(request: Request) {
   const res = NextResponse.json({ success: true });
   res.cookies.set(AUTH_COOKIE_NAME, await signCookie(), {
     httpOnly: true,
-    secure: true,
+    // Browsers reject `Secure` cookies over HTTP, which blocks login on
+    // the local dev server (http://localhost:3100). Keep Secure on in
+    // production (Vercel is always HTTPS).
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     maxAge: AUTH_COOKIE_MAX_AGE,
     path: "/",
