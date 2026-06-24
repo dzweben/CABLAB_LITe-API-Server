@@ -520,16 +520,6 @@
     "complete": false
   },
   {
-    "pid": "1003",
-    "recordId": "1003",
-    "wave": 2,
-    "alertId": 89,
-    "kind": "sts2_invite",
-    "instrument": "Screen Time Auto Invite 2.1",
-    "scheduledAt": "2026-07-21T22:45:00.000Z",
-    "complete": false
-  },
-  {
     "pid": "1006",
     "recordId": "1006",
     "wave": 2,
@@ -957,16 +947,6 @@
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2",
     "scheduledAt": "2026-07-21T22:45:00.000Z",
-    "complete": false
-  },
-  {
-    "pid": "1003",
-    "recordId": "1003",
-    "wave": 2,
-    "alertId": 93,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.1 (day 1)",
-    "scheduledAt": "2026-07-22T22:45:00.000Z",
     "complete": false
   },
   {
@@ -1400,16 +1380,6 @@
     "complete": false
   },
   {
-    "pid": "1003",
-    "recordId": "1003",
-    "wave": 2,
-    "alertId": 93,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.1 (day 2)",
-    "scheduledAt": "2026-07-23T22:45:00.000Z",
-    "complete": false
-  },
-  {
     "pid": "1006",
     "recordId": "1006",
     "wave": 2,
@@ -1837,16 +1807,6 @@
     "kind": "sts2_followup",
     "instrument": "Screen Time Follow Up 2.2 (day 2)",
     "scheduledAt": "2026-07-23T22:45:00.000Z",
-    "complete": false
-  },
-  {
-    "pid": "1003",
-    "recordId": "1003",
-    "wave": 2,
-    "alertId": 93,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.1 (day 3)",
-    "scheduledAt": "2026-07-24T22:45:00.000Z",
     "complete": false
   },
   {
@@ -2280,16 +2240,6 @@
     "complete": false
   },
   {
-    "pid": "1003",
-    "recordId": "1003",
-    "wave": 2,
-    "alertId": 93,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.1 (day 4)",
-    "scheduledAt": "2026-07-25T22:45:00.000Z",
-    "complete": false
-  },
-  {
     "pid": "1006",
     "recordId": "1006",
     "wave": 2,
@@ -2717,16 +2667,6 @@
     "kind": "sts2_followup",
     "instrument": "Screen Time Follow Up 2.2 (day 4)",
     "scheduledAt": "2026-07-25T22:45:00.000Z",
-    "complete": false
-  },
-  {
-    "pid": "1003",
-    "recordId": "1003",
-    "wave": 2,
-    "alertId": 93,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.1 (day 5)",
-    "scheduledAt": "2026-07-26T22:45:00.000Z",
     "complete": false
   },
   {
@@ -3160,16 +3100,6 @@
     "complete": false
   },
   {
-    "pid": "1003",
-    "recordId": "1003",
-    "wave": 2,
-    "alertId": 93,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.1 (day 6)",
-    "scheduledAt": "2026-07-27T22:45:00.000Z",
-    "complete": false
-  },
-  {
     "pid": "1006",
     "recordId": "1006",
     "wave": 2,
@@ -3570,16 +3500,6 @@
     "complete": false
   },
   {
-    "pid": "1003",
-    "recordId": "1003",
-    "wave": 2,
-    "alertId": 90,
-    "kind": "sts2_invite",
-    "instrument": "Screen Time Auto Invite 2.2",
-    "scheduledAt": "2026-08-20T22:45:00.000Z",
-    "complete": false
-  },
-  {
     "pid": "1006",
     "recordId": "1006",
     "wave": 2,
@@ -3977,16 +3897,6 @@
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.3",
     "scheduledAt": "2026-08-20T22:45:00.000Z",
-    "complete": false
-  },
-  {
-    "pid": "1003",
-    "recordId": "1003",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 1)",
-    "scheduledAt": "2026-08-21T22:45:00.000Z",
     "complete": false
   },
   {
@@ -4226,16 +4136,6 @@
     "alertId": 94,
     "kind": "sts2_followup",
     "instrument": "Screen Time Follow Up 2.2 (day 1)",
-    "scheduledAt": "2026-08-21T22:45:00.000Z",
-    "complete": false
-  },
-  {
-    "pid": "2131",
-    "recordId": "2131",
-    "wave": 2,
-    "alertId": 89,
-    "kind": "sts2_invite",
-    "instrument": "Screen Time Auto Invite 2.1",
     "scheduledAt": "2026-08-21T22:45:00.000Z",
     "complete": false
   },
@@ -4580,16 +4480,6 @@
     "complete": false
   },
   {
-    "pid": "1003",
-    "recordId": "1003",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 2)",
-    "scheduledAt": "2026-08-22T22:45:00.000Z",
-    "complete": false
-  },
-  {
     "pid": "1006",
     "recordId": "1006",
     "wave": 2,
@@ -4816,16 +4706,6 @@
     "alertId": 94,
     "kind": "sts2_followup",
     "instrument": "Screen Time Follow Up 2.2 (day 2)",
-    "scheduledAt": "2026-08-22T22:45:00.000Z",
-    "complete": false
-  },
-  {
-    "pid": "2131",
-    "recordId": "2131",
-    "wave": 2,
-    "alertId": 93,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.1 (day 1)",
     "scheduledAt": "2026-08-22T22:45:00.000Z",
     "complete": false
   },
