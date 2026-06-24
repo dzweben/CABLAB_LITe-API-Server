@@ -74,10 +74,10 @@ export default function WavesPage() {
                   <th className="text-left px-4 py-3 font-semibold">PID</th>
                   <th className="text-center px-4 py-3 font-semibold">V1</th>
                   <th className="text-center px-4 py-3 font-semibold">At-home</th>
-                  <th className="text-center px-4 py-3 font-semibold">V2</th>
                   <th className="text-center px-4 py-3 font-semibold">STS1 (1-6)</th>
-                  <th className="text-center px-4 py-3 font-semibold">STS2 (1-3)</th>
                   <th className="text-center px-4 py-3 font-semibold">EMA</th>
+                  <th className="text-center px-4 py-3 font-semibold">STS2 (1-3)</th>
+                  <th className="text-center px-4 py-3 font-semibold">V2</th>
                 </tr>
               </thead>
               <tbody>
@@ -107,21 +107,21 @@ export default function WavesPage() {
                         />
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <Pill
-                          color={w.v2?.allComplete ? "emerald" : w.v2 ? "amber" : "gray"}
-                          label={w.v2?.date ? formatDate(w.v2.date) : "—"}
-                        />
+                        <CycleStrip n={6} done={stsCompleteCount(w.sts1)} active={!!w.sts1?.active} />
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <CycleStrip n={6} done={stsCompleteCount(w.sts1)} active={!!w.sts1?.active} />
+                        <Pill
+                          color={w.ema?.active ? "purple" : "gray"}
+                          label={w.ema?.active ? `${w.ema.promptsCompleteCount ?? w.ema.prompts.filter(p => p.complete).length}/${w.ema.promptsTotal ?? w.ema.prompts.length}` : "—"}
+                        />
                       </td>
                       <td className="px-4 py-3 text-center">
                         <CycleStrip n={3} done={stsCompleteCount(w.sts2)} active={!!w.sts2?.active} />
                       </td>
                       <td className="px-4 py-3 text-center">
                         <Pill
-                          color={w.ema?.active ? "purple" : "gray"}
-                          label={w.ema?.active ? `${w.ema.promptsCompleteCount ?? w.ema.prompts.filter(p => p.complete).length}/${w.ema.promptsTotal ?? w.ema.prompts.length}` : "—"}
+                          color={w.v2?.allComplete ? "emerald" : w.v2 ? "amber" : "gray"}
+                          label={w.v2?.date ? formatDate(w.v2.date) : "—"}
                         />
                       </td>
                     </tr>

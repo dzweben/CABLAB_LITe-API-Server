@@ -415,52 +415,30 @@ function safeIso(epoch) {
 function computeDueReminders(participants) {
   const out = [];
   const now = Date.now();
-  const horizon = now + 60 * 24 * 3600 * 1000;  // 60 days — STS cycles are monthly
+  // 270-day horizon — covers a full STS1 cycle (6 monthly invites = ~5 months)
+  // plus STS2 (3 more months) plus headroom. Without this, a participant
+  // who just started Y2 STS1 wouldn't show cycles 3-6 in the queue.
+  const horizon = now + 270 * 24 * 3600 * 1000;
   for (const p of participants) {
     for (const w of WAVES) {
       const wave = p.waves[w];
       if (!wave) continue;
 
-      // STS1 + STS2: initial invite + daily follow-ups while incomplete.
-      // Two regimes:
-      //   (1) Date is in the future (≤ horizon): queue the invite at the
-      //       scheduled time + follow-ups for days 1–6 after.
-      //   (2) Date is already past + survey still incomplete (OVERDUE):
-      //       queue an immediate catch-up "invite" at NOW, then a daily
-      //       catch-up reminder for the next 30 days until they finish.
-      //       The team treats these severely-overdue cases as ongoing
-      //       chases, not one-shot follow-ups.
+      // STS1 + STS2 — canonical schedule only.
+      //   Invite fires at the cycle date.
+      //   Daily follow-up (alerts 54–59 / 93–95) for days 1–6 after if
+      //   the survey is still incomplete.
+      // We do NOT re-invite cycles whose date is already past — those
+      // sends already happened (or were skipped); the team handles
+      // chasing those manually.
       const queueSts = (cycles, kind, inviteAlertBase, followupAlertBase, instrumentNum) => {
         cycles?.forEach((c, idx) => {
           const baseT = toEpoch(c.date);
           if (baseT == null) return;
           const done = c.complete === 2;
 
-          if (!done && baseT < now) {
-            // OVERDUE — immediate catch-up invite + 30 days of daily nudges
-            const isoNow = safeIso(now);
-            if (isoNow) out.push({
-              pid: p.pid, recordId: p.recordId, wave: w,
-              alertId: inviteAlertBase + idx,
-              kind: `${kind}_invite`,
-              instrument: `Screen Time Auto Invite ${instrumentNum}.${idx + 1} (OVERDUE)`,
-              scheduledAt: isoNow, complete: false, overdue: true,
-            });
-            // Daily catch-up nudges for the next 30 days
-            for (let d = 1; d <= 30; d++) {
-              const t = now + d * 24 * 3600 * 1000;
-              if (t > horizon) break;
-              const iso = safeIso(t); if (!iso) continue;
-              out.push({
-                pid: p.pid, recordId: p.recordId, wave: w,
-                alertId: followupAlertBase + idx,
-                kind: `${kind}_followup`,
-                instrument: `Screen Time Follow Up ${instrumentNum}.${idx + 1} (catch-up day ${d})`,
-                scheduledAt: iso, complete: false, overdue: true,
-              });
-            }
-          } else if (baseT >= now && baseT <= horizon) {
-            // FUTURE — canonical schedule
+          // Initial invite — only when the cycle date is upcoming.
+          if (baseT >= now && baseT <= horizon) {
             const iso = safeIso(baseT);
             if (iso) out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
@@ -469,19 +447,22 @@ function computeDueReminders(participants) {
               instrument: `Screen Time Auto Invite ${instrumentNum}.${idx + 1}`,
               scheduledAt: iso, complete: done, overdue: false,
             });
-            if (!done) {
-              for (let d = 1; d <= 6; d++) {
-                const t = baseT + d * 24 * 3600 * 1000;
-                if (t < now || t > horizon) continue;
-                const isoFu = safeIso(t); if (!isoFu) continue;
-                out.push({
-                  pid: p.pid, recordId: p.recordId, wave: w,
-                  alertId: followupAlertBase + idx,
-                  kind: `${kind}_followup`,
-                  instrument: `Screen Time Follow Up ${instrumentNum}.${idx + 1} (day ${d})`,
-                  scheduledAt: isoFu, complete: false, overdue: false,
-                });
-              }
+          }
+
+          // 6-day follow-up window. Works whether base is past or future
+          // as long as some of the follow-up days land in [now, horizon].
+          if (!done) {
+            for (let d = 1; d <= 6; d++) {
+              const t = baseT + d * 24 * 3600 * 1000;
+              if (t < now || t > horizon) continue;
+              const iso = safeIso(t); if (!iso) continue;
+              out.push({
+                pid: p.pid, recordId: p.recordId, wave: w,
+                alertId: followupAlertBase + idx,
+                kind: `${kind}_followup`,
+                instrument: `Screen Time Follow Up ${instrumentNum}.${idx + 1} (day ${d})`,
+                scheduledAt: iso, complete: false, overdue: false,
+              });
             }
           }
         });
