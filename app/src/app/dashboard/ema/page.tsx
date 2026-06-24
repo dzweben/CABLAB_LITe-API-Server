@@ -22,7 +22,14 @@ export default function EMAPage() {
   }, []);
 
   const rows = useMemo(() => {
-    let xs = participants.filter(p => p.waves[wave]?.ema && cohortMatches(p.pid, cohort));
+    // Include anyone tracked for this wave (in Follow up.{N} sheet)
+    // OR with actual EMA REDCap data — that way participants whose EMA
+    // event isn't yet provisioned still show up.
+    let xs = participants.filter(p => {
+      if (!cohortMatches(p.pid, cohort)) return false;
+      const w = p.waves[wave];
+      return !!(w?.ema || w?.followupSheet);
+    });
     if (showOnlyActive) xs = xs.filter(p => p.waves[wave]?.ema?.active);
     if (search.trim()) {
       const s = search.trim().toLowerCase();

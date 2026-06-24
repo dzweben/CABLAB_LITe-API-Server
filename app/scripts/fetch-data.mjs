@@ -428,34 +428,27 @@ function computeDueReminders(participants) {
       // and moved on. No sends for this wave anymore.
       if (wave.v2?.allComplete) continue;
 
-      // STS1 + STS2 — two regimes, both surfaced on the dashboard but
-      // only the canonical one auto-sends:
-      //   AUTO (mode:"auto"):  canonical invite at the cycle date +
-      //                        days 1–6 follow-ups if incomplete.
-      //   MANUAL (mode:"manual"): cycle date is already past AND the
-      //                        survey is still incomplete. The original
-      //                        auto-send fired; the team needs to chase
-      //                        manually. Surfaces in the dashboard so
-      //                        coordinators see who's behind, but the
-      //                        send-script ignores anything mode:manual.
+      // STS1 + STS2 — STRICT canonical only.
+      //   Invite at the cycle date (if upcoming).
+      //   Days 1–6 follow-up if the survey is still incomplete.
+      // No past-date catch-ups, no "manual chase" entries. Anything the
+      // team is behind on lives outside the queue (the STS page itself
+      // surfaces incomplete cycles for manual coordinator follow-up).
       const queueSts = (cycles, kind, inviteAlertBase, followupAlertBase, instrumentNum) => {
         cycles?.forEach((c, idx) => {
           const baseT = toEpoch(c.date);
           if (baseT == null) return;
-          const done = c.complete === 2;
-          if (done) return;  // nothing to do once the survey is complete
+          if (c.complete === 2) return;  // already done
 
           if (baseT >= now && baseT <= horizon) {
-            // AUTO: upcoming canonical invite
             const iso = safeIso(baseT);
             if (iso) out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
               alertId: inviteAlertBase + idx,
               kind: `${kind}_invite`,
               instrument: `Screen Time Auto Invite ${instrumentNum}.${idx + 1}`,
-              scheduledAt: iso, complete: false, mode: "auto",
+              scheduledAt: iso, complete: false,
             });
-            // AUTO: days 1–6 follow-up window
             for (let d = 1; d <= 6; d++) {
               const t = baseT + d * 24 * 3600 * 1000;
               if (t < now || t > horizon) continue;
@@ -465,23 +458,10 @@ function computeDueReminders(participants) {
                 alertId: followupAlertBase + idx,
                 kind: `${kind}_followup`,
                 instrument: `Screen Time Follow Up ${instrumentNum}.${idx + 1} (day ${d})`,
-                scheduledAt: isoFu, complete: false, mode: "auto",
+                scheduledAt: isoFu, complete: false,
               });
             }
-          } else if (baseT < now) {
-            // MANUAL: past-due, incomplete. Surface once per cycle so
-            // the coordinator sees who needs a chase.
-            const isoNow = safeIso(now);
-            if (isoNow) out.push({
-              pid: p.pid, recordId: p.recordId, wave: w,
-              alertId: inviteAlertBase + idx,
-              kind: `${kind}_invite`,
-              instrument: `Screen Time ${instrumentNum}.${idx + 1} — needs manual chase`,
-              scheduledAt: isoNow, complete: false, mode: "manual",
-              daysOverdue: Math.floor((now - baseT) / (24 * 3600 * 1000)),
-            });
           }
-          // Otherwise (baseT > horizon) — too far out, skip
         });
       };
       queueSts(wave.sts1?.cycles, "sts1", 48, 54, "1");
@@ -501,7 +481,7 @@ function computeDueReminders(participants) {
             pid: p.pid, recordId: p.recordId, wave: w,
             alertId: 64, kind: "ema_prompt", emaKey: prompt.key,
             instrument: `EMA ${prompt.dayLabel} ${prompt.timeLabel}`,
-            scheduledAt: iso, complete: false, mode: "auto",
+            scheduledAt: iso, complete: false,
           });
         }
       });
@@ -521,7 +501,7 @@ function computeDueReminders(participants) {
               pid: p.pid, recordId: p.recordId, wave: w,
               alertId: 63, kind: "ema_enable",
               instrument: `EMA Y${w} Enable`,
-              scheduledAt: iso, complete: false, mode: "auto",
+              scheduledAt: iso, complete: false,
             });
           }
         }
@@ -551,18 +531,7 @@ function computeDueReminders(participants) {
               pid: p.pid, recordId: p.recordId, wave: w,
               alertId, kind: "payment_email",
               instrument: `W${w} ${variant} STS-EMA Payment email`,
-              scheduledAt: iso, complete: false, mode: "auto",
-            });
-          } else if (sendT < now) {
-            // MANUAL chase — payment-email window already passed but
-            // payment not yet redeemed. Coordinator sends manually.
-            const iso = safeIso(now);
-            if (iso) out.push({
-              pid: p.pid, recordId: p.recordId, wave: w,
-              alertId, kind: "payment_email",
-              instrument: `W${w} ${variant} STS-EMA Payment — needs manual chase`,
-              scheduledAt: iso, complete: false, mode: "manual",
-              daysOverdue: Math.floor((now - sendT) / (24 * 3600 * 1000)),
+              scheduledAt: iso, complete: false,
             });
           }
         }
@@ -593,26 +562,15 @@ function computeDueReminders(participants) {
                 pid: p.pid, recordId: p.recordId, wave: w,
                 alertId: 60, kind: "athome_sms",
                 instrument: "At-Home Survey Send (Text)",
-                scheduledAt: iso, complete: false, mode: "auto",
+                scheduledAt: iso, complete: false,
               });
               out.push({
                 pid: p.pid, recordId: p.recordId, wave: w,
                 alertId: 61, kind: "athome_email",
                 instrument: "At-Home Survey Send (Email)",
-                scheduledAt: iso, complete: false, mode: "auto",
+                scheduledAt: iso, complete: false,
               });
             }
-          } else if (sendT < now) {
-            // MANUAL chase — at-home send window passed, survey
-            // incomplete, V2 still pending. Coordinator emails manually.
-            const iso = safeIso(now);
-            if (iso) out.push({
-              pid: p.pid, recordId: p.recordId, wave: w,
-              alertId: 60, kind: "athome_sms",
-              instrument: "At-Home Survey — needs manual chase",
-              scheduledAt: iso, complete: false, mode: "manual",
-              daysOverdue: Math.floor((now - sendT) / (24 * 3600 * 1000)),
-            });
           }
         }
       }
@@ -905,6 +863,14 @@ async function main() {
   }
 
   // Merge in Google Sheets data (Follow up.1 + .2)
+  //
+  // IMPORTANT: the sheet is DISPLAY context — schedule months, STS labels,
+  // V2 date (which in Follow up.2 is actually the PRIOR wave's V2 date, the
+  // entry into Y2). It is NOT a source of truth for V1/V2 *completion*.
+  // Trust REDCap's per-form completion codes for that. Setting
+  // v1.allComplete=true just because someone exists in the sheet over-counts
+  // V1 done by including participants who've only been registered for the
+  // wave but haven't actually done V1 yet.
   const followupByPid = await fetchFollowupSheet();
   let merged = 0;
   for (const p of participants) {
@@ -915,26 +881,22 @@ async function main() {
     if (sheet.y1) {
       if (!p.waves[1]) p.waves[1] = { year: 1, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
       p.waves[1].followupSheet = sheet.y1;
-      // Mark V2 complete if the V2 date is filled in.
-      if (hasValue(sheet.y1.v2Date)) {
-        if (!p.waves[1].v2) p.waves[1].v2 = { date: null, forms: {}, allComplete: false };
+      // Sheet's "Visit 2" date (Follow up.1 col N) IS Y1's V2 date —
+      // safe to use as a display date when REDCap doesn't have one.
+      // But only mark V2 complete if REDCap actually says so.
+      if (hasValue(sheet.y1.v2Date) && p.waves[1].v2 && !p.waves[1].v2.date) {
         p.waves[1].v2.date = String(sheet.y1.v2Date);
-        p.waves[1].v2.allComplete = true;
       }
-      // V1 done = exists in Follow up.1
-      if (!p.waves[1].v1) p.waves[1].v1 = { date: null, forms: {}, allComplete: true };
-      else p.waves[1].v1.allComplete = true;
     }
     if (sheet.y2) {
       if (!p.waves[2]) p.waves[2] = { year: 2, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
       p.waves[2].followupSheet = sheet.y2;
-      if (hasValue(sheet.y2.v2Date)) {
-        if (!p.waves[2].v2) p.waves[2].v2 = { date: null, forms: {}, allComplete: false };
-        p.waves[2].v2.date = String(sheet.y2.v2Date);
-        p.waves[2].v2.allComplete = true;
+      // Follow up.2 col M "WAVE 2, V2 Date" is Y1's V2 date (the entry
+      // date into Y2 tracking) — NOT Y2's V2. Use it as Y1 V2 display
+      // when REDCap is missing it.
+      if (hasValue(sheet.y2.v2Date) && p.waves[1]?.v2 && !p.waves[1].v2.date) {
+        p.waves[1].v2.date = String(sheet.y2.v2Date);
       }
-      if (!p.waves[2].v1) p.waves[2].v1 = { date: null, forms: {}, allComplete: true };
-      else p.waves[2].v1.allComplete = true;
     }
   }
   console.log(`  Merged followup-sheet data into ${merged} participants`);

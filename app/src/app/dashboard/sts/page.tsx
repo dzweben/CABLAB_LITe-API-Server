@@ -27,7 +27,14 @@ export default function STSPage() {
   const cycleLabel = which === "sts1" ? "STS1 (6 cycles)" : "STS2 (3 cycles)";
 
   const rows = useMemo(() => {
-    let xs = participants.filter(p => p.waves[wave]?.[which] && cohortMatches(p.pid, cohort));
+    // Include anyone tracked for this wave (in Follow up.{N} sheet)
+    // OR with actual STS REDCap data — that way participants whose STS
+    // event isn't yet provisioned in REDCap still show up.
+    let xs = participants.filter(p => {
+      if (!cohortMatches(p.pid, cohort)) return false;
+      const w = p.waves[wave];
+      return !!(w?.[which] || w?.followupSheet);
+    });
     if (showOnlyActive) xs = xs.filter(p => p.waves[wave]?.[which]?.active);
     if (search.trim()) {
       const s = search.trim().toLowerCase();
