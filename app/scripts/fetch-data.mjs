@@ -266,7 +266,23 @@ function pivotParticipant(recordRows) {
       for (const k of Object.keys(row)) {
         if (k.endsWith("_complete")) forms[k.replace(/_complete$/, "")] = num(row[k]);
       }
-      const allComplete = Object.values(forms).length > 0 && Object.values(forms).every(v => v === 2);
+      // V1/V2 visits have break_1 / break_2 / break_3 _complete fields
+      // (the in-lab break checkpoints). Use the LAST break that exists
+      // as the gate — if break_3_complete=2, the visit is fully done.
+      // If only break_2 exists, use that. If only break_1, that.
+      // Falls back to "any form is 2" so a row with non-break_*_complete
+      // fields still counts as touched.
+      const breaks = [row.break_1_complete, row.break_2_complete, row.break_3_complete]
+        .map(v => v === "" || v === undefined ? null : num(v));
+      const definedBreaks = breaks.filter(v => v !== null);
+      let allComplete = false;
+      if (definedBreaks.length > 0) {
+        // Done = the LAST defined break is complete (2)
+        allComplete = definedBreaks[definedBreaks.length - 1] === 2;
+      } else {
+        // No break fields — fall back to "any form complete = at least started"
+        allComplete = Object.values(forms).some(v => v === 2);
+      }
       return { date: row.visit_date || row.scheduled_date || null, forms, allComplete };
     };
 
