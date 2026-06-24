@@ -522,11 +522,13 @@ function computeDueReminders(participants) {
         }
       }
 
-      // Payment email (alerts 287 / 288) — fires 5 days after the last
-      // STS1 invite date, when ema_payment_email_button is set and the
-      // payment instrument hasn't been completed yet. 287 = 13+, 288 = <13.
+      // Payment email (alerts 287 / 288) — fires 5 days after the LAST
+      // STS2 cycle date (screen_time_2_3_date), when ema_payment_email_button
+      // is set and the payment instrument hasn't been completed yet. The
+      // source CSV mistakenly says "screen_time_1_6_date" — coordinator
+      // confirmed it should be STS 2.3. 287 = 13+, 288 = <13.
       if (wave.ema?.paymentEmailButton && wave.ema.paymentComplete !== 2) {
-        const lastCycle = wave.sts1?.cycles[wave.sts1.cycles.length - 1];
+        const lastCycle = wave.sts2?.cycles[wave.sts2.cycles.length - 1];
         const baseT = lastCycle?.date ? toEpoch(lastCycle.date) : null;
         if (baseT != null) {
           const sendT = baseT + 5 * 24 * 3600 * 1000;
