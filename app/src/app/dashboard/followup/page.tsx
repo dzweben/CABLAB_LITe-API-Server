@@ -74,7 +74,7 @@ export default function FollowupPage() {
     <div className="space-y-5">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Follow-up Tracker</h2>
+          <h2 className="text-2xl font-bold text-gray-900">At-Home Tracker</h2>
           <p className="text-sm text-gray-500 mt-1">
             V1 → at-home survey → V2 lifecycle. STS schedule lives on the Screen Time Surveys page; EMA timing on EMA Tracker.
           </p>

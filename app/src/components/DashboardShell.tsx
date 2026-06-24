@@ -25,7 +25,7 @@ const NAV_ITEMS = [
   },
   {
     href: "/dashboard/waves",
-    label: "Total Overview",
+    label: "Visit + Survey Overview",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0M3 18c2-4 4-4 6 0s4 4 6 0 4-4 6 0" />
@@ -34,7 +34,7 @@ const NAV_ITEMS = [
   },
   {
     href: "/dashboard/followup",
-    label: "Follow-up Tracker",
+    label: "At-Home Tracker",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

@@ -38,6 +38,9 @@ export interface AtHomeStatus {
   // REDCap report (e.g. 10824 for Y1). Lets the dashboard show generic
   // section-by-section completion without hard-coding instrument names.
   formsFromReport?: Record<string, CompletionCode>;
+  // Headline counts derived from formsFromReport for quick rendering.
+  sectionsComplete?: number;
+  sectionsTotal?: number;
 }
 
 export interface STSCycle {
@@ -69,6 +72,16 @@ export interface EMAStatus {
   prompts: EMAPrompt[];           // ~20 timed prompts per cycle
   // Non-prompt _complete codes surfaced from the per-wave EMA report.
   formsFromReport?: Record<string, CompletionCode>;
+  // Aggregate prompt counts for headline rendering on the dashboard.
+  promptsCompleteCount?: number;
+  promptsScheduledCount?: number;
+  promptsTotal?: number;
+  // Rolling-Monday tracking fields surfaced from the EMA event.
+  startDayCalcSum?: number;
+  enableConfirmed?: boolean;
+  settingsComplete?: CompletionCode;
+  paymentEmailButton?: boolean;
+  paymentComplete?: CompletionCode;
 }
 
 export interface VisitStatus {

@@ -767,12 +767,19 @@ async function main() {
     3: { ema: "10820", atHome: "10823" },
   };
   const reportData = {};  // recordId → { emaY1: {...}, atHomeY1: {...}, ... }
+  const reportFieldNames = {};
   for (const w of WAVES) {
     const ids = COMPLETION_REPORTS[w];
     for (const kind of ["ema", "atHome"]) {
       try {
         const rows = await fetchReport(ids[kind]);
         console.log(`  Report ${ids[kind]} (${kind} y${w}): ${rows.length} rows`);
+        // Capture field names from the first row for diagnostics.
+        if (rows.length > 0) {
+          const completeFields = Object.keys(rows[0]).filter(k => k.endsWith("_complete"));
+          reportFieldNames[`${kind}Y${w}`] = completeFields;
+          console.log(`    _complete fields (${completeFields.length}): ${completeFields.slice(0, 8).join(", ")}${completeFields.length > 8 ? ` … +${completeFields.length - 8}` : ""}`);
+        }
         for (const r of rows) {
           const rid = r.record_id;
           if (!rid) continue;
@@ -812,6 +819,10 @@ async function main() {
           }
         }
         wave.ema.formsFromReport = forms;
+        // Aggregate prompt-level completion for headline stats
+        wave.ema.promptsCompleteCount = wave.ema.prompts.filter(p => p.complete).length;
+        wave.ema.promptsScheduledCount = wave.ema.prompts.filter(p => p.scheduledAt).length;
+        wave.ema.promptsTotal = wave.ema.prompts.length;
       }
       const ah = rd[`atHomeY${w}`];
       if (ah) {
@@ -826,6 +837,18 @@ async function main() {
           if (k.endsWith("_complete")) forms[k.replace(/_complete$/, "")] = num(ah[k]);
         }
         wave.atHome.formsFromReport = forms;
+        // Derive overall completion from per-section codes since
+        // `athome_measures_complete` isn't necessarily one of them.
+        // Complete = every section coded 2; in-progress = at least one
+        // section touched (1 or 2); else 0.
+        const formVals = Object.values(forms);
+        if (formVals.length > 0) {
+          const allDone = formVals.every(v => v === 2);
+          const anyTouched = formVals.some(v => v === 1 || v === 2);
+          wave.atHome.athomeMeasuresComplete = allDone ? 2 : (anyTouched ? 1 : 0);
+          wave.atHome.sectionsComplete = formVals.filter(v => v === 2).length;
+          wave.atHome.sectionsTotal = formVals.length;
+        }
       }
     }
   }
@@ -864,6 +887,33 @@ async function main() {
     }
   }
   console.log(`  Merged followup-sheet data into ${merged} participants`);
+
+  // ─── Gating ───────────────────────────────────────────────────────────
+  // Per coordinator: nobody should appear who hasn't completed Y1 V1, and
+  // no wave should display surveys/sends if that wave's V1 isn't done.
+  // This makes Y1 V1 the gate-in criterion for the whole dashboard.
+  let droppedNoY1V1 = 0;
+  const gated = [];
+  for (const p of participants) {
+    if (!p.waves[1]?.v1?.allComplete) { droppedNoY1V1++; continue; }
+    // Per-wave gate: scrub waves where this wave's V1 hasn't happened.
+    // Keep the wave entry only if v1.allComplete (or v2.allComplete — the
+    // participant has clearly been in this wave even if our V1 record is
+    // missing).
+    for (const w of WAVES) {
+      const wave = p.waves[w];
+      if (!wave) continue;
+      const hasV1 = !!wave.v1?.allComplete;
+      const hasV2 = !!wave.v2?.allComplete;
+      if (!hasV1 && !hasV2) {
+        delete p.waves[w];
+      }
+    }
+    gated.push(p);
+  }
+  participants.length = 0;
+  participants.push(...gated);
+  console.log(`  Gated to ${participants.length} participants with Y1 V1 complete (dropped ${droppedNoY1V1})`);
 
   // Recompute activeWave now that the sheet has updated V1/V2 completion.
   // Definition: the highest-numbered wave where V1 has happened but V2

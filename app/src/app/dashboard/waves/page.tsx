@@ -32,7 +32,7 @@ export default function WavesPage() {
     <div className="space-y-5">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Total Overview</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Visit + Survey Overview</h2>
           <p className="text-sm text-gray-500 mt-1">
             Per-wave participant grid. Each row shows the full lifecycle:
             V1 → at-home → STS1 → STS2 → EMA → V2.
