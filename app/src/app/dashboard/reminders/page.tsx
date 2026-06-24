@@ -150,9 +150,8 @@ export default function RemindersPage() {
       </div>
 
       {/* Headline counters */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <Stat label="Reminders queued" value={filtered.length} accent="indigo" />
-        <Stat label="Overdue" value={filtered.filter(d => d.overdue).length} accent="red" />
         <Stat label="Outgoing messages" value={totalMessages} accent="purple" suffix=" total" />
         <Stat label="Distinct participants" value={new Set(filtered.map(d => d.pid)).size} accent="emerald" />
         <Stat label="Days covered" value={grouped.length} accent="amber" />
@@ -312,11 +311,6 @@ function DayBlock({
                 <span className="text-sm font-mono text-gray-500 w-20 shrink-0 tabular-nums">{formatTime(d.scheduledAt)}</span>
                 <span className="font-mono font-semibold text-gray-900 w-14 shrink-0">{d.pid}</span>
                 <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-semibold ${meta.color} shrink-0`}>{meta.label}</span>
-                {d.overdue && (
-                  <span className="inline-flex px-2 py-0.5 rounded text-[10px] font-bold bg-red-600 text-white shrink-0 animate-pulse">
-                    OVERDUE
-                  </span>
-                )}
                 <span className="text-sm text-gray-700 truncate flex-1 min-w-0">{d.instrument}</span>
                 <span className="text-xs text-gray-400 shrink-0">W{d.wave}</span>
                 <div className="inline-flex gap-1 shrink-0">
