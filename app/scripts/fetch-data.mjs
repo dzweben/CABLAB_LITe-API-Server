@@ -423,60 +423,76 @@ function computeDueReminders(participants) {
 
       // STS1: initial invite on the cycle date (alerts 48-53), then a
       // daily follow-up for up to 6 days after if the survey isn't done
-      // (alerts 54-59 per the Timeline xlsx).
+      // (alerts 54-59 per the Timeline xlsx). For OVERDUE cycles (date
+      // already past + still incomplete), queue an immediate catch-up
+      // reminder so the coordinator sees who's behind.
       wave.sts1?.cycles.forEach((c, idx) => {
         const baseT = toEpoch(c.date);
         if (baseT == null) return;
         const done = c.complete === 2;
-        // Initial invite
-        if (baseT >= now && baseT <= horizon) {
-          const iso = safeIso(baseT);
-          if (iso) out.push({
-            pid: p.pid, recordId: p.recordId, wave: w,
-            alertId: 48 + idx, kind: "sts1_invite",
-            instrument: `Screen Time Auto Invite 1.${idx + 1}`,
-            scheduledAt: iso, complete: done,
-          });
+        // Initial invite — queue if upcoming OR if it never went (overdue)
+        if (baseT <= horizon) {
+          const overdue = baseT < now && !done;
+          const sendT = overdue ? now : baseT;
+          const iso = safeIso(sendT);
+          if (iso && (baseT >= now || overdue)) {
+            out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId: 48 + idx, kind: "sts1_invite",
+              instrument: `Screen Time Auto Invite 1.${idx + 1}${overdue ? " (OVERDUE)" : ""}`,
+              scheduledAt: iso, complete: done, overdue,
+            });
+          }
         }
-        // Daily follow-ups while incomplete
+        // Daily follow-ups while incomplete. Includes "negative" days for
+        // overdue cycles (date already passed): we queue follow-ups for
+        // days 1..30 after the original cycle date, but only the ones
+        // that land in [now, horizon].
         if (!done) {
-          for (let d = 1; d <= 6; d++) {
+          for (let d = 1; d <= 30; d++) {
             const t = baseT + d * 24 * 3600 * 1000;
             if (t < now || t > horizon) continue;
             const iso = safeIso(t); if (!iso) continue;
+            const overdue = baseT < now && d > 6;  // beyond the canonical 6-day window
             out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
               alertId: 54 + idx, kind: "sts1_followup",
-              instrument: `Screen Time Follow Up 1.${idx + 1} (day ${d})`,
-              scheduledAt: iso, complete: false,
+              instrument: `Screen Time Follow Up 1.${idx + 1}${overdue ? ` (catch-up day ${d})` : ` (day ${d})`}`,
+              scheduledAt: iso, complete: false, overdue,
             });
           }
         }
       });
-      // STS2: initial invite (alerts 89-91) + daily follow-up x6 (93-95).
+      // STS2: initial invite (alerts 89-91) + daily follow-up (93-95).
+      // Same OVERDUE-aware logic as STS1.
       wave.sts2?.cycles.forEach((c, idx) => {
         const baseT = toEpoch(c.date);
         if (baseT == null) return;
         const done = c.complete === 2;
-        if (baseT >= now && baseT <= horizon) {
-          const iso = safeIso(baseT);
-          if (iso) out.push({
-            pid: p.pid, recordId: p.recordId, wave: w,
-            alertId: 89 + idx, kind: "sts2_invite",
-            instrument: `Screen Time Auto Invite 2.${idx + 1}`,
-            scheduledAt: iso, complete: done,
-          });
+        if (baseT <= horizon) {
+          const overdue = baseT < now && !done;
+          const sendT = overdue ? now : baseT;
+          const iso = safeIso(sendT);
+          if (iso && (baseT >= now || overdue)) {
+            out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId: 89 + idx, kind: "sts2_invite",
+              instrument: `Screen Time Auto Invite 2.${idx + 1}${overdue ? " (OVERDUE)" : ""}`,
+              scheduledAt: iso, complete: done, overdue,
+            });
+          }
         }
         if (!done) {
-          for (let d = 1; d <= 6; d++) {
+          for (let d = 1; d <= 30; d++) {
             const t = baseT + d * 24 * 3600 * 1000;
             if (t < now || t > horizon) continue;
             const iso = safeIso(t); if (!iso) continue;
+            const overdue = baseT < now && d > 6;
             out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
               alertId: 93 + idx, kind: "sts2_followup",
-              instrument: `Screen Time Follow Up 2.${idx + 1} (day ${d})`,
-              scheduledAt: iso, complete: false,
+              instrument: `Screen Time Follow Up 2.${idx + 1}${overdue ? ` (catch-up day ${d})` : ` (day ${d})`}`,
+              scheduledAt: iso, complete: false, overdue,
             });
           }
         }
