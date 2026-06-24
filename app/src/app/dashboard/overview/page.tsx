@@ -93,9 +93,8 @@ export default function OverviewPage() {
                   <th className="text-center px-4 py-3 font-semibold">Active</th>
                   <th className="text-center px-4 py-3 font-semibold">V1 done</th>
                   <th className="text-center px-4 py-3 font-semibold">At-home done</th>
-                  <th className="text-center px-4 py-3 font-semibold">STS1 all done</th>
-                  <th className="text-center px-4 py-3 font-semibold">STS2 all done</th>
-                  <th className="text-center px-4 py-3 font-semibold">EMA active</th>
+                  <th className="text-center px-4 py-3 font-semibold">STS done (≥5/9)</th>
+                  <th className="text-center px-4 py-3 font-semibold">EMA done (≥10/25)</th>
                   <th className="text-center px-4 py-3 font-semibold">V2 done</th>
                 </tr>
               </thead>
@@ -105,20 +104,19 @@ export default function OverviewPage() {
                     <td className="px-4 py-3 font-mono font-medium text-gray-900">{WAVE_LABELS[w]}</td>
                     <td className="text-center px-4 py-3">{stats.byWave[w]}</td>
                     <td className="text-center px-4 py-3">
-                      <Ratio numer={stats.v1Complete[w]} denom={stats.byWave[w]} />
+                      <Ratio numer={stats.v1Complete[w]} denom={stats.totalParticipants} />
                     </td>
                     <td className="text-center px-4 py-3">
-                      <Ratio numer={stats.atHomeComplete[w]} denom={stats.byWave[w]} />
+                      <Ratio numer={stats.atHomeComplete[w]} denom={stats.totalParticipants} />
                     </td>
                     <td className="text-center px-4 py-3">
-                      <Ratio numer={stats.sts1Complete[w]} denom={stats.byWave[w]} />
+                      <Ratio numer={stats.stsComplete[w]} denom={stats.totalParticipants} />
                     </td>
                     <td className="text-center px-4 py-3">
-                      <Ratio numer={stats.sts2Complete[w]} denom={stats.byWave[w]} />
+                      <Ratio numer={stats.emaComplete[w]} denom={stats.totalParticipants} />
                     </td>
-                    <td className="text-center px-4 py-3">{stats.emaActive[w]}</td>
                     <td className="text-center px-4 py-3">
-                      <Ratio numer={stats.v2Complete[w]} denom={stats.byWave[w]} />
+                      <Ratio numer={stats.v2Complete[w]} denom={stats.totalParticipants} />
                     </td>
                   </tr>
                 ))}

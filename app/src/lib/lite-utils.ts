@@ -21,7 +21,7 @@ export function formatDate(s: string | null | undefined): string {
 }
 
 // Short "MM/YY" — for STS schedule cells where we want to match the
-// month/year shorthand the team uses in the Follow up.{N} Google Sheet.
+// month/year shorthand the team uses in the cohort tabs.
 export function formatMonthShort(s: string | null | undefined): string {
   if (!s) return "";
   const d = new Date(typeof s === "string" && s.length === 10 ? s + "T12:00:00" : (s as string));
@@ -72,12 +72,49 @@ export function emaPromptsScheduled(wave: WaveStatus | null | undefined): number
   return wave.ema.prompts.filter(p => p.scheduledAt).length;
 }
 
+// Coordinator-defined completion thresholds.
+export const AT_HOME_DONE_THRESHOLD = 7;        // ≥ 7 of 8 at-home sections
+export const AT_HOME_TOTAL_SECTIONS = 8;
+export const STS_DONE_THRESHOLD = 5;            // ≥ 5 of 9 STS surveys (6 STS1 + 3 STS2)
+export const STS_TOTAL = 9;
+export const EMA_DONE_THRESHOLD = 10;           // ≥ 10 of 25 EMA prompts
+export const EMA_TOTAL = 25;
+
+export function isAtHomeDone(wave: WaveStatus | null | undefined): boolean {
+  const ah = wave?.atHome;
+  if (!ah) return false;
+  // Prefer the per-section count when available (real numerator/denominator).
+  if (ah.sectionsTotal != null && ah.sectionsTotal > 0) {
+    return (ah.sectionsComplete ?? 0) >= AT_HOME_DONE_THRESHOLD;
+  }
+  // Otherwise fall back to the derived completion code.
+  return ah.athomeMeasuresComplete === 2;
+}
+
+export function stsTotalCompleteCount(wave: WaveStatus | null | undefined): number {
+  if (!wave) return 0;
+  return stsCompleteCount(wave.sts1) + stsCompleteCount(wave.sts2);
+}
+
+export function isStsDone(wave: WaveStatus | null | undefined): boolean {
+  return stsTotalCompleteCount(wave) >= STS_DONE_THRESHOLD;
+}
+
+export function isEmaDone(wave: WaveStatus | null | undefined): boolean {
+  return emaPromptsComplete(wave) >= EMA_DONE_THRESHOLD;
+}
+
 export function computeStats(participants: Participant[]): DashboardStats {
+  // `byWave[w]` = count of participants who appear in wave w (per-wave
+  // active count). It is NOT the denominator for cross-wave completion
+  // ratios — use `totalParticipants` for those.
   const byWave: Record<WaveYear, number> = { 1: 0, 2: 0, 3: 0 };
   const v1Complete: Record<WaveYear, number> = { 1: 0, 2: 0, 3: 0 };
   const atHomeComplete: Record<WaveYear, number> = { 1: 0, 2: 0, 3: 0 };
-  const sts1Complete: Record<WaveYear, number> = { 1: 0, 2: 0, 3: 0 };
-  const sts2Complete: Record<WaveYear, number> = { 1: 0, 2: 0, 3: 0 };
+  // Single consolidated STS count (≥5 of 9 surveys done — STS1 6 + STS2 3).
+  const stsComplete: Record<WaveYear, number> = { 1: 0, 2: 0, 3: 0 };
+  // EMA count (≥10 of 25 prompts complete).
+  const emaComplete: Record<WaveYear, number> = { 1: 0, 2: 0, 3: 0 };
   const emaActive: Record<WaveYear, number> = { 1: 0, 2: 0, 3: 0 };
   const v2Complete: Record<WaveYear, number> = { 1: 0, 2: 0, 3: 0 };
 
@@ -87,9 +124,9 @@ export function computeStats(participants: Participant[]): DashboardStats {
       if (!wave) continue;
       byWave[w]++;
       if (wave.v1?.allComplete) v1Complete[w]++;
-      if (wave.atHome?.athomeMeasuresComplete === 2) atHomeComplete[w]++;
-      if (stsAllComplete(wave.sts1)) sts1Complete[w]++;
-      if (stsAllComplete(wave.sts2)) sts2Complete[w]++;
+      if (isAtHomeDone(wave)) atHomeComplete[w]++;
+      if (isStsDone(wave)) stsComplete[w]++;
+      if (isEmaDone(wave)) emaComplete[w]++;
       if (wave.ema?.active) emaActive[w]++;
       if (wave.v2?.allComplete) v2Complete[w]++;
     }
@@ -97,7 +134,9 @@ export function computeStats(participants: Participant[]): DashboardStats {
 
   return {
     totalParticipants: participants.length,
-    byWave, v1Complete, atHomeComplete, sts1Complete, sts2Complete, emaActive, v2Complete,
+    byWave, v1Complete, atHomeComplete,
+    stsComplete, emaComplete,
+    emaActive, v2Complete,
     remindersToday: { sms: 0, email: 0 },  // overridden by callers using due-reminders.json
   };
 }

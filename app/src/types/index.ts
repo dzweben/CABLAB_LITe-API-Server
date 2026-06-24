@@ -173,12 +173,18 @@ export interface SentLogEntry {
 
 export interface DashboardStats {
   totalParticipants: number;
+  // Per-wave count of participants who appear in that wave.
+  // NOTE: byWave is NOT the denominator for cross-wave completion ratios.
+  // The denominator for V1/V2/STS/EMA/at-home cross-wave ratios is
+  // `totalParticipants`.
   byWave: Record<WaveYear, number>;
   // Per-wave completion counts for the marquee numbers on Overview.
   v1Complete: Record<WaveYear, number>;
-  atHomeComplete: Record<WaveYear, number>;
-  sts1Complete: Record<WaveYear, number>;   // all 6 cycles done
-  sts2Complete: Record<WaveYear, number>;   // all 3 cycles done
+  atHomeComplete: Record<WaveYear, number>;  // >= 7 of 8 sections
+  // Single consolidated STS count: >= 5 of 9 surveys (STS1 6 + STS2 3) done.
+  stsComplete: Record<WaveYear, number>;
+  // EMA count: >= 10 of 25 prompts complete.
+  emaComplete: Record<WaveYear, number>;
   emaActive: Record<WaveYear, number>;
   v2Complete: Record<WaveYear, number>;
   // Today's outgoing count by channel.

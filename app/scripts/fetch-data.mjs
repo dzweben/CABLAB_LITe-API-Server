@@ -439,10 +439,11 @@ function computeDueReminders(participants) {
     for (const w of WAVES) {
       const wave = p.waves[w];
       if (!wave) continue;
-      // Wave-level gate: if V2 for this wave is complete, the participant
-      // has finished everything between V1 and V2 (STS1/STS2/EMA/at-home)
-      // and moved on. No sends for this wave anymore.
-      if (wave.v2?.allComplete) continue;
+      // No blanket wave-level gate. Each alert type checks v2.allComplete
+      // for itself — within-wave alerts (STS/at-home/payment) suppress when
+      // V2 is done; EMA Enable does NOT, because enabling EMA for the
+      // *next* wave often happens after the previous wave's V2.
+      const waveV2Done = !!wave.v2?.allComplete;
 
       // STS1 + STS2 — STRICT canonical only.
       //   Invite at the cycle date (if upcoming).
@@ -480,34 +481,48 @@ function computeDueReminders(participants) {
           }
         });
       };
-      queueSts(wave.sts1?.cycles, "sts1", 48, 54, "1");
-      queueSts(wave.sts2?.cycles, "sts2", 89, 93, "2");
+      if (!waveV2Done) {
+        queueSts(wave.sts1?.cycles, "sts1", 48, 54, "1");
+        queueSts(wave.sts2?.cycles, "sts2", 89, 93, "2");
+      }
       // EMA prompts (alerts 64-88) — each fires at its own REDCap-computed
-      // datetime. AUTO when upcoming; MANUAL chase when past + incomplete.
-      wave.ema?.prompts.forEach(prompt => {
-        if (!wave.ema?.active) return;
-        if (wave.ema.settingsComplete === 2 || wave.ema.settingsComplete === 1) return;
-        if (prompt.complete) return;
-        if (!prompt.scheduledAt) return;
-        const t = toEpoch(prompt.scheduledAt);
-        if (t == null) return;
-        if (t >= now && t <= horizon) {
-          const iso = safeIso(t); if (!iso) return;
-          out.push({
-            pid: p.pid, recordId: p.recordId, wave: w,
-            alertId: 64, kind: "ema_prompt", emaKey: prompt.key,
-            instrument: `EMA ${prompt.dayLabel} ${prompt.timeLabel}`,
-            scheduledAt: iso, complete: false,
-          });
-        }
-      });
+      // datetime once the cycle is active. Gate: cycle active + prompt not
+      // yet completed + prompt has a scheduledAt + scheduledAt in window
+      // + wave V2 not yet done.
+      //
+      // NOTE: settingsComplete=2 means the participant DID set up EMA —
+      // that's a PREREQUISITE for prompts firing, not a reason to suppress.
+      // The previous inverted gate was blocking 100% of eligible Y2 EMA
+      // participants. Removed.
+      if (!waveV2Done) {
+        wave.ema?.prompts.forEach(prompt => {
+          if (!wave.ema?.active) return;
+          if (prompt.complete) return;
+          if (!prompt.scheduledAt) return;
+          const t = toEpoch(prompt.scheduledAt);
+          if (t == null) return;
+          if (t >= now && t <= horizon) {
+            const iso = safeIso(t); if (!iso) return;
+            out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId: 64, kind: "ema_prompt", emaKey: prompt.key,
+              instrument: `EMA ${prompt.dayLabel} ${prompt.timeLabel}`,
+              scheduledAt: iso, complete: false,
+            });
+          }
+        });
+      }
 
       // EMA Enable (alert 63) — fires 3d8h before ema_start_day when:
       //   - participant enabled (ema_enable=1)
-      //   - start_day_calc sum has resolved to 0 (rolling 4-week window
-      //     done) OR REDCap auto-resolved after week 5
       //   - cycle hasn't already activated
-      if (wave.ema?.enableConfirmed && wave.ema.startDay && !wave.ema.active && wave.ema.startDayCalcSum === 0) {
+      //   - sendT (start_day - 3d8h) is in the future window
+      // NO wave V2 gate here: enabling EMA for the NEXT wave routinely
+      // happens after the previous wave's V2 has completed.
+      // NO startDayCalcSum===0 requirement: the rolling-4-week countdown
+      // is REDCap-internal; once REDCap has resolved a start_day, the
+      // enable alert should fire whether the calc has zeroed or not.
+      if (wave.ema?.enableConfirmed && wave.ema.startDay && !wave.ema.active) {
         const startT = toEpoch(wave.ema.startDay);
         if (startT != null) {
           const sendT = startT - (3 * 24 + 8) * 3600 * 1000;
@@ -523,17 +538,18 @@ function computeDueReminders(participants) {
         }
       }
 
-      // Payment email (alerts 287 / 288) — STRICT canonical:
+      // Payment email (alerts 287 / 288):
       //   Condition: ema_payment_email_button = 1
       //              AND ema_payment_complete <> 2
       //              AND V2 for this wave not yet complete
       //   Send date: 5 days after screen_time_2_3_date (last STS2 cycle)
       //   Variant:   287 = 13+, 288 = <13
-      // No "overdue" fallback — if the send time has passed, the chance
-      // is gone and the team handles it manually.
+      // Future-window branch fires canonically. Past-window branch surfaces
+      // overdue cases — coordinators flip the button manually sometimes
+      // AFTER the 5-day-after-STS2 window, and those need to be visible.
       if (wave.ema?.paymentEmailButton
           && wave.ema.paymentComplete !== 2
-          && !wave.v2?.allComplete) {
+          && !waveV2Done) {
         const lastCycle = wave.sts2?.cycles[wave.sts2.cycles.length - 1];
         const baseT = lastCycle?.date ? toEpoch(lastCycle.date) : null;
         if (baseT != null) {
@@ -547,6 +563,16 @@ function computeDueReminders(participants) {
               pid: p.pid, recordId: p.recordId, wave: w,
               alertId, kind: "payment_email",
               instrument: `W${w} ${variant} STS-EMA Payment email`,
+              scheduledAt: iso, complete: false,
+            });
+          } else if (sendT < now) {
+            // Past-due — coordinator flipped the button after the canonical
+            // window passed. Surface at "now" so it shows up in the queue.
+            const iso = safeIso(now);
+            if (iso) out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId, kind: "payment_email",
+              instrument: `W${w} ${variant} STS-EMA Payment email (past-due)`,
               scheduledAt: iso, complete: false,
             });
           }
@@ -598,13 +624,23 @@ function computeDueReminders(participants) {
 
 // --- Google Sheets read (PID Session Notes) ---
 //
-// The Excel mirror is /Users/dannyzweben/Downloads/0.LITe.1_PID_sessionnotes.xlsx.
-// Tabs we care about:
-//   Follow up.1 — Y1 follow-up: header row 3, V2 date col N, STS1 P-U, STS2 AB-AD, EMA W/X
-//   Follow up.2 — Y2 follow-up: header row 8, V2 date col M, STS1 O-T, STS2 AB-AD, EMA W/X
+// SOURCE OF TRUTH for V1/V2 dates across all three waves and cohorts.
+// We read from the cohort tabs (1000 / 2000 / 3000) which the team
+// maintains by hand:
+//   - 1000 tab: PIDs 1000-1999 (adults)
+//   - 2000 tab: PIDs 2000-2999 (ages 12-17)
+//   - 3000 tab: PIDs 3000-3999 (ages 18-20)
+// All three tabs share the same column layout for Wave 1 / Wave 2; Wave 3
+// uses AN/AV in tab 1000 vs AM/AU in 2000/3000 (subtle: tab 1000 has an
+// extra Wave 2 V2 "L3 RA" column shifting Wave 3 over by one).
 //
-// We index by PID and merge into participants[].waves[N].followupSheet so the
-// dashboard can show V1/V2 completion the team manually tracks here.
+// LIMITATION: the cohort tabs do NOT carry STS1, STS2, EMA, or compensation
+// columns — STS cycle months and EMA dates lived in the deprecated
+// Follow up.{1,2} tabs only. After this migration STS schedule months
+// fall back to the empty array, so participants whose REDCap STS event
+// hasn't been provisioned yet (e.g. 3156/3157) will show as tracked but
+// with no month-label placeholders. The coordinator needs to point us at
+// a new source for STS/EMA schedule months before we can restore that.
 
 function base64url(buf) {
   return Buffer.from(buf).toString("base64").replace(/=+$/, "").replace(/\+/g, "-").replace(/\//g, "_");
@@ -700,6 +736,39 @@ function hasValue(v) {
   return true;
 }
 
+// Per-cohort-tab schema. Same layout for Wave 1 / Wave 2 across all three;
+// Wave 3 column letters differ between tab 1000 and the 2000/3000 tabs.
+const COHORT_TABS = [
+  { tab: "1000", w1V1: "G", w1V2: "M", w2V1: "U", w2V2: "AC", w3V1: "AN", w3V2: "AV" },
+  { tab: "2000", w1V1: "G", w1V2: "M", w2V1: "U", w2V2: "AC", w3V1: "AM", w3V2: "AU" },
+  { tab: "3000", w1V1: "G", w1V2: "M", w2V1: "U", w2V2: "AC", w3V1: "AM", w3V2: "AU" },
+];
+const COHORT_DATA_START_ROW = 8;   // sheet row 8 = 0-indexed row 7
+const COHORT_PID_COL = "D";
+const COHORT_RECORD_COL = "A";
+
+// Builds an empty per-wave sheet entry with the legacy field shape so
+// downstream consumers (STS page, EMA page, type defs) don't break.
+// STS/EMA/comp/wave-start fields default to null/[] since cohort tabs
+// don't carry them — flag to coordinator.
+function emptyWaveSheetEntry(record, v1Date, v2Date) {
+  return {
+    record,
+    v1Date: v1Date != null ? normalizeSheetCell(v1Date) : null,
+    v2Date: v2Date != null ? normalizeSheetCell(v2Date) : null,
+    sts1Months: [],
+    sts2Months: [],
+    emaDate: null,
+    emaStatus: null,
+    w1Comp: null,
+    w2Comp: null,
+    wave2StartDate: null,
+    wave3StartDate: null,
+    raTag: null,
+    notes: null,
+  };
+}
+
 async function fetchFollowupSheet() {
   if (!GOOGLE_SA_JSON) {
     console.log("  Skipping Google Sheets pull (GOOGLE_SERVICE_ACCOUNT_JSON not set)");
@@ -708,54 +777,51 @@ async function fetchFollowupSheet() {
   const tok = await googleAccessToken();
   if (!tok) return {};
 
-  // Follow up.1 (Y1) — header row 3, data from row 6 onward (rows 4-5 are notes/cohort marker).
-  // Follow up.2 (Y2) — header row 8, data from row 11 onward.
+  // followupByPid[pid] = { y1, y2, y3 } where each yN is the empty-entry
+  // shape iff there's evidence that wave's V1 happened for this PID.
   const followupByPid = {};
+  let totalPids = 0;
 
-  const f1 = await readSheetTab(tok, "Follow up.1!A1:AZ700");
-  for (let i = 5; i < f1.length; i++) {  // 0-indexed row 5 == sheet row 6
-    const row = f1[i];
-    if (!row?.length) continue;
-    const pid = String(cell(row, "D") || "").trim().replace(/\.0$/, "");
-    if (!pid || pid === "PID") continue;
-    if (!followupByPid[pid]) followupByPid[pid] = {};
-    followupByPid[pid].y1 = {
-      record: cell(row, "A"),
-      v2Date: normalizeSheetCell(cell(row, "N")),       // "Visit 2" date → V2Y1 complete if set
-      sts1Months: [cell(row, "P"), cell(row, "Q"), cell(row, "R"), cell(row, "S"), cell(row, "T"), cell(row, "U")].map(normalizeSheetCell),
-      emaDate: normalizeSheetCell(cell(row, "W")),
-      emaStatus: cell(row, "X"),
-      w1Comp: cell(row, "AA"),
-      sts2Months: [cell(row, "AB"), cell(row, "AC"), cell(row, "AD")].map(normalizeSheetCell),
-      wave2StartDate: normalizeSheetCell(cell(row, "AF")),
-      raTag: cell(row, "L"),
-      notes: cell(row, "I"),
-    };
+  for (const tabCfg of COHORT_TABS) {
+    const rows = await readSheetTab(tok, `${tabCfg.tab}!A1:CC1500`);
+    let tabPids = 0;
+    for (let i = COHORT_DATA_START_ROW - 1; i < rows.length; i++) {  // 0-indexed
+      const row = rows[i];
+      if (!row?.length) continue;
+      const pidRaw = cell(row, COHORT_PID_COL);
+      if (pidRaw === null) continue;
+      const pid = String(pidRaw).trim().replace(/\.0$/, "");
+      if (!pid || pid === "PID") continue;
+      const recordId = cell(row, COHORT_RECORD_COL);
+      const w1V1 = cell(row, tabCfg.w1V1);
+      const w1V2 = cell(row, tabCfg.w1V2);
+      const w2V1 = cell(row, tabCfg.w2V1);
+      const w2V2 = cell(row, tabCfg.w2V2);
+      const w3V1 = cell(row, tabCfg.w3V1);
+      const w3V2 = cell(row, tabCfg.w3V2);
+
+      if (!followupByPid[pid]) { followupByPid[pid] = {}; totalPids++; tabPids++; }
+
+      // y1: presence in cohort tab = team is tracking them post-V1 (or
+      // they have a Y1 V1 date). Always populate y1 so STS / EMA pages
+      // can find sheet-tracked participants for Y1.
+      followupByPid[pid].y1 = emptyWaveSheetEntry(recordId, w1V1, w1V2);
+      // y2: present if Y2 V1 happened (U col date filled).
+      if (hasValue(w2V1) || hasValue(w2V2)) {
+        followupByPid[pid].y2 = emptyWaveSheetEntry(recordId, w2V1, w2V2);
+      }
+      // y3: present if Y3 V1 happened.
+      if (hasValue(w3V1) || hasValue(w3V2)) {
+        followupByPid[pid].y3 = emptyWaveSheetEntry(recordId, w3V1, w3V2);
+      }
+    }
+    console.log(`  Cohort tab ${tabCfg.tab}: +${tabPids} PIDs`);
   }
 
-  const f2 = await readSheetTab(tok, "Follow up.2!A1:AZ700");
-  for (let i = 10; i < f2.length; i++) {  // header row 8, data row 11+
-    const row = f2[i];
-    if (!row?.length) continue;
-    const pid = String(cell(row, "A") || "").trim().replace(/\.0$/, "");
-    if (!pid || pid === "PID") continue;
-    if (!followupByPid[pid]) followupByPid[pid] = {};
-    followupByPid[pid].y2 = {
-      record: cell(row, "B"),
-      v2Date: normalizeSheetCell(cell(row, "M")),       // "WAVE 2, V2 Date" → V2Y2 complete if set
-      sts1Months: [cell(row, "O"), cell(row, "P"), cell(row, "Q"), cell(row, "R"), cell(row, "S"), cell(row, "T")].map(normalizeSheetCell),
-      emaDate: normalizeSheetCell(cell(row, "W")),
-      emaStatus: cell(row, "X"),
-      w2Comp: cell(row, "Z"),
-      sts2Months: [cell(row, "AB"), cell(row, "AC"), cell(row, "AD")].map(normalizeSheetCell),
-      wave3StartDate: normalizeSheetCell(cell(row, "AF")),
-      notes: cell(row, "J"),
-    };
-  }
-
-  console.log(`  Followup sheet: ${Object.keys(followupByPid).length} PIDs (` +
-    `${Object.values(followupByPid).filter(x => x.y1).length} Y1, ` +
-    `${Object.values(followupByPid).filter(x => x.y2).length} Y2)`);
+  const y1Count = Object.values(followupByPid).filter(x => x.y1).length;
+  const y2Count = Object.values(followupByPid).filter(x => x.y2).length;
+  const y3Count = Object.values(followupByPid).filter(x => x.y3).length;
+  console.log(`  Cohort sheets: ${totalPids} PIDs (${y1Count} y1, ${y2Count} y2, ${y3Count} y3)`);
   return followupByPid;
 }
 
@@ -878,16 +944,23 @@ async function main() {
     }
   }
 
-  // Merge in Google Sheets data (Follow up.1 + .2)
+  // Merge cohort-tab data (1000 / 2000 / 3000).
   //
-  // Sheet semantics the team actually uses:
-  //   Follow up.1 = added MANUALLY once Y1 V1 happens → presence = Y1 V1 done.
-  //   Follow up.2 = added MANUALLY once Y1 V2 happens (entry into Y2 tracking)
-  //                  → presence = Y1 V2 done, BUT NOT Y2 V1 done. Y2 V1 has
-  //                  to come from REDCap.
-  //   Follow up.2 col M "WAVE 2, V2 Date" = Y1's V2 date (entry into Y2),
-  //                  NOT Y2's V2 date.
-  // For Y2 V1 / V2, trust REDCap completion codes only.
+  // For each wave's V1/V2:
+  //   - Date populated in cohort tab → that visit happened.
+  //   - The date is also set on p.waves[N].vK.date for display.
+  //   - p.waves[N].followupSheet = sheet.yN so STS/EMA pages can list
+  //     sheet-tracked participants even when REDCap event isn't yet
+  //     provisioned (e.g. PIDs 3156/3157 are scheduled for Y2 STS1
+  //     but their screen_time_y2_arm_1 event row hasn't been created).
+  const ensureWave = (p, n) => {
+    if (!p.waves[n]) p.waves[n] = { year: n, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
+    return p.waves[n];
+  };
+  const ensureVisit = (wave, kind) => {
+    if (!wave[kind]) wave[kind] = { date: null, forms: {}, allComplete: false };
+    return wave[kind];
+  };
   const followupByPid = await fetchFollowupSheet();
   let merged = 0;
   for (const p of participants) {
@@ -895,32 +968,24 @@ async function main() {
     const sheet = followupByPid[key];
     if (!sheet) continue;
     merged++;
-    if (sheet.y1) {
-      if (!p.waves[1]) p.waves[1] = { year: 1, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
-      p.waves[1].followupSheet = sheet.y1;
-      // Y1 V1 done = exists in Follow up.1 (team adds them post-V1)
-      if (!p.waves[1].v1) p.waves[1].v1 = { date: null, forms: {}, allComplete: true };
-      else p.waves[1].v1.allComplete = true;
-      // "Visit 2" col N is Y1 V2 date — display only.
-      if (hasValue(sheet.y1.v2Date) && p.waves[1].v2 && !p.waves[1].v2.date) {
-        p.waves[1].v2.date = String(sheet.y1.v2Date);
+    for (const n of [1, 2, 3]) {
+      const yN = sheet[`y${n}`];
+      if (!yN) continue;
+      const wave = ensureWave(p, n);
+      wave.followupSheet = yN;
+      if (hasValue(yN.v1Date)) {
+        const v1 = ensureVisit(wave, "v1");
+        if (!v1.date) v1.date = String(yN.v1Date);
+        v1.allComplete = true;
       }
-    }
-    if (sheet.y2) {
-      if (!p.waves[2]) p.waves[2] = { year: 2, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
-      p.waves[2].followupSheet = sheet.y2;
-      // Y1 V2 done = exists in Follow up.2 (team adds them post-Y1-V2)
-      if (!p.waves[1]) p.waves[1] = { year: 1, v1: null, atHome: null, sts1: null, sts2: null, ema: null, v2: null };
-      if (!p.waves[1].v2) p.waves[1].v2 = { date: null, forms: {}, allComplete: true };
-      else p.waves[1].v2.allComplete = true;
-      // Backfill Y1 V2 date from sheet col M when REDCap is missing it.
-      if (hasValue(sheet.y2.v2Date) && !p.waves[1].v2.date) {
-        p.waves[1].v2.date = String(sheet.y2.v2Date);
+      if (hasValue(yN.v2Date)) {
+        const v2 = ensureVisit(wave, "v2");
+        if (!v2.date) v2.date = String(yN.v2Date);
+        v2.allComplete = true;
       }
-      // Y2 V1/V2: do NOT set from sheet — only REDCap.
     }
   }
-  console.log(`  Merged followup-sheet data into ${merged} participants`);
+  console.log(`  Merged cohort-sheet data into ${merged} participants`);
 
   // ─── Gating ───────────────────────────────────────────────────────────
   // Per coordinator: nobody should appear who hasn't completed Y1 V1, and
