@@ -1003,6 +1003,89 @@ async function main() {
 
   const due = computeDueReminders(participants);
 
+  // Resolve survey links per queued item. Map each kind to its event +
+  // instrument so the queue page can show the actual link a recipient
+  // would click. Skip ones that are already-cached on the wave.sts cycle.
+  const linkByKey = {};  // recordId|event|instrument → link
+  // Pre-seed from the survey-link work we already did on STS cycles.
+  for (const p of participants) {
+    for (const w of WAVES) {
+      const wave = p.waves[w];
+      if (!wave) continue;
+      wave.sts1?.cycles.forEach((c, idx) => {
+        if (c.surveyLink) linkByKey[`${p.recordId}|${eventName("sts1", w)}|screen_time_${idx + 1}`] = c.surveyLink;
+      });
+      wave.sts2?.cycles.forEach((c, idx) => {
+        if (c.surveyLink) linkByKey[`${p.recordId}|${eventName("sts2", w)}|screen_time_${idx + 1}_2`] = c.surveyLink;
+      });
+    }
+  }
+
+  // Helper that derives (eventName, instrumentName) for a queue row.
+  function linkSpec(d) {
+    const evWave = d.wave;
+    if (d.kind === "sts1_invite" || d.kind === "sts1_followup") {
+      const idx = ((d.alertId - 48) % 6 + 6) % 6 || (d.alertId - 54 + 1 - 1);
+      const cycleIndex = d.kind === "sts1_invite" ? (d.alertId - 48) : (d.alertId - 54);
+      return { event: eventName("sts1", evWave), instrument: `screen_time_${cycleIndex + 1}` };
+    }
+    if (d.kind === "sts2_invite" || d.kind === "sts2_followup") {
+      const cycleIndex = d.kind === "sts2_invite" ? (d.alertId - 89) : (d.alertId - 93);
+      return { event: eventName("sts2", evWave), instrument: `screen_time_${cycleIndex + 1}_2` };
+    }
+    if (d.kind === "ema_prompt") {
+      // EMA prompt index — map emaKey to position in EMA_PROMPT_FIELDS
+      const idx = EMA_PROMPT_FIELDS.indexOf(d.emaKey);
+      return { event: eventName("ema", evWave), instrument: `ema_report_${idx >= 0 ? idx + 1 : 1}` };
+    }
+    if (d.kind === "ema_enable") {
+      return { event: eventName("ema", evWave), instrument: "ema_participant_confirmation" };
+    }
+    if (d.kind === "athome_sms" || d.kind === "athome_email") {
+      return { event: eventName("athome", evWave), instrument: "texi" };
+    }
+    if (d.kind === "payment_email") {
+      return { event: eventName("ema", evWave), instrument: "ema_payment" };
+    }
+    return null;
+  }
+
+  // Resolve missing links via REDCap (capped to avoid blowing the token's
+  // rate limit on 5000+ items)
+  const missing = [];
+  for (const d of due) {
+    const spec = linkSpec(d);
+    if (!spec) continue;
+    d._linkKey = `${d.recordId}|${spec.event}|${spec.instrument}`;
+    if (linkByKey[d._linkKey]) {
+      d.surveyLink = linkByKey[d._linkKey];
+    } else {
+      missing.push({ d, spec });
+    }
+  }
+  // Group missing keys to avoid duplicate work, cap to 1500 unique keys.
+  const uniqueKeys = new Map();
+  for (const { d, spec } of missing) {
+    if (!uniqueKeys.has(d._linkKey)) uniqueKeys.set(d._linkKey, { d, spec });
+  }
+  console.log(`  Resolving ${uniqueKeys.size} queue-item survey links (${missing.length} queue rows reference them)…`);
+  const queueLinkTasks = [];
+  const linksToResolve = Array.from(uniqueKeys.values()).slice(0, 1500);
+  for (const { d, spec } of linksToResolve) {
+    queueLinkTasks.push(async () => {
+      const link = await fetchSurveyLink(d.recordId, spec.event, spec.instrument);
+      if (link) linkByKey[d._linkKey] = link;
+    });
+  }
+  await batchAsync(queueLinkTasks, 3, 200);
+  // Back-fill all queue rows with resolved links
+  for (const d of due) {
+    if (!d.surveyLink && d._linkKey && linkByKey[d._linkKey]) {
+      d.surveyLink = linkByKey[d._linkKey];
+    }
+    delete d._linkKey;
+  }
+
   fs.mkdirSync(DATA_DIR, { recursive: true });
   fs.writeFileSync(path.join(DATA_DIR, "participants.json"), JSON.stringify({ participants, fetchedAt: new Date().toISOString() }, null, 2));
   fs.writeFileSync(path.join(DATA_DIR, "due-reminders.json"), JSON.stringify(due, null, 2));

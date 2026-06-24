@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import type { Participant } from "@/types";
-import { WAVE_LABELS, formatDateTime, formatTime, relativeDate } from "@/lib/lite-utils";
+import { WAVE_LABELS, formatDateTime, formatTime, relativeDate, renderMessageTemplate } from "@/lib/lite-utils";
+import { TIMELINE_ALERTS } from "@/lib/timeline";
 import { useCohort, cohortMatches } from "@/lib/cohort";
 import CohortFilter from "@/components/CohortFilter";
 
@@ -17,6 +18,7 @@ interface DueRow {
   scheduledAt: string;
   complete: boolean;
   overdue?: boolean;
+  surveyLink?: string | null;
 }
 
 // Kind → display config
@@ -325,33 +327,60 @@ function DayBlock({
                 <span className="text-xs text-gray-400 shrink-0 w-3">{expanded ? "▲" : "▼"}</span>
               </button>
               {expanded && (
-                <div className="px-5 pb-4 -mt-1 text-xs text-gray-600 bg-gray-50/50 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <p className="font-semibold text-gray-500 mb-1">Recipient</p>
-                    <ul className="space-y-0.5 font-mono">
-                      {contact?.phonePrimary && <li>📱 primary: {contact.phonePrimary}</li>}
-                      {contact?.phoneSecondary && <li>📱 secondary: {contact.phoneSecondary}</li>}
-                      {contact?.childPhone && <li>📱 child: {contact.childPhone}</li>}
-                      {contact?.email && <li>✉ {contact.email}</li>}
-                      {!contact && <li className="text-red-600">No contact info for this PID</li>}
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-500 mb-1">Alert metadata</p>
-                    <dl className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5">
-                      <dt className="text-gray-400">Alert #</dt><dd className="font-mono">{d.alertId}</dd>
-                      <dt className="text-gray-400">Kind</dt><dd className="font-mono">{d.kind}</dd>
-                      <dt className="text-gray-400">When</dt><dd className="font-mono">{formatDateTime(d.scheduledAt)}</dd>
-                      {d.emaKey && (<><dt className="text-gray-400">EMA field</dt><dd className="font-mono">{d.emaKey}</dd></>)}
-                      {d.complete && (<><dt className="text-gray-400">Status</dt><dd className="text-emerald-700">Survey already completed — won't send</dd></>)}
-                    </dl>
-                  </div>
-                </div>
+                <ExpandedRow d={d} contact={contact} />
               )}
             </li>
           );
         })}
       </ul>
+    </div>
+  );
+}
+
+function ExpandedRow({ d, contact }: { d: DueRow; contact: Participant["contact"] | undefined }) {
+  // Look up the template for this (alertId, wave). For wave 1 we fall back to
+  // the wave 2 template since the team treats Y1 as the canonical schedule.
+  const template = TIMELINE_ALERTS.find(t => t.alertId === d.alertId && (t.wave === d.wave || (d.wave === 1 && t.wave === 2)));
+  const rendered = template?.message
+    ? renderMessageTemplate(template.message, contact ? { contact } : null, d.surveyLink || null)
+    : null;
+  return (
+    <div className="px-5 pb-4 -mt-1 text-xs text-gray-600 bg-gray-50/50 grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div>
+        <p className="font-semibold text-gray-500 mb-1">Recipient</p>
+        <ul className="space-y-0.5 font-mono">
+          {contact?.phonePrimary && <li>📱 primary: {contact.phonePrimary}</li>}
+          {contact?.phoneSecondary && <li>📱 secondary: {contact.phoneSecondary}</li>}
+          {contact?.childPhone && <li>📱 child: {contact.childPhone}</li>}
+          {contact?.email && <li>✉ {contact.email}</li>}
+          {!contact && <li className="text-red-600">No contact info for this PID</li>}
+        </ul>
+        <p className="font-semibold text-gray-500 mt-3 mb-1">Alert metadata</p>
+        <dl className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5">
+          <dt className="text-gray-400">Alert #</dt><dd className="font-mono">{d.alertId}</dd>
+          <dt className="text-gray-400">Kind</dt><dd className="font-mono">{d.kind}</dd>
+          <dt className="text-gray-400">When</dt><dd className="font-mono">{formatDateTime(d.scheduledAt)}</dd>
+          {d.emaKey && (<><dt className="text-gray-400">EMA field</dt><dd className="font-mono">{d.emaKey}</dd></>)}
+          {d.complete && (<><dt className="text-gray-400">Status</dt><dd className="text-emerald-700">Survey already completed — won't send</dd></>)}
+          {d.overdue && (<><dt className="text-gray-400">Status</dt><dd className="text-red-600 font-bold">OVERDUE — should already have fired</dd></>)}
+        </dl>
+      </div>
+      <div className="lg:col-span-2">
+        <p className="font-semibold text-gray-500 mb-1">Survey link</p>
+        {d.surveyLink ? (
+          <a href={d.surveyLink} target="_blank" rel="noopener" className="text-indigo-600 hover:underline font-mono break-all">
+            {d.surveyLink}
+          </a>
+        ) : (
+          <p className="text-gray-400 italic">Will be resolved at send time</p>
+        )}
+        <p className="font-semibold text-gray-500 mt-3 mb-1">Rendered message preview</p>
+        {rendered ? (
+          <pre className="whitespace-pre-wrap font-sans text-xs bg-white border border-gray-200 rounded p-3 text-gray-800">{rendered}</pre>
+        ) : (
+          <p className="text-gray-400 italic">No template (alert #{d.alertId} wave {d.wave} not in timeline.ts)</p>
+        )}
+      </div>
     </div>
   );
 }

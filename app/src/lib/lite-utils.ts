@@ -112,6 +112,34 @@ export function pillColor(c: CompletionCode | undefined): string {
   }
 }
 
+// Render an alert message template with substitutions. Mirrors the
+// runtime renderer in scripts/send-due-messages.mjs so the queue page
+// can preview exactly what the participant would receive.
+export function renderMessageTemplate(
+  template: string | null | undefined,
+  participant: { contact: { firstName: string; lastName: string; parentName: string; email: string; phonePrimary: string; phoneSecondary: string; childPhone: string } } | null,
+  surveyLink: string | null
+): string {
+  if (!template) return "";
+  let out = template;
+  if (participant) {
+    const subs: Record<string, string> = {
+      "[preenrollment_arm_1][first_name]": participant.contact.firstName || "",
+      "[preenrollment_arm_1][last_name]": participant.contact.lastName || "",
+      "[preenrollment_arm_1][parent_name]": participant.contact.parentName || "",
+      "[preenrollment_arm_1][email]": participant.contact.email || "",
+      "[preenrollment_arm_1][phone_primary]": participant.contact.phonePrimary || "",
+      "[preenrollment_arm_1][phone_secondary]": participant.contact.phoneSecondary || "",
+    };
+    for (const [k, v] of Object.entries(subs)) out = out.split(k).join(v);
+  }
+  // Replace every [event][survey-link:instrument] with the resolved link.
+  out = out.replace(/\[([a-z0-9_]+)\]\[survey-link:([a-z0-9_]+)\]/gi, () =>
+    surveyLink || "[SURVEY LINK PENDING]"
+  );
+  return out;
+}
+
 // Today / yesterday / tomorrow / Mar 4
 export function relativeDate(s: string | null | undefined): string {
   if (!s) return "—";
