@@ -534,7 +534,11 @@ function computeDueReminders(participants) {
           }
         });
       };
-      if (!waveV2Done) {
+      // STS1/STS2 are POST-V2 follow-ups. Only queue them once the wave's
+      // V2 (the second of two paired in-lab visits, ~1 week after V1) is
+      // done. Participants pre-V2 haven't started the surveillance phase
+      // of this wave yet, so they shouldn't appear in the schedule.
+      if (waveV2Done) {
         queueSts(wave.sts1?.cycles, "sts1", 48, 54, "1");
         queueSts(wave.sts2?.cycles, "sts2", 89, 93, "2");
       }
@@ -547,7 +551,9 @@ function computeDueReminders(participants) {
       // that's a PREREQUISITE for prompts firing, not a reason to suppress.
       // The previous inverted gate was blocking 100% of eligible Y2 EMA
       // participants. Removed.
-      if (!waveV2Done) {
+      // EMA prompts also gate on V2 done — the prompts cycle starts after
+      // the wave's in-lab visits are complete.
+      if (waveV2Done) {
         wave.ema?.prompts.forEach(prompt => {
           if (!wave.ema?.active) return;
           if (prompt.complete) return;
@@ -591,18 +597,18 @@ function computeDueReminders(participants) {
         }
       }
 
-      // Payment email (alerts 287 / 288):
-      //   Condition: ema_payment_email_button = 1
-      //              AND ema_payment_complete <> 2
-      //              AND V2 for this wave not yet complete
-      //   Send date: 5 days after screen_time_2_3_date (last STS2 cycle)
-      //   Variant:   287 = 13+, 288 = <13
-      // Future-window branch fires canonically. Past-window branch surfaces
-      // overdue cases — coordinators flip the button manually sometimes
-      // AFTER the 5-day-after-STS2 window, and those need to be visible.
-      if (wave.ema?.paymentEmailButton
-          && wave.ema.paymentComplete !== 2
-          && !waveV2Done) {
+      // Payment email (alerts 287 / 288) — purely scheduled.
+      //   Send date: 5 days after canonical STS2.3 cycle date.
+      //   Gate: V2 done (post-V2 work) + not already paid.
+      //   Variant: 287 = 13+, 288 = <13 (per dob).
+      // NOTE: the REDCap `ema_payment_email_button` field is a manual
+      // override for the SEND side. The QUEUE is canonical-only and
+      // pre-fills regardless of button state. For new W2 participants
+      // whose ema_y2_arm_1 event hasn't been provisioned yet,
+      // `wave.ema` is null — default paymentComplete to 0 so the
+      // schedule still surfaces.
+      const paymentComplete = wave.ema?.paymentComplete ?? 0;
+      if (waveV2Done && paymentComplete !== 2) {
         const lastCycle = wave.sts2?.cycles[wave.sts2.cycles.length - 1];
         const baseT = lastCycle?.date ? toEpoch(lastCycle.date) : null;
         if (baseT != null) {
@@ -1057,11 +1063,10 @@ async function main() {
       const wave = p.waves[w];
       if (!wave) continue;
 
-      // STS1 anchor: prior wave's V2; Y1 falls back to Y1 V1.
-      let sts1Anchor = null;
-      if (w === 1) sts1Anchor = wave.v1?.date || null;
-      else if (w === 2) sts1Anchor = p.waves[1]?.v2?.date || null;
-      else if (w === 3) sts1Anchor = p.waves[2]?.v2?.date || null;
+      // STS1 anchor: the SAME wave's V2 — STS1.1 fires on day 20 of the
+      // month AFTER V2. V1+V2 are paired in-lab visits at the wave start
+      // (typically ~1 week apart); the 6 monthly STS1 cycles begin after V2.
+      const sts1Anchor = wave.v2?.date || null;
 
       if (sts1Anchor) {
         const dates = computeStsCycleDates(sts1Anchor, 6, 17);
