@@ -259,6 +259,79 @@ function computeStsCycleDates(anchorDate, count, hour = 17) {
   return out;
 }
 
+// EMA cycle is a fixed 10-day schedule keyed off the participant's
+// ema_start_day (which is ALWAYS a Monday — REDCap snaps to the Monday
+// after the participant clicks Enable). Each prompt has a deterministic
+// day-of-week offset and time-of-day pulled from the Timeline of
+// Automated Messages spreadsheet.
+const EMA_DAY_OFFSET = {
+  "Monday 1":    0,
+  "Tuesday 1":   1,
+  "Wednesday 1": 2,
+  "Thursday":    3,
+  "Friday":      4,
+  "Saturday":    5,
+  "Sunday":      6,
+  "Monday 2":    7,
+  "Tuesday 2":   8,
+  "Wednesday 2": 9,
+};
+
+function parseEmaTimeLabel(label) {
+  const m = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i.exec(String(label).trim());
+  if (!m) return null;
+  let hours = parseInt(m[1], 10);
+  const minutes = parseInt(m[2], 10);
+  const ampm = m[3].toUpperCase();
+  if (ampm === "PM" && hours !== 12) hours += 12;
+  if (ampm === "AM" && hours === 12) hours = 0;
+  return { hours, minutes };
+}
+
+// Returns the Monday on or after the given YYYY-MM-DD date. The EMA
+// cycle's start_day is always a Monday — REDCap advances to the next
+// Monday automatically when the participant enables on a Tue–Sun.
+function nextMondayOnOrAfter(dateStr) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(dateStr));
+  if (!m) return null;
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+  if (isNaN(d.getTime())) return null;
+  const dow = d.getUTCDay();              // 0=Sun, 1=Mon, ... 6=Sat
+  const addDays = (1 - dow + 7) % 7;      // shift forward to Monday
+  d.setUTCDate(d.getUTCDate() + addDays);
+  const yyyy = d.getUTCFullYear();
+  const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(d.getUTCDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+// Build the 25 canonical EMA prompt timestamps off a start_day (Monday).
+// Returns "YYYY-MM-DD HH:MM:00" strings keyed by EMA_PROMPTS field name.
+// Falls back to nulls (matching null scheduledAt slots) if start_day is
+// unparseable.
+function computeEmaPromptDates(startDay) {
+  const out = {};
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(startDay || ""));
+  if (!m) {
+    for (const [k] of EMA_PROMPTS) out[k] = null;
+    return out;
+  }
+  const baseY = +m[1], baseM = +m[2] - 1, baseD = +m[3];
+  for (const [key, dayLabel, timeLabel] of EMA_PROMPTS) {
+    const offset = EMA_DAY_OFFSET[dayLabel];
+    const t = parseEmaTimeLabel(timeLabel);
+    if (offset == null || !t) { out[key] = null; continue; }
+    const dt = new Date(Date.UTC(baseY, baseM, baseD + offset));
+    const yyyy = dt.getUTCFullYear();
+    const mm = String(dt.getUTCMonth() + 1).padStart(2, "0");
+    const dd = String(dt.getUTCDate()).padStart(2, "0");
+    const hh = String(t.hours).padStart(2, "0");
+    const mi = String(t.minutes).padStart(2, "0");
+    out[key] = `${yyyy}-${mm}-${dd} ${hh}:${mi}:00`;
+  }
+  return out;
+}
+
 function pivotParticipant(recordRows) {
   if (recordRows.length === 0) return null;
   const recordId = recordRows[0].record_id;
@@ -546,20 +619,20 @@ function computeDueReminders(participants) {
         queueSts(wave.sts1?.cycles, "sts1", 48, 54, "1");
         queueSts(wave.sts2?.cycles, "sts2", 89, 93, "2");
       }
-      // EMA prompts (alerts 64-88) — each fires at its own REDCap-computed
-      // datetime once the cycle is active. Gate: cycle active + prompt not
-      // yet completed + prompt has a scheduledAt + scheduledAt in window
-      // + wave V2 not yet done.
+      // EMA prompts (alerts 64-88) — the 25 micro-survey sends. Per the
+      // user's spec, these have FIXED day-of-week + time-of-day (not
+      // randomized) and ALWAYS start on the Monday after the participant
+      // enables. The canonical pass above materializes them on a Monday
+      // start_day; REDCap-computed scheduledAts (once a cycle is real)
+      // overlay that.
       //
-      // NOTE: settingsComplete=2 means the participant DID set up EMA —
-      // that's a PREREQUISITE for prompts firing, not a reason to suppress.
-      // The previous inverted gate was blocking 100% of eligible Y2 EMA
-      // participants. Removed.
-      // EMA prompts also gate on V2 done — the prompts cycle starts after
-      // the wave's in-lab visits are complete.
+      // Queue gate: V2 done (this is post-V2 surveillance), prompt not
+      // yet completed, has a scheduledAt, scheduledAt in the future
+      // window. We DON'T require ema.active — the spec is canonical, so
+      // upcoming prompts surface for participants whose cycle hasn't
+      // activated yet. Each prompt uses its actual alert ID (64 + index).
       if (waveV2Done) {
-        wave.ema?.prompts.forEach(prompt => {
-          if (!wave.ema?.active) return;
+        wave.ema?.prompts.forEach((prompt, idx) => {
           if (prompt.complete) return;
           if (!prompt.scheduledAt) return;
           const t = toEpoch(prompt.scheduledAt);
@@ -568,7 +641,7 @@ function computeDueReminders(participants) {
             const iso = safeIso(t); if (!iso) return;
             out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
-              alertId: 64, kind: "ema_prompt", emaKey: prompt.key,
+              alertId: 64 + idx, kind: "ema_prompt", emaKey: prompt.key,
               instrument: `EMA ${prompt.dayLabel} ${prompt.timeLabel}`,
               scheduledAt: iso, complete: false,
             });
@@ -1112,23 +1185,31 @@ async function main() {
         }
       }
 
-      // Canonical EMA materialization — ≥13 only. The EMA cycle's
-      // canonical start day is day 1 of (STS1.6 month + 4); the Enable
-      // alert fires 3d8h before that. REDCap doesn't pre-provision the
-      // ema_y{N}_arm_1 event for upcoming waves, so without this pass
-      // no future EMA Enable would ever land in the queue. Under-13s
-      // are excluded by design (no EMA instrument).
+      // Canonical EMA materialization — ≥13 only.
+      //   Anchor (per Timeline of Automated Messages, alert 63):
+      //     ema_start_day = the Monday on/after day 1 of (STS1.6 month + 4).
+      //     The "+4 months from STS1.6" comes from the user's spec; REDCap
+      //     then snaps to the next Monday because the 25 prompts must
+      //     start on a Monday by protocol.
+      //   Materialized fields:
+      //     - startDay (Monday)
+      //     - enableConfirmed = true (canonical = team intends to send)
+      //     - 25 prompts with scheduledAt computed from EMA_PROMPTS table
+      //       (deterministic day-offset + fixed time-of-day per the spec,
+      //       which the user clarified is fixed not randomized).
+      //   REDCap-provisioned rows (where buildEMA() already populated
+      //   wave.ema) keep their real start_day; we only fill in any
+      //   missing pieces.
+      //   Under-13s are excluded by design (no EMA instrument for them).
       if (sts2Anchor) {
         const age = p.contact?.age;
         const isUnder13 = typeof age === "number" && age < 13;
         if (!isUnder13) {
-          // sts2Anchor IS the canonical EMA start day (day 1 of
-          // STS1.6 month + 4 — same formula).
-          const canonicalEmaStart = sts2Anchor;
+          const canonicalStart = nextMondayOnOrAfter(sts2Anchor);
           if (!wave.ema) {
             wave.ema = {
               active: false,
-              startDay: canonicalEmaStart,
+              startDay: canonicalStart,
               startDayCalc: null,
               startDayCalcSum: 0,
               enableConfirmed: true,
@@ -1137,15 +1218,36 @@ async function main() {
               paymentComplete: 0,
               enableSent: false,
               phone: p.contact?.phonePrimary || "",
-              prompts: [],
+              prompts: EMA_PROMPTS.map(([k, day, time]) => ({
+                key: k, dayLabel: day, timeLabel: time,
+                scheduledAt: null, complete: false,
+              })),
             };
           } else {
-            if (!wave.ema.startDay) wave.ema.startDay = canonicalEmaStart;
-            // Materialized cycles always count as enable-confirmed for
-            // queue purposes — the team flips the real REDCap flag at
-            // send time. Leave existing `enableConfirmed === true` rows
-            // untouched.
+            if (!wave.ema.startDay) wave.ema.startDay = canonicalStart;
             if (!wave.ema.enableConfirmed) wave.ema.enableConfirmed = true;
+            // Make sure the prompts array has all 25 slots — REDCap may
+            // have given us fewer if the event row was partial.
+            if (!Array.isArray(wave.ema.prompts) || wave.ema.prompts.length < EMA_PROMPTS.length) {
+              const have = new Set((wave.ema.prompts || []).map(p => p.key));
+              wave.ema.prompts = wave.ema.prompts || [];
+              for (const [k, day, time] of EMA_PROMPTS) {
+                if (!have.has(k)) {
+                  wave.ema.prompts.push({
+                    key: k, dayLabel: day, timeLabel: time,
+                    scheduledAt: null, complete: false,
+                  });
+                }
+              }
+            }
+          }
+          // Canonical prompt scheduledAt fill-in. Only touches prompts
+          // whose scheduledAt is missing — REDCap-computed values win.
+          const dates = computeEmaPromptDates(wave.ema.startDay);
+          for (const prompt of wave.ema.prompts) {
+            if (!prompt.scheduledAt && dates[prompt.key]) {
+              prompt.scheduledAt = dates[prompt.key];
+            }
           }
         }
       }
