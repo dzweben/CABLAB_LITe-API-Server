@@ -1111,6 +1111,44 @@ async function main() {
           wave.sts2.active = true;
         }
       }
+
+      // Canonical EMA materialization — ≥13 only. The EMA cycle's
+      // canonical start day is day 1 of (STS1.6 month + 4); the Enable
+      // alert fires 3d8h before that. REDCap doesn't pre-provision the
+      // ema_y{N}_arm_1 event for upcoming waves, so without this pass
+      // no future EMA Enable would ever land in the queue. Under-13s
+      // are excluded by design (no EMA instrument).
+      if (sts2Anchor) {
+        const age = p.contact?.age;
+        const isUnder13 = typeof age === "number" && age < 13;
+        if (!isUnder13) {
+          // sts2Anchor IS the canonical EMA start day (day 1 of
+          // STS1.6 month + 4 — same formula).
+          const canonicalEmaStart = sts2Anchor;
+          if (!wave.ema) {
+            wave.ema = {
+              active: false,
+              startDay: canonicalEmaStart,
+              startDayCalc: null,
+              startDayCalcSum: 0,
+              enableConfirmed: true,
+              settingsComplete: 0,
+              paymentEmailButton: false,
+              paymentComplete: 0,
+              enableSent: false,
+              phone: p.contact?.phonePrimary || "",
+              prompts: [],
+            };
+          } else {
+            if (!wave.ema.startDay) wave.ema.startDay = canonicalEmaStart;
+            // Materialized cycles always count as enable-confirmed for
+            // queue purposes — the team flips the real REDCap flag at
+            // send time. Leave existing `enableConfirmed === true` rows
+            // untouched.
+            if (!wave.ema.enableConfirmed) wave.ema.enableConfirmed = true;
+          }
+        }
+      }
     }
   }
   console.log(`  Applied canonical STS schedule to ${stsScheduled} wave entries`);
