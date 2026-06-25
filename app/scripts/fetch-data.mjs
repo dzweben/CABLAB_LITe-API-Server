@@ -214,6 +214,51 @@ function num(s) {
 function dayLabelForKey(k)  { return EMA_LABELS[k]?.day  ?? k; }
 function timeLabelForKey(k) { return EMA_LABELS[k]?.time ?? ""; }
 
+// Years between dob and today, or null if dob unparseable.
+function computeAgeFromDob(dobStr) {
+  if (!dobStr) return null;
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(dobStr));
+  if (!m) return null;
+  const dob = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  if (isNaN(dob.getTime())) return null;
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  const monthDiff = today.getMonth() - dob.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) age--;
+  return age;
+}
+
+// Canonical STS schedule from a single anchor.
+//
+//   STS1 fires at 17:00 (5 PM) on day 20 of the month following the
+//   anchor + (i × 1 month). Anchor for Yn STS1 = prior wave's V2 (or for
+//   Y1, the participant's V1 since there's no prior wave).
+//
+//   STS2 fires at 17:00 (5 PM) on day 20 of the month following the
+//   anchor + (i × 1 month). Anchor = ema_start_day for ≥13, or
+//   "hypothetical EMA" date for <13 (= 1 month after STS1 cycle 6).
+//
+// Returns ["YYYY-MM-DD 17:00:00", ...] of `count` entries — same shape as
+// the REDCap-native date strings so toEpoch() can attach Eastern offset
+// later. Returns array of nulls if the anchor is unparseable.
+function computeStsCycleDates(anchorDate, count, hour = 17) {
+  if (!anchorDate) return Array(count).fill(null);
+  const raw = String(anchorDate).slice(0, 10);
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw);
+  if (!m) return Array(count).fill(null);
+  let year = parseInt(m[1], 10);
+  let month = parseInt(m[2], 10);  // 1-12 (anchor month)
+  const out = [];
+  for (let i = 0; i < count; i++) {
+    month++;
+    if (month > 12) { month = 1; year++; }
+    const mm = String(month).padStart(2, "0");
+    const hh = String(hour).padStart(2, "0");
+    out.push(`${year}-${mm}-20 ${hh}:00:00`);
+  }
+  return out;
+}
+
 function pivotParticipant(recordRows) {
   if (recordRows.length === 0) return null;
   const recordId = recordRows[0].record_id;
@@ -242,8 +287,13 @@ function pivotParticipant(recordRows) {
     // 1000-1999 -> "Y2 cohort", 2000+ -> "Y3 cohort" per the session-notes
     // workbook convention. Keep the raw record_id range as the label.
     cohortGroup: pick("cohort_group") || pick("tppid") || "",
-    // Age — controls which payment-email variant fires (#287 13+ vs #288 <13).
-    age: Number(pick("age") || pick("participant_age") || 0) || null,
+    // DOB from REDCap preenrollment (already in the bulk fetch — no extra
+    // API call). Age computed from DOB.
+    // Age gates: <13 doesn't get the EMA survey; STS2 still scheduled
+    // using a hypothetical EMA anchor. Also drives payment variant
+    // (#287 = 13+, #288 = <13).
+    dob: pick("dob") || null,
+    age: computeAgeFromDob(pick("dob")) ?? (Number(pick("age") || pick("participant_age") || 0) || null),
   };
   // The friendly PID for coordinators is the REDCap record_id (1-3160 range).
   const pid = String(recordId);
@@ -363,6 +413,69 @@ function pivotParticipant(recordRows) {
     };
 
     if (waves[w].v1 && !waves[w].v2?.allComplete) activeWave = w;
+  }
+
+  // ─── Canonical STS schedule per coordinator spec ─────────────────────
+  // STS1: 5 PM Eastern on day 20 of month following V2 of the PRIOR wave
+  //       (or V1 of the current wave for Y1, since there's no prior V2).
+  // STS2: 5 PM Eastern on day 20 of month following EMA (or hypothetical
+  //       EMA for <13 — taken as 1 month after STS1 cycle 6).
+  //
+  // We OVERRIDE the REDCap-stored cycle.date with the computed canonical
+  // date. REDCap's `complete` codes still drive completion state — only
+  // the *date* is recomputed.
+  const ageYears = contact.age;
+  const isUnder13 = ageYears != null && ageYears < 13;
+  for (const w of WAVES) {
+    const wave = waves[w];
+    if (!wave) continue;
+
+    // STS1 anchor
+    let sts1Anchor = null;
+    if (w === 1) {
+      sts1Anchor = wave.v1?.date || null;
+    } else if (w === 2) {
+      sts1Anchor = waves[1]?.v2?.date || null;
+    } else if (w === 3) {
+      sts1Anchor = waves[2]?.v2?.date || null;
+    }
+    if (sts1Anchor && wave.sts1?.cycles) {
+      const dates = computeStsCycleDates(sts1Anchor, 6, 17);
+      for (let i = 0; i < 6; i++) {
+        if (wave.sts1.cycles[i] && dates[i]) {
+          wave.sts1.cycles[i].date = dates[i];
+        }
+      }
+    }
+
+    // STS2 anchor — real EMA for ≥13, hypothetical for <13
+    let sts2Anchor = null;
+    if (!isUnder13) {
+      sts2Anchor = wave.ema?.startDay || null;
+    }
+    if (!sts2Anchor && wave.sts1?.cycles?.[5]?.date) {
+      // <13 (or EMA not yet scheduled): hypothetical EMA = STS1.6 + 1 month.
+      // STS2 then anchors on that, so STS2.1 = day 20 of month after.
+      // STS1.6 date is already "day 20 of month X" from the override above,
+      // so we just advance by 1 month and feed that as the anchor.
+      const s16 = String(wave.sts1.cycles[5].date).slice(0, 10);
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s16);
+      if (m) {
+        let year = parseInt(m[1], 10);
+        let month = parseInt(m[2], 10) + 1;
+        if (month > 12) { month = 1; year++; }
+        const mm = String(month).padStart(2, "0");
+        sts2Anchor = `${year}-${mm}-20`;
+      }
+    }
+    if (sts2Anchor && wave.sts2?.cycles) {
+      const dates = computeStsCycleDates(sts2Anchor, 3, 17);
+      for (let i = 0; i < 3; i++) {
+        if (wave.sts2.cycles[i] && dates[i]) {
+          wave.sts2.cycles[i].date = dates[i];
+        }
+      }
+    }
   }
 
   return {
