@@ -28,6 +28,11 @@ export interface ContactInfo {
   childPhone: string;
   // Comma-separated cohort label from the Session Notes sheet: "1000" | "2000" | "3000".
   cohortGroup: string;
+  // Computed from REDCap `dob` when available, falling back to self-report.
+  // Used to gate 13+ instruments (EMA, payment variant). null when neither
+  // dob nor age is on file.
+  dob: string | null;
+  age: number | null;
 }
 
 export interface AtHomeStatus {

@@ -119,6 +119,7 @@ export function computeStats(participants: Participant[]): DashboardStats {
   const v2Complete: Record<WaveYear, number> = { 1: 0, 2: 0, 3: 0 };
 
   for (const p of participants) {
+    const isUnder13 = typeof p.contact?.age === "number" && p.contact.age < 13;
     for (const w of WAVE_YEARS) {
       const wave = p.waves[w];
       if (!wave) continue;
@@ -126,8 +127,13 @@ export function computeStats(participants: Participant[]): DashboardStats {
       if (wave.v1?.allComplete) v1Complete[w]++;
       if (isAtHomeDone(wave)) atHomeComplete[w]++;
       if (isStsDone(wave)) stsComplete[w]++;
-      if (isEmaDone(wave)) emaComplete[w]++;
-      if (wave.ema?.active) emaActive[w]++;
+      // EMA is a 13+ instrument by design; under-13s aren't sent prompts.
+      // Exclude them from the EMA columns so the ratio reflects the actual
+      // eligible cohort, not the whole study.
+      if (!isUnder13) {
+        if (isEmaDone(wave)) emaComplete[w]++;
+        if (wave.ema?.active) emaActive[w]++;
+      }
       if (wave.v2?.allComplete) v2Complete[w]++;
     }
   }

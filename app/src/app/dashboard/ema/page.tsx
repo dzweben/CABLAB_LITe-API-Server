@@ -21,10 +21,14 @@ export default function EMAPage() {
   }, []);
 
   const rows = useMemo(() => {
-    // Include anyone tracked for this wave: either REDCap EMA data exists
-    // OR they're in the cohort sheet for this wave.
+    // EMA is a 13+ instrument — under-13 participants are never sent
+    // prompts, so they're filtered out entirely. Unknown age falls
+    // through (better to surface and let the coordinator notice than
+    // hide silently).
     let xs = participants.filter(p => {
       if (!cohortMatches(p.pid, cohort)) return false;
+      const age = p.contact?.age;
+      if (typeof age === "number" && age < 13) return false;
       const w = p.waves[wave];
       return !!(w?.ema || w?.followupSheet);
     });
