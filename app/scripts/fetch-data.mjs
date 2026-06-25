@@ -416,46 +416,48 @@ function pivotParticipant(recordRows) {
   }
 
   // ─── Canonical STS schedule per coordinator spec ─────────────────────
-  // STS1: 5 PM Eastern on day 20 of month following V2 of the PRIOR wave
-  //       (or V1 of the current wave for Y1, since there's no prior V2).
-  // STS2: 5 PM Eastern on day 20 of month following EMA (or hypothetical
-  //       EMA for <13 — taken as 1 month after STS1 cycle 6).
+  // STS1: 5 PM Eastern on day 20 of month following prior wave's V2 (or
+  //       Y1 V1 for the first wave). 6 cycles, monthly.
+  // STS2: 5 PM Eastern on day 20 of month following canonical EMA. The
+  //       canonical EMA = day 1 of (STS1.6 month + 4). Both ≥13 and <13
+  //       use the same anchor — <13 just doesn't get the EMA survey
+  //       itself. 3 cycles, monthly.
   //
-  // We OVERRIDE the REDCap-stored cycle.date with the computed canonical
-  // date. REDCap's `complete` codes still drive completion state — only
-  // the *date* is recomputed.
+  // We MATERIALIZE the cycles array even if REDCap hasn't provisioned the
+  // STS event yet — that way participants who are about to start STS still
+  // get the right future sends in the queue. When the REDCap event arrives,
+  // its `complete` codes overlay later via the completion-report fetch.
   const ageYears = contact.age;
   const isUnder13 = ageYears != null && ageYears < 13;
+
+  const makeCycle = (i, date) => ({ index: i + 1, date, complete: 0, surveyLink: null });
+
   for (const w of WAVES) {
     const wave = waves[w];
     if (!wave) continue;
 
-    // STS1 anchor
+    // STS1 anchor: prior wave's V2, or Y1 V1 for the first wave.
     let sts1Anchor = null;
-    if (w === 1) {
-      sts1Anchor = wave.v1?.date || null;
-    } else if (w === 2) {
-      sts1Anchor = waves[1]?.v2?.date || null;
-    } else if (w === 3) {
-      sts1Anchor = waves[2]?.v2?.date || null;
-    }
-    if (sts1Anchor && wave.sts1?.cycles) {
+    if (w === 1) sts1Anchor = wave.v1?.date || null;
+    else if (w === 2) sts1Anchor = waves[1]?.v2?.date || null;
+    else if (w === 3) sts1Anchor = waves[2]?.v2?.date || null;
+
+    if (sts1Anchor) {
       const dates = computeStsCycleDates(sts1Anchor, 6, 17);
+      if (!wave.sts1) wave.sts1 = { active: false, cycles: [] };
+      // Ensure 6 cycles exist; backfill any missing entries.
       for (let i = 0; i < 6; i++) {
-        if (wave.sts1.cycles[i] && dates[i]) {
-          wave.sts1.cycles[i].date = dates[i];
-        }
+        if (!wave.sts1.cycles[i]) wave.sts1.cycles[i] = makeCycle(i, dates[i]);
+        else if (dates[i]) wave.sts1.cycles[i].date = dates[i];
+      }
+      // If we materialized cycles for a wave the team has actually
+      // entered (any REDCap data or V1 done), treat the cycle as active.
+      if (!wave.sts1.active && (wave.v1?.allComplete || wave.followupSheet)) {
+        wave.sts1.active = true;
       }
     }
 
-    // STS2 anchor — both ≥13 and <13 use the SAME canonical EMA date.
-    // <13 doesn't get the EMA survey itself, but their STS2 fires at the
-    // same wall-clock time the ≥13 cohort peers would receive it (per
-    // coordinator: "happens at the same time the others would have it").
-    //
-    // Canonical EMA date = day 1 of month that's 4 months after STS1.6
-    // (per the Enable trigger spec: "4 months after invite 1.6 on the
-    // first 1st of the month").
+    // STS2 anchor: canonical EMA = day 1 of (STS1.6 month + 4).
     let sts2Anchor = null;
     if (wave.sts1?.cycles?.[5]?.date) {
       const s16 = String(wave.sts1.cycles[5].date).slice(0, 10);
@@ -468,12 +470,15 @@ function pivotParticipant(recordRows) {
         sts2Anchor = `${year}-${mm}-01`;
       }
     }
-    if (sts2Anchor && wave.sts2?.cycles) {
+    if (sts2Anchor) {
       const dates = computeStsCycleDates(sts2Anchor, 3, 17);
+      if (!wave.sts2) wave.sts2 = { active: false, cycles: [] };
       for (let i = 0; i < 3; i++) {
-        if (wave.sts2.cycles[i] && dates[i]) {
-          wave.sts2.cycles[i].date = dates[i];
-        }
+        if (!wave.sts2.cycles[i]) wave.sts2.cycles[i] = makeCycle(i, dates[i]);
+        else if (dates[i]) wave.sts2.cycles[i].date = dates[i];
+      }
+      if (!wave.sts2.active && (wave.v1?.allComplete || wave.followupSheet)) {
+        wave.sts2.active = true;
       }
     }
   }
