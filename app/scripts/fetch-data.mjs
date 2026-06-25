@@ -618,17 +618,9 @@ function computeDueReminders(participants) {
               instrument: `W${w} ${variant} STS-EMA Payment email`,
               scheduledAt: iso, complete: false,
             });
-          } else if (sendT < now) {
-            // Past-due — coordinator flipped the button after the canonical
-            // window passed. Surface at "now" so it shows up in the queue.
-            const iso = safeIso(now);
-            if (iso) out.push({
-              pid: p.pid, recordId: p.recordId, wave: w,
-              alertId, kind: "payment_email",
-              instrument: `W${w} ${variant} STS-EMA Payment email (past-due)`,
-              scheduledAt: iso, complete: false,
-            });
           }
+          // No past-due fallback — this is a scheduled queue, not an
+          // outstanding-work list.
         }
       }
 
