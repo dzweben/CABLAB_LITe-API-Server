@@ -508,8 +508,9 @@ function computeDueReminders(participants) {
         cycles?.forEach((c, idx) => {
           const baseT = toEpoch(c.date);
           if (baseT == null) return;
-          if (c.complete === 2) return;  // already done
+          if (c.complete === 2) return;  // already done — no invite or follow-ups
 
+          // Invite fires only if its own date is still in the future.
           if (baseT >= now && baseT <= horizon) {
             const iso = safeIso(baseT);
             if (iso) out.push({
@@ -519,18 +520,21 @@ function computeDueReminders(participants) {
               instrument: `Screen Time Auto Invite ${instrumentNum}.${idx + 1}`,
               scheduledAt: iso, complete: false,
             });
-            for (let d = 1; d <= 6; d++) {
-              const t = baseT + d * 24 * 3600 * 1000;
-              if (t < now || t > horizon) continue;
-              const isoFu = safeIso(t); if (!isoFu) continue;
-              out.push({
-                pid: p.pid, recordId: p.recordId, wave: w,
-                alertId: followupAlertBase + idx,
-                kind: `${kind}_followup`,
-                instrument: `Screen Time Follow Up ${instrumentNum}.${idx + 1} (day ${d})`,
-                scheduledAt: isoFu, complete: false,
-              });
-            }
+          }
+          // Follow-up days 1–6 are scheduled per-day. An invite that fired
+          // last week can still have day-5 / day-6 follow-ups queued for the
+          // future, as long as the survey is still incomplete.
+          for (let d = 1; d <= 6; d++) {
+            const t = baseT + d * 24 * 3600 * 1000;
+            if (t < now || t > horizon) continue;
+            const isoFu = safeIso(t); if (!isoFu) continue;
+            out.push({
+              pid: p.pid, recordId: p.recordId, wave: w,
+              alertId: followupAlertBase + idx,
+              kind: `${kind}_followup`,
+              instrument: `Screen Time Follow Up ${instrumentNum}.${idx + 1} (day ${d})`,
+              scheduledAt: isoFu, complete: false,
+            });
           }
         });
       };
