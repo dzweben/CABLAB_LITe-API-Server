@@ -448,24 +448,24 @@ function pivotParticipant(recordRows) {
       }
     }
 
-    // STS2 anchor — real EMA for ≥13, hypothetical for <13
+    // STS2 anchor — both ≥13 and <13 use the SAME canonical EMA date.
+    // <13 doesn't get the EMA survey itself, but their STS2 fires at the
+    // same wall-clock time the ≥13 cohort peers would receive it (per
+    // coordinator: "happens at the same time the others would have it").
+    //
+    // Canonical EMA date = day 1 of month that's 4 months after STS1.6
+    // (per the Enable trigger spec: "4 months after invite 1.6 on the
+    // first 1st of the month").
     let sts2Anchor = null;
-    if (!isUnder13) {
-      sts2Anchor = wave.ema?.startDay || null;
-    }
-    if (!sts2Anchor && wave.sts1?.cycles?.[5]?.date) {
-      // <13 (or EMA not yet scheduled): hypothetical EMA = STS1.6 + 1 month.
-      // STS2 then anchors on that, so STS2.1 = day 20 of month after.
-      // STS1.6 date is already "day 20 of month X" from the override above,
-      // so we just advance by 1 month and feed that as the anchor.
+    if (wave.sts1?.cycles?.[5]?.date) {
       const s16 = String(wave.sts1.cycles[5].date).slice(0, 10);
       const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s16);
       if (m) {
         let year = parseInt(m[1], 10);
-        let month = parseInt(m[2], 10) + 1;
-        if (month > 12) { month = 1; year++; }
+        let month = parseInt(m[2], 10) + 4;
+        while (month > 12) { month -= 12; year++; }
         const mm = String(month).padStart(2, "0");
-        sts2Anchor = `${year}-${mm}-20`;
+        sts2Anchor = `${year}-${mm}-01`;
       }
     }
     if (sts2Anchor && wave.sts2?.cycles) {
