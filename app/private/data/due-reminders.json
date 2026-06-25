@@ -990,6 +990,105 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=ik7tjrMZbvrLyPk8"
   },
   {
+    "pid": "1037",
+    "recordId": "1037",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-06-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=MY7NTAwtiWLTnpIC"
+  },
+  {
+    "pid": "2026",
+    "recordId": "2026",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-06-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=EPhUxr4nCcoZD7a2"
+  },
+  {
+    "pid": "2033",
+    "recordId": "2033",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-06-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=crtcFAQe5ImyikvV"
+  },
+  {
+    "pid": "2107",
+    "recordId": "2107",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-06-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Z27ahRUWNgZMD3g3"
+  },
+  {
+    "pid": "3062",
+    "recordId": "3062",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-06-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=ARwsp2Aq72kCVTfZ"
+  },
+  {
+    "pid": "3082",
+    "recordId": "3082",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-06-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Ru8TYWTRedIj2MwS"
+  },
+  {
+    "pid": "3101",
+    "recordId": "3101",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-06-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=aFT9xDytxP5gpg6b"
+  },
+  {
+    "pid": "3141",
+    "recordId": "3141",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-06-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=oFuUuGa7bgF8BB5P"
+  },
+  {
+    "pid": "3143",
+    "recordId": "3143",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-06-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=ifRWAzC2bJ9ULGDt"
+  },
+  {
     "pid": "1003",
     "recordId": "1003",
     "wave": 2,
@@ -9449,6 +9548,61 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=pw7XPxPERK7B4Ufd"
   },
   {
+    "pid": "1023",
+    "recordId": "1023",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-07-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=z4fspxqR33R3yN3Q"
+  },
+  {
+    "pid": "1024",
+    "recordId": "1024",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-07-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=krC9ZHMs6HQ7pe3K"
+  },
+  {
+    "pid": "1050",
+    "recordId": "1050",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-07-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=tgfTojWU578tgud5"
+  },
+  {
+    "pid": "3027",
+    "recordId": "3027",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-07-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=UgcXmA2RfLsjVZi2"
+  },
+  {
+    "pid": "3130",
+    "recordId": "3130",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-07-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=YK6Y2QHAbWpJBu74"
+  },
+  {
     "pid": "1003",
     "recordId": "1003",
     "wave": 2,
@@ -16709,6 +16863,105 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=qRi7NbPFpkFvABaW"
   },
   {
+    "pid": "1022",
+    "recordId": "1022",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-08-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=pQcLDIhBTymGV8hx"
+  },
+  {
+    "pid": "1051",
+    "recordId": "1051",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-08-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=ZvAyYyQURX7dRXIm"
+  },
+  {
+    "pid": "1053",
+    "recordId": "1053",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-08-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=MFcaYPTYNA3qRXLY"
+  },
+  {
+    "pid": "1056",
+    "recordId": "1056",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-08-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=A4TCDtRsX4T4DcbW"
+  },
+  {
+    "pid": "2040",
+    "recordId": "2040",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-08-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=e5MfVpcNIR2v2fa7"
+  },
+  {
+    "pid": "2048",
+    "recordId": "2048",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-08-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Tik9mRuVuWyyRzVb"
+  },
+  {
+    "pid": "2049",
+    "recordId": "2049",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-08-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=rnbDCPYw7tV8difE"
+  },
+  {
+    "pid": "2052",
+    "recordId": "2052",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-08-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=FBtF37evd3B9pMpB"
+  },
+  {
+    "pid": "3043",
+    "recordId": "3043",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-08-29T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Lg5H2TCB7Hgo3hZU"
+  },
+  {
     "pid": "1023",
     "recordId": "1023",
     "wave": 2,
@@ -22539,6 +22792,50 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=GgzkWHAuY3tyxaT7"
   },
   {
+    "pid": "2039",
+    "recordId": "2039",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-09-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=6eWSEJoIaERSsxYP"
+  },
+  {
+    "pid": "2047",
+    "recordId": "2047",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-09-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Awmi2iSkmtDPxyCj"
+  },
+  {
+    "pid": "2074",
+    "recordId": "2074",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-09-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=nhPFvffHeCFtc78i"
+  },
+  {
+    "pid": "3156",
+    "recordId": "3156",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-09-28T05:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=X4FqfEkncgIrCW84"
+  },
+  {
     "pid": "1022",
     "recordId": "1022",
     "wave": 2,
@@ -26961,6 +27258,72 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=j3BybaMK4oueH8dW"
   },
   {
+    "pid": "2035",
+    "recordId": "2035",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-10-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=JueUaG7I6sz6MsvS"
+  },
+  {
+    "pid": "2045",
+    "recordId": "2045",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-10-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=MchaIhAsYwSFgACk"
+  },
+  {
+    "pid": "2062",
+    "recordId": "2062",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-10-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=KVSBFvvEsgjB3FxZ"
+  },
+  {
+    "pid": "3146",
+    "recordId": "3146",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-10-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=xhDWvVn5WVkz7wTA"
+  },
+  {
+    "pid": "3148",
+    "recordId": "3148",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-10-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=cZPdrvBCpR7QLItv"
+  },
+  {
+    "pid": "3157",
+    "recordId": "3157",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-10-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=raGC2ixL2UgXauu9"
+  },
+  {
     "pid": "1022",
     "recordId": "1022",
     "wave": 2,
@@ -30602,6 +30965,50 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=DexpM7tBan72ipYr"
   },
   {
+    "pid": "1069",
+    "recordId": "1069",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-11-28T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Tf4DXr8QkJaacraH"
+  },
+  {
+    "pid": "2069",
+    "recordId": "2069",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-11-28T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=jDyfpvPDwixmXmU3"
+  },
+  {
+    "pid": "2075",
+    "recordId": "2075",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-11-28T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Dt7opEFSbFIfbzRL"
+  },
+  {
+    "pid": "3147",
+    "recordId": "3147",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-11-28T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=rD2gaSzAq26DMJ7B"
+  },
+  {
     "pid": "1022",
     "recordId": "1022",
     "wave": 2,
@@ -33616,6 +34023,83 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=8xXDkWM29IQmjj66"
   },
   {
+    "pid": "1067",
+    "recordId": "1067",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-12-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=9dI3cesX5Zunwg4c"
+  },
+  {
+    "pid": "1074",
+    "recordId": "1074",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-12-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=gQ6ynHT3vWhZt5Zg"
+  },
+  {
+    "pid": "2050",
+    "recordId": "2050",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-12-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Ih9EhBGVR4goiwmW"
+  },
+  {
+    "pid": "2081",
+    "recordId": "2081",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-12-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=3VBBvCFIvRyUMkL6"
+  },
+  {
+    "pid": "2090",
+    "recordId": "2090",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-12-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=g6iaWcUb7L8iSdhR"
+  },
+  {
+    "pid": "2091",
+    "recordId": "2091",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-12-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=DXdCEsuY32negtIu"
+  },
+  {
+    "pid": "2095",
+    "recordId": "2095",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-12-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=ohNkEqqerNLZ4YXx"
+  },
+  {
     "pid": "1047",
     "recordId": "1047",
     "wave": 2,
@@ -34989,6 +35473,61 @@
     "scheduledAt": "2027-01-26T22:00:00.000Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=sLZ3HHIaCMDtSTTV"
+  },
+  {
+    "pid": "1079",
+    "recordId": "1079",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2027-01-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=ssQ7fPswFHvMdmeJ"
+  },
+  {
+    "pid": "1123",
+    "recordId": "1123",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2027-01-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=ypcAeWaSW7AeWoRU"
+  },
+  {
+    "pid": "2019",
+    "recordId": "2019",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2027-01-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=MqZC6XsgEk8EKRQW"
+  },
+  {
+    "pid": "2059",
+    "recordId": "2059",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2027-01-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=U3WBtK9bQCcI2hwF"
+  },
+  {
+    "pid": "2084",
+    "recordId": "2084",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2027-01-29T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=jsdqzBaCwawiyURQ"
   },
   {
     "pid": "1067",
@@ -36650,6 +37189,61 @@
     "scheduledAt": "2027-02-25T22:00:00.000Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=qGwYGCx264wnnrur"
+  },
+  {
+    "pid": "2085",
+    "recordId": "2085",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2027-02-26T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=dnNaWUwZsvVaNSez"
+  },
+  {
+    "pid": "2105",
+    "recordId": "2105",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2027-02-26T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=iqMgPPkWQHPYcdf6"
+  },
+  {
+    "pid": "2108",
+    "recordId": "2108",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2027-02-26T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=IaPoFVo2IcLbEaUe"
+  },
+  {
+    "pid": "2109",
+    "recordId": "2109",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2027-02-26T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=oFzk7666MwXQ8HtP"
+  },
+  {
+    "pid": "2116",
+    "recordId": "2116",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2027-02-26T06:00:00.000Z",
+    "complete": false,
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=2vaQsCNLboWgGcYP"
   },
   {
     "pid": "1067",
