@@ -6,7 +6,7 @@
     "alertId": 288,
     "kind": "payment_email",
     "instrument": "W1 <13 STS-EMA Payment email (past-due)",
-    "scheduledAt": "2026-06-25T15:23:24.681Z",
+    "scheduledAt": "2026-06-25T18:34:49.929Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=L5pfxS5sQ53MTroZ"
   }
