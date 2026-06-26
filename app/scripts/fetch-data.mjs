@@ -554,6 +554,22 @@ function safeIso(epoch) {
   try { return new Date(epoch).toISOString(); } catch { return null; }
 }
 
+// "YYYY-MM-DD" pulled off the Eastern-time wall calendar for an epoch.
+// Used to derive the date portion of an EMA start_day Monday for
+// downstream prompt-schedule materialization.
+function isoDateOnly(epoch) {
+  if (!isFinite(epoch)) return null;
+  try {
+    const off = easternOffset(new Date(epoch).toISOString().slice(0, 10));
+    const offHours = parseInt(off.slice(0, 3), 10);
+    const local = new Date(epoch + offHours * 3600 * 1000);
+    const yyyy = local.getUTCFullYear();
+    const mm = String(local.getUTCMonth() + 1).padStart(2, "0");
+    const dd = String(local.getUTCDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  } catch { return null; }
+}
+
 function computeDueReminders(participants) {
   const out = [];
   const now = Date.now();
@@ -624,28 +640,55 @@ function computeDueReminders(participants) {
       // participant has filled out the EMA Enable form and the cycle
       // activates — the dashboard never owns those sends.
 
-      // EMA Enable (alert 63) — the canonical nudge that the DASHBOARD
-      // sends to the participant. Per the user's spec:
-      //   - Fires 3d8h before ema_start_day (a Monday).
-      //   - Canonical for every ≥13 participant — we do not gate on any
-      //     REDCap "team flipped enable" flag (that flag is no longer
-      //     used).
-      //   - Suppressed once the cycle has activated (ema_cycle=1, i.e.
-      //     wave.ema.active) — at that point the participant already
-      //     answered and prompts are running.
+      // EMA Enable (alert 63) — the canonical nudge the DASHBOARD sends
+      // to the participant. Per the user's spec:
+      //   - The first nudge fires 3d8h before ema_start_day (a Monday).
+      //   - If the participant hasn't answered the Enable form by that
+      //     Monday, the cycle shifts +1 week and a new nudge fires 3d8h
+      //     before the next Monday. This repeats up to 4 weeks total.
+      //     After week 4 the cycle auto-starts whether they enabled or
+      //     not.
+      //   - "Answered the Enable form" = ema_settings_complete === 2.
+      //     Once that's true, we stop queuing further weekly retries.
+      //   - Each nudge carries a `wouldTriggerPrompts` payload: the 25
+      //     prompt timestamps that would fire if the participant enables
+      //     before THAT Monday. The queue page renders this on click.
+      //   - Suppressed entirely once the cycle has activated
+      //     (ema_cycle=1, i.e. wave.ema.active).
       const enableAge = p.contact?.age;
       const enableIsUnder13 = typeof enableAge === "number" && enableAge < 13;
+      const settingsAnswered = wave.ema?.settingsComplete === 2;
       if (!enableIsUnder13 && wave.ema?.startDay && !wave.ema.active) {
-        const startT = toEpoch(wave.ema.startDay);
-        if (startT != null) {
-          const sendT = startT - (3 * 24 + 8) * 3600 * 1000;
-          if (sendT >= now && sendT <= horizon) {
+        const startT0 = toEpoch(wave.ema.startDay);
+        if (startT0 != null) {
+          const WEEK_MS = 7 * 24 * 3600 * 1000;
+          const NUDGE_OFFSET_MS = (3 * 24 + 8) * 3600 * 1000;
+          // If settings are already answered, REDCap will activate on
+          // the next Monday — no further weekly retries needed.
+          const maxWeeks = settingsAnswered ? 1 : 4;
+          for (let wkIdx = 0; wkIdx < maxWeeks; wkIdx++) {
+            const startT = startT0 + wkIdx * WEEK_MS;
+            const sendT = startT - NUDGE_OFFSET_MS;
+            if (sendT < now || sendT > horizon) continue;
             const iso = safeIso(sendT);
-            if (iso) out.push({
+            if (!iso) continue;
+            // Compute the would-be prompt schedule for this week's
+            // hypothetical Monday — same EMA_PROMPTS layout, shifted to
+            // start on startT.
+            const startDateStr = isoDateOnly(startT);
+            const promptDates = startDateStr ? computeEmaPromptDates(startDateStr) : {};
+            const wouldTriggerPrompts = EMA_PROMPTS.map(([k, day, time]) => ({
+              key: k, dayLabel: day, timeLabel: time,
+              scheduledAt: promptDates[k] || null,
+            }));
+            out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
               alertId: 63, kind: "ema_enable",
-              instrument: `EMA Y${w} Enable`,
+              instrument: `EMA Y${w} Enable${wkIdx > 0 ? ` (retry week ${wkIdx + 1})` : ""}`,
               scheduledAt: iso, complete: false,
+              nudgeWeek: wkIdx + 1,
+              hypotheticalStartDay: startDateStr,
+              wouldTriggerPrompts,
             });
           }
         }
