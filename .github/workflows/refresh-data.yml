@@ -9,6 +9,17 @@ on:
 permissions:
   contents: write
 
+# Serialize runs. The pipeline fetches → commits → `git pull --rebase`
+# → vercel build/deploy, all against the same data files. If two runs
+# overlap, a deploy can grab a participants.json that another run is
+# mid-rebase / mid-write on, shipping a TRUNCATED file the API can't
+# parse (dashboard renders empty). cancel-in-progress:false makes each
+# run finish fully before the next starts, so a deploy always sees a
+# consistent, fully-written file.
+concurrency:
+  group: refresh-lite-data
+  cancel-in-progress: false
+
 jobs:
   fetch-and-deploy:
     runs-on: ubuntu-latest
@@ -53,6 +64,20 @@ jobs:
               sleep 5
             done
           fi
+
+      - name: Validate data files before deploy
+        run: |
+          set -e
+          # Hard gate: never deploy a file that won't parse. If the fetch
+          # or a rebase produced truncated/corrupt JSON, fail here so the
+          # last known-good deploy stays live instead of shipping an
+          # empty dashboard.
+          for f in participants due-reminders last-fetch; do
+            node -e "JSON.parse(require('fs').readFileSync('private/data/$f.json','utf8'))" \
+              || { echo "::error::private/data/$f.json is not valid JSON — aborting deploy"; exit 1; }
+          done
+          # Sanity floor: participants.json must hold a non-trivial roster.
+          node -e "const d=JSON.parse(require('fs').readFileSync('private/data/participants.json','utf8')); if(!Array.isArray(d.participants)||d.participants.length<100){console.error('::error::participants.json has only',(d.participants||[]).length,'records — aborting deploy');process.exit(1)} console.log('Validated',d.participants.length,'participants')"
 
       - name: Deploy to Vercel
         env:
