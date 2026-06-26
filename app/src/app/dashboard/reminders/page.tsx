@@ -28,10 +28,8 @@ interface DueRow {
   surveyLink?: string | null;
   mode?: "auto" | "manual";
   daysOverdue?: number;
-  // EMA Enable retries only: which weekly retry this is (1..4) + the
-  // Monday it's nudging toward + the 25 prompts that would fire if the
-  // participant enables before that Monday.
-  nudgeWeek?: number;
+  // EMA Enable only: the Monday it's nudging toward + the 25 prompts
+  // that would fire if the participant enables before that Monday.
   hypotheticalStartDay?: string;
   wouldTriggerPrompts?: HypotheticalPrompt[];
 }
@@ -373,12 +371,6 @@ function ExpandedRow({ d, contact }: { d: DueRow; contact: Participant["contact"
             <dt className="text-gray-400">Kind</dt><dd className="font-mono">{d.kind}</dd>
             <dt className="text-gray-400">When</dt><dd className="font-mono">{formatDateTime(d.scheduledAt)}</dd>
             {d.emaKey && (<><dt className="text-gray-400">EMA field</dt><dd className="font-mono">{d.emaKey}</dd></>)}
-            {isEmaEnable && d.nudgeWeek && (
-              <>
-                <dt className="text-gray-400">Nudge week</dt>
-                <dd className="font-mono">{d.nudgeWeek} of 4</dd>
-              </>
-            )}
             {isEmaEnable && d.hypotheticalStartDay && (
               <>
                 <dt className="text-gray-400">If enabled by</dt>
@@ -410,7 +402,6 @@ function ExpandedRow({ d, contact }: { d: DueRow; contact: Participant["contact"
       {isEmaEnable && hypotheticals.length > 0 && (
         <HypotheticalPromptSchedule
           startDay={d.hypotheticalStartDay}
-          nudgeWeek={d.nudgeWeek}
           prompts={hypotheticals}
         />
       )}
@@ -437,11 +428,9 @@ function fmtPromptDate(scheduledAt: string | null | undefined, opts: { weekday?:
 
 function HypotheticalPromptSchedule({
   startDay,
-  nudgeWeek,
   prompts,
 }: {
   startDay?: string;
-  nudgeWeek?: number;
   prompts: HypotheticalPrompt[];
 }) {
   // Group prompts by day-of-week label so the 25 timestamps read like
@@ -465,11 +454,6 @@ function HypotheticalPromptSchedule({
           {startDay ? <span className="font-mono">{fmtPromptDate(startDay, { weekday: true, year: true })}</span> : "the upcoming Monday"},
           these 25 EMA prompts will fire over the following 10 days:
         </p>
-        {nudgeWeek && nudgeWeek > 1 && (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">
-            Retry week {nudgeWeek} of 4
-          </span>
-        )}
       </div>
       {firstDate && lastDate && (
         <p className="text-xs text-emerald-800 mb-3">

@@ -448,51 +448,16 @@ function pivotParticipant(recordRows) {
         complete: num(row[`${k}_complete`] || row.ema_response_complete) === 2,
       }));
 
-      // ── 4-week Enable structure (per the REDCap EMA form) ───────────────
-      // The participant gets up to FOUR weekly chances to click Enable,
-      // each its own field + start_day + countdown calc:
-      //   week 1: ema_cycle   / ema_start_day   / ema_start_day_calc
-      //   week 2: ema_cycle_2 / ema_start_day_2 / ema_start_day_calc_2
-      //   week 3: ema_cycle_3 / ema_start_day_3 / ema_start_day_calc_3
-      //   week 4: ema_cycle_4 / ema_start_day_4 / ema_start_day_calc_4 (@HIDDEN auto-start)
-      // A week is "enabled" when its cycle radio is set to a non-empty,
-      // non-Disable value. Disable is coded "0"; we treat anything else
-      // non-empty as Enable so we're robust whether the Enable option
-      // codes to 1 uniformly or 1/2/3/4 per field.
-      const isEnabledVal = (v) => v != null && v !== "" && v !== "0";
-      const cycleFields = ["ema_cycle", "ema_cycle_2", "ema_cycle_3", "ema_cycle_4"];
-      const startDayFields = ["ema_start_day", "ema_start_day_2", "ema_start_day_3", "ema_start_day_4"];
-      const calcFields = ["ema_start_day_calc", "ema_start_day_calc_2", "ema_start_day_calc_3", "ema_start_day_calc_4"];
-      const weeks = cycleFields.map((cf, i) => ({
-        week: i + 1,
-        cycleRaw: row[cf] ?? "",
-        enabled: isEnabledVal(row[cf]),
-        startDay: row[startDayFields[i]] || null,
-        calc: row[calcFields[i]] != null && row[calcFields[i]] !== "" ? Number(row[calcFields[i]]) : null,
-      }));
-      const enabledWeek = weeks.find(w => w.enabled)?.week ?? null;
-      const anyEnabled = enabledWeek != null;
-
-      // ema_start_day_calc sums (1..4) count down weekly while waiting for
-      // the participant to enable. When the sum hits 0, the cycle is ready
-      // to fire and ema_start_day is locked. After 4 weeks the calcs
-      // auto-resolve and the prompts go regardless.
-      const startDayCalcSum =
-        num(row.ema_start_day_calc) +
-        num(row.ema_start_day_calc_2) +
-        num(row.ema_start_day_calc_3) +
-        num(row.ema_start_day_calc_4);
+      // Single EMA Enable field (REDCap simplified to one ema_cycle /
+      // ema_start_day; the legacy 4-week retry fields are gone). The
+      // cycle is "active" once the participant clicks Enable (ema_cycle
+      // set to a non-empty, non-Disable value); the 25 prompts then run.
+      const cycleVal = row.ema_cycle;
+      const active = cycleVal != null && cycleVal !== "" && cycleVal !== "0";
       return {
-        // `active` = the cycle has been enabled in ANY of the 4 weeks (not
-        // just week 1). Once true, the 25 prompts run and we stop nudging.
-        active: anyEnabled,
-        enabledWeek,              // 1-4 which week they enabled, or null
-        weeks,                    // per-week {cycleRaw, enabled, startDay, calc}
-        // startDay = the enabled week's start day if enabled; otherwise the
-        // earliest week-1 start day (the canonical first Monday).
-        startDay: (anyEnabled ? weeks.find(w => w.enabled).startDay : weeks[0].startDay) || null,
+        active,
+        startDay: row.ema_start_day || null,
         startDayCalc: row.ema_start_day_calc ? Number(row.ema_start_day_calc) : null,
-        startDayCalcSum,
         enableConfirmed: row.ema_enable === "1",
         settingsComplete: num(row.ema_settings_complete),
         paymentEmailButton: row.ema_payment_email_button === "1",
@@ -689,46 +654,33 @@ function computeDueReminders(participants) {
       //     (ema_cycle=1, i.e. wave.ema.active).
       const enableAge = p.contact?.age;
       const enableIsUnder13 = typeof enableAge === "number" && enableAge < 13;
-      // Suppress all nudges once the participant has enabled in ANY week
-      // (wave.ema.active is true if any of ema_cycle / _2 / _3 / _4 is set).
-      if (!enableIsUnder13 && wave.ema && !wave.ema.active) {
-        const WEEK_MS = 7 * 24 * 3600 * 1000;
-        const NUDGE_OFFSET_MS = (3 * 24 + 8) * 3600 * 1000;
-        // Per-week start Mondays. Prefer REDCap's real ema_start_day /
-        // _2 / _3 / _4 (wave.ema.weeks[i].startDay); fall back to the
-        // canonical "+1 week" math only where REDCap hasn't populated
-        // that week's date yet.
-        const weeks = wave.ema.weeks || [];
-        const week1StartT = weeks[0]?.startDay ? toEpoch(weeks[0].startDay) : null;
-        for (let wkIdx = 0; wkIdx < 4; wkIdx++) {
-          const wk = weeks[wkIdx];
-          // Skip a week the participant already enabled (shouldn't happen
-          // since active gates the whole block, but be safe per-week).
-          if (wk?.enabled) continue;
-          // Resolve this week's Monday: real REDCap date first, else
-          // computed from week-1 + wkIdx weeks.
-          let startT = wk?.startDay ? toEpoch(wk.startDay) : null;
-          if (startT == null && week1StartT != null) startT = week1StartT + wkIdx * WEEK_MS;
-          if (startT == null) continue;
-          const sendT = startT - NUDGE_OFFSET_MS;
-          if (sendT < now || sendT > horizon) continue;
-          const iso = safeIso(sendT);
-          if (!iso) continue;
-          const startDateStr = isoDateOnly(startT);
-          const promptDates = startDateStr ? computeEmaPromptDates(startDateStr) : {};
-          const wouldTriggerPrompts = EMA_PROMPTS.map(([k, day, time]) => ({
-            key: k, dayLabel: day, timeLabel: time,
-            scheduledAt: promptDates[k] || null,
-          }));
-          out.push({
-            pid: p.pid, recordId: p.recordId, wave: w,
-            alertId: 63, kind: "ema_enable",
-            instrument: `EMA Y${w} Enable${wkIdx > 0 ? ` (retry week ${wkIdx + 1})` : ""}`,
-            scheduledAt: iso, complete: false,
-            nudgeWeek: wkIdx + 1,
-            hypotheticalStartDay: startDateStr,
-            wouldTriggerPrompts,
-          });
+      // One enable nudge per wave, 3d8h before ema_start_day (a Monday).
+      // Suppressed once the participant has enabled (wave.ema.active).
+      // The nudge carries the 25-prompt preview (wouldTriggerPrompts) so
+      // the queue can show what fires if they enable before that Monday.
+      if (!enableIsUnder13 && wave.ema && !wave.ema.active && wave.ema.startDay) {
+        const startT = toEpoch(wave.ema.startDay);
+        if (startT != null) {
+          const sendT = startT - (3 * 24 + 8) * 3600 * 1000;
+          if (sendT >= now && sendT <= horizon) {
+            const iso = safeIso(sendT);
+            if (iso) {
+              const startDateStr = isoDateOnly(startT);
+              const promptDates = startDateStr ? computeEmaPromptDates(startDateStr) : {};
+              const wouldTriggerPrompts = EMA_PROMPTS.map(([k, day, time]) => ({
+                key: k, dayLabel: day, timeLabel: time,
+                scheduledAt: promptDates[k] || null,
+              }));
+              out.push({
+                pid: p.pid, recordId: p.recordId, wave: w,
+                alertId: 63, kind: "ema_enable",
+                instrument: `EMA Y${w} Enable`,
+                scheduledAt: iso, complete: false,
+                hypotheticalStartDay: startDateStr,
+                wouldTriggerPrompts,
+              });
+            }
+          }
         }
       }
 
@@ -1280,24 +1232,11 @@ async function main() {
         const isUnder13 = typeof age === "number" && age < 13;
         if (!isUnder13) {
           const canonicalStart = nextMondayOnOrAfter(sts2Anchor);
-          // Build the 4 canonical weekly start Mondays (week N = +1 week).
-          const WK = 7 * 24 * 3600 * 1000;
-          const baseT = canonicalStart ? toEpoch(canonicalStart) : null;
-          const canonicalWeeks = [0, 1, 2, 3].map(i => ({
-            week: i + 1,
-            cycleRaw: "",
-            enabled: false,
-            startDay: baseT != null ? isoDateOnly(baseT + i * WK) : (i === 0 ? canonicalStart : null),
-            calc: null,
-          }));
           if (!wave.ema) {
             wave.ema = {
               active: false,
-              enabledWeek: null,
-              weeks: canonicalWeeks,
               startDay: canonicalStart,
               startDayCalc: null,
-              startDayCalcSum: 0,
               enableConfirmed: false,
               settingsComplete: 0,
               paymentEmailButton: false,
@@ -1306,42 +1245,14 @@ async function main() {
               phone: p.contact?.phonePrimary || "",
               prompts: [],
             };
-          } else {
-            if (!wave.ema.startDay) wave.ema.startDay = canonicalStart;
-            // If REDCap hasn't provisioned the weekly start days, seed the
-            // canonical ones so the nudge schedule still materializes.
-            if (!Array.isArray(wave.ema.weeks) || wave.ema.weeks.length === 0) {
-              wave.ema.weeks = canonicalWeeks;
-            }
+          } else if (!wave.ema.startDay) {
+            wave.ema.startDay = canonicalStart;
           }
         }
       }
     }
   }
   console.log(`  Applied canonical STS schedule to ${stsScheduled} wave entries`);
-
-  // ── EMA Enable diagnostic ────────────────────────────────────────────
-  // Verify the 4-week enable structure against real REDCap data so we can
-  // confirm calibration (which weeks participants enable, whether the
-  // per-week start_day fields are populated, what enable codes appear).
-  {
-    const counts = { withEma: 0, enabledAny: 0, byWeek: { 1: 0, 2: 0, 3: 0, 4: 0 }, realStartDay2: 0 };
-    const sampleEnableCodes = new Set();
-    for (const p of participants) {
-      for (const w of WAVES) {
-        const ema = p.waves[w]?.ema;
-        if (!ema || !Array.isArray(ema.weeks)) continue;
-        counts.withEma++;
-        if (ema.enabledWeek) { counts.enabledAny++; counts.byWeek[ema.enabledWeek]++; }
-        ema.weeks.forEach((wk, i) => {
-          if (wk.cycleRaw !== "" && wk.cycleRaw != null) sampleEnableCodes.add(`wk${i + 1}:${wk.cycleRaw}`);
-          if (i >= 1 && wk.startDay) counts.realStartDay2++;
-        });
-      }
-    }
-    console.log(`  EMA enable diag: ${counts.withEma} ema events · enabled ${counts.enabledAny} (by week ${JSON.stringify(counts.byWeek)}) · weeks2-4 with real start_day: ${counts.realStartDay2}`);
-    console.log(`  EMA enable codes seen: ${[...sampleEnableCodes].slice(0, 20).join(", ") || "(none non-empty)"}`);
-  }
 
   // ─── Gating ───────────────────────────────────────────────────────────
   // Per coordinator: nobody should appear who hasn't completed Y1 V1, and
