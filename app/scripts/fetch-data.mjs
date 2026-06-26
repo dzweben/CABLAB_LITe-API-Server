@@ -1135,6 +1135,25 @@ async function main() {
   }
   console.log(`  Merged cohort-sheet data into ${merged} participants`);
 
+  // ─── V1/V2 completion = cohort tab, full stop ────────────────────────
+  // The session-notes cohort tabs (1000/2000/3000) are the SINGLE source
+  // of truth for whether a visit happened. REDCap break_*_complete codes
+  // must NOT independently mark a visit done — a stray break=2 on a
+  // barely-started visit event was inflating the counts (Y2 V1 showed
+  // 219 instead of the 208 actual col-U dates: 11 REDCap-only phantoms;
+  // Y1 V1 showed a 1076 record that isn't even in the cohort tabs).
+  // After this pass, allComplete strictly mirrors the presence of the
+  // team's date in the tab.
+  for (const p of participants) {
+    for (const n of [1, 2, 3]) {
+      const wave = p.waves[n];
+      if (!wave) continue;
+      const sheet = wave.followupSheet || {};
+      if (wave.v1) wave.v1.allComplete = hasValue(sheet.v1Date);
+      if (wave.v2) wave.v2.allComplete = hasValue(sheet.v2Date);
+    }
+  }
+
   // ─── Canonical STS schedule pass ─────────────────────────────────────
   // Run AFTER the cohort-sheet merge so wave.vK.date is populated with
   // the team's actual V1/V2 dates from the 1000/2000/3000 tabs.
