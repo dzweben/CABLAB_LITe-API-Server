@@ -418,6 +418,23 @@ function ExpandedRow({ d, contact }: { d: DueRow; contact: Participant["contact"
   );
 }
 
+// Format a "YYYY-MM-DD ..." wall-clock string into a readable calendar
+// label. We parse the date portion manually (UTC) so the weekday/month
+// never drift across the viewer's timezone. weekday=true prepends the
+// abbreviated day of week.
+function fmtPromptDate(scheduledAt: string | null | undefined, opts: { weekday?: boolean; year?: boolean } = {}): string {
+  if (!scheduledAt) return "—";
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(scheduledAt);
+  if (!m) return "—";
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+  if (isNaN(d.getTime())) return "—";
+  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const wd = opts.weekday ? `${DOW[d.getUTCDay()]} ` : "";
+  const yr = opts.year ? `, ${m[1]}` : "";
+  return `${wd}${MONTHS[+m[2] - 1]} ${+m[3]}${yr}`;
+}
+
 function HypotheticalPromptSchedule({
   startDay,
   nudgeWeek,
@@ -436,11 +453,16 @@ function HypotheticalPromptSchedule({
   // Preserve the spec order: Monday 1, Tuesday 1, Wed 1, Thu, Fri, Sat, Sun, Monday 2, Tuesday 2, Wed 2.
   const order = ["Monday 1", "Tuesday 1", "Wednesday 1", "Thursday", "Friday", "Saturday", "Sunday", "Monday 2", "Tuesday 2", "Wednesday 2"];
   const orderedDays = order.filter(d => groups[d]);
+  // Overall window: first prompt date → last prompt date.
+  const allDated = prompts.map(p => p.scheduledAt).filter(Boolean).sort() as string[];
+  const firstDate = allDated[0];
+  const lastDate = allDated[allDated.length - 1];
   return (
     <div className="bg-emerald-50/60 border border-emerald-200 rounded-lg p-4">
-      <div className="flex items-baseline justify-between flex-wrap gap-2 mb-3">
+      <div className="flex items-baseline justify-between flex-wrap gap-2 mb-1">
         <p className="font-semibold text-emerald-900 text-sm">
-          If they answer this Enable nudge before {startDay ? <span className="font-mono">{startDay} (Mon)</span> : "the upcoming Monday"},
+          If they answer this Enable nudge before{" "}
+          {startDay ? <span className="font-mono">{fmtPromptDate(startDay, { weekday: true, year: true })}</span> : "the upcoming Monday"},
           these 25 EMA prompts will fire over the following 10 days:
         </p>
         {nudgeWeek && nudgeWeek > 1 && (
@@ -449,22 +471,30 @@ function HypotheticalPromptSchedule({
           </span>
         )}
       </div>
+      {firstDate && lastDate && (
+        <p className="text-xs text-emerald-800 mb-3">
+          Window: <span className="font-mono font-semibold">{fmtPromptDate(firstDate, { weekday: true })}</span>
+          {" → "}
+          <span className="font-mono font-semibold">{fmtPromptDate(lastDate, { weekday: true, year: true })}</span>
+        </p>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
-        {orderedDays.map(day => (
-          <div key={day} className="bg-white border border-emerald-100 rounded p-2">
-            <p className="text-[10px] font-semibold text-emerald-700 uppercase tracking-wider mb-1.5">{day}</p>
-            <ul className="space-y-1">
-              {groups[day].map(p => (
-                <li key={p.key} className="flex items-center justify-between gap-2 text-xs">
-                  <span className="font-mono text-gray-700">{p.timeLabel}</span>
-                  <span className="font-mono text-[10px] text-gray-400">
-                    {p.scheduledAt ? p.scheduledAt.slice(5, 10) : "—"}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        {orderedDays.map(day => {
+          const dayDate = groups[day].find(p => p.scheduledAt)?.scheduledAt || null;
+          return (
+            <div key={day} className="bg-white border border-emerald-100 rounded p-2">
+              <p className="text-[10px] font-semibold text-emerald-700 uppercase tracking-wider">{day}</p>
+              <p className="text-xs font-bold text-gray-900 mb-1.5 font-mono">{fmtPromptDate(dayDate, { weekday: true })}</p>
+              <ul className="space-y-1">
+                {groups[day].map(p => (
+                  <li key={p.key} className="text-xs font-mono text-gray-700">
+                    {p.timeLabel}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </div>
       <p className="text-[11px] text-emerald-700/80 mt-2 italic">
         25 total · Times are fixed (per the Timeline of Automated Messages); only the start Monday shifts with each weekly retry.
