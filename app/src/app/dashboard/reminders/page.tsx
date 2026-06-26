@@ -7,6 +7,13 @@ import { TIMELINE_ALERTS } from "@/lib/timeline";
 import { useCohort, cohortMatches } from "@/lib/cohort";
 import CohortFilter from "@/components/CohortFilter";
 
+interface HypotheticalPrompt {
+  key: string;
+  dayLabel: string;
+  timeLabel: string;
+  scheduledAt: string | null;
+}
+
 interface DueRow {
   pid: string;
   recordId: string;
@@ -21,6 +28,12 @@ interface DueRow {
   surveyLink?: string | null;
   mode?: "auto" | "manual";
   daysOverdue?: number;
+  // EMA Enable retries only: which weekly retry this is (1..4) + the
+  // Monday it's nudging toward + the 25 prompts that would fire if the
+  // participant enables before that Monday.
+  nudgeWeek?: number;
+  hypotheticalStartDay?: string;
+  wouldTriggerPrompts?: HypotheticalPrompt[];
 }
 
 // Kind → display config
@@ -340,43 +353,122 @@ function ExpandedRow({ d, contact }: { d: DueRow; contact: Participant["contact"
   const rendered = template?.message
     ? renderMessageTemplate(template.message, contact ? { contact } : null, d.surveyLink || null)
     : null;
+  const isEmaEnable = d.kind === "ema_enable";
+  const hypotheticals = d.wouldTriggerPrompts || [];
   return (
-    <div className="px-5 pb-4 -mt-1 text-xs text-gray-600 bg-gray-50/50 grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div>
-        <p className="font-semibold text-gray-500 mb-1">Recipient</p>
-        <ul className="space-y-0.5 font-mono">
-          {contact?.phonePrimary && <li>📱 primary: {contact.phonePrimary}</li>}
-          {contact?.phoneSecondary && <li>📱 secondary: {contact.phoneSecondary}</li>}
-          {contact?.childPhone && <li>📱 child: {contact.childPhone}</li>}
-          {contact?.email && <li>✉ {contact.email}</li>}
-          {!contact && <li className="text-red-600">No contact info for this PID</li>}
-        </ul>
-        <p className="font-semibold text-gray-500 mt-3 mb-1">Alert metadata</p>
-        <dl className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5">
-          <dt className="text-gray-400">Alert #</dt><dd className="font-mono">{d.alertId}</dd>
-          <dt className="text-gray-400">Kind</dt><dd className="font-mono">{d.kind}</dd>
-          <dt className="text-gray-400">When</dt><dd className="font-mono">{formatDateTime(d.scheduledAt)}</dd>
-          {d.emaKey && (<><dt className="text-gray-400">EMA field</dt><dd className="font-mono">{d.emaKey}</dd></>)}
-          {d.complete && (<><dt className="text-gray-400">Status</dt><dd className="text-emerald-700">Survey already completed — won't send</dd></>)}
-          {d.overdue && (<><dt className="text-gray-400">Status</dt><dd className="text-red-600 font-bold">OVERDUE — should already have fired</dd></>)}
-        </dl>
+    <div className="px-5 pb-4 -mt-1 text-xs text-gray-600 bg-gray-50/50 space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div>
+          <p className="font-semibold text-gray-500 mb-1">Recipient</p>
+          <ul className="space-y-0.5 font-mono">
+            {contact?.phonePrimary && <li>📱 primary: {contact.phonePrimary}</li>}
+            {contact?.phoneSecondary && <li>📱 secondary: {contact.phoneSecondary}</li>}
+            {contact?.childPhone && <li>📱 child: {contact.childPhone}</li>}
+            {contact?.email && <li>✉ {contact.email}</li>}
+            {!contact && <li className="text-red-600">No contact info for this PID</li>}
+          </ul>
+          <p className="font-semibold text-gray-500 mt-3 mb-1">Alert metadata</p>
+          <dl className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5">
+            <dt className="text-gray-400">Alert #</dt><dd className="font-mono">{d.alertId}</dd>
+            <dt className="text-gray-400">Kind</dt><dd className="font-mono">{d.kind}</dd>
+            <dt className="text-gray-400">When</dt><dd className="font-mono">{formatDateTime(d.scheduledAt)}</dd>
+            {d.emaKey && (<><dt className="text-gray-400">EMA field</dt><dd className="font-mono">{d.emaKey}</dd></>)}
+            {isEmaEnable && d.nudgeWeek && (
+              <>
+                <dt className="text-gray-400">Nudge week</dt>
+                <dd className="font-mono">{d.nudgeWeek} of 4</dd>
+              </>
+            )}
+            {isEmaEnable && d.hypotheticalStartDay && (
+              <>
+                <dt className="text-gray-400">If enabled by</dt>
+                <dd className="font-mono">{d.hypotheticalStartDay} (Mon)</dd>
+              </>
+            )}
+            {d.complete && (<><dt className="text-gray-400">Status</dt><dd className="text-emerald-700">Survey already completed — won't send</dd></>)}
+            {d.overdue && (<><dt className="text-gray-400">Status</dt><dd className="text-red-600 font-bold">OVERDUE — should already have fired</dd></>)}
+          </dl>
+        </div>
+        <div className="lg:col-span-2">
+          <p className="font-semibold text-gray-500 mb-1">Survey link</p>
+          {d.surveyLink ? (
+            <a href={d.surveyLink} target="_blank" rel="noopener" className="text-indigo-600 hover:underline font-mono break-all">
+              {d.surveyLink}
+            </a>
+          ) : (
+            <p className="text-gray-400 italic">Will be resolved at send time</p>
+          )}
+          <p className="font-semibold text-gray-500 mt-3 mb-1">Rendered message preview</p>
+          {rendered ? (
+            <pre className="whitespace-pre-wrap font-sans text-xs bg-white border border-gray-200 rounded p-3 text-gray-800">{rendered}</pre>
+          ) : (
+            <p className="text-gray-400 italic">No template (alert #{d.alertId} wave {d.wave} not in timeline.ts)</p>
+          )}
+        </div>
       </div>
-      <div className="lg:col-span-2">
-        <p className="font-semibold text-gray-500 mb-1">Survey link</p>
-        {d.surveyLink ? (
-          <a href={d.surveyLink} target="_blank" rel="noopener" className="text-indigo-600 hover:underline font-mono break-all">
-            {d.surveyLink}
-          </a>
-        ) : (
-          <p className="text-gray-400 italic">Will be resolved at send time</p>
-        )}
-        <p className="font-semibold text-gray-500 mt-3 mb-1">Rendered message preview</p>
-        {rendered ? (
-          <pre className="whitespace-pre-wrap font-sans text-xs bg-white border border-gray-200 rounded p-3 text-gray-800">{rendered}</pre>
-        ) : (
-          <p className="text-gray-400 italic">No template (alert #{d.alertId} wave {d.wave} not in timeline.ts)</p>
+
+      {isEmaEnable && hypotheticals.length > 0 && (
+        <HypotheticalPromptSchedule
+          startDay={d.hypotheticalStartDay}
+          nudgeWeek={d.nudgeWeek}
+          prompts={hypotheticals}
+        />
+      )}
+    </div>
+  );
+}
+
+function HypotheticalPromptSchedule({
+  startDay,
+  nudgeWeek,
+  prompts,
+}: {
+  startDay?: string;
+  nudgeWeek?: number;
+  prompts: HypotheticalPrompt[];
+}) {
+  // Group prompts by day-of-week label so the 25 timestamps read like
+  // a weekly calendar instead of a flat list.
+  const groups: Record<string, HypotheticalPrompt[]> = {};
+  for (const p of prompts) {
+    (groups[p.dayLabel] ||= []).push(p);
+  }
+  // Preserve the spec order: Monday 1, Tuesday 1, Wed 1, Thu, Fri, Sat, Sun, Monday 2, Tuesday 2, Wed 2.
+  const order = ["Monday 1", "Tuesday 1", "Wednesday 1", "Thursday", "Friday", "Saturday", "Sunday", "Monday 2", "Tuesday 2", "Wednesday 2"];
+  const orderedDays = order.filter(d => groups[d]);
+  return (
+    <div className="bg-emerald-50/60 border border-emerald-200 rounded-lg p-4">
+      <div className="flex items-baseline justify-between flex-wrap gap-2 mb-3">
+        <p className="font-semibold text-emerald-900 text-sm">
+          If they answer this Enable nudge before {startDay ? <span className="font-mono">{startDay} (Mon)</span> : "the upcoming Monday"},
+          these 25 EMA prompts will fire over the following 10 days:
+        </p>
+        {nudgeWeek && nudgeWeek > 1 && (
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">
+            Retry week {nudgeWeek} of 4
+          </span>
         )}
       </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
+        {orderedDays.map(day => (
+          <div key={day} className="bg-white border border-emerald-100 rounded p-2">
+            <p className="text-[10px] font-semibold text-emerald-700 uppercase tracking-wider mb-1.5">{day}</p>
+            <ul className="space-y-1">
+              {groups[day].map(p => (
+                <li key={p.key} className="flex items-center justify-between gap-2 text-xs">
+                  <span className="font-mono text-gray-700">{p.timeLabel}</span>
+                  <span className="font-mono text-[10px] text-gray-400">
+                    {p.scheduledAt ? p.scheduledAt.slice(5, 10) : "—"}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p className="text-[11px] text-emerald-700/80 mt-2 italic">
+        25 total · Times are fixed (per the Timeline of Automated Messages); only the start Monday shifts with each weekly retry.
+      </p>
     </div>
   );
 }
