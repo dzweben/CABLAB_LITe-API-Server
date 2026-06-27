@@ -17,10 +17,12 @@ const FALLBACK_SHEET_ID = "18LScSoBcT8XmwA_WjfeN4Lt2PZESDm7FycAqocZ1cH4";
 const ZOOM_MIN = 0.5;
 const ZOOM_MAX = 1.5;
 const ZOOM_STEP = 0.1;
+// Start a bit zoomed out so more of the sheet is visible on first load.
+const DEFAULT_ZOOM = 0.8;
 
 export default function SessionNotesPage() {
   const [sheetId, setSheetId] = useState<string>(FALLBACK_SHEET_ID);
-  const [zoom, setZoom] = useState<number>(1);
+  const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM);
 
   useEffect(() => {
     fetch("/api/data/last-fetch")
