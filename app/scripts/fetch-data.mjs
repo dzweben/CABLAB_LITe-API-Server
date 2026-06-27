@@ -116,20 +116,24 @@ function parseCSV(text) {
 }
 
 async function redcapPost(params, attempt = 1) {
+  const MAX_ATTEMPTS = 5;
   const body = new URLSearchParams({ token: LITE_TOKEN, ...params });
   try {
     const res = await fetch(REDCAP_API_URL, {
       method: "POST", body,
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      signal: AbortSignal.timeout(60_000),
+      signal: AbortSignal.timeout(90_000),
     });
     if (!res.ok) throw new Error(`REDCap error ${res.status}: ${await res.text()}`);
     return await res.text();
   } catch (err) {
-    const transient = /timeout|fetch failed|ECONNRESET|ETIMEDOUT|ENOTFOUND|EAI_AGAIN|UND_ERR/i.test(String(err));
-    if (transient && attempt < 3) {
-      const delay = 2000 * attempt;
-      console.warn(`  REDCap transient error (attempt ${attempt}): ${err.message || err}. Retrying in ${delay}ms…`);
+    // Treat network blips AND 5xx server errors as transient — Temple's
+    // REDCap throws 500/502/503 under load and recovers within seconds.
+    const transient = /timeout|fetch failed|ECONNRESET|ETIMEDOUT|ENOTFOUND|EAI_AGAIN|UND_ERR|REDCap error 5\d\d|aborted|socket/i.test(String(err));
+    if (transient && attempt < MAX_ATTEMPTS) {
+      // Exponential backoff with jitter: ~1s, 2s, 4s, 8s (+0-1s).
+      const delay = 1000 * (2 ** (attempt - 1)) + Math.floor(Math.random() * 1000);
+      console.warn(`  REDCap transient error (attempt ${attempt}/${MAX_ATTEMPTS}): ${err.message || err}. Retrying in ${delay}ms…`);
       await new Promise(r => setTimeout(r, delay));
       return redcapPost(params, attempt + 1);
     }
@@ -914,11 +918,20 @@ function emptyWaveSheetEntry(record, v1Date, v2Date) {
 
 async function fetchFollowupSheet() {
   if (!GOOGLE_SA_JSON) {
+    // Only acceptable when running locally without creds. In CI the
+    // secret is always set, so this branch never fires there.
     console.log("  Skipping Google Sheets pull (GOOGLE_SERVICE_ACCOUNT_JSON not set)");
     return {};
   }
+  // FATAL when configured-but-failing. The cohort tabs are the SOLE
+  // source of truth for V1/V2 dates + completion. If auth or a tab read
+  // fails and we returned {} , every participant's V1/V2 would silently
+  // reset (gating drops people, the queue empties). Throw instead so the
+  // run aborts and the previous good data stays live.
   const tok = await googleAccessToken();
-  if (!tok) return {};
+  if (!tok) {
+    throw new Error("Google Sheets auth failed — cohort V1/V2 dates unavailable. Aborting to avoid wiping visit completion.");
+  }
 
   // followupByPid[pid] = { y1, y2, y3 } where each yN is the empty-entry
   // shape iff there's evidence that wave's V1 happened for this PID.
@@ -927,6 +940,12 @@ async function fetchFollowupSheet() {
 
   for (const tabCfg of COHORT_TABS) {
     const rows = await readSheetTab(tok, `${tabCfg.tab}!A1:CC1500`);
+    // A cohort tab always holds hundreds of rows. Zero means the read
+    // failed (quota/transient/HTTP error → readSheetTab returns []), not
+    // an empty tab. Abort rather than drop that whole cohort's V1/V2.
+    if (!Array.isArray(rows) || rows.length < COHORT_DATA_START_ROW) {
+      throw new Error(`Cohort tab ${tabCfg.tab} returned ${rows?.length ?? 0} rows — sheet read failed. Aborting to avoid wiping V1/V2 for that cohort.`);
+    }
     let tabPids = 0;
     for (let i = COHORT_DATA_START_ROW - 1; i < rows.length; i++) {  // 0-indexed
       const row = rows[i];
@@ -970,9 +989,27 @@ async function fetchFollowupSheet() {
 
 async function main() {
   console.log("=== LITe REDCap fetch ===");
+
+  // Read the previous good fetch's baseline metrics so we can detect a
+  // materially-incomplete fetch (an event family silently dropping to
+  // ~0 rows because one REDCap event errored) and abort before deploy.
+  let baseline = null;
+  try {
+    const raw = fs.readFileSync(path.join(DATA_DIR, "last-fetch.json"), "utf-8");
+    const prev = JSON.parse(raw);
+    if (prev?.ok && prev?.metrics) baseline = prev.metrics;
+  } catch { /* first run / unreadable — no baseline to compare */ }
+
   const byRecord = {};
   const total = await fetchAllRecordsStreaming(byRecord);
   console.log(`  Got ${total} REDCap rows, grouped into ${Object.keys(byRecord).length} records`);
+
+  // Floor check #1: total REDCap rows must not collapse vs the last good
+  // run. A transient per-event failure adds 0 rows for that event, so a
+  // big drop = incomplete fetch.
+  if (baseline?.redcapRows && total < baseline.redcapRows * 0.6) {
+    throw new Error(`REDCap row count collapsed: ${total} vs baseline ${baseline.redcapRows} (floor 60%). Likely a partial fetch — aborting before deploy.`);
+  }
 
   const participants = [];
   let droppedOutOfRange = 0;
@@ -989,6 +1026,11 @@ async function main() {
   participants.sort((a, b) => a.pid.localeCompare(b.pid));
   console.log(`  Pivoted to ${participants.length} participants (dropped ${droppedOutOfRange} out-of-range)`);
 
+  // Floor check #2: participant roster must not collapse vs last good run.
+  if (baseline?.participants && participants.length < baseline.participants * 0.75) {
+    throw new Error(`Participant count collapsed: ${participants.length} vs baseline ${baseline.participants} (floor 75%). Aborting before deploy.`);
+  }
+
   // EMA + at-home completion reports per wave (saved REDCap reports the
   // legacy team already maintains). Each row is indexed by record_id.
   const COMPLETION_REPORTS = {
@@ -998,29 +1040,50 @@ async function main() {
   };
   const reportData = {};  // recordId → { emaY1: {...}, atHomeY1: {...}, ... }
   const reportFieldNames = {};
+  const reportRowCounts = {};  // for the persistence floor check
   for (const w of WAVES) {
     const ids = COMPLETION_REPORTS[w];
     for (const kind of ["ema", "atHome"]) {
+      // FATAL on failure. These completion reports ARE the survey-status
+      // source of truth. If one errors (REDCap down/slow), swallowing it
+      // would silently reset everyone in that wave to "incomplete" and
+      // deploy that as fresh. Instead we throw → main()'s catch writes
+      // ok:false, the previous good data stays live, the job exits non-
+      // zero so nothing commits/deploys, and the next cron retries.
+      let rows;
       try {
-        const rows = await fetchReport(ids[kind]);
-        console.log(`  Report ${ids[kind]} (${kind} y${w}): ${rows.length} rows`);
-        // Capture field names from the first row for diagnostics.
-        if (rows.length > 0) {
-          const completeFields = Object.keys(rows[0]).filter(k => k.endsWith("_complete"));
-          reportFieldNames[`${kind}Y${w}`] = completeFields;
-          console.log(`    _complete fields (${completeFields.length}): ${completeFields.slice(0, 8).join(", ")}${completeFields.length > 8 ? ` … +${completeFields.length - 8}` : ""}`);
-        }
-        for (const r of rows) {
-          const rid = r.record_id;
-          if (!rid) continue;
-          if (!reportData[rid]) reportData[rid] = {};
-          reportData[rid][`${kind}Y${w}`] = r;
-        }
+        rows = await fetchReport(ids[kind]);
       } catch (err) {
-        console.warn(`  ! Report ${ids[kind]} failed: ${err.message}`);
+        throw new Error(`Completion report ${ids[kind]} (${kind} y${w}) failed after retries: ${err.message}. Aborting to avoid deploying wiped completion status.`);
+      }
+      reportRowCounts[`${kind}Y${w}`] = rows.length;
+      console.log(`  Report ${ids[kind]} (${kind} y${w}): ${rows.length} rows`);
+      if (rows.length > 0) {
+        const completeFields = Object.keys(rows[0]).filter(k => k.endsWith("_complete"));
+        reportFieldNames[`${kind}Y${w}`] = completeFields;
+        console.log(`    _complete fields (${completeFields.length}): ${completeFields.slice(0, 8).join(", ")}${completeFields.length > 8 ? ` … +${completeFields.length - 8}` : ""}`);
+      }
+      for (const r of rows) {
+        const rid = r.record_id;
+        if (!rid) continue;
+        if (!reportData[rid]) reportData[rid] = {};
+        reportData[rid][`${kind}Y${w}`] = r;
       }
     }
   }
+
+  // Floor check #3: any completion report that had rows last run but
+  // returns 0 this run = silent dropout (it would wipe that wave's
+  // status). fetchReport already throws on HTTP error, so this catches
+  // the rarer "200 OK but empty" case.
+  if (baseline?.reportRowCounts) {
+    for (const [key, prevN] of Object.entries(baseline.reportRowCounts)) {
+      if (prevN > 0 && (reportRowCounts[key] || 0) === 0) {
+        throw new Error(`Completion report ${key} dropped ${prevN} → 0 rows — silent dropout. Aborting before deploy.`);
+      }
+    }
+  }
+
   // Stitch the report rows into the participant's wave structure.
   // The reports vary in field names, but a row indicates the participant
   // has at least started that event. We harvest every key ending in
@@ -1426,6 +1489,12 @@ async function main() {
     counts: {
       participants: participants.length,
       dueNext7Days: due.length,
+    },
+    // Baseline for the next run's floor checks (silent-dropout guard).
+    metrics: {
+      redcapRows: total,
+      participants: participants.length,
+      reportRowCounts,
     },
   }, null, 2));
 

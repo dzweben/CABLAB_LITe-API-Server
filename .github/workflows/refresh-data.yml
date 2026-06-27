@@ -2,8 +2,16 @@ name: Refresh LITe REDCap Data
 
 on:
   schedule:
-    # Every 6 hours at :17 past the hour
-    - cron: "17 */6 * * *"
+    # Every 30 minutes, but ONLY during Temple REDCap's uptime window.
+    # REDCap goes dark nightly ~12:40 AM Eastern and is reliably back by
+    # ~7 AM Eastern, so we run 7:00 AM – 12:30 AM ET. Cron is UTC and does
+    # NOT follow DST; these offsets are tuned for EDT (UTC-4, summer):
+    #   7:00 AM EDT = 11:00 UTC ;  12:30 AM EDT = 04:30 UTC (next day).
+    # In EST (winter) the window effectively shifts to 6 AM–11:30 PM ET —
+    # fine, because the fetch fail-fasts harmlessly if REDCap is still
+    # down, and worst case is ~1h of extra staleness at the night's edge.
+    - cron: "0,30 11-23 * * *"   # 11:00–23:30 UTC  (7:00 AM – 7:30 PM EDT)
+    - cron: "0,30 0-4 * * *"     # 00:00–04:30 UTC  (8:00 PM – 12:30 AM EDT)
   workflow_dispatch:
 
 permissions:
