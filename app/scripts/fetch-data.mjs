@@ -1501,6 +1501,9 @@ async function main() {
   fs.writeFileSync(path.join(DATA_DIR, "last-fetch.json"), JSON.stringify({
     ok: true,
     timestamp: new Date().toISOString(),
+    // Surfaced so the Session Notes page embeds exactly the workbook the
+    // pipeline reads from.
+    sheetId: GOOGLE_SHEET_ID,
     counts: {
       participants: participants.length,
       dueNext7Days: due.length,
