@@ -793,6 +793,27 @@ function base64url(buf) {
   return Buffer.from(buf).toString("base64").replace(/=+$/, "").replace(/\+/g, "-").replace(/\//g, "_");
 }
 
+// Google APIs are available 24/7 (not subject to REDCap's nightly
+// downtime), so a failed call is a transient blip — retry it rather than
+// aborting an otherwise-good fetch. Only a sustained outage (all
+// attempts exhausted) is fatal.
+async function googleFetch(url, opts, label, attempt = 1) {
+  const MAX_ATTEMPTS = 4;
+  try {
+    const res = await fetch(url, { ...opts, signal: AbortSignal.timeout(30_000) });
+    if (!res.ok) throw new Error(`${res.status}: ${(await res.text()).slice(0, 200)}`);
+    return res;
+  } catch (err) {
+    if (attempt < MAX_ATTEMPTS) {
+      const delay = 1000 * (2 ** (attempt - 1)) + Math.floor(Math.random() * 500);
+      console.warn(`  Google ${label} transient (attempt ${attempt}/${MAX_ATTEMPTS}): ${err.message}. Retrying in ${delay}ms…`);
+      await new Promise(r => setTimeout(r, delay));
+      return googleFetch(url, opts, label, attempt + 1);
+    }
+    throw new Error(`Google ${label} failed after ${MAX_ATTEMPTS} attempts: ${err.message}`);
+  }
+}
+
 async function googleAccessToken() {
   if (!GOOGLE_SA_JSON) return null;
   let sa;
@@ -814,29 +835,23 @@ async function googleAccessToken() {
   const signature = base64url(signer.sign(sa.private_key));
   const jwt = `${unsigned}.${signature}`;
 
-  const res = await fetch("https://oauth2.googleapis.com/token", {
+  // Retries transient blips; throws only after all attempts exhaust.
+  const res = await googleFetch("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
       assertion: jwt,
     }),
-  });
-  if (!res.ok) {
-    console.warn(`  ! Google auth ${res.status}: ${await res.text()}`);
-    return null;
-  }
+  }, "auth");
   const { access_token } = await res.json();
   return access_token;
 }
 
 async function readSheetTab(accessToken, range) {
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${GOOGLE_SHEET_ID}/values/${encodeURIComponent(range)}?majorDimension=ROWS&valueRenderOption=UNFORMATTED_VALUE`;
-  const res = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
-  if (!res.ok) {
-    console.warn(`  ! Sheet read ${range} ${res.status}: ${await res.text()}`);
-    return [];
-  }
+  // Retries transient blips; throws only after all attempts exhaust.
+  const res = await googleFetch(url, { headers: { Authorization: `Bearer ${accessToken}` } }, `read ${range}`);
   const data = await res.json();
   return data.values || [];
 }
