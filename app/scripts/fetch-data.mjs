@@ -448,17 +448,22 @@ function pivotParticipant(recordRows) {
         complete: num(row[`${k}_complete`] || row.ema_response_complete) === 2,
       }));
 
-      // Single EMA Enable field (REDCap simplified to one ema_cycle /
-      // ema_start_day; the legacy 4-week retry fields are gone). The
-      // cycle is "active" once the participant clicks Enable (ema_cycle
-      // set to a non-empty, non-Disable value); the 25 prompts then run.
-      const cycleVal = row.ema_cycle;
-      const active = cycleVal != null && cycleVal !== "" && cycleVal !== "0";
+      // Single EMA Enable field: `lite_server_ema_enable`. This is THE
+      // field the participant sets when they enable their EMA cycle
+      // (REDCap collapsed the old 4-week ema_cycle/_2/_3/_4 radios into
+      // this one). The cycle is "active" once it's set to a non-empty,
+      // non-Disable value, at which point the 25 prompts run and we stop
+      // sending enable nudges.
+      //   Legacy `ema_cycle` is kept as a defensive fallback so anyone
+      //   who enabled under the old field doesn't regress to not-enabled
+      //   during the migration.
+      const isEnabledVal = (v) => v != null && v !== "" && v !== "0";
+      const active = isEnabledVal(row.lite_server_ema_enable) || isEnabledVal(row.ema_cycle);
       return {
         active,
         startDay: row.ema_start_day || null,
         startDayCalc: row.ema_start_day_calc ? Number(row.ema_start_day_calc) : null,
-        enableConfirmed: row.ema_enable === "1",
+        enableConfirmed: active,
         settingsComplete: num(row.ema_settings_complete),
         paymentEmailButton: row.ema_payment_email_button === "1",
         paymentComplete: num(row.ema_payment_complete),
