@@ -668,7 +668,11 @@ function computeDueReminders(participants) {
       // The nudge carries the 25-prompt preview (wouldTriggerPrompts) so
       // the queue can show what fires if they enable before that Monday.
       if (!enableIsUnder13 && wave.ema && !wave.ema.active && wave.ema.startDay) {
-        const startT = toEpoch(wave.ema.startDay);
+        // Anchor start_day at MIDNIGHT Eastern (hour 0). The default
+        // date-only hour is 9 AM, which made "3d8h before" land at 1 AM.
+        // Midnight anchor → the nudge sends Thursday ~4 PM ET, 3+ days
+        // ahead of the Monday start.
+        const startT = toEpoch(wave.ema.startDay, 0);
         if (startT != null) {
           const sendT = startT - (3 * 24 + 8) * 3600 * 1000;
           if (sendT >= now && sendT <= horizon) {
@@ -1271,21 +1275,25 @@ async function main() {
         stsScheduled++;
       }
 
-      // STS2 anchor: canonical EMA = day 1 of (STS1.6 month + 4).
-      let sts2Anchor = null;
-      if (wave.sts1?.cycles?.[5]?.date) {
-        const s16 = String(wave.sts1.cycles[5].date).slice(0, 10);
-        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s16);
-        if (m) {
-          let year = parseInt(m[1], 10);
-          let month = parseInt(m[2], 10) + 4;
-          while (month > 12) { month -= 12; year++; }
-          const mm = String(month).padStart(2, "0");
-          sts2Anchor = `${year}-${mm}-01`;
-        }
-      }
-      if (sts2Anchor) {
-        const dates = computeStsCycleDates(sts2Anchor, 3, 17);
+      // Two distinct anchors derived from STS1.6's month:
+      //   emaAnchor      = day 1 of (STS1.6 month + 4)  → EMA start_day
+      //   sts2CycleAnchor= day 1 of (STS1.6 month + 5)  → STS2 cycles
+      // STS2.1 fires on day 20 of the month AFTER its anchor (computeSts
+      // does the +1), i.e. STS1.6 month + 6. This puts STS2 a month later
+      // than the EMA, matching the canonical schedule (the previous code
+      // shared one anchor, sending STS2 a month early).
+      const addMonths = (s16, n) => {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s16).slice(0, 10));
+        if (!m) return null;
+        let year = parseInt(m[1], 10);
+        let month = parseInt(m[2], 10) + n;
+        while (month > 12) { month -= 12; year++; }
+        return `${year}-${String(month).padStart(2, "0")}-01`;
+      };
+      const sts2Anchor = wave.sts1?.cycles?.[5]?.date ? addMonths(wave.sts1.cycles[5].date, 4) : null;       // EMA anchor
+      const sts2CycleAnchor = wave.sts1?.cycles?.[5]?.date ? addMonths(wave.sts1.cycles[5].date, 5) : null;   // STS2 anchor (+1 mo)
+      if (sts2CycleAnchor) {
+        const dates = computeStsCycleDates(sts2CycleAnchor, 3, 17);
         if (!wave.sts2) wave.sts2 = { active: false, cycles: [] };
         if (!Array.isArray(wave.sts2.cycles)) wave.sts2.cycles = [];
         for (let i = 0; i < 3; i++) {
