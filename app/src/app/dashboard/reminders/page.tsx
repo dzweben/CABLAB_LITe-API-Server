@@ -32,6 +32,8 @@ interface DueRow {
   // that would fire if the participant enables before that Monday.
   hypotheticalStartDay?: string;
   wouldTriggerPrompts?: HypotheticalPrompt[];
+  // Payment family only: when the compensation link expires.
+  expireDate?: string;
 }
 
 // Kind → display config
@@ -44,7 +46,9 @@ const KIND_META: Record<string, { label: string; color: string; channels: string
   ema_enable:       { label: "EMA enable",     color: "bg-emerald-50 text-emerald-700",  channels: ["sms"] },
   athome_sms:       { label: "At-home (SMS)",  color: "bg-amber-100 text-amber-800",     channels: ["sms"] },
   athome_email:     { label: "At-home (email)",color: "bg-amber-50 text-amber-700",      channels: ["email"] },
-  payment_email:    { label: "Payment email",  color: "bg-rose-100 text-rose-800",       channels: ["sms", "email"] },
+  payment_email:    { label: "Payment",        color: "bg-rose-100 text-rose-800",       channels: ["sms"] },
+  payment_followup: { label: "Payment f/u",    color: "bg-rose-50 text-rose-700",        channels: ["sms"] },
+  payment_expire:   { label: "Payment expired",color: "bg-gray-200 text-gray-700",       channels: ["sms"] },
   other:            { label: "Other",          color: "bg-gray-100 text-gray-700",       channels: [] },
 };
 
@@ -349,7 +353,7 @@ function ExpandedRow({ d, contact }: { d: DueRow; contact: Participant["contact"
   // the wave 2 template since the team treats Y1 as the canonical schedule.
   const template = TIMELINE_ALERTS.find(t => t.alertId === d.alertId && (t.wave === d.wave || (d.wave === 1 && t.wave === 2)));
   const rendered = template?.message
-    ? renderMessageTemplate(template.message, contact ? { contact } : null, d.surveyLink || null)
+    ? renderMessageTemplate(template.message, contact ? { contact } : null, d.surveyLink || null, d.expireDate || null)
     : null;
   const isEmaEnable = d.kind === "ema_enable";
   const hypotheticals = d.wouldTriggerPrompts || [];

@@ -163,7 +163,8 @@ export function pillColor(c: CompletionCode | undefined): string {
 export function renderMessageTemplate(
   template: string | null | undefined,
   participant: { contact: { firstName: string; lastName: string; parentName: string; email: string; phonePrimary: string; phoneSecondary: string; childPhone: string } } | null,
-  surveyLink: string | null
+  surveyLink: string | null,
+  expireDate?: string | null
 ): string {
   if (!template) return "";
   let out = template;
@@ -175,14 +176,29 @@ export function renderMessageTemplate(
       "[preenrollment_arm_1][email]": participant.contact.email || "",
       "[preenrollment_arm_1][phone_primary]": participant.contact.phonePrimary || "",
       "[preenrollment_arm_1][phone_secondary]": participant.contact.phoneSecondary || "",
+      // Friendly aliases used in the payment message copy.
+      "[name]": participant.contact.firstName || "",
     };
     for (const [k, v] of Object.entries(subs)) out = out.split(k).join(v);
   }
-  // Replace every [event][survey-link:instrument] with the resolved link.
+  // Payment link-expiry date (the "3 months from now" in the copy).
+  const expireLabel = expireDate ? formatExpireDate(expireDate) : "[expire date pending]";
+  out = out.split("[expire_date]").join(expireLabel);
+  // Replace every [event][survey-link:instrument] with the resolved link,
+  // plus the friendly "[survey link]" alias.
   out = out.replace(/\[([a-z0-9_]+)\]\[survey-link:([a-z0-9_]+)\]/gi, () =>
     surveyLink || "[SURVEY LINK PENDING]"
   );
+  out = out.split("[survey link]").join(surveyLink || "[SURVEY LINK PENDING]");
   return out;
+}
+
+// "March 25, 2027" from an ISO datetime, parsed UTC so it never drifts.
+function formatExpireDate(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+  if (!m) return iso;
+  const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  return `${MONTHS[+m[2] - 1]} ${+m[3]}, ${m[1]}`;
 }
 
 // Today / yesterday / tomorrow / Mar 4

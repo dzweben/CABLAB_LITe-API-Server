@@ -471,6 +471,11 @@ function pivotParticipant(recordRows) {
         settingsComplete: num(row.ema_settings_complete),
         paymentEmailButton: row.ema_payment_email_button === "1",
         paymentComplete: num(row.ema_payment_complete),
+        // `ema_payment_redeem_yn` = 1 once the participant redeems their
+        // Wave-completion compensation link. Drives the payment follow-up
+        // / expire schedule: while this is NOT 1, the dashboard keeps
+        // nudging; once it hits 1, all payment messages stop.
+        paymentRedeemed: row.ema_payment_redeem_yn === "1",
         enableSent: false,
         phone: row.ema_phone || contact.phonePrimary,
         prompts,
@@ -697,36 +702,49 @@ function computeDueReminders(participants) {
         }
       }
 
-      // Payment email (alerts 287 / 288) — purely scheduled.
-      //   Send date: 5 days after canonical STS2.3 cycle date.
-      //   Gate: V2 done (post-V2 work) + not already paid.
-      //   Variant: 287 = 13+, 288 = <13 (per dob).
-      // NOTE: the REDCap `ema_payment_email_button` field is a manual
-      // override for the SEND side. The QUEUE is canonical-only and
-      // pre-fills regardless of button state. For new W2 participants
-      // whose ema_y2_arm_1 event hasn't been provisioned yet,
-      // `wave.ema` is null — default paymentComplete to 0 so the
-      // schedule still surfaces.
-      const paymentComplete = wave.ema?.paymentComplete ?? 0;
-      if (waveV2Done && paymentComplete !== 2) {
+      // STS-EMA payment message family — ONE alert for all ages (the old
+      // <13 / ≥13 split is gone). Three message types share the schedule:
+      //   287 payment_email    — initial, 5 days after STS2.3.
+      //   289 payment_followup — every 2 weeks after the initial, up to
+      //                          the expire date (3 months from initial).
+      //   290 payment_expire   — on the expire date.
+      // Gate: V2 done AND the participant hasn't redeemed
+      // (ema_payment_redeem_yn <> 1). Once redeemed, the whole family
+      // stops. Every item carries `expireDate` so the message can show
+      // when the link dies. All of this applies per-wave (the ema_yN
+      // redeem field is read per wave in buildEMA), so wave 3 gets the
+      // same behavior automatically.
+      const paymentRedeemed = wave.ema?.paymentRedeemed === true;
+      if (waveV2Done && !paymentRedeemed) {
         const lastCycle = wave.sts2?.cycles[wave.sts2.cycles.length - 1];
         const baseT = lastCycle?.date ? toEpoch(lastCycle.date) : null;
         if (baseT != null) {
-          const sendT = baseT + 5 * 24 * 3600 * 1000;
-          const age = p.contact?.age;
-          const alertId = (age != null && age < 13) ? 288 : 287;
-          const variant = (age != null && age < 13) ? "<13" : "13+";
-          if (sendT >= now && sendT <= horizon) {
-            const iso = safeIso(sendT);
-            if (iso) out.push({
+          const initialT = baseT + 5 * 24 * 3600 * 1000;
+          // Expire = 3 calendar months after the initial send.
+          const expDate = new Date(initialT);
+          expDate.setUTCMonth(expDate.getUTCMonth() + 3);
+          const expireT = expDate.getTime();
+          const expireDate = safeIso(expireT);
+
+          const pushPay = (t, alertId, kind, instrument) => {
+            if (t < now || t > horizon) return;
+            const iso = safeIso(t); if (!iso) return;
+            out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
-              alertId, kind: "payment_email",
-              instrument: `W${w} ${variant} STS-EMA Payment email`,
-              scheduledAt: iso, complete: false,
+              alertId, kind, instrument,
+              scheduledAt: iso, complete: false, expireDate,
             });
+          };
+
+          // Initial.
+          pushPay(initialT, 287, "payment_email", `W${w} STS-EMA Payment email`);
+          // Bi-weekly follow-ups until (but not on) the expire date.
+          const TWO_WEEKS = 14 * 24 * 3600 * 1000;
+          for (let t = initialT + TWO_WEEKS, n = 1; t < expireT; t += TWO_WEEKS, n++) {
+            pushPay(t, 289, "payment_followup", `W${w} STS-EMA Payment Follow-Up ${n}`);
           }
-          // No past-due fallback — this is a scheduled queue, not an
-          // outstanding-work list.
+          // Expire notice on the expire date.
+          pushPay(expireT, 290, "payment_expire", `W${w} STS-EMA Payment Expired`);
         }
       }
 
