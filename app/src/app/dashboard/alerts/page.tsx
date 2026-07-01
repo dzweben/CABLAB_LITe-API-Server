@@ -56,14 +56,27 @@ const SEND_CAVEAT: Record<AlertKind, string> = {
   other: "",
 };
 
+// EMA prompts encode their day-of-week + time in the instrument name
+// (e.g. "EMA.1.1 Monday 1 7:34 AM"). Pull that out as clean timing so it
+// doesn't hide behind a raw REDCap field reference.
+function emaTiming(a: TimelineAlert): string | null {
+  if (a.kind !== "ema_prompt") return null;
+  const m = /^EMA\.[\d.]+\s+(.+)$/.exec(a.instrument);
+  const s = (m ? m[1] : a.instrument).trim();
+  const tm = /(\d{1,2}:\d{2}\s*(?:AM|PM))\s*$/i.exec(s);
+  if (!tm) return s;
+  return `${s.slice(0, tm.index).trim()} · ${tm[1]}`;
+}
+
 // EMA prompts (and a few others) have no REDCap event trigger — they fire
 // on a scheduled datetime. Surface that as the effective trigger so the
 // row never shows a blank.
 function effectiveTrigger(a: TimelineAlert): string {
-  if (a.trigger) return a.trigger;
   if (a.kind === "ema_prompt") {
-    return `Scheduled datetime send — fires automatically at ${a.sendDateSpec ?? "its fixed day/time"} once the EMA cycle is enabled (start_day reached). No manual/event trigger.`;
+    const t = emaTiming(a);
+    return `Fires on a fixed schedule — ${t ?? "its set day/time"} (${a.sendDateSpec ?? "REDCap datetime field"}), counted from the cycle's start Monday, once the participant has enabled. No manual/event trigger.`;
   }
+  if (a.trigger) return a.trigger;
   if (a.kind.startsWith("payment")) {
     return "Scheduled datetime send (no event trigger) — computed from the STS2.3 date + the payment timeline.";
   }
@@ -159,6 +172,11 @@ function AlertRow({ alert, open, onToggle }: { alert: TimelineAlert; open: boole
           {KIND_LABEL[alert.kind]}
         </span>
         <span className="text-sm font-medium text-gray-900 flex-1 min-w-0 truncate">{alert.instrument}</span>
+        {emaTiming(alert) && (
+          <span className="font-mono text-xs text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded shrink-0">
+            {emaTiming(alert)}
+          </span>
+        )}
         <span className="inline-flex gap-1 shrink-0">
           {alert.channels.map(ch => (
             <span key={ch} className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-sky-100 text-sky-800 uppercase">
@@ -183,7 +201,9 @@ function AlertRow({ alert, open, onToggle }: { alert: TimelineAlert; open: boole
             </div>
           )}
           <Field label="Trigger" value={effectiveTrigger(alert)} />
-          <Field label="Send date" value={alert.sendDateSpec} />
+          {emaTiming(alert)
+            ? <Field label="Timing (day · time)" value={`${emaTiming(alert)}  —  counted from the cycle's start Monday  (REDCap field: ${alert.emaKey ?? alert.sendDateSpec})`} />
+            : <Field label="Send date" value={alert.sendDateSpec} />}
           <Field label="Conditional logic" value={alert.condition} mono wide />
           <Field label="Destination" value={alert.destinationSpec} mono />
           <div className="lg:col-span-2">
