@@ -204,7 +204,11 @@ function formatExpireDate(iso: string): string {
 // Today / yesterday / tomorrow / Mar 4
 export function relativeDate(s: string | null | undefined): string {
   if (!s) return "—";
-  const d = new Date(s);
+  // A bare "YYYY-MM-DD" (the day-group key) must be parsed as LOCAL
+  // midnight, not UTC — otherwise in Eastern it lands the evening prior
+  // and mislabels tomorrow as "Today".
+  const md = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+  const d = md ? new Date(+md[1], +md[2] - 1, +md[3]) : new Date(s);
   if (isNaN(d.getTime())) return s;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
