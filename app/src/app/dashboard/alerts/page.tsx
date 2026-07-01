@@ -38,6 +38,38 @@ const KIND_COLOR: Record<AlertKind, string> = {
   other: "bg-gray-100 text-gray-700",
 };
 
+// The universal off-switch: every alert only sends while its target is
+// still outstanding. Plain-English summary of that completion gate, shown
+// as the "send caveat" for each alert.
+const SEND_CAVEAT: Record<AlertKind, string> = {
+  athome_sms: "Only sends while the at-home survey is NOT complete (athome_measures_complete ≠ 2).",
+  athome_email: "Only sends while the at-home survey is NOT complete (athome_measures_complete ≠ 2).",
+  sts1_invite: "Only sends while that STS1 cycle is NOT complete (screen_time_N_complete ≠ 2).",
+  sts1_followup: "Only sends while that STS1 cycle is NOT complete (screen_time_N_complete ≠ 2). Stops the moment the survey is done.",
+  sts2_invite: "Only sends while that STS2 cycle is NOT complete (screen_time_N_2_complete ≠ 2).",
+  sts2_followup: "Only sends while that STS2 cycle is NOT complete (screen_time_N_2_complete ≠ 2). Stops the moment the survey is done.",
+  ema_enable: "Only sends until the participant enables the cycle (lite_server_ema_enable is set). Suppressed once enabled.",
+  ema_prompt: "Only sends while the cycle is active AND this prompt is unanswered (ema_report_N_complete ≠ 2).",
+  payment_email: "Only sends while the payment is NOT redeemed (ema_payment_redeem_yn ≠ 1).",
+  payment_followup: "Only sends while the payment is NOT redeemed (ema_payment_redeem_yn ≠ 1). The whole follow-up series stops on redemption.",
+  payment_expire: "Only sends if the link expired WITHOUT redemption (ema_payment_redeem_yn ≠ 1).",
+  other: "",
+};
+
+// EMA prompts (and a few others) have no REDCap event trigger — they fire
+// on a scheduled datetime. Surface that as the effective trigger so the
+// row never shows a blank.
+function effectiveTrigger(a: TimelineAlert): string {
+  if (a.trigger) return a.trigger;
+  if (a.kind === "ema_prompt") {
+    return `Scheduled datetime send — fires automatically at ${a.sendDateSpec ?? "its fixed day/time"} once the EMA cycle is enabled (start_day reached). No manual/event trigger.`;
+  }
+  if (a.kind.startsWith("payment")) {
+    return "Scheduled datetime send (no event trigger) — computed from the STS2.3 date + the payment timeline.";
+  }
+  return "Scheduled datetime send (no event trigger).";
+}
+
 export default function AlertsPage() {
   const [wave, setWave] = useState<WaveYear>(2);
   const [search, setSearch] = useState("");
@@ -138,7 +170,19 @@ function AlertRow({ alert, open, onToggle }: { alert: TimelineAlert; open: boole
       </button>
       {open && (
         <div className="px-5 pb-4 bg-gray-50/60 grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm">
-          <Field label="Trigger" value={alert.trigger} />
+          {/* Send caveat — the completion gate, called out up front. */}
+          {SEND_CAVEAT[alert.kind] && (
+            <div className="lg:col-span-2 flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2">
+              <svg className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <span className="font-semibold text-amber-900 text-xs uppercase tracking-wider">Send caveat</span>
+                <p className="text-amber-900 text-sm">{SEND_CAVEAT[alert.kind]}</p>
+              </div>
+            </div>
+          )}
+          <Field label="Trigger" value={effectiveTrigger(alert)} />
           <Field label="Send date" value={alert.sendDateSpec} />
           <Field label="Conditional logic" value={alert.condition} mono wide />
           <Field label="Destination" value={alert.destinationSpec} mono />
