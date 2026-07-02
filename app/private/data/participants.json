@@ -142140,6 +142140,31 @@
             "raTag": null,
             "notes": null
           }
+        },
+        "2": {
+          "year": 2,
+          "v1": null,
+          "atHome": {
+            "timestamp": null,
+            "break1Complete": 0,
+            "athomeMeasuresComplete": 1,
+            "formsFromReport": {
+              "texi": 2,
+              "bar": 2,
+              "bas": 2,
+              "zuckerman": 2,
+              "shs": 0,
+              "glteq": 0,
+              "phq": 0,
+              "pubertal_development": 0
+            },
+            "sectionsComplete": 4,
+            "sectionsTotal": 8
+          },
+          "sts1": null,
+          "sts2": null,
+          "ema": null,
+          "v2": null
         }
       },
       "activeWave": null
@@ -245119,5 +245144,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-02T21:52:23.887Z"
+  "fetchedAt": "2026-07-02T23:13:26.129Z"
 }
