@@ -48512,6 +48512,170 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=gQ6ynHT3vWhZt5Zg"
   },
   {
+    "pid": "1097",
+    "recordId": "1097",
+    "wave": 2,
+    "alertId": 63,
+    "kind": "ema_enable",
+    "instrument": "EMA Y2 Enable",
+    "scheduledAt": "2026-12-31T21:00:00.000Z",
+    "complete": false,
+    "hypotheticalStartDay": "2027-01-04",
+    "wouldTriggerPrompts": [
+      {
+        "key": "ema_m1_734",
+        "dayLabel": "Monday 1",
+        "timeLabel": "7:34 AM",
+        "scheduledAt": "2027-01-04 07:34:00"
+      },
+      {
+        "key": "ema_m1_517",
+        "dayLabel": "Monday 1",
+        "timeLabel": "5:17 PM",
+        "scheduledAt": "2027-01-04 17:17:00"
+      },
+      {
+        "key": "ema_m1_846",
+        "dayLabel": "Monday 1",
+        "timeLabel": "8:46 PM",
+        "scheduledAt": "2027-01-04 20:46:00"
+      },
+      {
+        "key": "ema_t1_832",
+        "dayLabel": "Tuesday 1",
+        "timeLabel": "8:32 AM",
+        "scheduledAt": "2027-01-05 08:32:00"
+      },
+      {
+        "key": "ema_t1_634",
+        "dayLabel": "Tuesday 1",
+        "timeLabel": "6:34 PM",
+        "scheduledAt": "2027-01-05 18:34:00"
+      },
+      {
+        "key": "ema_t1_858",
+        "dayLabel": "Tuesday 1",
+        "timeLabel": "8:58 PM",
+        "scheduledAt": "2027-01-05 20:58:00"
+      },
+      {
+        "key": "ema_w1_812",
+        "dayLabel": "Wednesday 1",
+        "timeLabel": "8:12 AM",
+        "scheduledAt": "2027-01-06 08:12:00"
+      },
+      {
+        "key": "ema_w1_900",
+        "dayLabel": "Wednesday 1",
+        "timeLabel": "9:00 PM",
+        "scheduledAt": "2027-01-06 21:00:00"
+      },
+      {
+        "key": "ema_th_711",
+        "dayLabel": "Thursday",
+        "timeLabel": "7:11 AM",
+        "scheduledAt": "2027-01-07 07:11:00"
+      },
+      {
+        "key": "ema_th_532",
+        "dayLabel": "Thursday",
+        "timeLabel": "5:32 PM",
+        "scheduledAt": "2027-01-07 17:32:00"
+      },
+      {
+        "key": "ema_f_900",
+        "dayLabel": "Friday",
+        "timeLabel": "9:00 AM",
+        "scheduledAt": "2027-01-08 09:00:00"
+      },
+      {
+        "key": "ema_f_704",
+        "dayLabel": "Friday",
+        "timeLabel": "7:04 PM",
+        "scheduledAt": "2027-01-08 19:04:00"
+      },
+      {
+        "key": "ema_f_841",
+        "dayLabel": "Friday",
+        "timeLabel": "8:41 PM",
+        "scheduledAt": "2027-01-08 20:41:00"
+      },
+      {
+        "key": "ema_sa_856",
+        "dayLabel": "Saturday",
+        "timeLabel": "8:56 AM",
+        "scheduledAt": "2027-01-09 08:56:00"
+      },
+      {
+        "key": "ema_sa_501",
+        "dayLabel": "Saturday",
+        "timeLabel": "5:01 PM",
+        "scheduledAt": "2027-01-09 17:01:00"
+      },
+      {
+        "key": "ema_su_755",
+        "dayLabel": "Sunday",
+        "timeLabel": "7:55 AM",
+        "scheduledAt": "2027-01-10 07:55:00"
+      },
+      {
+        "key": "ema_su_601",
+        "dayLabel": "Sunday",
+        "timeLabel": "6:01 PM",
+        "scheduledAt": "2027-01-10 18:01:00"
+      },
+      {
+        "key": "ema_su_736",
+        "dayLabel": "Sunday",
+        "timeLabel": "7:36 PM",
+        "scheduledAt": "2027-01-10 19:36:00"
+      },
+      {
+        "key": "ema_m2_849",
+        "dayLabel": "Monday 2",
+        "timeLabel": "8:49 AM",
+        "scheduledAt": "2027-01-11 08:49:00"
+      },
+      {
+        "key": "ema_m2_809",
+        "dayLabel": "Monday 2",
+        "timeLabel": "8:09 PM",
+        "scheduledAt": "2027-01-11 20:09:00"
+      },
+      {
+        "key": "ema_t2_733",
+        "dayLabel": "Tuesday 2",
+        "timeLabel": "7:33 AM",
+        "scheduledAt": "2027-01-12 07:33:00"
+      },
+      {
+        "key": "ema_t2_512",
+        "dayLabel": "Tuesday 2",
+        "timeLabel": "5:12 PM",
+        "scheduledAt": "2027-01-12 17:12:00"
+      },
+      {
+        "key": "ema_w2_840",
+        "dayLabel": "Wednesday 2",
+        "timeLabel": "8:40 AM",
+        "scheduledAt": "2027-01-13 08:40:00"
+      },
+      {
+        "key": "ema_w2_601",
+        "dayLabel": "Wednesday 2",
+        "timeLabel": "6:01 PM",
+        "scheduledAt": "2027-01-13 18:01:00"
+      },
+      {
+        "key": "ema_w2_736",
+        "dayLabel": "Wednesday 2",
+        "timeLabel": "7:36 PM",
+        "scheduledAt": "2027-01-13 19:36:00"
+      }
+    ],
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=b4ayQ22SQyNQzsz7"
+  },
+  {
     "pid": "2050",
     "recordId": "2050",
     "wave": 2,
