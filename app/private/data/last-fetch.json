@@ -1,13 +1,13 @@
 {
   "ok": true,
-  "timestamp": "2026-07-02T15:22:36.195Z",
+  "timestamp": "2026-07-02T17:21:42.010Z",
   "sheetId": "18LScSoBcT8XmwA_WjfeN4Lt2PZESDm7FycAqocZ1cH4",
   "counts": {
     "participants": 418,
     "dueNext7Days": 4638
   },
   "metrics": {
-    "redcapRows": 6286,
+    "redcapRows": 6287,
     "participants": 418,
     "reportRowCounts": {
       "emaY1": 289,
