@@ -11102,8 +11102,8 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": true,
-            "paymentComplete": 0,
-            "paymentRedeemed": false,
+            "paymentComplete": 2,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(626) 283-3793",
             "prompts": [
@@ -245119,5 +245119,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-02T17:21:41.929Z"
+  "fetchedAt": "2026-07-02T19:05:23.872Z"
 }
