@@ -47521,18 +47521,18 @@
           "atHome": {
             "timestamp": null,
             "break1Complete": 0,
-            "athomeMeasuresComplete": 0,
+            "athomeMeasuresComplete": 2,
             "formsFromReport": {
-              "texi": 0,
-              "bar": 0,
-              "bas": 0,
-              "zuckerman": 0,
-              "shs": 0,
-              "glteq": 0,
-              "phq": 0,
-              "pubertal_development": 0
+              "texi": 2,
+              "bar": 2,
+              "bas": 2,
+              "zuckerman": 2,
+              "shs": 2,
+              "glteq": 2,
+              "phq": 2,
+              "pubertal_development": 2
             },
-            "sectionsComplete": 0,
+            "sectionsComplete": 8,
             "sectionsTotal": 8
           },
           "sts1": {
@@ -245144,5 +245144,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-06T19:25:44.795Z"
+  "fetchedAt": "2026-07-06T21:20:50.175Z"
 }
