@@ -117,14 +117,14 @@ export default function RemindersPage() {
     return xs;
   }, [due, search, scope, kindFilter, cohort, hideCompleted]);
 
-  // Group by Eastern-time day so a 10 PM Eastern send doesn't slip into
-  // tomorrow's bucket. (toLocaleDateString respects the browser's tz which
-  // for our coordinators is Philly.)
+  // Group by EASTERN-time day, pinned explicitly (not the viewer's local
+  // tz) — every send fires in ET, so a 5 PM ET send must always sit in
+  // its Eastern day no matter where the dashboard is opened.
   const grouped = useMemo(() => {
     const byDay: Record<string, DueRow[]> = {};
     const dayKey = (iso: string) => {
       const d = new Date(iso);
-      return isNaN(d.getTime()) ? iso.slice(0, 10) : d.toLocaleDateString("en-CA"); // YYYY-MM-DD in local tz
+      return isNaN(d.getTime()) ? iso.slice(0, 10) : d.toLocaleDateString("en-CA", { timeZone: "America/New_York" });
     };
     for (const d of filtered) {
       (byDay[dayKey(d.scheduledAt)] ||= []).push(d);

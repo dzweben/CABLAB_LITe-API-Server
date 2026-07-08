@@ -12,37 +12,50 @@ export const COMPLETION_LABELS: Record<CompletionCode, string> = {
   2: "Complete",
 };
 
+// The whole study runs on Eastern time — every send fires in ET — so the
+// dashboard ALWAYS renders dates/times in Eastern, never the viewer's
+// local timezone. Otherwise a coordinator on a non-ET device (or a
+// mis-set clock) sees afternoon-ET sends roll to the next day.
+const ET = "America/New_York";
+
 export function formatDate(s: string | null | undefined): string {
   if (!s) return "—";
-  // Accept "YYYY-MM-DD" or ISO
-  const d = new Date(s.length === 10 ? s + "T00:00:00" : s);
+  // A bare "YYYY-MM-DD" is a wall-clock date with no instant — format it
+  // straight from its components (timezone-immune) so it never shifts.
+  const md = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+  if (md) {
+    return new Date(Date.UTC(+md[1], +md[2] - 1, +md[3]))
+      .toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+  }
+  const d = new Date(s);
   if (isNaN(d.getTime())) return s;
-  return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: ET });
 }
 
 // Short "MM/YY" — for STS schedule cells where we want to match the
-// month/year shorthand the team uses in the cohort tabs.
+// month/year shorthand the team uses in the cohort tabs. Read the
+// year/month straight off the string prefix so it's timezone-immune.
 export function formatMonthShort(s: string | null | undefined): string {
   if (!s) return "";
-  const d = new Date(typeof s === "string" && s.length === 10 ? s + "T12:00:00" : (s as string));
+  const m = /^(\d{4})-(\d{2})/.exec(String(s));
+  if (m) return `${Number(m[2])}/${m[1].slice(-2)}`;
+  const d = new Date(s as string);
   if (isNaN(d.getTime())) return String(s);
-  const mm = d.getMonth() + 1;
-  const yy = String(d.getFullYear()).slice(-2);
-  return `${mm}/${yy}`;
+  return `${d.getMonth() + 1}/${String(d.getFullYear()).slice(-2)}`;
 }
 
 export function formatTime(s: string | null | undefined): string {
   if (!s) return "—";
   const d = new Date(s);
   if (isNaN(d.getTime())) return s;
-  return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: ET });
 }
 
 export function formatDateTime(s: string | null | undefined): string {
   if (!s) return "—";
   const d = new Date(s);
   if (isNaN(d.getTime())) return s;
-  return d.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  return d.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: ET });
 }
 
 export function pidSort(a: Participant, b: Participant): number {
@@ -202,23 +215,27 @@ function formatExpireDate(iso: string): string {
 }
 
 // Today / yesterday / tomorrow / Mar 4
+// Eastern "YYYY-MM-DD" for any date (or now, if omitted).
+export function easternDayKey(d: Date = new Date()): string {
+  return d.toLocaleDateString("en-CA", { timeZone: ET });
+}
+
 export function relativeDate(s: string | null | undefined): string {
   if (!s) return "—";
-  // A bare "YYYY-MM-DD" (the day-group key) must be parsed as LOCAL
-  // midnight, not UTC — otherwise in Eastern it lands the evening prior
-  // and mislabels tomorrow as "Today".
-  const md = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
-  const d = md ? new Date(+md[1], +md[2] - 1, +md[3]) : new Date(s);
-  if (isNaN(d.getTime())) return s;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const x = new Date(d);
-  x.setHours(0, 0, 0, 0);
-  const diffDays = Math.round((x.getTime() - today.getTime()) / (24 * 3600 * 1000));
+  // Reduce the input to its Eastern calendar day, then diff against
+  // today-in-Eastern. Both sides are ET date keys, so this is immune to
+  // the viewer's local timezone.
+  const key = /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : (() => {
+    const dd = new Date(s);
+    return isNaN(dd.getTime()) ? null : easternDayKey(dd);
+  })();
+  if (!key) return s;
+  const toUTC = (k: string) => { const [y, m, d] = k.split("-").map(Number); return Date.UTC(y, m - 1, d); };
+  const diffDays = Math.round((toUTC(key) - toUTC(easternDayKey())) / (24 * 3600 * 1000));
   if (diffDays === 0) return "Today";
   if (diffDays === 1) return "Tomorrow";
   if (diffDays === -1) return "Yesterday";
   if (diffDays > 0 && diffDays < 7) return `In ${diffDays} days`;
   if (diffDays < 0 && diffDays > -7) return `${-diffDays} days ago`;
-  return formatDate(s);
+  return formatDate(key);
 }
