@@ -5480,14 +5480,14 @@
               "yrbs": 2,
               "urbanicity_scale": 0,
               "geo_location_youth": 0,
-              "urbanicity": 0,
+              "urbanicity": 2,
               "quicc": 0,
-              "quic": 0,
+              "quic": 2,
               "break_3": 0,
               "short_ant_task": 0,
               "uberball_task": 0,
               "payment_info": 0,
-              "receipt": 0,
+              "receipt": 2,
               "travel_payment_info": 0,
               "travel_receipt": 0,
               "chatroom_profile_creation_8c6d8d": 0,
@@ -245323,5 +245323,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-08T16:39:57.126Z"
+  "fetchedAt": "2026-07-08T18:13:47.491Z"
 }
