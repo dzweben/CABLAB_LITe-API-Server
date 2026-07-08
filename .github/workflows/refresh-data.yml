@@ -2,16 +2,14 @@ name: Refresh LITe REDCap Data
 
 on:
   schedule:
-    # Every 30 minutes, but ONLY during Temple REDCap's uptime window.
-    # REDCap goes dark nightly ~12:40 AM Eastern and is reliably back by
-    # ~7 AM Eastern, so we run 7:00 AM – 12:30 AM ET. Cron is UTC and does
-    # NOT follow DST; these offsets are tuned for EDT (UTC-4, summer):
-    #   7:00 AM EDT = 11:00 UTC ;  12:30 AM EDT = 04:30 UTC (next day).
-    # In EST (winter) the window effectively shifts to 6 AM–11:30 PM ET —
-    # fine, because the fetch fail-fasts harmlessly if REDCap is still
-    # down, and worst case is ~1h of extra staleness at the night's edge.
-    - cron: "0,30 11-23 * * *"   # 11:00–23:30 UTC  (7:00 AM – 7:30 PM EDT)
-    - cron: "0,30 0-4 * * *"     # 00:00–04:30 UTC  (8:00 PM – 12:30 AM EDT)
+    # Every 30 minutes across REDCap's uptime. The cron is only a coarse
+    # attempt-limiter — GitHub's scheduler delays runs unpredictably (we've
+    # seen a 12:30 AM ET slot fire at 2 AM ET), and UTC cron can't follow
+    # DST. The REAL enforcement is the "Gate on REDCap uptime" step below,
+    # which checks actual Eastern time at RUN time and skips the whole job
+    # during REDCap's nightly downtime (~12:40 AM – 7:00 AM ET).
+    - cron: "0,30 11-23 * * *"   # ~7 AM – 7:30 PM ET
+    - cron: "0,30 0-5 * * *"     # ~8 PM – 12:30 AM ET (hr 5 covers EST)
   workflow_dispatch:
 
 permissions:
@@ -35,17 +33,39 @@ jobs:
       run:
         working-directory: app
     steps:
+      # Enforce REDCap's uptime window at RUN time (DST-correct via
+      # America/New_York). If GitHub launched this job during REDCap's
+      # nightly downtime (~12:40 AM – 7:00 AM ET) — whether by a delayed
+      # schedule or otherwise — skip every real step so the run is a clean
+      # green no-op instead of a failure + pointless REDCap hit.
+      - name: Gate on REDCap uptime (Eastern)
+        id: gate
+        working-directory: ${{ github.workspace }}
+        run: |
+          H=$(TZ=America/New_York date +%H)
+          M=$(TZ=America/New_York date +%M)
+          if { [ "$H" -eq 0 ] && [ "$M" -ge 40 ]; } || { [ "$H" -ge 1 ] && [ "$H" -le 6 ]; }; then
+            echo "REDCap downtime (${H}:${M} ET) — skipping this run."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "REDCap uptime (${H}:${M} ET) — proceeding."
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout repo
+        if: steps.gate.outputs.skip != 'true'
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node.js
+        if: steps.gate.outputs.skip != 'true'
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
       - name: Fetch data from REDCap + Google Sheet
+        if: steps.gate.outputs.skip != 'true'
         env:
           REDCAP_API_URL: ${{ secrets.REDCAP_API_URL }}
           REDCAP_LITE_TOKEN: ${{ secrets.REDCAP_LITE_TOKEN }}
@@ -54,6 +74,7 @@ jobs:
         run: node --max-old-space-size=6144 scripts/fetch-data.mjs
 
       - name: Commit and push updated data
+        if: steps.gate.outputs.skip != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -74,6 +95,7 @@ jobs:
           fi
 
       - name: Validate data files before deploy
+        if: steps.gate.outputs.skip != 'true'
         run: |
           set -e
           # Hard gate: never deploy a file that won't parse. If the fetch
@@ -88,6 +110,7 @@ jobs:
           node -e "const d=JSON.parse(require('fs').readFileSync('private/data/participants.json','utf8')); if(!Array.isArray(d.participants)||d.participants.length<100){console.error('::error::participants.json has only',(d.participants||[]).length,'records — aborting deploy');process.exit(1)} console.log('Validated',d.participants.length,'participants')"
 
       - name: Deploy to Vercel
+        if: steps.gate.outputs.skip != 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
