@@ -154,6 +154,7 @@ async function fetchAllRecordsStreaming(byRecord) {
   }
   console.log(`  Will fetch ${events.length} events in series…`);
   let total = 0;
+  const perEvent = {};
   for (const evt of events) {
     try {
       const csv = await redcapPost({
@@ -165,6 +166,7 @@ async function fetchAllRecordsStreaming(byRecord) {
       const rows = parseCSV(csv);
       console.log(`    ${evt}: ${rows.length} rows`);
       total += rows.length;
+      perEvent[evt] = rows.length;
       for (const r of rows) {
         const id = r.record_id;
         if (!id) continue;
@@ -173,9 +175,10 @@ async function fetchAllRecordsStreaming(byRecord) {
       }
     } catch (err) {
       console.warn(`    ${evt}: SKIPPED (${err.message})`);
+      perEvent[evt] = 0;
     }
   }
-  return total;
+  return { total, perEvent };
 }
 
 async function fetchReport(reportId) {
@@ -1038,7 +1041,7 @@ async function main() {
   } catch { /* first run / unreadable — no baseline to compare */ }
 
   const byRecord = {};
-  const total = await fetchAllRecordsStreaming(byRecord);
+  const { total, perEvent } = await fetchAllRecordsStreaming(byRecord);
   console.log(`  Got ${total} REDCap rows, grouped into ${Object.keys(byRecord).length} records`);
 
   // Floor check #1: total REDCap rows must not collapse vs the last good
@@ -1109,14 +1112,25 @@ async function main() {
     }
   }
 
-  // Floor check #3: any completion report that had rows last run but
-  // returns 0 this run = silent dropout (it would wipe that wave's
-  // status). fetchReport already throws on HTTP error, so this catches
-  // the rarer "200 OK but empty" case.
+  // Floor check #3: a completion report that had rows last run but
+  // returns 0 now COULD be a silent dropout that wipes a wave's status —
+  // but it's only alarming if that wave still has data. If the wave's own
+  // REDCap event is ALSO empty this run (e.g. Year 3 hasn't started, or
+  // its data was archived), a 0-row report is legitimate, not a dropout,
+  // and must not brick every refresh. So we only abort when the report
+  // dropped to 0 WHILE the wave's event still holds records.
+  // fetchReport already throws on HTTP errors, so this only guards the
+  // rarer "200 OK but empty" case.
   if (baseline?.reportRowCounts) {
     for (const [key, prevN] of Object.entries(baseline.reportRowCounts)) {
       if (prevN > 0 && (reportRowCounts[key] || 0) === 0) {
-        throw new Error(`Completion report ${key} dropped ${prevN} → 0 rows — silent dropout. Aborting before deploy.`);
+        const m = /^(ema|atHome)Y(\d)$/.exec(key);
+        const eventKind = m ? (m[1] === "atHome" ? "athome" : "ema") : null;
+        const waveEventRows = m ? (perEvent[eventName(eventKind, Number(m[2]))] || 0) : 1;
+        if (waveEventRows > 0) {
+          throw new Error(`Completion report ${key} dropped ${prevN} → 0 rows while its wave still has ${waveEventRows} event rows — silent dropout. Aborting before deploy.`);
+        }
+        console.warn(`  Report ${key} is 0 rows (was ${prevN}) but the wave's event is also empty — treating as a legitimately-empty wave, not a dropout.`);
       }
     }
   }
