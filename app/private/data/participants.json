@@ -84136,7 +84136,7 @@
         "2": {
           "year": 2,
           "v1": {
-            "date": null,
+            "date": "2026-07-14",
             "forms": {
               "preenrollment_survey": 0,
               "phone_screener_visit_1_scheduling": 0,
@@ -84248,7 +84248,7 @@
               "payment_confirmation_form": 0,
               "scoring": 0
             },
-            "allComplete": false
+            "allComplete": true
           },
           "atHome": null,
           "sts1": null,
@@ -84442,7 +84442,22 @@
               }
             ]
           },
-          "v2": null
+          "v2": null,
+          "followupSheet": {
+            "record": 1880,
+            "v1Date": "2026-07-14",
+            "v2Date": null,
+            "sts1Months": [],
+            "sts2Months": [],
+            "emaDate": null,
+            "emaStatus": null,
+            "w1Comp": null,
+            "w2Comp": null,
+            "wave2StartDate": null,
+            "wave3StartDate": null,
+            "raTag": null,
+            "notes": null
+          }
         }
       },
       "activeWave": 2
@@ -167368,7 +167383,7 @@
         "2": {
           "year": 2,
           "v1": {
-            "date": null,
+            "date": "2026-07-14",
             "forms": {
               "preenrollment_survey": 0,
               "phone_screener_visit_1_scheduling": 0,
@@ -167480,7 +167495,7 @@
               "payment_confirmation_form": 0,
               "scoring": 0
             },
-            "allComplete": false
+            "allComplete": true
           },
           "atHome": {
             "timestamp": null,
@@ -167694,7 +167709,22 @@
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
-          "v2": null
+          "v2": null,
+          "followupSheet": {
+            "record": 1851,
+            "v1Date": "2026-07-14",
+            "v2Date": null,
+            "sts1Months": [],
+            "sts2Months": [],
+            "emaDate": null,
+            "emaStatus": null,
+            "w1Comp": null,
+            "w2Comp": null,
+            "wave2StartDate": null,
+            "wave3StartDate": null,
+            "raTag": null,
+            "notes": null
+          }
         }
       },
       "activeWave": 2
@@ -276126,5 +276156,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-14T17:23:29.692Z"
+  "fetchedAt": "2026-07-14T18:44:50.071Z"
 }
