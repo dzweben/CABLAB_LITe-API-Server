@@ -117,7 +117,7 @@ jobs:
             # Rebase on top of any commit that landed since checkout
             # (e.g. a concurrent push) so we don't lose to a race.
             for attempt in 1 2 3; do
-              git pull --rebase origin main && git push && break
+              git pull --rebase --autostash origin main && git push && break
               echo "push retry $attempt failed, sleeping…"
               sleep 5
             done
