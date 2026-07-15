@@ -73,12 +73,41 @@ jobs:
           LITE_GOOGLE_SHEET_ID: ${{ secrets.LITE_GOOGLE_SHEET_ID }}
         run: node --max-old-space-size=6144 scripts/fetch-data.mjs
 
-      - name: Commit and push updated data
+      # Send immediately after the fetch, so every send decision runs
+      # against completion data that is MINUTES old (the send-time
+      # re-check: a reminder only exists in due-reminders.json if its
+      # survey is still incomplete as of the fetch above).
+      #
+      # LIVE/KILL SWITCH: repo variable LITE_SEND_LIVE.
+      #   gh variable set LITE_SEND_LIVE --body true    → real sends
+      #   gh variable set LITE_SEND_LIVE --body false   → dry-run (default)
+      # No commit needed to flip it.
+      - name: Install dependencies (sender)
         if: steps.gate.outputs.skip != 'true'
+        run: npm install --no-audit --no-fund
+
+      - name: Send due messages
+        if: steps.gate.outputs.skip != 'true'
+        env:
+          REDCAP_API_URL: ${{ secrets.REDCAP_API_URL }}
+          REDCAP_LITE_TOKEN: ${{ secrets.REDCAP_LITE_TOKEN }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          QUO_API_KEY: ${{ secrets.QUO_API_KEY }}
+          QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
+          DRY_RUN: ${{ vars.LITE_SEND_LIVE == 'true' && 'false' || 'true' }}
+        run: node scripts/send-due-messages.mjs
+
+      # ALWAYS commit (even if the send step failed with partial sends):
+      # the sent-log is the idempotency ledger — losing it would re-send
+      # every message that DID go out.
+      - name: Commit and push updated data
+        if: always() && steps.gate.outputs.skip != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add private/data/participants.json private/data/due-reminders.json private/data/last-fetch.json
+          git add private/data/participants.json private/data/due-reminders.json private/data/last-fetch.json 2>/dev/null || true
+          git add private/data/sent-log.json private/data/send-state.json 2>/dev/null || true
           # --quiet on `diff --cached` (staged index) — covers both
           # modified-tracked and brand-new-untracked files.
           if git diff --cached --quiet; then

@@ -1,12 +1,10 @@
-name: Send LITe Due Messages
+name: Send LITe Due Messages (manual)
 
+# MANUAL TESTER ONLY. Production sending happens inside the
+# "Refresh LITe REDCap Data" pipeline (fetch → send → commit → deploy),
+# gated by the LITE_SEND_LIVE repo variable. Use this dispatch to run a
+# one-off send cycle — defaults to dry-run so it's always safe to poke.
 on:
-  # Cron is COMMENTED OUT until the first refresh-data run is verified
-  # and the data on the dashboard looks correct. Enable by uncommenting
-  # the schedule block below.
-  #
-  # schedule:
-  #   - cron: "*/5 * * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -21,9 +19,10 @@ on:
 permissions:
   contents: write
 
-# Cancel any in-flight run when a new one starts so we don't double-send.
+# Same group as the refresh pipeline: a manual send can never race a
+# scheduled refresh on the data files / sent-log.
 concurrency:
-  group: send-due-messages
+  group: refresh-lite-data
   cancel-in-progress: false
 
 jobs:
@@ -44,7 +43,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-audit --no-fund
 
       - name: Refresh due-reminders from REDCap + Google Sheet
         env:
@@ -71,5 +70,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add private/data/ 2>/dev/null || true
-          git diff --staged --quiet || git commit -m "LITe send-cycle [$(date -u '+%Y-%m-%d %H:%M UTC')]"
-          git push 2>/dev/null || true
+          git diff --staged --quiet || { git commit -m "LITe send-cycle [$(date -u '+%Y-%m-%d %H:%M UTC')]"; git pull --rebase origin main && git push; }
