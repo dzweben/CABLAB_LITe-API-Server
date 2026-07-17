@@ -57188,7 +57188,7 @@
               "short_ant_task": 0,
               "uberball_task": 0,
               "payment_info": 2,
-              "receipt": 0,
+              "receipt": 2,
               "travel_payment_info": 2,
               "travel_receipt": 0,
               "chatroom_profile_creation_8c6d8d": 0,
@@ -277933,5 +277933,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-17T18:40:41.454Z"
+  "fetchedAt": "2026-07-17T20:12:41.537Z"
 }
