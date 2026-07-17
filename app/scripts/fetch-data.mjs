@@ -587,6 +587,18 @@ function isoDateOnly(epoch) {
 function computeDueReminders(participants) {
   const out = [];
   const now = Date.now();
+  // Index of payment INITIALS this system actually sent (from the send
+  // ledger; real sends only — dry-run rows don't count). Keys are
+  // "pid|287|scheduledAtISO", matching send-due-messages.mjs's dueKey.
+  // Used to decide whether a payment family's follow-up/expire tail may
+  // run: only if we sent (or will send) the initial.
+  const sentInitialIndex = new Set();
+  try {
+    const log = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "sent-log.json"), "utf-8"));
+    for (const e of log) {
+      if (e.status === "sent" && !e.dryRun && e.alertId === 287) sentInitialIndex.add(e.id);
+    }
+  } catch { /* no ledger yet — only upcoming initials gate the tail */ }
   // 270-day horizon — covers a full STS1 cycle (6 monthly invites = ~5 months)
   // plus STS2 (3 more months) plus headroom. Without this, a participant
   // who just started Y2 STS1 wouldn't show cycles 3-6 in the queue.
@@ -739,15 +751,26 @@ function computeDueReminders(participants) {
             });
           };
 
-          // Initial.
-          pushPay(initialT, 287, "payment_email", `W${w} STS-EMA Payment email`);
-          // Bi-weekly follow-ups until (but not on) the expire date.
-          const TWO_WEEKS = 14 * 24 * 3600 * 1000;
-          for (let t = initialT + TWO_WEEKS, n = 1; t < expireT; t += TWO_WEEKS, n++) {
-            pushPay(t, 289, "payment_followup", `W${w} STS-EMA Payment Follow-Up ${n}`);
+          // Follow-ups + the expire notice only exist relative to an
+          // initial WE actually delivered (or will deliver). For legacy
+          // families whose initial date passed before launch — never
+          // sent by this system — a first-ever message reading "you
+          // STILL haven't redeemed…" would reference an email the
+          // participant never got. Those families are suppressed here;
+          // coordinators handle legacy payments manually.
+          const initialUpcoming = initialT >= now;
+          const initialSent = sentInitialIndex.has(`${p.pid}|287|${safeIso(initialT)}`);
+          if (initialUpcoming || initialSent) {
+            // Initial.
+            pushPay(initialT, 287, "payment_email", `W${w} STS-EMA Payment email`);
+            // Bi-weekly follow-ups until (but not on) the expire date.
+            const TWO_WEEKS = 14 * 24 * 3600 * 1000;
+            for (let t = initialT + TWO_WEEKS, n = 1; t < expireT; t += TWO_WEEKS, n++) {
+              pushPay(t, 289, "payment_followup", `W${w} STS-EMA Payment Follow-Up ${n}`);
+            }
+            // Expire notice on the expire date.
+            pushPay(expireT, 290, "payment_expire", `W${w} STS-EMA Payment Expired`);
           }
-          // Expire notice on the expire date.
-          pushPay(expireT, 290, "payment_expire", `W${w} STS-EMA Payment Expired`);
         }
       }
 
