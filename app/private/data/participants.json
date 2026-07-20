@@ -17309,7 +17309,7 @@
             "settingsComplete": 0,
             "paymentEmailButton": false,
             "paymentComplete": 0,
-            "paymentRedeemed": false,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(267) 997-4412",
             "prompts": [
@@ -279669,5 +279669,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-20T17:05:09.250Z"
+  "fetchedAt": "2026-07-20T19:04:54.123Z"
 }
