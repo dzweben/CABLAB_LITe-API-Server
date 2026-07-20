@@ -86452,7 +86452,47 @@
             "allComplete": true
           },
           "atHome": null,
-          "sts1": null,
+          "sts1": {
+            "active": true,
+            "cycles": [
+              {
+                "index": 1,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              },
+              {
+                "index": 2,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              },
+              {
+                "index": 3,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              },
+              {
+                "index": 4,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              },
+              {
+                "index": 5,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              },
+              {
+                "index": 6,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              }
+            ]
+          },
           "sts2": null,
           "ema": {
             "active": false,
@@ -86643,11 +86683,15 @@
               }
             ]
           },
-          "v2": null,
+          "v2": {
+            "date": "n/a only behavioral ",
+            "forms": {},
+            "allComplete": true
+          },
           "followupSheet": {
             "record": 1880,
             "v1Date": "2026-07-14",
-            "v2Date": null,
+            "v2Date": "n/a only behavioral ",
             "sts1Months": [],
             "sts2Months": [],
             "emaDate": null,
@@ -86661,7 +86705,7 @@
           }
         }
       },
-      "activeWave": 2
+      "activeWave": null
     },
     {
       "pid": "2001",
@@ -279625,5 +279669,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-20T15:37:04.178Z"
+  "fetchedAt": "2026-07-20T17:05:09.250Z"
 }
