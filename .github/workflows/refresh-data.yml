@@ -114,13 +114,24 @@ jobs:
             echo "No data changes to commit."
           else
             git commit -m "Auto-refresh LITe REDCap data [$(date -u '+%Y-%m-%d %H:%M UTC')]"
-            # Rebase on top of any commit that landed since checkout
-            # (e.g. a concurrent push) so we don't lose to a race.
+            # Rebase on top of any commit that landed since checkout.
+            # -X theirs: if a concurrent run pushed its own data commit,
+            # conflicts on these GENERATED files resolve in favor of OUR
+            # just-fetched version (during rebase, "theirs" = the commit
+            # being replayed, i.e. ours) — freshest fetch always wins.
+            # On any residual failure, abort the rebase so no conflicted
+            # half-state (markers inside a 9MB JSON) reaches later steps.
             for attempt in 1 2 3; do
-              git pull --rebase --autostash origin main && git push && break
+              git pull --rebase --autostash -X theirs origin main && git push && break
+              git rebase --abort 2>/dev/null || true
               echo "push retry $attempt failed, sleeping…"
               sleep 5
             done
+            # Final integrity check: if the tree is still mid-rebase or
+            # conflicted, hard-reset to our own committed state so the
+            # validate step sees clean files.
+            git rebase --abort 2>/dev/null || true
+            git checkout -- private/data/ 2>/dev/null || true
           fi
 
       - name: Validate data files before deploy
