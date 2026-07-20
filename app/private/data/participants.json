@@ -14912,7 +14912,7 @@
               "payment_info": 2,
               "receipt": 0,
               "travel_payment_info": 2,
-              "travel_receipt": 0,
+              "travel_receipt": 2,
               "chatroom_profile_creation_8c6d8d": 0,
               "chatroom_preference_task_a": 0,
               "chatroom_preference_task_b": 0,
@@ -279625,5 +279625,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-19T23:36:57.448Z"
+  "fetchedAt": "2026-07-20T01:13:35.969Z"
 }
