@@ -23304,7 +23304,7 @@
         "childPhone": "",
         "cohortGroup": "97797600237404",
         "dob": "2013-07-21",
-        "age": 12
+        "age": 13
       },
       "waves": {
         "1": {
@@ -23507,7 +23507,18 @@
               }
             ]
           },
-          "ema": null,
+          "ema": {
+            "active": false,
+            "startDay": "2025-02-03",
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": false,
+            "paymentComplete": 0,
+            "enableSent": false,
+            "phone": "(267) 444-5381",
+            "prompts": []
+          },
           "v2": {
             "date": "2024-04-09",
             "forms": {},
@@ -279684,5 +279695,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-20T23:05:16.618Z"
+  "fetchedAt": "2026-07-21T00:09:03.044Z"
 }
