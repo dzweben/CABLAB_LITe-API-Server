@@ -85969,7 +85969,7 @@
               "pnrt": 2,
               "rpic": 2,
               "rpi": 2,
-              "rpi_new": 0,
+              "rpi_new": 2,
               "arsq": 0,
               "crsq": 2,
               "rsq": 2,
@@ -86140,7 +86140,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": true,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 276-5451",
@@ -279695,5 +279695,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-21T17:59:48.172Z"
+  "fetchedAt": "2026-07-21T19:24:38.381Z"
 }
