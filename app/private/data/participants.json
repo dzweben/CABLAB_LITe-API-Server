@@ -100350,7 +100350,7 @@
           "atHome": {
             "timestamp": null,
             "break1Complete": 0,
-            "athomeMeasuresComplete": 1,
+            "athomeMeasuresComplete": 2,
             "formsFromReport": {
               "texi": 2,
               "bar": 2,
@@ -100359,9 +100359,9 @@
               "shs": 2,
               "glteq": 2,
               "phq": 2,
-              "pubertal_development": 0
+              "pubertal_development": 2
             },
-            "sectionsComplete": 7,
+            "sectionsComplete": 8,
             "sectionsTotal": 8
           },
           "sts1": {
@@ -280541,5 +280541,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-22T17:57:53.875Z"
+  "fetchedAt": "2026-07-22T19:21:50.335Z"
 }
