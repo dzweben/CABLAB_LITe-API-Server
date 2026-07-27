@@ -7696,7 +7696,23 @@
             },
             "allComplete": true
           },
-          "atHome": null,
+          "atHome": {
+            "timestamp": null,
+            "break1Complete": 0,
+            "athomeMeasuresComplete": 1,
+            "formsFromReport": {
+              "texi": 2,
+              "bar": 2,
+              "bas": 2,
+              "zuckerman": 0,
+              "shs": 0,
+              "glteq": 0,
+              "phq": 0,
+              "pubertal_development": 0
+            },
+            "sectionsComplete": 3,
+            "sectionsTotal": 8
+          },
           "sts1": null,
           "sts2": null,
           "ema": null,
@@ -280658,5 +280674,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-27T18:10:46.860Z"
+  "fetchedAt": "2026-07-27T20:10:26.523Z"
 }
