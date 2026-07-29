@@ -87551,7 +87551,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": true,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 307-9165",
@@ -288033,5 +288033,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-29T19:58:34.199Z"
+  "fetchedAt": "2026-07-29T21:01:49.803Z"
 }
