@@ -488,10 +488,15 @@ function pivotParticipant(recordRows) {
     waves[w] = {
       year: w,
       v1: buildVisit(v1),
-      atHome: athome ? {
-        timestamp: athome.timestamp_athome || null,
-        break1Complete: num(athome.break_1_complete),
-        athomeMeasuresComplete: num(athome.athome_measures_complete),
+      // The at-home TRIGGER fields (timestamp_athome, break_1_complete)
+      // live on the VISIT row per the timeline spec — not the at-home
+      // event row (which doesn't even exist until the participant starts
+      // the survey). Reading them from the athome row meant the trigger
+      // was blank for everyone and no at-home send could ever queue.
+      atHome: (athome || v1) ? {
+        timestamp: (v1?.timestamp_athome || athome?.timestamp_athome) || null,
+        break1Complete: num(v1?.break_1_complete ?? athome?.break_1_complete),
+        athomeMeasuresComplete: num(athome?.athome_measures_complete),
       } : null,
       sts1: buildSTS(sts1, 6),
       sts2: buildSTS(sts2, 3),
