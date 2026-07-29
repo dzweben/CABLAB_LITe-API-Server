@@ -50515,5 +50515,170 @@
     "complete": false,
     "expireDate": "2027-07-25T21:00:00.000Z",
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=BMXcU27to2SLYofh"
+  },
+  {
+    "pid": "1022",
+    "recordId": "1022",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "1051",
+    "recordId": "1051",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "1053",
+    "recordId": "1053",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "1054",
+    "recordId": "1054",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "1056",
+    "recordId": "1056",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "1057",
+    "recordId": "1057",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "1059",
+    "recordId": "1059",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "1060",
+    "recordId": "1060",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "1062",
+    "recordId": "1062",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "1080",
+    "recordId": "1080",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "2040",
+    "recordId": "2040",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "2048",
+    "recordId": "2048",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "2049",
+    "recordId": "2049",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "2052",
+    "recordId": "2052",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
+  },
+  {
+    "pid": "3043",
+    "recordId": "3043",
+    "wave": 2,
+    "alertId": 290,
+    "kind": "payment_expire",
+    "instrument": "W2 STS-EMA Payment Expired",
+    "scheduledAt": "2027-04-25T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-04-25T22:00:00.000Z"
   }
 ]
