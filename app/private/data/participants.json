@@ -2347,11 +2347,188 @@
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 2,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(612) 222-4348",
-            "prompts": []
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
           },
           "v2": {
             "date": "2023-07-14",
@@ -5716,11 +5893,188 @@
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
+            "paymentEmailButton": true,
             "paymentComplete": 0,
+            "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 664-1476",
-            "prompts": []
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
           },
           "v2": {
             "date": "2023-06-23",
@@ -8131,11 +8485,188 @@
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
+            "paymentEmailButton": true,
             "paymentComplete": 0,
+            "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(215) 888-6714",
-            "prompts": []
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
           },
           "v2": {
             "date": "2023-08-25",
@@ -9336,7 +9867,195 @@
               }
             ]
           },
-          "ema": null,
+          "ema": {
+            "active": false,
+            "startDay": null,
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 0,
+            "paymentRedeemed": false,
+            "enableSent": false,
+            "phone": "(215) 316-2915",
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
+          },
           "v2": {
             "date": "2023-08-07",
             "forms": {
@@ -17829,11 +18548,188 @@
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 2,
+            "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 997-4412",
-            "prompts": []
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
           },
           "v2": {
             "date": "2024-01-28",
@@ -19522,7 +20418,195 @@
               }
             ]
           },
-          "ema": null,
+          "ema": {
+            "active": false,
+            "startDay": null,
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 2,
+            "paymentRedeemed": false,
+            "enableSent": false,
+            "phone": "(267) 997-4412",
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
+          },
           "v2": {
             "date": "2024-02-16",
             "forms": {},
@@ -20272,7 +21356,195 @@
               }
             ]
           },
-          "ema": null,
+          "ema": {
+            "active": false,
+            "startDay": null,
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 2,
+            "paymentRedeemed": false,
+            "enableSent": false,
+            "phone": "(267) 997-4412",
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
+          },
           "v2": {
             "date": "2024-01-28",
             "forms": {},
@@ -21182,7 +22454,195 @@
               }
             ]
           },
-          "ema": null,
+          "ema": {
+            "active": false,
+            "startDay": null,
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 0,
+            "paymentRedeemed": false,
+            "enableSent": false,
+            "phone": "(267) 597-9136",
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
+          },
           "v2": null,
           "followupSheet": {
             "record": 629,
@@ -28214,11 +29674,188 @@
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
+            "paymentEmailButton": true,
             "paymentComplete": 0,
+            "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(215) 954-5340",
-            "prompts": []
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
           },
           "v2": {
             "date": "2024-05-14",
@@ -71772,7 +73409,195 @@
               }
             ]
           },
-          "ema": null,
+          "ema": {
+            "active": false,
+            "startDay": null,
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 2,
+            "paymentRedeemed": false,
+            "enableSent": false,
+            "phone": "(267) 348-5197",
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
+          },
           "v2": {
             "date": "2024-12-20",
             "forms": {},
@@ -72538,7 +74363,195 @@
               }
             ]
           },
-          "ema": null,
+          "ema": {
+            "active": false,
+            "startDay": null,
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 0,
+            "paymentRedeemed": false,
+            "enableSent": false,
+            "phone": "(732) 245-8969",
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
+          },
           "v2": {
             "date": "2024-12-03",
             "forms": {},
@@ -81434,7 +83447,7 @@
               "pnrt": 2,
               "rpic": 2,
               "rpi": 2,
-              "rpi_new": 0,
+              "rpi_new": 2,
               "arsq": 0,
               "crsq": 2,
               "rsq": 2,
@@ -81446,7 +83459,7 @@
               "yrbs": 2,
               "urbanicity_scale": 0,
               "geo_location_youth": 0,
-              "urbanicity": 0,
+              "urbanicity": 2,
               "quicc": 2,
               "quic": 2,
               "break_3": 2,
@@ -81599,7 +83612,195 @@
               }
             ]
           },
-          "ema": null,
+          "ema": {
+            "active": false,
+            "startDay": null,
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 2,
+            "paymentRedeemed": false,
+            "enableSent": false,
+            "phone": "(215) 201-8965",
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
+          },
           "v2": {
             "date": "2025-01-15",
             "forms": {},
@@ -82371,11 +84572,188 @@
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
+            "paymentEmailButton": true,
             "paymentComplete": 0,
+            "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 760-6682",
-            "prompts": []
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
           },
           "v2": {
             "date": "2024-12-19",
@@ -84086,11 +86464,188 @@
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
+            "paymentEmailButton": true,
             "paymentComplete": 0,
+            "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 334-2151",
-            "prompts": []
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
           },
           "v2": {
             "date": "2025-01-08",
@@ -84339,11 +86894,188 @@
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
+            "paymentEmailButton": true,
             "paymentComplete": 0,
+            "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 307-9165",
-            "prompts": []
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
           },
           "v2": {
             "date": "2025-01-29",
@@ -87244,7 +89976,195 @@
               }
             ]
           },
-          "ema": null,
+          "ema": {
+            "active": false,
+            "startDay": null,
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 2,
+            "paymentRedeemed": false,
+            "enableSent": false,
+            "phone": "(267) 628-8662",
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
+          },
           "v2": {
             "date": "2025-04-27",
             "forms": {},
@@ -87689,11 +90609,188 @@
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentEmailButton": true,
+            "paymentComplete": 2,
+            "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 628-8662",
-            "prompts": []
+            "prompts": [
+              {
+                "key": "ema_m1_734",
+                "dayLabel": "Monday 1",
+                "timeLabel": "7:34 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_517",
+                "dayLabel": "Monday 1",
+                "timeLabel": "5:17 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m1_846",
+                "dayLabel": "Monday 1",
+                "timeLabel": "8:46 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_832",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:32 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_634",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "6:34 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t1_858",
+                "dayLabel": "Tuesday 1",
+                "timeLabel": "8:58 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_812",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "8:12 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w1_900",
+                "dayLabel": "Wednesday 1",
+                "timeLabel": "9:00 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_711",
+                "dayLabel": "Thursday",
+                "timeLabel": "7:11 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_th_532",
+                "dayLabel": "Thursday",
+                "timeLabel": "5:32 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_900",
+                "dayLabel": "Friday",
+                "timeLabel": "9:00 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_704",
+                "dayLabel": "Friday",
+                "timeLabel": "7:04 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_f_841",
+                "dayLabel": "Friday",
+                "timeLabel": "8:41 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_856",
+                "dayLabel": "Saturday",
+                "timeLabel": "8:56 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_sa_501",
+                "dayLabel": "Saturday",
+                "timeLabel": "5:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_755",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:55 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_601",
+                "dayLabel": "Sunday",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_su_736",
+                "dayLabel": "Sunday",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_849",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:49 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_m2_809",
+                "dayLabel": "Monday 2",
+                "timeLabel": "8:09 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_733",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "7:33 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_t2_512",
+                "dayLabel": "Tuesday 2",
+                "timeLabel": "5:12 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_840",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "8:40 AM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_601",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "6:01 PM",
+                "scheduledAt": null,
+                "complete": false
+              },
+              {
+                "key": "ema_w2_736",
+                "dayLabel": "Wednesday 2",
+                "timeLabel": "7:36 PM",
+                "scheduledAt": null,
+                "complete": false
+              }
+            ]
           },
           "v2": {
             "date": "2025-04-27",
@@ -282273,5 +285370,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-29T15:19:58.776Z"
+  "fetchedAt": "2026-07-29T16:57:53.479Z"
 }
