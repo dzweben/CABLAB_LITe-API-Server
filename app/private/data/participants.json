@@ -13811,8 +13811,8 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": true,
-            "paymentComplete": 0,
-            "paymentRedeemed": false,
+            "paymentComplete": 2,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(215) 498-6017",
             "prompts": [
@@ -288033,5 +288033,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-07-31T01:52:10.267Z"
+  "fetchedAt": "2026-07-31T13:02:37.183Z"
 }
