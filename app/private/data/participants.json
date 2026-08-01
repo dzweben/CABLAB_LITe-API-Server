@@ -92171,8 +92171,8 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": true,
-            "paymentComplete": 0,
-            "paymentRedeemed": false,
+            "paymentComplete": 2,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(267) 276-5451",
             "prompts": [
@@ -177161,7 +177161,7 @@
               "payment_info": 2,
               "receipt": 2,
               "travel_payment_info": 2,
-              "travel_receipt": 0,
+              "travel_receipt": 2,
               "travel_links": 0,
               "chatroom_profile_creation_8c6d8d": 0,
               "chatroom_preference_task_a": 0,
@@ -288899,5 +288899,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-01T14:14:01.097Z"
+  "fetchedAt": "2026-08-01T15:42:22.866Z"
 }
