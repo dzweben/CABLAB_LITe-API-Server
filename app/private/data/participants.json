@@ -75887,7 +75887,7 @@
               "uberball_task": 0,
               "payment_info": 2,
               "receipt": 2,
-              "travel_payment_info": 0,
+              "travel_payment_info": 2,
               "travel_receipt": 0,
               "travel_links": 0,
               "chatroom_profile_creation_8c6d8d": 0,
@@ -89235,7 +89235,7 @@
               "receipt": 2,
               "travel_payment_info": 2,
               "travel_receipt": 2,
-              "travel_links": 0,
+              "travel_links": 2,
               "chatroom_profile_creation_8c6d8d": 0,
               "chatroom_preference_task_a": 0,
               "chatroom_preference_task_b": 0,
@@ -288911,5 +288911,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-04T15:39:38.826Z"
+  "fetchedAt": "2026-08-04T17:52:27.648Z"
 }
