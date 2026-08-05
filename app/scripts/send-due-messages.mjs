@@ -338,21 +338,31 @@ async function main() {
 
   console.log(`Reminders in window: ${fires.length}`);
 
-  // Staged recovery blasts — fired ONLY when the run is explicitly
-  // launched with RECOVERY=true (manual workflow dispatch). Ledger dedup,
-  // quiet hours, link guards, and a live completion re-check all still
-  // apply, so this can never double-send or message someone who has
-  // since finished the survey.
-  if (RECOVERY) {
+  // Staged recovery items (recovery-sends.json) — coordinator-approved
+  // catch-up sends with their own scheduledAt values. Processed on EVERY
+  // run, time-gated exactly like normal items, so a staged batch rolls
+  // out on its planned days with no manual dispatching. RECOVERY=true
+  // (manual dispatch) overrides the time gate and fires all staged items
+  // immediately. Ledger dedup, quiet hours, link guards, and live
+  // completion/cycle re-checks always apply.
+  {
     const recovery = readJson(RECOVERY_PATH, []);
     const byPid = Object.fromEntries(data.participants.map(p => [p.pid, p]));
-    let added = 0, dropped = 0;
+    let added = 0, dropped = 0, notYet = 0;
     for (const d of recovery) {
       if (postponed.has(String(d.pid).toLowerCase())) { dropped++; continue; }
+      // Live re-checks: STS completed since staging → drop. EMA cycle
+      // already running (participant enabled on their own) → drop.
       if (!stsStillIncomplete(byPid[d.pid], d)) { dropped++; continue; }
+      if (d.kind === "ema_enable" && byPid[d.pid]?.waves?.[d.wave]?.ema?.active) { dropped++; continue; }
+      const t = new Date(d.scheduledAt).getTime();
+      const due = RECOVERY || (!isNaN(t) && t > windowStart && t <= now);
+      if (!due) { notYet++; continue; }
       fires.push(d); added++;
     }
-    console.log(`RECOVERY mode: +${added} staged items (${dropped} dropped: completed since / postponed)`);
+    if (recovery.length > 0) {
+      console.log(`Recovery: +${added} due now, ${notYet} scheduled later, ${dropped} dropped (completed/active/postponed)${RECOVERY ? " [RECOVERY override: time gate bypassed]" : ""}`);
+    }
   }
 
   // Safety cap counts CHANNEL sends (a reminder can be 2 SMS + 1 email).
