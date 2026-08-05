@@ -215,7 +215,7 @@
     "alertId": 51,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.4 (July catch-up)",
-    "scheduledAt": "2026-08-06T21:00:00.000Z",
+    "scheduledAt": "2026-08-05T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -226,7 +226,7 @@
     "alertId": 51,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.4 (July catch-up)",
-    "scheduledAt": "2026-08-06T21:00:00.000Z",
+    "scheduledAt": "2026-08-05T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -237,7 +237,7 @@
     "alertId": 50,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.3 (July catch-up)",
-    "scheduledAt": "2026-08-06T21:00:00.000Z",
+    "scheduledAt": "2026-08-05T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -248,7 +248,7 @@
     "alertId": 51,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.4 (July catch-up)",
-    "scheduledAt": "2026-08-06T21:00:00.000Z",
+    "scheduledAt": "2026-08-05T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -259,7 +259,7 @@
     "alertId": 51,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.4 (July catch-up)",
-    "scheduledAt": "2026-08-06T21:00:00.000Z",
+    "scheduledAt": "2026-08-05T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -424,7 +424,7 @@
     "alertId": 89,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.1 (July catch-up)",
-    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "scheduledAt": "2026-08-06T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -435,7 +435,7 @@
     "alertId": 51,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.4 (July catch-up)",
-    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "scheduledAt": "2026-08-06T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -446,7 +446,7 @@
     "alertId": 48,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.1 (July catch-up)",
-    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "scheduledAt": "2026-08-06T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -457,7 +457,7 @@
     "alertId": 50,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.3 (July catch-up)",
-    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "scheduledAt": "2026-08-06T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -468,7 +468,7 @@
     "alertId": 53,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.6 (July catch-up)",
-    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "scheduledAt": "2026-08-06T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -479,7 +479,7 @@
     "alertId": 52,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.5 (July catch-up)",
-    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "scheduledAt": "2026-08-06T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -490,7 +490,7 @@
     "alertId": 52,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.5 (July catch-up)",
-    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "scheduledAt": "2026-08-06T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -501,7 +501,7 @@
     "alertId": 48,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.1 (July catch-up)",
-    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "scheduledAt": "2026-08-06T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -512,7 +512,7 @@
     "alertId": 51,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.4 (July catch-up)",
-    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "scheduledAt": "2026-08-06T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -523,7 +523,7 @@
     "alertId": 50,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.3 (July catch-up)",
-    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "scheduledAt": "2026-08-06T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -633,7 +633,7 @@
     "alertId": 48,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.1 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -644,7 +644,7 @@
     "alertId": 49,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.2 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -655,7 +655,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -666,7 +666,7 @@
     "alertId": 91,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.3 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -677,7 +677,7 @@
     "alertId": 91,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.3 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -688,7 +688,7 @@
     "alertId": 91,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.3 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -699,7 +699,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -710,7 +710,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -721,7 +721,7 @@
     "alertId": 89,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.1 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -732,7 +732,7 @@
     "alertId": 89,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.1 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -743,7 +743,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -754,7 +754,7 @@
     "alertId": 89,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.1 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -765,7 +765,7 @@
     "alertId": 89,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.1 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -776,7 +776,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -787,7 +787,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -842,7 +842,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -853,7 +853,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -864,7 +864,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -875,7 +875,7 @@
     "alertId": 89,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.1 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -886,7 +886,7 @@
     "alertId": 89,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.1 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -897,7 +897,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -908,7 +908,7 @@
     "alertId": 89,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.1 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -919,7 +919,7 @@
     "alertId": 89,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.1 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -930,7 +930,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -941,7 +941,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -952,7 +952,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -963,7 +963,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -974,7 +974,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -985,7 +985,7 @@
     "alertId": 90,
     "kind": "sts2_invite",
     "instrument": "Screen Time Auto Invite 2.2 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -996,7 +996,7 @@
     "alertId": 53,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.6 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -1007,7 +1007,7 @@
     "alertId": 52,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.5 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -1018,7 +1018,7 @@
     "alertId": 53,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.6 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
@@ -1029,7 +1029,7 @@
     "alertId": 53,
     "kind": "sts1_invite",
     "instrument": "Screen Time Auto Invite 1.6 (July catch-up)",
-    "scheduledAt": "2026-08-09T21:00:00.000Z",
+    "scheduledAt": "2026-08-08T21:00:00.000Z",
     "complete": false,
     "recovery": true
   },
