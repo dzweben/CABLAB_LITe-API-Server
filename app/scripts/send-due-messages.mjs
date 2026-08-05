@@ -307,9 +307,15 @@ async function main() {
   console.log(`Window: ${new Date(windowStart).toISOString()} → ${new Date(now).toISOString()}`);
 
   if (inQuietHours(now)) {
-    console.log("Quiet hours (before 8 AM / after 9:30 PM ET) — no sends this run; items catch up next run.");
-    // Do NOT advance lastRunAt: the skipped items stay inside the next window.
-    return;
+    if (DRY_RUN) {
+      // A dry run sends nothing, so there is nothing to be quiet about —
+      // proceed so the decision pipeline can be verified at any hour.
+      console.log("Quiet hours — but DRY RUN sends nothing, continuing for verification.");
+    } else {
+      console.log("Quiet hours (before 8 AM / after 9:30 PM ET) — no sends this run; items catch up next run.");
+      // Do NOT advance lastRunAt: the skipped items stay inside the next window.
+      return;
+    }
   }
 
   const doneKeys = new Set(
