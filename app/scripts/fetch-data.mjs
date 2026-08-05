@@ -608,6 +608,14 @@ function computeDueReminders(participants) {
   // plus STS2 (3 more months) plus headroom. Without this, a participant
   // who just started Y2 STS1 wouldn't show cycles 3-6 in the queue.
   const horizon = now + 270 * 24 * 3600 * 1000;
+  // SEND FLOOR: keep items whose time passed within the last 24h. The
+  // DISPLAY queue stays strictly future-only (split at write time), but
+  // the sender reads send-candidates.json which includes these — "due"
+  // items are by definition just-past, and pruning them at every fetch
+  // is exactly what silently starved the sender of the entire July 2026
+  // cycle. Completion still gates: a survey finished 10 minutes ago
+  // removes its reminders from this run's candidates.
+  const sendFloor = now - 24 * 3600 * 1000;
   for (const p of participants) {
     for (const w of WAVES) {
       const wave = p.waves[w];
@@ -631,7 +639,7 @@ function computeDueReminders(participants) {
           if (c.complete === 2) return;  // already done — no invite or follow-ups
 
           // Invite fires only if its own date is still in the future.
-          if (baseT >= now && baseT <= horizon) {
+          if (baseT >= sendFloor && baseT <= horizon) {
             const iso = safeIso(baseT);
             if (iso) out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
@@ -646,7 +654,7 @@ function computeDueReminders(participants) {
           // future, as long as the survey is still incomplete.
           for (let d = 1; d <= 6; d++) {
             const t = baseT + d * 24 * 3600 * 1000;
-            if (t < now || t > horizon) continue;
+            if (t < sendFloor || t > horizon) continue;
             const isoFu = safeIso(t); if (!isoFu) continue;
             out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
@@ -700,7 +708,7 @@ function computeDueReminders(participants) {
         const startT = toEpoch(wave.ema.startDay, 0);
         if (startT != null) {
           const sendT = startT - (3 * 24 + 8) * 3600 * 1000;
-          if (sendT >= now && sendT <= horizon) {
+          if (sendT >= sendFloor && sendT <= horizon) {
             const iso = safeIso(sendT);
             if (iso) {
               const startDateStr = isoDateOnly(startT);
@@ -747,7 +755,7 @@ function computeDueReminders(participants) {
           const expireDate = safeIso(expireT);
 
           const pushPay = (t, alertId, kind, instrument) => {
-            if (t < now || t > horizon) return;
+            if (t < sendFloor || t > horizon) return;
             const iso = safeIso(t); if (!iso) return;
             out.push({
               pid: p.pid, recordId: p.recordId, wave: w,
@@ -763,7 +771,7 @@ function computeDueReminders(participants) {
           // STILL haven't redeemed…" would reference an email the
           // participant never got. Those families are suppressed here;
           // coordinators handle legacy payments manually.
-          const initialUpcoming = initialT >= now;
+          const initialUpcoming = initialT >= sendFloor;  // in-window initials count: they're about to be sent
           const initialSent = sentInitialIndex.has(`${p.pid}|287|${safeIso(initialT)}`);
           if (initialUpcoming || initialSent) {
             // Initial.
@@ -797,7 +805,7 @@ function computeDueReminders(participants) {
         const baseT = toEpoch(ah.timestamp);
         if (baseT != null) {
           const sendT = baseT + (3 * 60 + 45) * 60 * 1000;
-          if (sendT >= now && sendT <= horizon) {
+          if (sendT >= sendFloor && sendT <= horizon) {
             const iso = safeIso(sendT);
             if (iso) {
               out.push({
@@ -1565,7 +1573,15 @@ async function main() {
 
   fs.mkdirSync(DATA_DIR, { recursive: true });
   fs.writeFileSync(path.join(DATA_DIR, "participants.json"), JSON.stringify({ participants, fetchedAt: new Date().toISOString() }, null, 2));
-  fs.writeFileSync(path.join(DATA_DIR, "due-reminders.json"), JSON.stringify(due, null, 2));
+  // Split: the DISPLAY queue stays strictly future-only (the dashboard's
+  // scheduled-only rule); send-candidates.json additionally carries items
+  // due within the last 24h — the sender's working set. Without this
+  // split, every fetch pruned just-due items seconds before the send
+  // step could fire them.
+  const nowIso = new Date().toISOString();
+  const displayQueue = due.filter(d => d.scheduledAt >= nowIso);
+  fs.writeFileSync(path.join(DATA_DIR, "due-reminders.json"), JSON.stringify(displayQueue, null, 2));
+  fs.writeFileSync(path.join(DATA_DIR, "send-candidates.json"), JSON.stringify(due, null, 2));
   fs.writeFileSync(path.join(DATA_DIR, "last-fetch.json"), JSON.stringify({
     ok: true,
     timestamp: new Date().toISOString(),

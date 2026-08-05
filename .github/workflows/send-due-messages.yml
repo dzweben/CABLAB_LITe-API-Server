@@ -15,6 +15,14 @@ on:
         options:
           - "true"
           - "false"
+      recovery:
+        description: "true = ALSO fire staged recovery-sends.json (July catch-up)"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
 
 permissions:
   contents: write
@@ -62,6 +70,7 @@ jobs:
           QUO_API_KEY: ${{ secrets.QUO_API_KEY }}
           QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
           DRY_RUN: ${{ github.event.inputs.dry_run }}
+          RECOVERY: ${{ github.event.inputs.recovery }}
         run: node scripts/send-due-messages.mjs
 
       - name: Commit updated data and logs

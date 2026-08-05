@@ -38,10 +38,19 @@ import nodemailer from "nodemailer";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, "..", "private", "data");
 const PARTICIPANTS_PATH = path.join(DATA_DIR, "participants.json");
+// send-candidates.json = due-reminders plus items due within the last
+// 24h. The display queue (due-reminders.json) is future-only by design,
+// which starved the sender — "due" items are by definition just-past.
+const CANDIDATES_PATH = path.join(DATA_DIR, "send-candidates.json");
 const DUE_PATH = path.join(DATA_DIR, "due-reminders.json");
 const SENT_LOG_PATH = path.join(DATA_DIR, "sent-log.json");
 const POSTPONED_PATH = path.join(DATA_DIR, "postponed.json");
 const STATE_PATH = path.join(DATA_DIR, "send-state.json");
+// One-time recovery blasts (e.g. the missed July 2026 STS cycle). The
+// file can sit staged in the repo indefinitely — items are ONLY fired
+// when the run is explicitly launched with RECOVERY=true.
+const RECOVERY_PATH = path.join(DATA_DIR, "recovery-sends.json");
+const RECOVERY = (process.env.RECOVERY || "").toLowerCase() === "true";
 
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false"; // safe default: dry
 const CATCHUP_MS = 18 * 3600 * 1000;      // never send anything older than 18h
@@ -255,9 +264,24 @@ function emailSubject(kind) {
 }
 
 // --- Main ---
+// For recovery items: never message someone who has since completed the
+// survey. Maps an STS alertId back to its cycle and checks live data.
+function stsStillIncomplete(participant, d) {
+  const wave = participant?.waves?.[d.wave];
+  if (!wave) return false;
+  let which = null, idx = -1;
+  if (d.alertId >= 48 && d.alertId <= 53) { which = "sts1"; idx = d.alertId - 48; }
+  else if (d.alertId >= 89 && d.alertId <= 91) { which = "sts2"; idx = d.alertId - 89; }
+  else return true; // non-STS recovery kinds: no cycle to check
+  const c = wave[which]?.cycles?.[idx];
+  return !c || c.complete !== 2;
+}
+
 async function main() {
   const data = readJson(PARTICIPANTS_PATH, { participants: [] });
-  const due = readJson(DUE_PATH, []);
+  // Prefer the sender's working set (includes last-24h); fall back to the
+  // display queue if a fetch predates the split.
+  const due = readJson(CANDIDATES_PATH, null) ?? readJson(DUE_PATH, []);
   const sentLog = readJson(SENT_LOG_PATH, []);
   const postponed = new Set((readJson(POSTPONED_PATH, [])).map(s => String(s).toLowerCase()));
   const state = readJson(STATE_PATH, null);
@@ -302,6 +326,23 @@ async function main() {
   });
 
   console.log(`Reminders in window: ${fires.length}`);
+
+  // Staged recovery blasts — fired ONLY when the run is explicitly
+  // launched with RECOVERY=true (manual workflow dispatch). Ledger dedup,
+  // quiet hours, link guards, and a live completion re-check all still
+  // apply, so this can never double-send or message someone who has
+  // since finished the survey.
+  if (RECOVERY) {
+    const recovery = readJson(RECOVERY_PATH, []);
+    const byPid = Object.fromEntries(data.participants.map(p => [p.pid, p]));
+    let added = 0, dropped = 0;
+    for (const d of recovery) {
+      if (postponed.has(String(d.pid).toLowerCase())) { dropped++; continue; }
+      if (!stsStillIncomplete(byPid[d.pid], d)) { dropped++; continue; }
+      fires.push(d); added++;
+    }
+    console.log(`RECOVERY mode: +${added} staged items (${dropped} dropped: completed since / postponed)`);
+  }
 
   // Safety cap counts CHANNEL sends (a reminder can be 2 SMS + 1 email).
   const estMessages = fires.reduce((n, d) => {
