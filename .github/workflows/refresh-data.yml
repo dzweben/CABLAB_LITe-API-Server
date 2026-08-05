@@ -108,6 +108,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add private/data/participants.json private/data/due-reminders.json private/data/last-fetch.json 2>/dev/null || true
           git add private/data/sent-log.json private/data/send-state.json 2>/dev/null || true
+          git add private/data/send-candidates.json private/data/recovery-sends.json 2>/dev/null || true
           # --quiet on `diff --cached` (staged index) — covers both
           # modified-tracked and brand-new-untracked files.
           if git diff --cached --quiet; then
