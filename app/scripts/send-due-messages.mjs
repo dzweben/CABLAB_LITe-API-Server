@@ -318,8 +318,13 @@ async function main() {
     }
   }
 
+  // Dedup ledger: REAL sends only. Dry-run rows are a rehearsal's paper
+  // trail — counting them would let a rehearsal block the real send
+  // (the July recovery would have silently no-op'd against its own
+  // dry-run). A dry run must never satisfy "already sent."
   const doneKeys = new Set(
-    sentLog.filter(e => e.status === "sent").map(e => e.sendKey || `${e.id}|${e.channel}|${e.recipient}`)
+    sentLog.filter(e => e.status === "sent" && !e.dryRun)
+           .map(e => e.sendKey || `${e.id}|${e.channel}|${e.recipient}`)
   );
   const participantByPid = Object.fromEntries(data.participants.map(p => [p.pid, p]));
 
