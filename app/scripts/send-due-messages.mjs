@@ -445,7 +445,10 @@ async function main() {
     };
 
     if (ch.sms) for (const ph of phones) await attempt("sms", ph, () => sendSMS(ph, body));
-    if (ch.email && email) await attempt("email", email, () => sendEmail(email, emailSubject(d.kind), body));
+    // No email creds in this environment (e.g. local outage-fallback run):
+    // skip silently — the ledger has no 'sent' row for the email channel,
+    // so the next CI run with full creds catches the emails up.
+    if (ch.email && email && GMAIL_USER) await attempt("email", email, () => sendEmail(email, emailSubject(d.kind), body));
 
     writeJson(SENT_LOG_PATH, sentLog); // snapshot so a crash loses nothing
   }
