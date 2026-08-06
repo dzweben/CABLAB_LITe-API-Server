@@ -55777,7 +55777,7 @@
               "pnrt": 2,
               "rpic": 2,
               "rpi": 2,
-              "rpi_new": 0,
+              "rpi_new": 2,
               "arsq": 0,
               "crsq": 2,
               "rsq": 2,
@@ -56429,8 +56429,8 @@
               {
                 "index": 4,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=DD4jRqGWbSZtIoDb"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 5,
@@ -58756,8 +58756,8 @@
               {
                 "index": 5,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=SdCQjVeyegDoIjBf"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 6,
@@ -289041,5 +289041,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-06T13:00:53.656Z"
+  "fetchedAt": "2026-08-06T15:20:37.797Z"
 }
