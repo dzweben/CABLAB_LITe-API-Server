@@ -270,8 +270,10 @@ function stsStillIncomplete(participant, d) {
   const wave = participant?.waves?.[d.wave];
   if (!wave) return false;
   let which = null, idx = -1;
-  if (d.alertId >= 48 && d.alertId <= 53) { which = "sts1"; idx = d.alertId - 48; }
-  else if (d.alertId >= 89 && d.alertId <= 91) { which = "sts2"; idx = d.alertId - 89; }
+  if (d.alertId >= 48 && d.alertId <= 53) { which = "sts1"; idx = d.alertId - 48; }        // invites
+  else if (d.alertId >= 54 && d.alertId <= 59) { which = "sts1"; idx = d.alertId - 54; }   // follow-up reminders
+  else if (d.alertId >= 89 && d.alertId <= 91) { which = "sts2"; idx = d.alertId - 89; }   // invites
+  else if (d.alertId >= 93 && d.alertId <= 95) { which = "sts2"; idx = d.alertId - 93; }   // follow-up reminders
   else return true; // non-STS recovery kinds: no cycle to check
   const c = wave[which]?.cycles?.[idx];
   return !c || c.complete !== 2;
