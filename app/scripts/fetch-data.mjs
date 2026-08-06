@@ -248,6 +248,12 @@ function computeAgeFromDob(dobStr) {
 // Returns ["YYYY-MM-DD 17:00:00", ...] of `count` entries — same shape as
 // the REDCap-native date strings so toEpoch() can attach Eastern offset
 // later. Returns array of nulls if the anchor is unparseable.
+// ONE-TIME slips of a canonical send day, keyed by "YYYY-MM" → day.
+// Aug 2026: the July catch-up ran Aug 5-9 (invites + reminders), so the
+// August STS cycle slips from the 20th to the 26th to give participants
+// breathing room. September+ return to the canonical 20th automatically.
+const STS_DAY_OVERRIDES = { "2026-08": 26 };
+
 function computeStsCycleDates(anchorDate, count, hour = 17) {
   if (!anchorDate) return Array(count).fill(null);
   const raw = String(anchorDate).slice(0, 10);
@@ -261,7 +267,8 @@ function computeStsCycleDates(anchorDate, count, hour = 17) {
     if (month > 12) { month = 1; year++; }
     const mm = String(month).padStart(2, "0");
     const hh = String(hour).padStart(2, "0");
-    out.push(`${year}-${mm}-20 ${hh}:00:00`);
+    const dd = STS_DAY_OVERRIDES[`${year}-${mm}`] ?? 20;
+    out.push(`${year}-${mm}-${String(dd).padStart(2, "0")} ${hh}:00:00`);
   }
   return out;
 }
@@ -1486,6 +1493,49 @@ async function main() {
   console.log(`  Resolving ${linkTasks.length} survey links…`);
   await batchAsync(linkTasks, 3, 200);
 
+  // ── EMA prompt schedule (OUR server sends every prompt — REDCap sends
+  // nothing). For each participant with an ENABLED cycle, materialize the
+  // exact send plan: 25 fixed grid times off their start Monday, the
+  // phone THEY chose in the enable survey (ema_phone), and each prompt's
+  // survey link pre-resolved NOW so the precision sender never needs
+  // REDCap at fire time.
+  const emaSchedule = [];
+  {
+    const nowMs = Date.now();
+    const scheduleTasks = [];
+    for (const p of participants) {
+      for (const w of WAVES) {
+        const ema = p.waves[w]?.ema;
+        if (!ema?.active || !ema.startDay) continue;
+        // Canonical fill for any prompt REDCap didn't stamp a time on.
+        const grid = computeEmaPromptDates(ema.startDay);
+        for (const prompt of ema.prompts) {
+          if (!prompt.scheduledAt && grid[prompt.key]) prompt.scheduledAt = grid[prompt.key];
+        }
+        ema.prompts.forEach((prompt, idx) => {
+          if (prompt.complete || !prompt.scheduledAt) return;
+          const t = toEpoch(prompt.scheduledAt);
+          if (t == null || t < nowMs - 24 * 3600 * 1000) return; // long past — never send
+          const row = {
+            pid: p.pid, recordId: p.recordId, wave: w,
+            key: prompt.key, reportNum: idx + 1,
+            dayLabel: prompt.dayLabel, timeLabel: prompt.timeLabel,
+            sendAt: new Date(t).toISOString(),
+            phone: ema.phone || p.contact?.phonePrimary || "",
+            surveyLink: null,
+          };
+          emaSchedule.push(row);
+          scheduleTasks.push(async () => {
+            row.surveyLink = await fetchSurveyLink(p.recordId, eventName("ema", w), `ema_report_${idx + 1}`);
+          });
+        });
+      }
+    }
+    await batchAsync(scheduleTasks, 3, 200);
+    emaSchedule.sort((a, b) => a.sendAt.localeCompare(b.sendAt));
+    console.log(`  EMA prompt schedule: ${emaSchedule.length} upcoming prompts across ${new Set(emaSchedule.map(r => r.pid)).size} enabled participants (${emaSchedule.filter(r => !r.surveyLink).length} without links)`);
+  }
+
   const due = computeDueReminders(participants);
 
   // Resolve survey links per queued item. Map each kind to its event +
@@ -1582,6 +1632,7 @@ async function main() {
   const displayQueue = due.filter(d => d.scheduledAt >= nowIso);
   fs.writeFileSync(path.join(DATA_DIR, "due-reminders.json"), JSON.stringify(displayQueue, null, 2));
   fs.writeFileSync(path.join(DATA_DIR, "send-candidates.json"), JSON.stringify(due, null, 2));
+  fs.writeFileSync(path.join(DATA_DIR, "ema-prompt-schedule.json"), JSON.stringify(emaSchedule, null, 2));
   fs.writeFileSync(path.join(DATA_DIR, "last-fetch.json"), JSON.stringify({
     ok: true,
     timestamp: new Date().toISOString(),
