@@ -679,7 +679,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-03-04",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -1091,7 +1091,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-12-01",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -1522,7 +1522,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-04-01",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -1922,7 +1922,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-05-04",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -2353,7 +2353,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-05-06",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -5915,7 +5915,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-04-01",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -6327,7 +6327,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-03-02",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -7534,7 +7534,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-05-06",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -7946,7 +7946,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-02-02",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -8523,7 +8523,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-06-03",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -9049,7 +9049,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-01-05",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -10878,7 +10878,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-07-01",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -11404,7 +11404,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-04-06",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -11835,7 +11835,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-09-02",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -12361,7 +12361,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-05-04",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -14808,7 +14808,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-11-04",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -15334,7 +15334,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-05-04",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -17821,7 +17821,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-04-01",
+            "startDay": null,
             "startDayCalc": 1,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -18221,7 +18221,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-09-07",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -18766,7 +18766,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-11-04",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -19166,7 +19166,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-08-03",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -19711,7 +19711,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2024-12-02",
+            "startDay": null,
             "startDayCalc": 1,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -20111,7 +20111,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-08-03",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -25724,7 +25724,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-02-03",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -26136,7 +26136,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-05-04",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -26679,18 +26679,7 @@
               }
             ]
           },
-          "ema": {
-            "active": false,
-            "startDay": "2025-02-03",
-            "startDayCalc": null,
-            "enableConfirmed": false,
-            "settingsComplete": 0,
-            "paymentEmailButton": false,
-            "paymentComplete": 0,
-            "enableSent": false,
-            "phone": "(267) 444-5381",
-            "prompts": []
-          },
+          "ema": null,
           "v2": {
             "date": "2024-04-09",
             "forms": {},
@@ -26933,18 +26922,7 @@
               }
             ]
           },
-          "ema": {
-            "active": false,
-            "startDay": "2025-02-03",
-            "startDayCalc": null,
-            "enableConfirmed": false,
-            "settingsComplete": 0,
-            "paymentEmailButton": false,
-            "paymentComplete": 0,
-            "enableSent": false,
-            "phone": "(267) 444-5381",
-            "prompts": []
-          },
+          "ema": null,
           "v2": {
             "date": "2024-04-09",
             "forms": {},
@@ -27189,7 +27167,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-02-03",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -27601,7 +27579,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-06-01",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -28989,7 +28967,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-03-03",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -29401,7 +29379,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-07-06",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -29946,7 +29924,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-03-03",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -30346,7 +30324,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-06-01",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -34182,7 +34160,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-04-07",
+            "startDay": null,
             "startDayCalc": 1,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -37256,7 +37234,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-04-07",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -37687,7 +37665,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-04-07",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -38099,7 +38077,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-08-03",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -38530,7 +38508,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-04-07",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 2,
@@ -38942,7 +38920,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-09-07",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -40444,7 +40422,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-05-05",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -40844,7 +40822,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-09-07",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -43177,7 +43155,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-05-05",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -43577,7 +43555,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-09-07",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -48827,18 +48805,7 @@
               }
             ]
           },
-          "ema": {
-            "active": false,
-            "startDay": "2025-11-03",
-            "startDayCalc": null,
-            "enableConfirmed": false,
-            "settingsComplete": 0,
-            "paymentEmailButton": false,
-            "paymentComplete": 0,
-            "enableSent": false,
-            "phone": "(757) 651-6569",
-            "prompts": []
-          },
+          "ema": null,
           "v2": {
             "date": "2025-01-15",
             "forms": {},
@@ -49908,7 +49875,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-05-05",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -51034,7 +51001,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-06-02",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -51434,7 +51401,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2027-01-04",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -52936,7 +52903,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-07-07",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -53348,7 +53315,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-12-07",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -55514,7 +55481,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-10-06",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -55945,7 +55912,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-10-06",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -56471,7 +56438,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2027-01-04",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -59149,7 +59116,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-07-07",
+            "startDay": null,
             "startDayCalc": 1,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -59561,7 +59528,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2027-02-01",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -66177,7 +66144,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-08-04",
+            "startDay": null,
             "startDayCalc": 1,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -67969,7 +67936,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-09-01",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -70219,7 +70186,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-09-01",
+            "startDay": null,
             "startDayCalc": 1,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -72007,7 +71974,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2027-01-04",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -76319,18 +76286,7 @@
               }
             ]
           },
-          "ema": {
-            "active": false,
-            "startDay": "2025-09-01",
-            "startDayCalc": null,
-            "enableConfirmed": false,
-            "settingsComplete": 0,
-            "paymentEmailButton": false,
-            "paymentComplete": 0,
-            "enableSent": false,
-            "phone": "(272) 333-1890",
-            "prompts": []
-          },
+          "ema": null,
           "v2": {
             "date": "2024-11-15",
             "forms": {},
@@ -76575,7 +76531,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-12-01",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -77771,7 +77727,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-10-06",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -79064,7 +79020,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-10-06",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -79829,7 +79785,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-09-01",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -81319,7 +81275,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-12-01",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -82546,7 +82502,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-11-03",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -83311,7 +83267,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-12-01",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -85606,7 +85562,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-10-06",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -86018,7 +85974,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2027-02-01",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -86563,7 +86519,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-12-01",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -86975,7 +86931,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2027-04-05",
+            "startDay": null,
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -87520,7 +87476,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-11-03",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -87951,7 +87907,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-11-03",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -88772,7 +88728,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2025-12-01",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -91680,7 +91636,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-02-02",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -92308,7 +92264,7 @@
           },
           "ema": {
             "active": false,
-            "startDay": "2026-02-02",
+            "startDay": null,
             "startDayCalc": null,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -289041,5 +288997,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-07T03:22:11.810Z"
+  "fetchedAt": "2026-08-07T04:41:12.697Z"
 }
