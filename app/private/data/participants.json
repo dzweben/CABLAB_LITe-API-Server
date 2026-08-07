@@ -62492,8 +62492,8 @@
               {
                 "index": 4,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=I7F7iRv24RM4bQSN"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 5,
@@ -105931,8 +105931,8 @@
               {
                 "index": 3,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=j4I3ajaZYCMZGVDk"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 4,
@@ -143742,8 +143742,8 @@
               {
                 "index": 1,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=UEvueoRrfeqyJaug"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 2,
@@ -146498,8 +146498,8 @@
               {
                 "index": 4,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=YiE7aSQPoQs9mszo"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 5,
@@ -164387,8 +164387,8 @@
               {
                 "index": 2,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=nt8bctvMgH2M8EwC"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -165238,8 +165238,8 @@
               {
                 "index": 2,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=yXFXi3vsy2pXra49"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -211347,8 +211347,8 @@
               {
                 "index": 2,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=2x2RyXAUCyMx5yHv"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -242803,8 +242803,8 @@
               {
                 "index": 1,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=RawLuBJBDitgQ5yy"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 2,
@@ -245704,8 +245704,8 @@
               {
                 "index": 2,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=ACAIKN9QBbYpRT6s"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -247955,8 +247955,8 @@
               {
                 "index": 2,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=oo8zZQrK3Z4i4CJN"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -256243,8 +256243,8 @@
               {
                 "index": 2,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=9ZFCUsKzsPPpZkZq"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -289041,5 +289041,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-07T02:11:26.350Z"
+  "fetchedAt": "2026-08-07T03:22:11.810Z"
 }
