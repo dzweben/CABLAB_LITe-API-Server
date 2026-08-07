@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # EMA watchdog step dispatches the prompt sender if its segment job is missing
 
 # Serialize runs. The pipeline fetches → commits → `git pull --rebase`
 # → vercel build/deploy, all against the same data files. If two runs
@@ -97,6 +98,53 @@ jobs:
           QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
           DRY_RUN: ${{ vars.LITE_SEND_LIVE == 'true' && 'false' || 'true' }}
         run: node scripts/send-due-messages.mjs
+
+      # EMA WATCHDOG: this pipeline runs every ~30 min, so it doubles as
+      # the safety net for the precision prompt sender. If we are inside
+      # an EMA segment window, prompts are still pending within their
+      # 30-min grace, and NO prompt-sender run is active or queued, the
+      # segment's start cron was dropped — dispatch the sender now. This
+      # bounds a missed segment start to roughly one refresh interval,
+      # inside the grace window, so prompts still deliver.
+      - name: EMA watchdog — dispatch prompt sender if its segment job is missing
+        if: always() && steps.gate.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LITE_SEND_LIVE: ${{ vars.LITE_SEND_LIVE }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const { execSync } = require("child_process");
+            const ET = "America/New_York";
+            const now = new Date();
+            const [h, m] = now.toLocaleString("en-US", { timeZone: ET, hour12: false, hour: "2-digit", minute: "2-digit" }).split(":").map(Number);
+            const mins = (h === 24 ? 0 : h) * 60 + m;
+            const seg = mins >= 410 && mins < 710 ? "morning" : mins >= 710 && mins < 1010 ? "midday" : mins >= 1010 && mins < 1280 ? "evening" : null;
+            if (!seg) { console.log("watchdog: outside all EMA segment windows"); process.exit(0); }
+            let rows = [], ledger = [];
+            try { rows = JSON.parse(fs.readFileSync("private/data/ema-prompt-schedule.json", "utf8")); } catch {}
+            try { ledger = JSON.parse(fs.readFileSync("private/data/ema-sent-log.json", "utf8")); } catch {}
+            const TERMINAL = new Set(["sent", "skipped_late", "skipped"]);
+            const done = new Set(ledger.filter(e => TERMINAL.has(e.status) && !e.dryRun).map(e => e.key));
+            const today = now.toLocaleDateString("en-CA", { timeZone: ET });
+            const win = { morning: [410, 710], midday: [710, 1010], evening: [1010, 1280] }[seg];
+            const pending = rows.filter(r => {
+              const d = new Date(r.sendAt);
+              if (d.toLocaleDateString("en-CA", { timeZone: ET }) !== today) return false;
+              const [rh, rm] = d.toLocaleString("en-US", { timeZone: ET, hour12: false, hour: "2-digit", minute: "2-digit" }).split(":").map(Number);
+              const rmins = (rh === 24 ? 0 : rh) * 60 + rm;
+              if (rmins < win[0] || rmins >= win[1]) return false;
+              if (d.getTime() < Date.now() - 35 * 60 * 1000) return false; // past grace — audit flags these
+              return !done.has(`${r.pid}|${r.wave}|${r.key}`);
+            });
+            if (!pending.length) { console.log(`watchdog: ${seg} segment fully covered / nothing pending`); process.exit(0); }
+            const out = JSON.parse(execSync(`gh api "repos/${process.env.GITHUB_REPOSITORY}/actions/workflows/ema-prompt-sender.yml/runs?per_page=20"`).toString());
+            const alive = (out.workflow_runs || []).some(r => r.status === "in_progress" || r.status === "queued");
+            if (alive) { console.log("watchdog: a prompt-sender run is already active/queued"); process.exit(0); }
+            const dry = process.env.LITE_SEND_LIVE === "true" ? "false" : "true";
+            console.log(`watchdog: ${pending.length} pending ${seg} prompt(s) with NO sender running — dispatching (dry_run=${dry})`);
+            execSync(`gh workflow run ema-prompt-sender.yml -f segment=${seg} -f dry_run=${dry}`, { stdio: "inherit" });
+          '
 
       # ALWAYS commit (even if the send step failed with partial sends):
       # the sent-log is the idempotency ledger — losing it would re-send

@@ -14,9 +14,19 @@ name: EMA Prompt Sender
 # LIVE/KILL: same LITE_SEND_LIVE repo variable as the main sender.
 on:
   schedule:
-    - cron: "10 10 * * *"   # 06:10 ET → morning segment
-    - cron: "10 15 * * *"   # 11:10 ET → midday segment
-    - cron: "10 20 * * *"   # 16:10 ET → evening segment
+    # THREE independent firing chances per segment. GitHub drops or
+    # delays individual cron firings under load — any one of the three
+    # starts the segment; the others queue in the same per-segment
+    # concurrency group and exit at the gate once the segment is covered.
+    - cron: "10 10 * * *"   # 06:10 ET → morning (primary, 40 min early)
+    - cron: "35 10 * * *"   # 06:35 ET → morning (backup)
+    - cron: "5 11 * * *"    # 07:05 ET → morning (last chance, before 7:11 first prompt)
+    - cron: "10 15 * * *"   # 11:10 ET → midday (primary)
+    - cron: "35 15 * * *"   # 11:35 ET → midday (backup)
+    - cron: "5 16 * * *"    # 12:05 ET → midday (last chance)
+    - cron: "10 20 * * *"   # 16:10 ET → evening (primary)
+    - cron: "35 20 * * *"   # 16:35 ET → evening (backup)
+    - cron: "5 21 * * *"    # 17:05 ET → evening (last chance)
   workflow_dispatch:
     inputs:
       segment:
@@ -38,8 +48,13 @@ permissions:
 # NOT the refresh group: this job runs for hours and must never block
 # the 30-min data pipeline. It touches only ema-sent-log.json, pushed
 # with rebase -X theirs, so the two never conflict on files.
+#
+# Group is the SEGMENT (all three of a segment's crons map to one group)
+# so redundant firings serialize instead of double-sending: the backup
+# queues behind a healthy primary and exits at the gate when it finally
+# runs; if the primary never started, the backup starts immediately.
 concurrency:
-  group: ema-prompt-sender-${{ github.event.schedule || inputs.segment || 'manual' }}
+  group: ema-prompt-sender-${{ github.event_name != 'schedule' && (inputs.segment || 'manual') || (contains('|10 10 * * *|35 10 * * *|5 11 * * *|', format('|{0}|', github.event.schedule)) && 'morning') || (contains('|10 15 * * *|35 15 * * *|5 16 * * *|', format('|{0}|', github.event.schedule)) && 'midday') || 'evening' }}
   cancel-in-progress: false
 
 jobs:
@@ -60,21 +75,29 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           case "${{ github.event.schedule }}" in
-            "10 10 * * *") SEG=morning ;;
-            "10 15 * * *") SEG=midday ;;
-            "10 20 * * *") SEG=evening ;;
+            "10 10 * * *"|"35 10 * * *"|"5 11 * * *") SEG=morning ;;
+            "10 15 * * *"|"35 15 * * *"|"5 16 * * *") SEG=midday ;;
+            "10 20 * * *"|"35 20 * * *"|"5 21 * * *") SEG=evening ;;
             *) SEG="${{ inputs.segment || 'all' }}" ;;
           esac
           echo "segment=$SEG" >> "$GITHUB_OUTPUT"
           echo "Running segment: $SEG"
 
-      - name: Skip if no prompts scheduled in this segment today
+      - name: Skip if nothing actionable in this segment today
         id: gate
         run: |
           node -e '
             const fs = require("fs");
-            let rows = [];
+            let rows = [], ledger = [];
             try { rows = JSON.parse(fs.readFileSync("private/data/ema-prompt-schedule.json","utf8")); } catch {}
+            try { ledger = JSON.parse(fs.readFileSync("private/data/ema-sent-log.json","utf8")); } catch {}
+            // A prompt is actionable if it is in this segment window today,
+            // not already terminal in the REAL ledger (a redundant/queued
+            // firing behind a healthy primary exits here), and not already
+            // beyond the 30-min grace (a fresh job could only protocol-skip
+            // it — the morning audit flags those as unaccounted instead).
+            const TERMINAL = new Set(["sent","skipped_late","skipped"]);
+            const done = new Set(ledger.filter(e => TERMINAL.has(e.status) && !e.dryRun).map(e => e.key));
             const seg = "${{ steps.seg.outputs.segment }}";
             const win = { morning:[410,710], midday:[710,1010], evening:[1010,1280], all:[0,1440] }[seg];
             const today = new Date().toLocaleDateString("en-CA",{timeZone:"America/New_York"});
@@ -83,9 +106,11 @@ jobs:
               if (d.toLocaleDateString("en-CA",{timeZone:"America/New_York"}) !== today) return false;
               const [h,m] = d.toLocaleString("en-US",{timeZone:"America/New_York",hour12:false,hour:"2-digit",minute:"2-digit"}).split(":").map(Number);
               const mins = (h===24?0:h)*60+m;
-              return mins >= win[0] && mins < win[1];
+              if (mins < win[0] || mins >= win[1]) return false;
+              if (d.getTime() < Date.now() - 35*60*1000) return false;
+              return !done.has(`${r.pid}|${r.wave}|${r.key}`);
             });
-            console.log(`${due.length} prompts in segment window today`);
+            console.log(`${due.length} actionable prompt(s) in ${seg} window today`);
             fs.appendFileSync(process.env.GITHUB_OUTPUT, `count=${due.length}\n`);
           '
 

@@ -1512,9 +1512,16 @@ async function main() {
   // survey link pre-resolved NOW so the precision sender never needs
   // REDCap at fire time.
   const emaSchedule = [];
+  const staleEmaAnchors = [];
   {
     const nowMs = Date.now();
     const scheduleTasks = [];
+    // Real prompt sends so far, per pid|wave — used by the stale-anchor guard.
+    let emaSentPairs = new Set();
+    try {
+      const led = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "ema-sent-log.json"), "utf-8"));
+      emaSentPairs = new Set(led.filter(e => e.status === "sent" && !e.dryRun).map(e => `${e.pid}|${e.wave}`));
+    } catch {}
     for (const p of participants) {
       for (const w of WAVES) {
         const ema = p.waves[w]?.ema;
@@ -1524,6 +1531,19 @@ async function main() {
         const grid = computeEmaPromptDates(ema.startDay);
         for (const prompt of ema.prompts) {
           if (!prompt.scheduledAt && grid[prompt.key]) prompt.scheduledAt = grid[prompt.key];
+        }
+        // Stale-anchor guard: if the cycle's FIRST prompt is more than a
+        // day past but we have never sent this pid/wave a single prompt
+        // and none are answered, the start anchor predates their actual
+        // enable (they enabled after the computed Monday). Materializing
+        // now would drop them into the middle of a cycle — skip the wave
+        // and flag it for a human re-anchor instead.
+        const firstT = toEpoch(ema.prompts[0]?.scheduledAt);
+        const anyAnswered = ema.prompts.some(pr => pr.complete);
+        if (firstT != null && firstT < nowMs - 24 * 3600 * 1000 && !anyAnswered && !emaSentPairs.has(`${p.pid}|${w}`)) {
+          staleEmaAnchors.push({ pid: p.pid, wave: w, startDay: ema.startDay });
+          console.warn(`  ⚠ EMA stale anchor: ${p.pid} W${w} is enabled with start ${ema.startDay}, but the first prompt is long past and nothing was ever sent — skipping schedule, needs re-anchor`);
+          continue;
         }
         ema.prompts.forEach((prompt, idx) => {
           if (prompt.complete || !prompt.scheduledAt) return;
@@ -1649,6 +1669,9 @@ async function main() {
   fs.writeFileSync(path.join(DATA_DIR, "last-fetch.json"), JSON.stringify({
     ok: true,
     timestamp: new Date().toISOString(),
+    // Enabled waves whose schedule was withheld pending a human re-anchor
+    // (see the stale-anchor guard above). The daily audit flags these.
+    staleEmaAnchors,
     // Surfaced so the Session Notes page embeds exactly the workbook the
     // pipeline reads from.
     sheetId: GOOGLE_SHEET_ID,

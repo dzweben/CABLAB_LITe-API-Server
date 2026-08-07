@@ -49,7 +49,7 @@ interface AuditReport {
   planned: number;
   counts: Record<string, number>;
   detail: Record<string, AuditItem[]>;
-  ema: { planned: number; sent: number; skippedLate: number; failed: number; maxLatencySec: number | null; medianLatencySec: number | null };
+  ema: { planned: number; sent: number; skippedLate: number; failed: number; unaccounted?: number; maxLatencySec: number | null; medianLatencySec: number | null };
   workflowRuns: Record<string, Record<string, number> | string>;
   totals: { participants: number; queueUpcoming: number; sentAllTime: number };
 }
@@ -197,6 +197,7 @@ export default function AuditPage() {
                       {report.ema.medianLatencySec != null && <> · median {report.ema.medianLatencySec}s after slot · worst {report.ema.maxLatencySec}s</>}
                       {report.ema.skippedLate > 0 && <span className="text-amber-700"> · {report.ema.skippedLate} protocol-skipped (late)</span>}
                       {report.ema.failed > 0 && <span className="text-red-700"> · {report.ema.failed} failed</span>}
+                      {(report.ema.unaccounted ?? 0) > 0 && <span className="text-red-700 font-semibold"> · {report.ema.unaccounted} UNACCOUNTED</span>}
                     </p>
                   )}
                 </div>

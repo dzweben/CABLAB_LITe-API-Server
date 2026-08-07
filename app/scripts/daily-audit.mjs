@@ -95,11 +95,22 @@ const emaPlanned = emaSchedule.filter(r => etDay(r.sendAt) === AUDIT_DATE);
 const emaRows = emaLog.filter(e => !e.dryRun && etDay(e.at || e.sendAt) === AUDIT_DATE);
 const emaSent = emaRows.filter(e => e.status === "sent");
 const latencies = emaSent.map(e => e.latencySec).filter(x => x != null);
+// A planned prompt whose slot+grace has passed with NO terminal ledger
+// row (sent / skipped / failed) means no sender job ever touched it —
+// the exact failure mode a dropped segment start would produce. RED.
+const TERMINAL_EMA = new Set(["sent", "skipped_late", "skipped", "failed"]);
+const emaTerminalKeys = new Set(emaLog.filter(e => !e.dryRun && TERMINAL_EMA.has(e.status)).map(e => e.key));
+const emaUnaccounted = emaPlanned.filter(r =>
+  new Date(r.sendAt).getTime() < Date.now() - 35 * 60 * 1000 &&
+  !emaTerminalKeys.has(`${r.pid}|${r.wave}|${r.key}`)
+);
 const emaSummary = {
   planned: emaPlanned.length,
   sent: emaSent.length,
   skippedLate: emaRows.filter(e => e.status === "skipped_late").length,
   failed: emaRows.filter(e => e.status === "failed").length,
+  unaccounted: emaUnaccounted.length,
+  unaccountedDetail: emaUnaccounted.map(r => ({ pid: r.pid, wave: r.wave, key: r.key, sendAt: r.sendAt })),
   maxLatencySec: latencies.length ? Math.max(...latencies) : null,
   medianLatencySec: latencies.length ? latencies.sort((a, b) => a - b)[Math.floor(latencies.length / 2)] : null,
 };
@@ -218,7 +229,9 @@ const main = async () => {
   if (buckets.unaccounted.length) problems.push(`${buckets.unaccounted.length} planned send(s) UNACCOUNTED FOR`);
   if (buckets.failed.length) problems.push(`${buckets.failed.length} send failure(s)`);
   if (emaSummary.failed) problems.push(`${emaSummary.failed} EMA prompt failure(s)`);
+  if (emaSummary.unaccounted) problems.push(`${emaSummary.unaccounted} EMA prompt(s) UNACCOUNTED — no sender job touched them`);
   const warnings = [];
+  if (lastFetch.staleEmaAnchors?.length) warnings.push(`${lastFetch.staleEmaAnchors.length} enabled EMA wave(s) withheld pending re-anchor: ${lastFetch.staleEmaAnchors.map(x => `${x.pid} W${x.wave}`).join(", ")}`);
   if (buckets.skipped.length) warnings.push(`${buckets.skipped.length} skipped (unresolved link)`);
   if (emaSummary.skippedLate) warnings.push(`${emaSummary.skippedLate} EMA prompt(s) protocol-skipped (late)`);
   if (sendMode !== "LIVE") warnings.push(`sending is ${sendMode}`);
