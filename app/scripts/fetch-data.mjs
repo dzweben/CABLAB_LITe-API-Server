@@ -619,7 +619,16 @@ function computeDueReminders(participants) {
   try {
     const log = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "sent-log.json"), "utf-8"));
     for (const e of log) {
-      if (e.status === "sent" && !e.dryRun && e.alertId === 287) sentInitialIndex.add(e.id);
+      if (e.status === "sent" && !e.dryRun && e.alertId === 287) {
+        sentInitialIndex.add(e.id);
+        // Recovery initials are ledgered under their actual (late) send
+        // slot, not the canonical STS2.3+5d time — so also index by
+        // pid+wave (wave parsed from the instrument label) so the
+        // follow-up/expire tail unlocks off "an initial we actually
+        // delivered to this family", whenever it went out.
+        const wm = /\bW(\d)\b/.exec(String(e.instrument || ""));
+        if (wm) sentInitialIndex.add(`${e.pid}|W${wm[1]}`);
+      }
     }
   } catch { /* no ledger yet — only upcoming initials gate the tail */ }
   // 270-day horizon — covers a full STS1 cycle (6 monthly invites = ~5 months)
@@ -791,7 +800,8 @@ function computeDueReminders(participants) {
           // participant never got. Those families are suppressed here;
           // coordinators handle legacy payments manually.
           const initialUpcoming = initialT >= sendFloor;  // in-window initials count: they're about to be sent
-          const initialSent = sentInitialIndex.has(`${p.pid}|287|${safeIso(initialT)}`);
+          const initialSent = sentInitialIndex.has(`${p.pid}|287|${safeIso(initialT)}`)
+            || sentInitialIndex.has(`${p.pid}|W${w}`);
           if (initialUpcoming || initialSent) {
             // Initial.
             pushPay(initialT, 287, "payment_email", `W${w} STS-EMA Payment email`);

@@ -4194,5 +4194,41 @@
     "hypotheticalStartDay": "2026-08-10",
     "complete": false,
     "recovery": true
+  },
+  {
+    "pid": "1008",
+    "recordId": "1008",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email (July catch-up)",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2026-10-25T17:00:00.000Z",
+    "recovery": true
+  },
+  {
+    "pid": "1018",
+    "recordId": "1018",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email (July catch-up)",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2026-10-25T17:00:00.000Z",
+    "recovery": true
+  },
+  {
+    "pid": "3045",
+    "recordId": "3045",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email (July catch-up)",
+    "scheduledAt": "2026-08-07T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2026-10-25T17:00:00.000Z",
+    "recovery": true
   }
 ]
