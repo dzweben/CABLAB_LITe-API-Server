@@ -1,13 +1,15 @@
 {
   "date": "2026-08-06",
-  "generatedAt": "2026-08-07T04:49:52.248Z",
+  "generatedAt": "2026-08-07T04:53:13.736Z",
   "verdict": "YELLOW",
   "problems": [],
   "warnings": [
-    "sending is unknown"
+    "sending is unknown",
+    "Refresh LITe REDCap Data: 2 failed run(s)",
+    "EMA Prompt Sender: 1 failed run(s)"
   ],
   "sendMode": "unknown",
-  "dataFreshnessMin": 88,
+  "dataFreshnessMin": 12,
   "planned": 99,
   "counts": {
     "sent": 82,
@@ -1105,11 +1107,28 @@
     "medianLatencySec": null
   },
   "workflowRuns": {
-    "note": "no GITHUB_TOKEN — run health unavailable"
+    "Refresh LITe REDCap Data": {
+      "success": 7,
+      "failure": 2,
+      "cancelled": 0,
+      "other": 0
+    },
+    "EMA Prompt Sender": {
+      "success": 2,
+      "failure": 1,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Deploy LITe (code/UI changes)": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
   },
   "totals": {
     "participants": 418,
-    "queueUpcoming": 3893,
+    "queueUpcoming": 3882,
     "sentAllTime": 242
   }
 }
