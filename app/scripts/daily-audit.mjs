@@ -98,7 +98,7 @@ const latencies = emaSent.map(e => e.latencySec).filter(x => x != null);
 // A planned prompt whose slot+grace has passed with NO terminal ledger
 // row (sent / skipped / failed) means no sender job ever touched it —
 // the exact failure mode a dropped segment start would produce. RED.
-const TERMINAL_EMA = new Set(["sent", "skipped_late", "skipped", "failed"]);
+const TERMINAL_EMA = new Set(["sent", "skipped_late", "skipped", "failed", "already_delivered"]);
 const emaTerminalKeys = new Set(emaLog.filter(e => !e.dryRun && TERMINAL_EMA.has(e.status)).map(e => e.key));
 const emaUnaccounted = emaPlanned.filter(r =>
   new Date(r.sendAt).getTime() < Date.now() - 35 * 60 * 1000 &&
@@ -107,6 +107,9 @@ const emaUnaccounted = emaPlanned.filter(r =>
 const emaSummary = {
   planned: emaPlanned.length,
   sent: emaSent.length,
+  // Delivered by the off-GitHub Vercel sweeper while a segment job was
+  // down (primary found it in carrier history and stood down).
+  sweeperRescued: emaRows.filter(e => e.status === "already_delivered").length,
   skippedLate: emaRows.filter(e => e.status === "skipped_late").length,
   failed: emaRows.filter(e => e.status === "failed").length,
   unaccounted: emaUnaccounted.length,

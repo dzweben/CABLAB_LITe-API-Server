@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
     "/api/data/sent-log": ["./private/data/**/*"],
     "/api/data/todays-reminders": ["./private/data/**/*"],
     "/api/data/screener-migrations": ["./private/data/**/*"],
+    "/api/data/audits": ["./private/data/**/*"],
+    // The EMA sweeper reads the prompt schedule + participants, and
+    // renders the exact prompt text from the timeline source.
+    "/api/ema-sweep": ["./private/data/**/*", "./src/lib/timeline.ts"],
   },
 };
 

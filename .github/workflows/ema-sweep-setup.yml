@@ -1,0 +1,71 @@
+name: EMA Sweeper Setup (Vercel env)
+
+# One-shot provisioning for the off-GitHub EMA sweeper. Copies the
+# credentials the sweeper needs (QUO key, from-number, sweep secret)
+# from GitHub secrets into the Vercel project's production env via the
+# Vercel API, and reports the account plan (decides whether Vercel Cron
+# can be a trigger, or whether we rely on the launchd + workflow pings).
+# Env changes take effect on the next deploy — the 30-min refresh
+# pipeline deploys continuously, so within one cycle.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report Vercel plan and upsert sweeper env vars
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          QUO_API_KEY: ${{ secrets.QUO_API_KEY }}
+          QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
+          EMA_SWEEP_SECRET: ${{ secrets.EMA_SWEEP_SECRET }}
+        run: |
+          python3 << 'PY'
+          import json, os, urllib.request, urllib.error
+
+          token = os.environ["VERCEL_TOKEN"]
+          org = os.environ["VERCEL_ORG_ID"]
+          project = os.environ["VERCEL_PROJECT_ID"]
+          team_q = f"teamId={org}&" if org.startswith("team_") else ""
+
+          def api(path, payload=None, method="GET"):
+              req = urllib.request.Request(
+                  "https://api.vercel.com" + path,
+                  data=json.dumps(payload).encode() if payload else None,
+                  headers={"Authorization": "Bearer " + token, "Content-Type": "application/json"},
+                  method=method)
+              try:
+                  with urllib.request.urlopen(req) as r:
+                      return r.status, json.loads(r.read().decode() or "{}")
+              except urllib.error.HTTPError as e:
+                  return e.code, json.loads(e.read().decode() or "{}")
+
+          # Plan report — tells us whether Vercel Cron is a viable trigger
+          # (Hobby crons are daily-only; Pro supports minute schedules).
+          if org.startswith("team_"):
+              code, t = api(f"/v2/teams/{org}")
+              plan = (t.get("billing") or {}).get("plan") or t.get("plan", "?")
+              print(f"Vercel scope: team {t.get('name','?')} | plan: {plan}")
+          else:
+              code, u = api("/v2/user")
+              user = u.get("user", {})
+              plan = (user.get("billing") or {}).get("plan", "?")
+              print(f"Vercel scope: personal {user.get('username','?')} | plan: {plan}")
+          print(f"PLAN={plan}")
+
+          # Upsert the three env vars into production.
+          for key in ("QUO_API_KEY", "QUO_FROM_NUMBER", "EMA_SWEEP_SECRET"):
+              val = os.environ.get(key, "")
+              if not val:
+                  print(f"{key}: MISSING from GitHub secrets — skipped"); continue
+              code, body = api(f"/v10/projects/{project}/env?{team_q}upsert=true",
+                               {"key": key, "value": val, "type": "encrypted", "target": ["production"]},
+                               "POST")
+              print(f"{key}: HTTP {code}" + ("" if code in (200, 201) else f" {json.dumps(body)[:200]}"))
+          PY

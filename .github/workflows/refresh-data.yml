@@ -124,7 +124,7 @@ jobs:
             let rows = [], ledger = [];
             try { rows = JSON.parse(fs.readFileSync("private/data/ema-prompt-schedule.json", "utf8")); } catch {}
             try { ledger = JSON.parse(fs.readFileSync("private/data/ema-sent-log.json", "utf8")); } catch {}
-            const TERMINAL = new Set(["sent", "skipped_late", "skipped"]);
+            const TERMINAL = new Set(["sent", "skipped_late", "skipped", "already_delivered"]);
             const done = new Set(ledger.filter(e => TERMINAL.has(e.status) && !e.dryRun).map(e => e.key));
             const today = now.toLocaleDateString("en-CA", { timeZone: ET });
             const win = { morning: [410, 710], midday: [710, 1010], evening: [1010, 1280] }[seg];
@@ -145,6 +145,22 @@ jobs:
             console.log(`watchdog: ${pending.length} pending ${seg} prompt(s) with NO sender running — dispatching (dry_run=${dry})`);
             execSync(`gh workflow run ema-prompt-sender.yml -f segment=${seg} -f dry_run=${dry}`, { stdio: "inherit" });
           '
+
+      # SWEEPER PING: second call on the same safety net, different
+      # failure mode. The watchdog re-dispatches a segment job that never
+      # STARTED; this pings the off-GitHub Vercel sweeper, which also
+      # rescues prompts when a segment job started and then died or hung
+      # mid-window. One curl, idempotent (carrier-history dedup), skips
+      # quietly until the EMA_SWEEP_SECRET is provisioned.
+      - name: Ping EMA sweeper (Vercel backstop)
+        if: always() && steps.gate.outputs.skip != 'true'
+        env:
+          EMA_SWEEP_SECRET: ${{ secrets.EMA_SWEEP_SECRET }}
+        run: |
+          if [ -z "$EMA_SWEEP_SECRET" ]; then echo "no EMA_SWEEP_SECRET yet — ping skipped"; exit 0; fi
+          curl -fsS -m 50 -H "x-sweep-secret: $EMA_SWEEP_SECRET" \
+            "https://cablab-lite.vercel.app/api/ema-sweep?trigger=refresh-workflow" \
+            || echo "sweep ping failed (non-fatal — sweeper is a backstop)"
 
       # ALWAYS commit (even if the send step failed with partial sends):
       # the sent-log is the idempotency ledger — losing it would re-send

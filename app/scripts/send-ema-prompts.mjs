@@ -94,6 +94,41 @@ function normalizePhone(s) {
   return d.length === 11 && d.startsWith("1") ? "+" + d : null;
 }
 
+// Carrier-history check (dedup vs the Vercel sweeper). Resolves our
+// number's OpenPhone ID once, then asks OpenPhone whether an outbound
+// message carrying this survey link already went to this participant
+// since the slot opened. FAIL OPEN: if the check errors, we send — the
+// primary is the protocol-authoritative sender inside the grace window,
+// and a lost prompt is worse than the vanishing case (sweeper delivered
+// AND the history API is down at the same moment).
+let _pnId = null;
+async function carrierHasDelivered(phone, link, sendAtMs) {
+  try {
+    if (!_pnId) {
+      const res = await fetch("https://api.openphone.com/v1/phone-numbers", {
+        headers: { Authorization: QUO_API_KEY }, signal: AbortSignal.timeout(15_000),
+      });
+      if (!res.ok) return false;
+      const { data = [] } = await res.json();
+      const want = normalizePhone(QUO_FROM_NUMBER);
+      const hit = data.find(pn => normalizePhone(pn.number ?? pn.phoneNumber) === want) || (data.length === 1 ? data[0] : null);
+      if (!hit) return false;
+      _pnId = hit.id;
+    }
+    const params = new URLSearchParams({
+      phoneNumberId: _pnId, maxResults: "20",
+      createdAfter: new Date(sendAtMs - 2 * 60 * 1000).toISOString(),
+    });
+    params.append("participants[]", phone);
+    const res = await fetch(`https://api.openphone.com/v1/messages?${params}`, {
+      headers: { Authorization: QUO_API_KEY }, signal: AbortSignal.timeout(15_000),
+    });
+    if (!res.ok) return false;
+    const { data = [] } = await res.json();
+    return data.some(m => String(m.direction || "") !== "incoming" && String(m.text ?? m.content ?? "").includes(link));
+  } catch { return false; }
+}
+
 async function sendSMS(to, body) {
   if (DRY_RUN) { console.log(`  [DRY] sms → ${to} @ ${new Date(nowMs()).toISOString()}`); return; }
   for (let a = 1; a <= 3; a++) {
@@ -157,7 +192,7 @@ async function main() {
     // Terminal = sent OR skipped (late/bad-data): none of these may be
     // re-attempted. Real rows always block; dry rows only block within a
     // dry run (a rehearsal must never satisfy "already sent" for real).
-    const TERMINAL = new Set(["sent", "skipped_late", "skipped"]);
+    const TERMINAL = new Set(["sent", "skipped_late", "skipped", "already_delivered"]);
     const done = new Set(
       ledger.filter(e => TERMINAL.has(e.status) && (!e.dryRun || DRY_RUN)).map(e => e.key)
     );
@@ -182,6 +217,21 @@ async function main() {
         continue;
       }
       try {
+        // Late-send guard: if we're >9 min past the slot, this prompt was
+        // in the SWEEPER's territory (the off-GitHub Vercel backstop) —
+        // it may already have delivered it while we were down. The
+        // carrier's own history is the shared source of truth: check it
+        // before sending so a rescued prompt is never sent twice. On-time
+        // sends (the normal path, seconds after the slot) skip this.
+        if (t - at > 9 * 60 * 1000 && !DRY_RUN) {
+          const delivered = await carrierHasDelivered(phone, link, at);
+          if (delivered) {
+            dirty = true; ledger.push({ key: k, pid: row.pid, wave: row.wave, promptKey: row.key, status: "already_delivered", channel: "sms", recipient: phone, sendAt: row.sendAt, at: new Date(t).toISOString(), note: "found in carrier history (sweeper rescue)" });
+            done.add(k);
+            console.log(`  ◦ ${row.pid} ${row.key}: already delivered per carrier history — sweeper got it`);
+            continue;
+          }
+        }
         await sendSMS(phone, renderPrompt(tmpl, nameByPid[row.pid], link));
         sent++;
         dirty = true; ledger.push({ key: k, pid: row.pid, wave: row.wave, promptKey: row.key, status: "sent", channel: "sms", recipient: phone, sendAt: row.sendAt, at: new Date(t).toISOString(), latencySec: Math.round((t - at) / 1000), dryRun: DRY_RUN || undefined });
