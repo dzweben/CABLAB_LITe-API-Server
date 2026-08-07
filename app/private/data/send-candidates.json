@@ -1,16 +1,5 @@
 [
   {
-    "pid": "1008",
-    "recordId": "1008",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 1",
-    "scheduledAt": "2026-08-08T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-10-25T21:00:00.000Z"
-  },
-  {
     "pid": "1018",
     "recordId": "1018",
     "wave": 2,
@@ -29,17 +18,6 @@
     "kind": "payment_followup",
     "instrument": "W2 STS-EMA Payment Follow-Up 1",
     "scheduledAt": "2026-08-08T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-10-25T21:00:00.000Z"
-  },
-  {
-    "pid": "1008",
-    "recordId": "1008",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 2",
-    "scheduledAt": "2026-08-22T21:00:00.000Z",
     "complete": false,
     "expireDate": "2026-10-25T21:00:00.000Z"
   },
@@ -8903,17 +8881,6 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=Lg5H2TCB7Hgo3hZU"
   },
   {
-    "pid": "1008",
-    "recordId": "1008",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 3",
-    "scheduledAt": "2026-09-05T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-10-25T21:00:00.000Z"
-  },
-  {
     "pid": "1018",
     "recordId": "1018",
     "wave": 2,
@@ -9154,17 +9121,6 @@
     "scheduledAt": "2026-09-14T21:00:00.000Z",
     "complete": false,
     "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
-    "pid": "1008",
-    "recordId": "1008",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 4",
-    "scheduledAt": "2026-09-19T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-10-25T21:00:00.000Z"
   },
   {
     "pid": "1018",
@@ -17040,17 +16996,6 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=X4FqfEkncgIrCW84"
   },
   {
-    "pid": "1008",
-    "recordId": "1008",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 5",
-    "scheduledAt": "2026-10-03T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-10-25T21:00:00.000Z"
-  },
-  {
     "pid": "1018",
     "recordId": "1018",
     "wave": 2,
@@ -17544,17 +17489,6 @@
     "scheduledAt": "2026-10-12T21:00:00.000Z",
     "complete": false,
     "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
-    "pid": "1008",
-    "recordId": "1008",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 6",
-    "scheduledAt": "2026-10-17T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-10-25T21:00:00.000Z"
   },
   {
     "pid": "1018",
@@ -21130,17 +21064,6 @@
     "scheduledAt": "2026-10-24T21:00:00.000Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=ZKR9uvcMI4QMUjHa"
-  },
-  {
-    "pid": "1008",
-    "recordId": "1008",
-    "wave": 2,
-    "alertId": 290,
-    "kind": "payment_expire",
-    "instrument": "W2 STS-EMA Payment Expired",
-    "scheduledAt": "2026-10-25T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-10-25T21:00:00.000Z"
   },
   {
     "pid": "1018",
