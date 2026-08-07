@@ -8,6 +8,10 @@ const PUBLIC_PATHS = [
   "/api/logout",
   "/favicon.ico",
   "/_next", // Next.js assets
+  // EMA sweeper: machine-to-machine backstop with its own shared-secret
+  // auth (x-sweep-secret) — its callers (GitHub workflow, launchd) have
+  // no login cookie. The route itself 401s without the secret.
+  "/api/ema-sweep",
 ];
 
 function isPublic(pathname: string): boolean {
