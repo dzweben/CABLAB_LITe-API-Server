@@ -1,16 +1,16 @@
 {
   "date": "2026-08-06",
-  "generatedAt": "2026-08-07T11:30:27.305Z",
+  "generatedAt": "2026-08-07T17:36:42.761Z",
   "verdict": "YELLOW",
   "problems": [],
   "warnings": [
-    "sending is unknown",
-    "data 409 min stale",
+    "sending is FROZEN (dry-run)",
     "Refresh LITe REDCap Data: 2 failed run(s)",
-    "EMA Prompt Sender: 1 failed run(s)"
+    "EMA Prompt Sender: 1 failed run(s)",
+    "AI review off — add the ANTHROPIC_API_KEY repo secret to enable it"
   ],
-  "sendMode": "unknown",
-  "dataFreshnessMin": 409,
+  "sendMode": "FROZEN (dry-run)",
+  "dataFreshnessMin": 6,
   "planned": 99,
   "counts": {
     "sent": 82,
@@ -1130,6 +1130,9 @@
   "totals": {
     "participants": 418,
     "queueUpcoming": 3882,
-    "sentAllTime": 242
+    "sentAllTime": 244
+  },
+  "aiReview": {
+    "skipped": "AI review off — add the ANTHROPIC_API_KEY repo secret to enable it"
   }
 }
