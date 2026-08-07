@@ -133,6 +133,7 @@ export function computeStats(participants: Participant[]): DashboardStats {
 
   for (const p of participants) {
     const isUnder13 = typeof p.contact?.age === "number" && p.contact.age < 13;
+    const emaExcluded = isUnder13 || /^1\d{3}$/.test(p.pid);  // cohort 1: never EMA
     for (const w of WAVE_YEARS) {
       const wave = p.waves[w];
       if (!wave) continue;
@@ -143,7 +144,7 @@ export function computeStats(participants: Participant[]): DashboardStats {
       // EMA is a 13+ instrument by design; under-13s aren't sent prompts.
       // Exclude them from the EMA columns so the ratio reflects the actual
       // eligible cohort, not the whole study.
-      if (!isUnder13) {
+      if (!emaExcluded) {
         if (isEmaDone(wave)) emaComplete[w]++;
         if (wave.ema?.active) emaActive[w]++;
       }

@@ -222,6 +222,17 @@ function dayLabelForKey(k)  { return EMA_LABELS[k]?.day  ?? k; }
 function timeLabelForKey(k) { return EMA_LABELS[k]?.time ?? ""; }
 
 // Years between dob and today, or null if dob unparseable.
+// HARD STUDY RULE (coordinator, 2026-08-07): EMA NEVER goes to the
+// first cohort (PIDs 1000-1999) — regardless of age. They enrolled as
+// the youngest cohort; aging past 13 does NOT make them EMA-eligible.
+// This gate applies to the enable nudge, the prompt schedule, and any
+// EMA materialization. (Separate from, and in addition to, the under-13
+// dob rule for the other cohorts.)
+function emaEligibleCohort(pid) {
+  const n = Number(String(pid).replace(/\D/g, ""));
+  return !(n >= 1000 && n <= 1999);
+}
+
 function computeAgeFromDob(dobStr) {
   if (!dobStr) return null;
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(dobStr));
@@ -703,6 +714,7 @@ function computeDueReminders(participants) {
       //     (ema_cycle=1, i.e. wave.ema.active).
       const enableAge = p.contact?.age;
       const enableIsUnder13 = typeof enableAge === "number" && enableAge < 13;
+      if (!emaEligibleCohort(p.pid)) { /* cohort 1: never EMA */ } else
       // One enable nudge per wave, 3d8h before ema_start_day (a Monday).
       // Suppressed once the participant has enabled (wave.ema.active).
       // The nudge carries the 25-prompt preview (wouldTriggerPrompts) so
@@ -1396,7 +1408,7 @@ async function main() {
       if (sts2Anchor) {
         const age = p.contact?.age;
         const isUnder13 = typeof age === "number" && age < 13;
-        if (!isUnder13) {
+        if (!isUnder13 && emaEligibleCohort(p.pid)) {
           const canonicalStart = nextMondayOnOrAfter(sts2Anchor);
           if (!wave.ema) {
             wave.ema = {
@@ -1506,6 +1518,7 @@ async function main() {
     for (const p of participants) {
       for (const w of WAVES) {
         const ema = p.waves[w]?.ema;
+        if (!emaEligibleCohort(p.pid)) continue;  // cohort 1: never EMA
         if (!ema?.active || !ema.startDay) continue;
         // Canonical fill for any prompt REDCap didn't stamp a time on.
         const grid = computeEmaPromptDates(ema.startDay);
