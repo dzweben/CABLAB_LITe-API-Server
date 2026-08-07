@@ -11,9 +11,9 @@
         "phonePrimary": "(215) 954-9220",
         "phoneSecondary": "",
         "childPhone": "",
-        "cohortGroup": "99719749836968",
-        "dob": "2912-03-01",
-        "age": -886
+        "cohortGroup": "98178373940292",
+        "dob": "2012-03-01",
+        "age": 14
       },
       "waves": {
         "1": {
@@ -15670,9 +15670,9 @@
         "phonePrimary": "(215) 909-1236",
         "phoneSecondary": "",
         "childPhone": "",
-        "cohortGroup": "99875687564291",
-        "dob": "2023-11-10",
-        "age": 2
+        "cohortGroup": "99807880781177",
+        "dob": "2016-11-10",
+        "age": 9
       },
       "waves": {
         "1": {
@@ -92055,9 +92055,9 @@
         "phonePrimary": "(267) 276-5451",
         "phoneSecondary": "(215) 913-2635",
         "childPhone": "",
-        "cohortGroup": "99198819198880",
-        "dob": "1014-05-09",
-        "age": 1012
+        "cohortGroup": "98798228798320",
+        "dob": "2014-05-09",
+        "age": 12
       },
       "waves": {
         "1": {
@@ -218414,9 +218414,9 @@
         "phonePrimary": "(267) 361-3351",
         "phoneSecondary": "(215) 430-2662",
         "childPhone": "",
-        "cohortGroup": "94956947137180",
-        "dob": "2023-09-27",
-        "age": 2
+        "cohortGroup": "99279563876740",
+        "dob": "2003-09-27",
+        "age": 22
       },
       "waves": {
         "1": {
@@ -218621,7 +218621,18 @@
               }
             ]
           },
-          "ema": null,
+          "ema": {
+            "active": false,
+            "startDay": "2024-10-07",
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": false,
+            "paymentComplete": 0,
+            "enableSent": false,
+            "phone": "(267) 361-3351",
+            "prompts": []
+          },
           "v2": {
             "date": "2023-12-18",
             "forms": {
@@ -225185,9 +225196,9 @@
         "phonePrimary": "(856) 896-1042",
         "phoneSecondary": "",
         "childPhone": "",
-        "cohortGroup": "96552891277876",
-        "dob": "2203-08-17",
-        "age": -178
+        "cohortGroup": "99233975839528",
+        "dob": "2003-08-17",
+        "age": 22
       },
       "waves": {
         "1": {
@@ -231381,8 +231392,8 @@
               {
                 "index": 1,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=VRA8FKex5bpQncVz"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 2,
@@ -288997,5 +289008,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-07T18:33:08.512Z"
+  "fetchedAt": "2026-08-07T19:34:42.778Z"
 }
