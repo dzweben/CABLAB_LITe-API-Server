@@ -38076,16 +38076,16 @@
             ]
           },
           "ema": {
-            "active": false,
+            "active": true,
             "startDay": null,
             "startDayCalc": 0,
-            "enableConfirmed": false,
+            "enableConfirmed": true,
             "settingsComplete": 0,
             "paymentEmailButton": false,
             "paymentComplete": 0,
             "paymentRedeemed": false,
             "enableSent": false,
-            "phone": "(410) 830-0036",
+            "phone": "(570) 710-0851",
             "prompts": [
               {
                 "key": "ema_m1_734",
@@ -288997,5 +288997,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-07T04:41:12.697Z"
+  "fetchedAt": "2026-08-07T11:51:25.288Z"
 }
