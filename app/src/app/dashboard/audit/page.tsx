@@ -24,12 +24,26 @@ interface AuditItem {
   channels: string[];
 }
 
+interface AiReview {
+  skipped?: string;
+  error?: string;
+  model?: string;
+  generatedAt?: string;
+  headline?: string;
+  agreesWithVerdict?: boolean;
+  suggestedVerdict?: "GREEN" | "YELLOW" | "RED";
+  summary?: string;
+  anomalies?: string[];
+  checkToday?: string[];
+}
+
 interface AuditReport {
   date: string;
   generatedAt: string;
   verdict: "GREEN" | "YELLOW" | "RED";
   problems: string[];
   warnings: string[];
+  aiReview?: AiReview | null;
   sendMode: string;
   dataFreshnessMin: number | null;
   planned: number;
@@ -83,8 +97,9 @@ export default function AuditPage() {
       <div>
         <h2 className="text-2xl font-bold text-gray-900">Daily Audit</h2>
         <p className="text-sm text-gray-500 mt-1">
-          Automated morning reconciliation: everything that was planned to send vs what actually
-          happened, plus infrastructure health. Generated ~6:45 AM ET for the previous day.
+          Automated morning reconciliation — everything planned to send vs what actually happened,
+          plus infrastructure health — then reviewed independently by an AI auditor that reads the
+          evidence against the study&apos;s standing rules. Generated ~6:45 AM ET for the previous day.
         </p>
       </div>
 
@@ -125,6 +140,43 @@ export default function AuditPage() {
                   </div>
                   {report.problems.map((p, i) => <p key={i} className="text-sm font-semibold mt-1">• {p}</p>)}
                   {report.warnings.map((w, i) => <p key={i} className="text-sm mt-1 opacity-80">• {w}</p>)}
+                </div>
+
+                {/* AI reviewer — Claude's independent read of the day */}
+                <div className="bg-white rounded-xl border border-indigo-200 overflow-hidden">
+                  <div className="px-4 py-2.5 bg-indigo-50 border-b border-indigo-200 flex items-center justify-between">
+                    <h3 className="text-sm font-semibold text-indigo-900">🤖 AI Reviewer</h3>
+                    {report.aiReview?.model && (
+                      <span className="text-[11px] text-indigo-400 font-mono">
+                        {report.aiReview.model}
+                        {report.aiReview.suggestedVerdict && <> · calls it {report.aiReview.suggestedVerdict}</>}
+                      </span>
+                    )}
+                  </div>
+                  <div className="p-4 space-y-2">
+                    {!report.aiReview || report.aiReview.skipped || report.aiReview.error ? (
+                      <p className="text-sm text-amber-700">
+                        {report.aiReview?.skipped || report.aiReview?.error || "Not reviewed — this report predates the AI review layer."}
+                      </p>
+                    ) : (
+                      <>
+                        <p className="text-sm font-semibold text-gray-900">{report.aiReview.headline}</p>
+                        <p className="text-sm text-gray-700">{report.aiReview.summary}</p>
+                        {(report.aiReview.anomalies?.length ?? 0) > 0 && (
+                          <div className="pt-1">
+                            <p className="text-xs font-semibold text-red-700 uppercase tracking-wider">Anomalies</p>
+                            {report.aiReview.anomalies!.map((a, i) => <p key={i} className="text-sm text-red-800 mt-0.5">• {a}</p>)}
+                          </div>
+                        )}
+                        {(report.aiReview.checkToday?.length ?? 0) > 0 && (
+                          <div className="pt-1">
+                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Worth checking today</p>
+                            {report.aiReview.checkToday!.map((c, i) => <p key={i} className="text-sm text-gray-700 mt-0.5">• {c}</p>)}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

@@ -38,9 +38,14 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Generate audit report
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Generate audit report (mechanical reconciliation + AI review)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LITE_SEND_LIVE: ${{ vars.LITE_SEND_LIVE }}
           AUDIT_DATE: ${{ inputs.audit_date }}
         run: node scripts/daily-audit.mjs
 
