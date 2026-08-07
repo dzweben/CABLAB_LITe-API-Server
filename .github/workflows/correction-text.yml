@@ -1,0 +1,94 @@
+name: Correction Text (one-shot, Aug 7)
+
+# Coordinator-ordered apology to the cohort-1 families who wrongly
+# received the EMA enable text on Aug 6 (PIDs 1023, 1024, 1050).
+# Fires ONCE: 8:30 AM ET on Aug 7 (12:30 UTC). Recipients are read from
+# the send ledger (the exact numbers that got the wrong text), deduped
+# so a shared household number gets a single apology.
+#
+# This deliberately bypasses LITE_SEND_LIVE — it is an explicit,
+# coordinator-ordered single send, not pipeline traffic.
+on:
+  schedule:
+    - cron: "30 12 7 8 *"   # 8:30 AM EDT, Aug 7 only
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "true = preview, no sends"
+        required: false
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-lite-data
+  cancel-in-progress: false
+
+jobs:
+  send-correction:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Send correction texts
+        env:
+          QUO_API_KEY: ${{ secrets.QUO_API_KEY }}
+          QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const DRY = (process.env.DRY_RUN || "false") === "true";
+            const PIDS = new Set(["1023", "1024", "1050"]);
+            const MSG = "This is the Project LITe team. So sorry, that survey text yesterday was sent in error - please ignore it!";
+            const log = JSON.parse(fs.readFileSync("private/data/sent-log.json", "utf8"));
+            const ledgerKey = "correction-aug7";
+            if (log.some(e => e.id === ledgerKey && e.status === "sent" && !e.dryRun)) {
+              console.log("Correction already sent — nothing to do."); process.exit(0);
+            }
+            const targets = [...new Set(
+              log.filter(e => !e.dryRun && e.status === "sent" && e.kind === "ema_enable" && PIDS.has(e.pid))
+                 .map(e => e.recipient)
+            )];
+            console.log(`Sending correction to ${targets.length} distinct number(s)`);
+            (async () => {
+              for (const to of targets) {
+                const d = String(to).replace(/\D/g, "");
+                const e164 = "+" + (d.length === 10 ? "1" + d : d);
+                if (DRY) { console.log(`[DRY] -> ${e164.slice(0,5)}***`); continue; }
+                const res = await fetch("https://api.openphone.com/v1/messages", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", Authorization: process.env.QUO_API_KEY },
+                  body: JSON.stringify({ content: MSG, from: process.env.QUO_FROM_NUMBER, to: [e164] }),
+                });
+                if (!res.ok) throw new Error(`OpenPhone ${res.status}: ${await res.text()}`);
+                console.log(`sent -> ${e164.slice(0,5)}***`);
+                log.push({ id: ledgerKey, sendKey: `${ledgerKey}|sms|${to}`, timestamp: new Date().toISOString(),
+                  pid: "1023/1024/1050", alertId: 0, instrument: "Correction: enable text sent in error",
+                  kind: "correction", channel: "sms", recipient: to, status: "sent" });
+              }
+              fs.writeFileSync("private/data/sent-log.json", JSON.stringify(log, null, 2));
+            })().catch(e => { console.error(e.message); process.exit(1); });
+          '
+
+      - name: Commit ledger
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add private/data/sent-log.json 2>/dev/null || true
+          git diff --staged --quiet || { git commit -m "correction-text ledger [$(date -u '+%Y-%m-%d %H:%M UTC')]"; git pull --rebase --autostash -X theirs origin main && git push; }
