@@ -1,15 +1,16 @@
 {
   "date": "2026-08-06",
-  "generatedAt": "2026-08-07T04:53:13.736Z",
+  "generatedAt": "2026-08-07T11:30:27.305Z",
   "verdict": "YELLOW",
   "problems": [],
   "warnings": [
     "sending is unknown",
+    "data 409 min stale",
     "Refresh LITe REDCap Data: 2 failed run(s)",
     "EMA Prompt Sender: 1 failed run(s)"
   ],
   "sendMode": "unknown",
-  "dataFreshnessMin": 12,
+  "dataFreshnessMin": 409,
   "planned": 99,
   "counts": {
     "sent": 82,
