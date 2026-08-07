@@ -12342,8 +12342,8 @@
               {
                 "index": 1,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=cqac2P8LAyYMexQr"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 2,
@@ -14382,7 +14382,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(215) 498-6017",
@@ -254394,8 +254394,8 @@
               {
                 "index": 2,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=ZvUYvWvRknztkNqf"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -261299,8 +261299,8 @@
               {
                 "index": 1,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=vZexVVr5WZtHUg92"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 2,
@@ -289008,5 +289008,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-07T21:19:03.827Z"
+  "fetchedAt": "2026-08-07T22:12:23.063Z"
 }
