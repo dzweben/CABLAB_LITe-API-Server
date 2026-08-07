@@ -5918,5 +5918,29 @@
     "channel": "sms",
     "recipient": "(267) 789-5326",
     "status": "sent"
+  },
+  {
+    "id": "correction-aug7",
+    "sendKey": "correction-aug7|sms|(267) 997-4412",
+    "timestamp": "2026-08-07T13:44:41.592Z",
+    "pid": "1023/1024/1050",
+    "alertId": 0,
+    "instrument": "Correction: enable text sent in error",
+    "kind": "correction",
+    "channel": "sms",
+    "recipient": "(267) 997-4412",
+    "status": "sent"
+  },
+  {
+    "id": "correction-aug7",
+    "sendKey": "correction-aug7|sms|(410) 830-0036",
+    "timestamp": "2026-08-07T13:44:42.476Z",
+    "pid": "1023/1024/1050",
+    "alertId": 0,
+    "instrument": "Correction: enable text sent in error",
+    "kind": "correction",
+    "channel": "sms",
+    "recipient": "(410) 830-0036",
+    "status": "sent"
   }
 ]
