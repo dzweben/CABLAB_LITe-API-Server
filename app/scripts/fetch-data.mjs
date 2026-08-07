@@ -1541,8 +1541,15 @@ async function main() {
         const firstT = toEpoch(ema.prompts[0]?.scheduledAt);
         const anyAnswered = ema.prompts.some(pr => pr.complete);
         if (firstT != null && firstT < nowMs - 24 * 3600 * 1000 && !anyAnswered && !emaSentPairs.has(`${p.pid}|${w}`)) {
-          staleEmaAnchors.push({ pid: p.pid, wave: w, startDay: ema.startDay });
-          console.warn(`  ⚠ EMA stale anchor: ${p.pid} W${w} is enabled with start ${ema.startDay}, but the first prompt is long past and nothing was ever sent — skipping schedule, needs re-anchor`);
+          // Only a RECENT stale anchor is actionable (re-anchor to the
+          // next Monday and the schedule materializes). Cycles whose
+          // start is months past are pre-server history — wave-1 enables
+          // from before this server sent prompts — skip those silently
+          // rather than nagging the audit forever.
+          if (firstT >= nowMs - 60 * 24 * 3600 * 1000) {
+            staleEmaAnchors.push({ pid: p.pid, wave: w, startDay: ema.startDay });
+            console.warn(`  ⚠ EMA stale anchor: ${p.pid} W${w} is enabled with start ${ema.startDay}, but the first prompt is long past and nothing was ever sent — skipping schedule, needs re-anchor`);
+          }
           continue;
         }
         ema.prompts.forEach((prompt, idx) => {
