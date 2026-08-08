@@ -1,13 +1,13 @@
 {
   "date": "2026-08-07",
-  "generatedAt": "2026-08-08T04:34:16.497Z",
+  "generatedAt": "2026-08-08T11:05:06.935Z",
   "verdict": "YELLOW",
   "problems": [],
   "warnings": [
     "Refresh LITe REDCap Data: 1 failed run(s)"
   ],
   "sendMode": "LIVE",
-  "dataFreshnessMin": 26,
+  "dataFreshnessMin": 417,
   "planned": 97,
   "counts": {
     "sent": 51,
