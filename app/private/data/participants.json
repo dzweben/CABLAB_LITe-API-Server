@@ -141786,7 +141786,7 @@
               "pnrt": 2,
               "rpic": 0,
               "rpi": 2,
-              "rpi_new": 0,
+              "rpi_new": 2,
               "arsq": 0,
               "crsq": 2,
               "rsq": 2,
@@ -142322,8 +142322,8 @@
               {
                 "index": 5,
                 "date": "2026-07-20 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=VH6ybjmyms72E6J3"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 6,
@@ -289008,5 +289008,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-08T21:42:30.740Z"
+  "fetchedAt": "2026-08-08T22:31:20.026Z"
 }
