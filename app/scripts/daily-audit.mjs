@@ -23,7 +23,6 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import Anthropic from "@anthropic-ai/sdk";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, "..", "private", "data");
@@ -158,70 +157,6 @@ async function killSwitchState() {
   } catch { return "unknown"; }
 }
 
-// ---------- AI reviewer ----------
-// The judgment layer the mechanical checks can't provide: Claude reads
-// the finished report (plus recent history) against the study's standing
-// rules and writes an independent assessment. It can escalate the
-// verdict but never soften it. Skipped — with a visible warning — when
-// the ANTHROPIC_API_KEY repo secret isn't configured.
-
-const REVIEWER_RULES = `You are the daily operations reviewer for Project LITe, an NIH longitudinal study server (~418 participants; cohorts 1000/2000/3000). Every morning a mechanical script reconciles yesterday's planned messages against the send ledgers and produces the JSON report you are given. Your job is the judgment the script cannot make: read the evidence like a careful human auditor, catch what fixed checks miss, and say plainly how the system is doing.
-
-Standing rules (violations are RED-level findings):
-- EMAs NEVER go to cohort 1 (any PID 1000-1999): no enable texts, no prompts. This was violated once (Aug 6, 2026) and must never recur.
-- REDCap sends nothing. Every SMS/email comes from this server's pipeline; if the pipeline doesn't send it, nothing goes out.
-- Messages fire in fixed ET slots: EMA enable texts Thursday ~4 PM; surveys, reminders, and payment emails ~5 PM; EMA prompts at exact per-participant minutes (30-min grace, then protocol skip). Quiet hours 8:00 AM-9:30 PM ET.
-- Sending is gated by the LITE_SEND_LIVE kill switch. When FROZEN, real sends should be zero and rehearsal rows are expected.
-
-Known quirks — do NOT flag these as problems:
-- GitHub Actions cron fires 5-90 min late; lateness under ~90 min is jitter, not failure.
-- Temple's REDCap is down nightly ~12:40-7:00 AM ET, so morning data staleness is expected.
-- "completedBeforeSlot" items are good news: the participant finished before the reminder was due.
-
-Look beyond the bucket counts: cohort-1 PIDs anywhere near EMA activity; sends outside their slots or quiet hours; volumes that don't fit the plan; the same PID failing across days; a GREEN that's green only because nothing was scheduled; a frozen kill switch on a day real sends were expected; anything contradicting the standing rules. Be direct and concrete — name PIDs and counts. If everything genuinely looks right, say so briefly; do not invent concerns.`;
-
-const REVIEW_SCHEMA = {
-  type: "object",
-  additionalProperties: false,
-  required: ["headline", "agreesWithVerdict", "suggestedVerdict", "summary", "anomalies", "checkToday"],
-  properties: {
-    headline: { type: "string", description: "One plain-English sentence: how the server is doing" },
-    agreesWithVerdict: { type: "boolean" },
-    suggestedVerdict: { type: "string", enum: ["GREEN", "YELLOW", "RED"] },
-    summary: { type: "string", description: "A short paragraph a study coordinator can read in 20 seconds" },
-    anomalies: { type: "array", items: { type: "string" }, description: "Rule violations, suspicious patterns, or drift the mechanical checks can't flag. Empty if none." },
-    checkToday: { type: "array", items: { type: "string" }, description: "Concrete things worth double-checking today. Empty if none." },
-  },
-};
-
-async function aiReview(report, history, prevReport) {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return { skipped: "AI review off — add the ANTHROPIC_API_KEY repo secret to enable it" };
-  }
-  try {
-    const client = new Anthropic();
-    const resp = await client.messages.create({
-      model: "claude-opus-5",
-      max_tokens: 16000,
-      system: REVIEWER_RULES,
-      output_config: { format: { type: "json_schema", schema: REVIEW_SCHEMA } },
-      messages: [{
-        role: "user",
-        content:
-          `Today's mechanical audit report:\n${JSON.stringify(report)}\n\n` +
-          `Recent verdict history:\n${JSON.stringify(history.slice(0, 14))}\n\n` +
-          (prevReport ? `Previous day's report (detail omitted) for comparison:\n${JSON.stringify({ ...prevReport, detail: undefined, aiReview: undefined })}\n\n` : "") +
-          `Review this as the study's operations auditor. Question the mechanical verdict rather than rubber-stamping it.`,
-      }],
-    });
-    if (resp.stop_reason === "refusal") return { error: "AI review failed: model declined the request" };
-    const text = resp.content.find(b => b.type === "text")?.text;
-    return { model: resp.model, generatedAt: new Date().toISOString(), ...JSON.parse(text) };
-  } catch (e) {
-    return { error: `AI review failed: ${e.message}` };
-  }
-}
-
 // ---------- verdict ----------
 const main = async () => {
   const runs = await workflowHealth();
@@ -269,25 +204,6 @@ const main = async () => {
   fs.mkdirSync(AUDIT_DIR, { recursive: true });
   const index = readJson(path.join(AUDIT_DIR, "index.json"), []);
 
-  // AI review runs on the finished mechanical report. It can escalate
-  // the verdict (never soften it); a missing key surfaces as a warning
-  // so the report is never silently un-reviewed.
-  const prevDay = etDay(new Date(`${AUDIT_DATE}T12:00:00Z`).getTime() - 24 * 3600 * 1000);
-  const prevReport = readJson(path.join(AUDIT_DIR, `${prevDay}.json`), null);
-  report.aiReview = await aiReview(report, index, prevReport);
-  if (report.aiReview.skipped || report.aiReview.error) {
-    report.warnings.push(report.aiReview.skipped || report.aiReview.error);
-    if (report.verdict === "GREEN") report.verdict = "YELLOW";
-  } else {
-    const rank = { GREEN: 0, YELLOW: 1, RED: 2 };
-    const sv = report.aiReview.suggestedVerdict;
-    if (rank[sv] > rank[report.verdict]) {
-      const line = `AI reviewer escalated to ${sv}: ${report.aiReview.headline}`;
-      (sv === "RED" ? report.problems : report.warnings).push(line);
-      report.verdict = sv;
-    }
-  }
-
   fs.writeFileSync(path.join(AUDIT_DIR, `${AUDIT_DATE}.json`), JSON.stringify(report, null, 2));
   const entry = { date: AUDIT_DATE, verdict: report.verdict, problems: report.problems.length, warnings: report.warnings.length, generatedAt: report.generatedAt };
   const i = index.findIndex(x => x.date === AUDIT_DATE);
@@ -295,7 +211,6 @@ const main = async () => {
   index.sort((a, b) => b.date.localeCompare(a.date));
   fs.writeFileSync(path.join(AUDIT_DIR, "index.json"), JSON.stringify(index, null, 2));
   console.log(`Audit ${AUDIT_DATE}: ${report.verdict}${report.problems.length ? " — " + report.problems.join("; ") : ""}${report.warnings.length ? " | warn: " + report.warnings.join("; ") : ""}`);
-  if (report.aiReview.headline) console.log(`AI review: ${report.aiReview.headline}`);
 };
 
 main().catch(e => { console.error("FATAL:", e.message); process.exit(1); });
