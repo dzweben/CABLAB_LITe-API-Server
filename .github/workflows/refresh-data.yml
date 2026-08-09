@@ -214,8 +214,27 @@ jobs:
           # Sanity floor: participants.json must hold a non-trivial roster.
           node -e "const d=JSON.parse(require('fs').readFileSync('private/data/participants.json','utf8')); if(!Array.isArray(d.participants)||d.participants.length<100){console.error('::error::participants.json has only',(d.participants||[]).length,'records — aborting deploy');process.exit(1)} console.log('Validated',d.participants.length,'participants')"
 
-      - name: Deploy to Vercel
+      # Dashboard deploys are THROTTLED to ~every 2 hours: Vercel's free
+      # tier caps source uploads at 5000/day, and deploying on all ~46
+      # refresh runs exhausted it (Aug 9) — deploys then fail for 24h.
+      # Data commits + message sending happen ABOVE this step, so a
+      # skipped or failed deploy only means the dashboard shows data up
+      # to 2h old; texts/emails are never affected. Manual dispatches
+      # always deploy (that's a human asking to see fresh data).
+      - name: Decide whether to deploy dashboard
+        id: deploygate
         if: steps.gate.outputs.skip != 'true'
+        run: |
+          H=$(TZ=America/New_York date +%-H); M=$(TZ=America/New_York date +%-M)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || { [ $((H % 2)) -eq 0 ] && [ "$M" -lt 30 ]; }; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"; echo "Deploying (hour=$H min=$M event=${{ github.event_name }})"
+          else
+            echo "deploy=false" >> "$GITHUB_OUTPUT"; echo "Skipping dashboard deploy this run (hour=$H min=$M) — next even-hour run deploys"
+          fi
+
+      - name: Deploy to Vercel
+        if: steps.gate.outputs.skip != 'true' && steps.deploygate.outputs.deploy == 'true'
+        continue-on-error: true   # a Vercel outage/quota must never red a run whose sends already succeeded
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
