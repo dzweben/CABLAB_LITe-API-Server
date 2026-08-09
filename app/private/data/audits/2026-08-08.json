@@ -1,0 +1,967 @@
+{
+  "date": "2026-08-08",
+  "generatedAt": "2026-08-09T11:06:08.992Z",
+  "verdict": "YELLOW",
+  "problems": [],
+  "warnings": [
+    "Refresh LITe REDCap Data: 1 failed run(s)"
+  ],
+  "sendMode": "LIVE",
+  "dataFreshnessMin": 408,
+  "planned": 96,
+  "counts": {
+    "sent": 38,
+    "failed": 0,
+    "skipped": 0,
+    "completedBeforeSlot": 58,
+    "postponed": 0,
+    "slotStillOpen": 0,
+    "unaccounted": 0
+  },
+  "detail": {
+    "sent": [
+      {
+        "pid": "1018",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3045",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "1032",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "1067",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "1096",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.3 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "1123",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.3 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "1124",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2009",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2013",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2035",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.6 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2045",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.6 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2050",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2055",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2075",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.5 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2084",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.3 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2085",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2090",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2095",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2098",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2105",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2116",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2118",
+        "wave": 1,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2120",
+        "wave": 1,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.3 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2128",
+        "wave": 1,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.3 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3045",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.3 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3073",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3086",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3091",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3094",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3107",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3113",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3116",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3120",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3121",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3128",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3131",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3146",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.6 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3157",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.6 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      }
+    ],
+    "failed": [],
+    "skipped": [],
+    "completedBeforeSlot": [
+      {
+        "pid": "1003",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1006",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1008",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.3 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1015",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1016",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1018",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.3 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1019",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1036",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1052",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.2 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1055",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.2 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1068",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1069",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.5 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1074",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1077",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.6 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1078",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.5 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1079",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.3 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1082",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1083",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1084",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1097",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1102",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 3)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1103",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1122",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "1128",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2011",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2012",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2016",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2019",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.3 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2020",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2046",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2059",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.3 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2062",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.6 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2069",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.5 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2077",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2081",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2091",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.4 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2106",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2108",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2109",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "2115",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3048",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3075",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3077",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3092",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3095",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3097",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3098",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3102",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3108",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3109",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3110",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3111",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3115",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3117",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.1 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3118",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3126",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Auto Invite 2.2 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3147",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.5 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      },
+      {
+        "pid": "3148",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Auto Invite 1.6 (July catch-up reminder 2)",
+        "scheduledAt": "2026-08-08T21:00:00.000Z",
+        "channels": []
+      }
+    ],
+    "postponed": [],
+    "slotStillOpen": [],
+    "unaccounted": []
+  },
+  "ema": {
+    "planned": 0,
+    "sent": 0,
+    "sweeperRescued": 0,
+    "skippedLate": 0,
+    "failed": 0,
+    "unaccounted": 0,
+    "unaccountedDetail": [],
+    "maxLatencySec": null,
+    "medianLatencySec": null
+  },
+  "workflowRuns": {
+    "Refresh LITe REDCap Data": {
+      "success": 23,
+      "failure": 1,
+      "cancelled": 0,
+      "other": 0
+    },
+    "EMA Prompt Sender": {
+      "success": 9,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Daily Server Audit": {
+      "success": 2,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Deploy LITe (code/UI changes)": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
+  },
+  "totals": {
+    "participants": 418,
+    "queueUpcoming": 3894,
+    "sentAllTime": 447
+  }
+}
