@@ -173,6 +173,11 @@ jobs:
           git add private/data/participants.json private/data/due-reminders.json private/data/last-fetch.json 2>/dev/null || true
           git add private/data/sent-log.json private/data/send-state.json 2>/dev/null || true
           git add private/data/send-candidates.json private/data/recovery-sends.json 2>/dev/null || true
+          # EMA precision-sender inputs — the schedule was regenerating every
+          # fetch but never committed (silent gap: origin + the deployed
+          # sweeper kept reading a stale schedule). Anchor overrides persist
+          # rolled start-Mondays and must survive across runs.
+          git add private/data/ema-prompt-schedule.json private/data/ema-anchor-overrides.json 2>/dev/null || true
           # --quiet on `diff --cached` (staged index) — covers both
           # modified-tracked and brand-new-untracked files.
           if git diff --cached --quiet; then

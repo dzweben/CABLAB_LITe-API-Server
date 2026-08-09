@@ -733,9 +733,23 @@ function computeDueReminders(participants) {
         // date-only hour is 9 AM, which made "3d8h before" land at 1 AM.
         // Midnight anchor → the nudge sends Thursday ~4 PM ET, 3+ days
         // ahead of the Monday start.
-        const startT = toEpoch(wave.ema.startDay, 0);
+        //
+        // WEEKLY ROLL-FORWARD (protocol): if the enable window passed
+        // unanswered, the cycle shifts +1 week and a fresh nudge fires
+        // the Thursday before the NEXT Monday — up to 4 weeks past the
+        // original anchor. REDCap does not roll ema_start_day itself, so
+        // the shift is computed here. Anchors older than the cap age out
+        // (no eternal weekly re-nudges for stale families).
+        const rawStartT = toEpoch(wave.ema.startDay, 0);
+        const NUDGE_LEAD_MS = (3 * 24 + 8) * 3600 * 1000;
+        const ROLL_WEEK_MS = 7 * 24 * 3600 * 1000;
+        let startT = rawStartT;
         if (startT != null) {
-          const sendT = startT - (3 * 24 + 8) * 3600 * 1000;
+          while (startT - NUDGE_LEAD_MS < sendFloor && startT <= rawStartT + 4 * ROLL_WEEK_MS) startT += ROLL_WEEK_MS;
+          if (startT > rawStartT + 4 * ROLL_WEEK_MS) startT = null; // beyond protocol cap — coordinator territory
+        }
+        if (startT != null) {
+          const sendT = startT - NUDGE_LEAD_MS;
           if (sendT >= sendFloor && sendT <= horizon) {
             const iso = safeIso(sendT);
             if (iso) {
@@ -1532,35 +1546,60 @@ async function main() {
       const led = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "ema-sent-log.json"), "utf-8"));
       emaSentPairs = new Set(led.filter(e => e.status === "sent" && !e.dryRun).map(e => `${e.pid}|${e.wave}`));
     } catch {}
+    // Anchor overrides: REDCap's ema_start_day does NOT roll forward when
+    // a participant enables after their computed Monday. When we detect a
+    // recent stale anchor on an ACTIVE cycle, we roll it to the first
+    // still-startable Monday and PERSIST that choice here — so the anchor
+    // is stable across every subsequent fetch (it must never slide once
+    // prompts have gone out). Keyed `pid|wave` → 'YYYY-MM-DD'.
+    const ANCHOR_OVERRIDES_PATH = path.join(DATA_DIR, "ema-anchor-overrides.json");
+    const anchorOverrides = (() => { try { return JSON.parse(fs.readFileSync(ANCHOR_OVERRIDES_PATH, "utf-8")); } catch { return {}; } })();
+    let anchorOverridesChanged = false;
+    const WEEK_MS = 7 * 24 * 3600 * 1000;
     for (const p of participants) {
       for (const w of WAVES) {
         const ema = p.waves[w]?.ema;
         if (!emaEligibleCohort(p.pid)) continue;  // cohort 1: never EMA
         if (!ema?.active || !ema.startDay) continue;
+        const okey = `${p.pid}|${w}`;
+        let anchor = anchorOverrides[okey] || ema.startDay;
         // Canonical fill for any prompt REDCap didn't stamp a time on.
-        const grid = computeEmaPromptDates(ema.startDay);
+        // Under an override, REDCap-stamped times are relative to the OLD
+        // anchor — replace them all with the rolled grid.
+        let grid = computeEmaPromptDates(anchor);
         for (const prompt of ema.prompts) {
-          if (!prompt.scheduledAt && grid[prompt.key]) prompt.scheduledAt = grid[prompt.key];
+          if (anchorOverrides[okey] || !prompt.scheduledAt) prompt.scheduledAt = grid[prompt.key] || prompt.scheduledAt;
         }
-        // Stale-anchor guard: if the cycle's FIRST prompt is more than a
-        // day past but we have never sent this pid/wave a single prompt
-        // and none are answered, the start anchor predates their actual
-        // enable (they enabled after the computed Monday). Materializing
-        // now would drop them into the middle of a cycle — skip the wave
-        // and flag it for a human re-anchor instead.
+        // Stale-anchor handling: first prompt >24h past with nothing ever
+        // sent and nothing answered means the anchor predates their actual
+        // enable (they confirmed after the computed Monday). Per protocol
+        // the cycle shifts in whole weeks — roll to the first Monday whose
+        // cycle is still fully ahead of us, up to 4 weeks past the raw
+        // anchor, and persist the choice. Beyond 4 weeks (or >60d old,
+        // pre-server relics) we skip: recent ones flagged for a human,
+        // ancient ones silently.
         const firstT = toEpoch(ema.prompts[0]?.scheduledAt);
         const anyAnswered = ema.prompts.some(pr => pr.complete);
-        if (firstT != null && firstT < nowMs - 24 * 3600 * 1000 && !anyAnswered && !emaSentPairs.has(`${p.pid}|${w}`)) {
-          // Only a RECENT stale anchor is actionable (re-anchor to the
-          // next Monday and the schedule materializes). Cycles whose
-          // start is months past are pre-server history — wave-1 enables
-          // from before this server sent prompts — skip those silently
-          // rather than nagging the audit forever.
-          if (firstT >= nowMs - 60 * 24 * 3600 * 1000) {
-            staleEmaAnchors.push({ pid: p.pid, wave: w, startDay: ema.startDay });
-            console.warn(`  ⚠ EMA stale anchor: ${p.pid} W${w} is enabled with start ${ema.startDay}, but the first prompt is long past and nothing was ever sent — skipping schedule, needs re-anchor`);
+        if (firstT != null && firstT < nowMs - 24 * 3600 * 1000 && !anyAnswered && !emaSentPairs.has(okey)) {
+          const rawStartT = toEpoch(ema.startDay, 0);
+          const weeksLate = Math.ceil(((nowMs - 24 * 3600 * 1000) - firstT) / WEEK_MS);
+          const rolledT = rawStartT != null ? rawStartT + weeksLate * WEEK_MS : null;
+          const withinCap = rawStartT != null && rolledT <= rawStartT + 4 * WEEK_MS;
+          const recentEnough = firstT >= nowMs - 60 * 24 * 3600 * 1000;
+          if (recentEnough && withinCap && rolledT != null) {
+            anchor = isoDateOnly(rolledT);
+            anchorOverrides[okey] = anchor;
+            anchorOverridesChanged = true;
+            grid = computeEmaPromptDates(anchor);
+            for (const prompt of ema.prompts) prompt.scheduledAt = grid[prompt.key] || null;
+            console.log(`  EMA anchor rolled: ${p.pid} W${w} enabled after computed Monday ${ema.startDay} — cycle re-anchored to ${anchor} (persisted)`);
+          } else {
+            if (recentEnough) {
+              staleEmaAnchors.push({ pid: p.pid, wave: w, startDay: ema.startDay });
+              console.warn(`  ⚠ EMA stale anchor: ${p.pid} W${w} is enabled with start ${ema.startDay}, beyond the 4-week roll cap — skipping schedule, needs a human re-anchor`);
+            }
+            continue;
           }
-          continue;
         }
         ema.prompts.forEach((prompt, idx) => {
           if (prompt.complete || !prompt.scheduledAt) return;
@@ -1583,6 +1622,9 @@ async function main() {
     }
     await batchAsync(scheduleTasks, 3, 200);
     emaSchedule.sort((a, b) => a.sendAt.localeCompare(b.sendAt));
+    if (anchorOverridesChanged) {
+      fs.writeFileSync(ANCHOR_OVERRIDES_PATH, JSON.stringify(anchorOverrides, null, 2));
+    }
     console.log(`  EMA prompt schedule: ${emaSchedule.length} upcoming prompts across ${new Set(emaSchedule.map(r => r.pid)).size} enabled participants (${emaSchedule.filter(r => !r.surveyLink).length} without links)`);
   }
 
