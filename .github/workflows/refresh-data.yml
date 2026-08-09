@@ -58,6 +58,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          # ref: main = the branch TIP at checkout time. Without it, a
+          # workflow_dispatch run pins the sha from DISPATCH time — a run
+          # queued behind an in-flight one starts on a snapshot missing
+          # that run's ledger commits, and resends everything it can't
+          # see (2026-08-09 double-send incident).
+          ref: main
+
+      - name: Sync latest ledgers (second belt vs stale checkout)
+        if: steps.gate.outputs.skip != 'true'
+        run: git pull --rebase --autostash -X theirs origin main || true
 
       - name: Set up Node.js
         if: steps.gate.outputs.skip != 'true'
@@ -170,6 +180,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Ledgers are append-only: union with origin BEFORE committing so
+          # the -X theirs rebase below can never erase another run's rows.
+          node scripts/merge-ledgers.mjs || true
           git add private/data/participants.json private/data/due-reminders.json private/data/last-fetch.json 2>/dev/null || true
           git add private/data/sent-log.json private/data/send-state.json 2>/dev/null || true
           git add private/data/send-candidates.json private/data/recovery-sends.json 2>/dev/null || true

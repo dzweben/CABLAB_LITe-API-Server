@@ -103,7 +103,7 @@ async function alreadyDelivered(
 ): Promise<boolean | null> {
   const createdAfter = new Date(sendAtMs - 2 * 60 * 1000).toISOString();
   const params = new URLSearchParams({ phoneNumberId: pnId, maxResults: "20", createdAfter });
-  params.append("participants[]", phone);
+  params.append("participants", phone);
   const res = await quo(`/messages?${params}`, apiKey);
   if (!res.ok) return null;
   const body = await res.json().catch(() => null) as { data?: Array<Record<string, unknown>> } | null;

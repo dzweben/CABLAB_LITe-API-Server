@@ -119,7 +119,7 @@ async function carrierHasDelivered(phone, link, sendAtMs) {
       phoneNumberId: _pnId, maxResults: "20",
       createdAfter: new Date(sendAtMs - 2 * 60 * 1000).toISOString(),
     });
-    params.append("participants[]", phone);
+    params.append("participants", phone);
     const res = await fetch(`https://api.openphone.com/v1/messages?${params}`, {
       headers: { Authorization: QUO_API_KEY }, signal: AbortSignal.timeout(15_000),
     });
@@ -217,18 +217,18 @@ async function main() {
         continue;
       }
       try {
-        // Late-send guard: if we're >9 min past the slot, this prompt was
-        // in the SWEEPER's territory (the off-GitHub Vercel backstop) —
-        // it may already have delivered it while we were down. The
+        // Late-send guard: past ~2 min the slot belongs to a backstop —
+        // the Mac sender takes over at 3 min, the Vercel sweeper at 10 —
+        // and either may already have delivered while we were down. The
         // carrier's own history is the shared source of truth: check it
         // before sending so a rescued prompt is never sent twice. On-time
         // sends (the normal path, seconds after the slot) skip this.
-        if (t - at > 9 * 60 * 1000 && !DRY_RUN) {
+        if (t - at > 2 * 60 * 1000 && !DRY_RUN) {
           const delivered = await carrierHasDelivered(phone, link, at);
           if (delivered) {
-            dirty = true; ledger.push({ key: k, pid: row.pid, wave: row.wave, promptKey: row.key, status: "already_delivered", channel: "sms", recipient: phone, sendAt: row.sendAt, at: new Date(t).toISOString(), note: "found in carrier history (sweeper rescue)" });
+            dirty = true; ledger.push({ key: k, pid: row.pid, wave: row.wave, promptKey: row.key, status: "already_delivered", channel: "sms", recipient: phone, sendAt: row.sendAt, at: new Date(t).toISOString(), note: "found in carrier history (backstop leg got it)" });
             done.add(k);
-            console.log(`  ◦ ${row.pid} ${row.key}: already delivered per carrier history — sweeper got it`);
+            console.log(`  ◦ ${row.pid} ${row.key}: already delivered per carrier history — a backstop leg got it`);
             continue;
           }
         }
