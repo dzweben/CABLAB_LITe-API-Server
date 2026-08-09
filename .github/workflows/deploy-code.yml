@@ -69,7 +69,23 @@ jobs:
           npm install -g vercel
           vercel pull --yes --environment=production --token=$VERCEL_TOKEN
           vercel build --prod --token=$VERCEL_TOKEN
-          DEPLOY_URL=$(vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN)
+          # Vercel free tier caps uploads at 5000/day. When the quota is
+          # exhausted, failing this run is pure noise: the same code
+          # deploys automatically on the next even-hour refresh cycle
+          # once the quota resets. Defer loudly instead of failing.
+          # Any OTHER deploy error still fails the run.
+          set +e
+          OUT=$(vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN 2>&1)
+          RC=$?
+          set -e
+          if [ $RC -ne 0 ]; then
+            if echo "$OUT" | grep -q "api-upload-free"; then
+              echo "::warning::Vercel daily upload quota exhausted — deploy DEFERRED. Code will ride the next even-hour refresh deploy after the quota resets."
+              exit 0
+            fi
+            echo "$OUT"; exit $RC
+          fi
+          DEPLOY_URL=$(echo "$OUT" | tail -1)
           echo "Deployed to: $DEPLOY_URL"
           if [ -n "$DEPLOY_URL" ]; then
             vercel alias set "$DEPLOY_URL" cablab-lite.vercel.app --token=$VERCEL_TOKEN
