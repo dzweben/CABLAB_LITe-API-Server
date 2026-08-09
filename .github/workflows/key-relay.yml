@@ -1,0 +1,36 @@
+name: Key Relay (one-shot, encrypted)
+
+# Relays the OpenPhone sending credentials to the always-on Mac so its
+# local EMA sender leg can fire independently of GitHub. The dispatcher
+# supplies an RSA-4096 PUBLIC key; the secrets are printed only as
+# RSA-OAEP ciphertext, decryptable solely by the private key held on
+# the Mac. Plaintext never appears in logs, artifacts, or commits.
+# Delete this workflow after a successful relay.
+on:
+  workflow_dispatch:
+    inputs:
+      pubkey_b64:
+        description: "base64-encoded RSA public key PEM"
+        required: true
+
+permissions: {}
+
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Encrypt credentials to the provided public key
+        env:
+          QUO_API_KEY: ${{ secrets.QUO_API_KEY }}
+          QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
+          PUBKEY_B64: ${{ inputs.pubkey_b64 }}
+        run: |
+          set -e
+          echo "$PUBKEY_B64" | base64 -d > pub.pem
+          openssl pkey -pubin -in pub.pem -noout   # validate it's a real public key
+          printf '%s' "$QUO_API_KEY" | openssl pkeyutl -encrypt -pubin -inkey pub.pem \
+            -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 | base64 -w0 > k1.b64
+          printf '%s' "$QUO_FROM_NUMBER" | openssl pkeyutl -encrypt -pubin -inkey pub.pem \
+            -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 | base64 -w0 > k2.b64
+          echo "CIPHERTEXT_QUO_API_KEY=$(cat k1.b64)"
+          echo "CIPHERTEXT_QUO_FROM_NUMBER=$(cat k2.b64)"
