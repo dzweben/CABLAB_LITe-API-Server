@@ -5670,7 +5670,19 @@
           "atHome": {
             "timestamp": "2026-07-15 16:29:09",
             "break1Complete": 2,
-            "athomeMeasuresComplete": 0
+            "athomeMeasuresComplete": 2,
+            "formsFromReport": {
+              "texi": 2,
+              "bar": 2,
+              "bas": 2,
+              "zuckerman": 2,
+              "shs": 2,
+              "glteq": 2,
+              "phq": 2,
+              "pubertal_development": 2
+            },
+            "sectionsComplete": 8,
+            "sectionsTotal": 8
           },
           "sts1": null,
           "sts2": null,
@@ -17517,8 +17529,8 @@
               "uberball_task": 0,
               "payment_info": 2,
               "receipt": 0,
-              "travel_payment_info": 0,
-              "travel_receipt": 0,
+              "travel_payment_info": 2,
+              "travel_receipt": 2,
               "travel_links": 0,
               "chatroom_profile_creation_8c6d8d": 0,
               "chatroom_preference_task_a": 0,
@@ -289008,5 +289020,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-10T13:08:53.193Z"
+  "fetchedAt": "2026-08-10T14:44:16.424Z"
 }
