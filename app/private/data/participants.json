@@ -10186,7 +10186,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": true,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(215) 316-2915",
@@ -10556,7 +10556,7 @@
               "quic": 2,
               "break_3": 2,
               "short_ant_task": 2,
-              "uberball_task": 0,
+              "uberball_task": 2,
               "payment_info": 0,
               "receipt": 0,
               "travel_payment_info": 0,
@@ -289414,5 +289414,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-10T21:47:18.407Z"
+  "fetchedAt": "2026-08-10T22:42:27.972Z"
 }
