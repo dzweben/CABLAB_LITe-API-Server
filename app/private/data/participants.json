@@ -10555,7 +10555,7 @@
               "quicc": 2,
               "quic": 2,
               "break_3": 2,
-              "short_ant_task": 0,
+              "short_ant_task": 2,
               "uberball_task": 0,
               "payment_info": 0,
               "receipt": 0,
@@ -10918,7 +10918,7 @@
         "3": {
           "year": 3,
           "v1": {
-            "date": null,
+            "date": "2025-08-10",
             "forms": {
               "preenrollment_survey": 0,
               "phone_screener_visit_1_scheduling": 0,
@@ -10958,12 +10958,12 @@
               "break_2": 2,
               "game_of_dice_task": 2,
               "panasc": 2,
-              "adolescent_wellbeing": 0,
-              "education": 0,
-              "yrbs": 0,
+              "adolescent_wellbeing": 2,
+              "education": 2,
+              "yrbs": 2,
               "urbanicity_scale": 0,
               "geo_location_youth": 0,
-              "urbanicity": 0,
+              "urbanicity": 2,
               "quicc": 0,
               "quic": 0,
               "break_3": 0,
@@ -11034,7 +11034,7 @@
               "payment_confirmation_form": 0,
               "scoring": 0
             },
-            "allComplete": false
+            "allComplete": true
           },
           "atHome": {
             "timestamp": "2026-08-10 16:08:01",
@@ -11044,7 +11044,22 @@
           "sts1": null,
           "sts2": null,
           "ema": null,
-          "v2": null
+          "v2": null,
+          "followupSheet": {
+            "record": 132,
+            "v1Date": "2025-08-10",
+            "v2Date": null,
+            "sts1Months": [],
+            "sts2Months": [],
+            "emaDate": null,
+            "emaStatus": null,
+            "w1Comp": null,
+            "w2Comp": null,
+            "wave2StartDate": null,
+            "wave3StartDate": null,
+            "raTag": null,
+            "notes": null
+          }
         }
       },
       "activeWave": 3
@@ -289399,5 +289414,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-10T20:47:28.232Z"
+  "fetchedAt": "2026-08-10T21:47:18.407Z"
 }
