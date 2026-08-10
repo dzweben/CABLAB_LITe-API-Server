@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "timestamp": "2026-08-10T16:06:20.693Z",
+  "timestamp": "2026-08-10T17:04:53.686Z",
   "staleEmaAnchors": [],
   "sheetId": "18LScSoBcT8XmwA_WjfeN4Lt2PZESDm7FycAqocZ1cH4",
   "counts": {
@@ -8,7 +8,7 @@
     "dueNext7Days": 3909
   },
   "metrics": {
-    "redcapRows": 6567,
+    "redcapRows": 6568,
     "participants": 418,
     "reportRowCounts": {
       "emaY1": 265,
