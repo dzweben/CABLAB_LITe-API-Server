@@ -1,0 +1,85 @@
+{
+  "date": "2026-08-10",
+  "generatedAt": "2026-08-11T11:28:45.224Z",
+  "verdict": "GREEN",
+  "problems": [],
+  "warnings": [],
+  "sendMode": "LIVE",
+  "dataFreshnessMin": 425,
+  "planned": 2,
+  "counts": {
+    "sent": 2,
+    "failed": 0,
+    "skipped": 0,
+    "completedBeforeSlot": 0,
+    "postponed": 0,
+    "slotStillOpen": 0,
+    "unaccounted": 0
+  },
+  "detail": {
+    "sent": [
+      {
+        "pid": "1014",
+        "wave": 3,
+        "kind": "athome_sms",
+        "instrument": "At-Home Survey Send (Text)",
+        "scheduledAt": "2026-08-10T23:53:01.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "1014",
+        "wave": 3,
+        "kind": "athome_email",
+        "instrument": "At-Home Survey Send (Email)",
+        "scheduledAt": "2026-08-10T23:53:01.000Z",
+        "channels": [
+          "email:sent"
+        ]
+      }
+    ],
+    "failed": [],
+    "skipped": [],
+    "completedBeforeSlot": [],
+    "postponed": [],
+    "slotStillOpen": [],
+    "unaccounted": []
+  },
+  "ema": {
+    "planned": 0,
+    "sent": 0,
+    "sweeperRescued": 0,
+    "skippedLate": 0,
+    "failed": 0,
+    "unaccounted": 0,
+    "unaccountedDetail": [],
+    "maxLatencySec": null,
+    "medianLatencySec": null
+  },
+  "workflowRuns": {
+    "Refresh LITe REDCap Data": {
+      "success": 16,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "EMA Prompt Sender": {
+      "success": 9,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Daily Server Audit": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
+  },
+  "totals": {
+    "participants": 418,
+    "queueUpcoming": 3909,
+    "sentAllTime": 523
+  }
+}
