@@ -1,27 +1,5 @@
 [
   {
-    "pid": "1014",
-    "recordId": "1014",
-    "wave": 3,
-    "alertId": 60,
-    "kind": "athome_sms",
-    "instrument": "At-Home Survey Send (Text)",
-    "scheduledAt": "2026-08-10T23:53:01.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=uQ5ZPNtCe2a7EPqq"
-  },
-  {
-    "pid": "1014",
-    "recordId": "1014",
-    "wave": 3,
-    "alertId": 61,
-    "kind": "athome_email",
-    "instrument": "At-Home Survey Send (Email)",
-    "scheduledAt": "2026-08-10T23:53:01.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=uQ5ZPNtCe2a7EPqq"
-  },
-  {
     "pid": "3027",
     "recordId": "3027",
     "wave": 2,

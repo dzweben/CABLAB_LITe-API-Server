@@ -11039,7 +11039,19 @@
           "atHome": {
             "timestamp": "2026-08-10 16:08:01",
             "break1Complete": 2,
-            "athomeMeasuresComplete": 0
+            "athomeMeasuresComplete": 2,
+            "formsFromReport": {
+              "texi": 2,
+              "bar": 2,
+              "bas": 2,
+              "zuckerman": 2,
+              "shs": 2,
+              "glteq": 2,
+              "phq": 2,
+              "pubertal_development": 2
+            },
+            "sectionsComplete": 8,
+            "sectionsTotal": 8
           },
           "sts1": null,
           "sts2": null,
@@ -289414,5 +289426,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-11T17:32:59.865Z"
+  "fetchedAt": "2026-08-11T18:32:18.484Z"
 }
