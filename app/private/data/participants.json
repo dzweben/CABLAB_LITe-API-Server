@@ -175888,25 +175888,87 @@
           "atHome": {
             "timestamp": "2026-07-20 17:34:36",
             "break1Complete": 2,
-            "athomeMeasuresComplete": 1,
+            "athomeMeasuresComplete": 2,
             "formsFromReport": {
               "texi": 2,
               "bar": 2,
               "bas": 2,
               "zuckerman": 2,
-              "shs": 0,
-              "glteq": 0,
-              "phq": 0,
-              "pubertal_development": 0
+              "shs": 2,
+              "glteq": 2,
+              "phq": 2,
+              "pubertal_development": 2
             },
-            "sectionsComplete": 4,
+            "sectionsComplete": 8,
             "sectionsTotal": 8
           },
-          "sts1": null,
-          "sts2": null,
+          "sts1": {
+            "active": true,
+            "cycles": [
+              {
+                "index": 1,
+                "date": "2026-09-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=xvLKrfo2FEdeLjjf"
+              },
+              {
+                "index": 2,
+                "date": "2026-10-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=XKQNIdKjMxJwcEQN"
+              },
+              {
+                "index": 3,
+                "date": "2026-11-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=tGhTup57JtGihQcx"
+              },
+              {
+                "index": 4,
+                "date": "2026-12-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=jwQqt7SKPPuw9kyG"
+              },
+              {
+                "index": 5,
+                "date": "2027-01-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=YANjBgpNPpmhITq8"
+              },
+              {
+                "index": 6,
+                "date": "2027-02-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=f2XQRBkGs7pVKz2g"
+              }
+            ]
+          },
+          "sts2": {
+            "active": true,
+            "cycles": [
+              {
+                "index": 1,
+                "date": "2027-08-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=SLqSZuoPRSm8WYwF"
+              },
+              {
+                "index": 2,
+                "date": "2027-09-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=EMtWjTGB2uySxR4M"
+              },
+              {
+                "index": 3,
+                "date": "2027-10-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=9hfhMAHRcNqiyoDE"
+              }
+            ]
+          },
           "ema": {
             "active": false,
-            "startDay": null,
+            "startDay": "2027-06-07",
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
@@ -176097,11 +176159,83 @@
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
-          "v2": null,
+          "v2": {
+            "date": "2026-08-11",
+            "forms": {},
+            "allComplete": true
+          },
           "followupSheet": {
             "record": 1883,
             "v1Date": "2026-07-20",
-            "v2Date": null,
+            "v2Date": "2026-08-11",
+            "sts1Months": [],
+            "sts2Months": [],
+            "emaDate": null,
+            "emaStatus": null,
+            "w1Comp": null,
+            "w2Comp": null,
+            "wave2StartDate": null,
+            "wave3StartDate": null,
+            "raTag": null,
+            "notes": null
+          }
+        },
+        "3": {
+          "year": 3,
+          "v1": null,
+          "atHome": null,
+          "sts1": {
+            "active": true,
+            "cycles": [
+              {
+                "index": 1,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              },
+              {
+                "index": 2,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              },
+              {
+                "index": 3,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              },
+              {
+                "index": 4,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              },
+              {
+                "index": 5,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              },
+              {
+                "index": 6,
+                "date": null,
+                "complete": 0,
+                "surveyLink": null
+              }
+            ]
+          },
+          "sts2": null,
+          "ema": null,
+          "v2": {
+            "date": "NO SCAN ",
+            "forms": {},
+            "allComplete": true
+          },
+          "followupSheet": {
+            "record": 1883,
+            "v1Date": null,
+            "v2Date": "NO SCAN ",
             "sts1Months": [],
             "sts2Months": [],
             "emaDate": null,
@@ -176115,7 +176249,7 @@
           }
         }
       },
-      "activeWave": 2
+      "activeWave": null
     },
     {
       "pid": "2127",
@@ -289426,5 +289560,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-11T18:32:18.484Z"
+  "fetchedAt": "2026-08-11T19:40:06.921Z"
 }
