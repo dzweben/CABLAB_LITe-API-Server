@@ -10712,7 +10712,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(215) 316-2915",
@@ -289674,5 +289674,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-13T20:03:47.775Z"
+  "fetchedAt": "2026-08-13T20:54:42.423Z"
 }
