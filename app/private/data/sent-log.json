@@ -13736,5 +13736,29 @@
     "channel": "email",
     "recipient": "hashimotomiyuki.soprano@yahoo.com",
     "status": "sent"
+  },
+  {
+    "id": "3027|63|2026-08-13T20:00:00.000Z",
+    "sendKey": "3027|63|2026-08-13T20:00:00.000Z|sms|(646) 574-1910",
+    "timestamp": "2026-08-13T20:04:01.274Z",
+    "pid": "3027",
+    "alertId": 63,
+    "instrument": "EMA Y1 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(646) 574-1910",
+    "status": "sent"
+  },
+  {
+    "id": "3130|63|2026-08-13T20:00:00.000Z",
+    "sendKey": "3130|63|2026-08-13T20:00:00.000Z|sms|(267) 789-5326",
+    "timestamp": "2026-08-13T20:04:02.055Z",
+    "pid": "3130",
+    "alertId": 63,
+    "instrument": "EMA Y1 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(267) 789-5326",
+    "status": "sent"
   }
 ]
