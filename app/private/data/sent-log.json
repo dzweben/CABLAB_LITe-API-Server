@@ -3600,12 +3600,15 @@
     "timestamp": "2026-08-06T20:45:04.454Z",
     "pid": "1023",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(267) 997-4412",
     "status": "failed",
-    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"9184262459453670525\"}"
+    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"9184262459453670525\"}",
+    "wave": 2,
+    "note": "RESOLVED 2026-08-06 incident: local test run used the SPARK org OpenPhone key (no credits). LITe org key was never affected; these were re-sent live at 20:52Z. Not a current problem.",
+    "resolved": true
   },
   {
     "id": "1023|63|2026-08-06T20:00:00.000Z",
@@ -3613,12 +3616,15 @@
     "timestamp": "2026-08-06T20:45:04.759Z",
     "pid": "1023",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(267) 997-4412",
     "status": "failed",
-    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"4873239079806941416\"}"
+    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"4873239079806941416\"}",
+    "wave": 2,
+    "note": "RESOLVED 2026-08-06 incident: local test run used the SPARK org OpenPhone key (no credits). LITe org key was never affected; these were re-sent live at 20:52Z. Not a current problem.",
+    "resolved": true
   },
   {
     "id": "1024|63|2026-08-06T20:00:00.000Z",
@@ -3626,12 +3632,15 @@
     "timestamp": "2026-08-06T20:45:11.885Z",
     "pid": "1024",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(267) 997-4412",
     "status": "failed",
-    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"4184100864239279240\"}"
+    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"4184100864239279240\"}",
+    "wave": 2,
+    "note": "RESOLVED 2026-08-06 incident: local test run used the SPARK org OpenPhone key (no credits). LITe org key was never affected; these were re-sent live at 20:52Z. Not a current problem.",
+    "resolved": true
   },
   {
     "id": "1024|63|2026-08-06T20:00:00.000Z",
@@ -3639,12 +3648,15 @@
     "timestamp": "2026-08-06T20:45:12.199Z",
     "pid": "1024",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(267) 997-4412",
     "status": "failed",
-    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"8980348001309633631\"}"
+    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"8980348001309633631\"}",
+    "wave": 2,
+    "note": "RESOLVED 2026-08-06 incident: local test run used the SPARK org OpenPhone key (no credits). LITe org key was never affected; these were re-sent live at 20:52Z. Not a current problem.",
+    "resolved": true
   },
   {
     "id": "1050|63|2026-08-06T20:00:00.000Z",
@@ -3652,12 +3664,15 @@
     "timestamp": "2026-08-06T20:45:19.503Z",
     "pid": "1050",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(410) 830-0036",
     "status": "failed",
-    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"2552600503938854814\"}"
+    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"2552600503938854814\"}",
+    "wave": 2,
+    "note": "RESOLVED 2026-08-06 incident: local test run used the SPARK org OpenPhone key (no credits). LITe org key was never affected; these were re-sent live at 20:52Z. Not a current problem.",
+    "resolved": true
   },
   {
     "id": "3027|63|2026-08-06T20:00:00.000Z",
@@ -3665,12 +3680,15 @@
     "timestamp": "2026-08-06T20:45:26.697Z",
     "pid": "3027",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(646) 574-1910",
     "status": "failed",
-    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"4214967354247907441\"}"
+    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"4214967354247907441\"}",
+    "wave": 2,
+    "note": "RESOLVED 2026-08-06 incident: local test run used the SPARK org OpenPhone key (no credits). LITe org key was never affected; these were re-sent live at 20:52Z. Not a current problem.",
+    "resolved": true
   },
   {
     "id": "3130|63|2026-08-06T20:00:00.000Z",
@@ -3678,12 +3696,15 @@
     "timestamp": "2026-08-06T20:45:33.941Z",
     "pid": "3130",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(267) 789-5326",
     "status": "failed",
-    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"2850866636428153684\"}"
+    "error": "OpenPhone 402: {\"message\":\"The organization does not have enough prepaid credits to send the message\",\"code\":\"0200402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Not Enough Credits\",\"trace\":\"2850866636428153684\"}",
+    "wave": 2,
+    "note": "RESOLVED 2026-08-06 incident: local test run used the SPARK org OpenPhone key (no credits). LITe org key was never affected; these were re-sent live at 20:52Z. Not a current problem.",
+    "resolved": true
   },
   {
     "id": "1003|93|2026-08-06T21:00:00.000Z",
@@ -5865,11 +5886,12 @@
     "timestamp": "2026-08-07T00:52:52.364Z",
     "pid": "1023",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(267) 997-4412",
-    "status": "sent"
+    "status": "sent",
+    "wave": 2
   },
   {
     "id": "1024|63|2026-08-06T20:00:00.000Z",
@@ -5877,11 +5899,12 @@
     "timestamp": "2026-08-07T00:52:54.104Z",
     "pid": "1024",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(267) 997-4412",
-    "status": "sent"
+    "status": "sent",
+    "wave": 2
   },
   {
     "id": "1050|63|2026-08-06T20:00:00.000Z",
@@ -5889,11 +5912,12 @@
     "timestamp": "2026-08-07T00:52:55.831Z",
     "pid": "1050",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(410) 830-0036",
-    "status": "sent"
+    "status": "sent",
+    "wave": 2
   },
   {
     "id": "3027|63|2026-08-06T20:00:00.000Z",
@@ -5901,11 +5925,12 @@
     "timestamp": "2026-08-07T00:52:58.207Z",
     "pid": "3027",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(646) 574-1910",
-    "status": "sent"
+    "status": "sent",
+    "wave": 2
   },
   {
     "id": "3130|63|2026-08-06T20:00:00.000Z",
@@ -5913,11 +5938,12 @@
     "timestamp": "2026-08-07T00:53:00.145Z",
     "pid": "3130",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(267) 789-5326",
-    "status": "sent"
+    "status": "sent",
+    "wave": 2
   },
   {
     "id": "correction-aug7",
@@ -13743,11 +13769,12 @@
     "timestamp": "2026-08-13T20:04:01.274Z",
     "pid": "3027",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(646) 574-1910",
-    "status": "sent"
+    "status": "sent",
+    "wave": 2
   },
   {
     "id": "3130|63|2026-08-13T20:00:00.000Z",
@@ -13755,10 +13782,11 @@
     "timestamp": "2026-08-13T20:04:02.055Z",
     "pid": "3130",
     "alertId": 63,
-    "instrument": "EMA Y1 Enable",
+    "instrument": "EMA Y2 Enable",
     "kind": "ema_enable",
     "channel": "sms",
     "recipient": "(267) 789-5326",
-    "status": "sent"
+    "status": "sent",
+    "wave": 2
   }
 ]
