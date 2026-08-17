@@ -173,13 +173,18 @@ const main = async () => {
   if (buckets.skipped.length) warnings.push(`${buckets.skipped.length} skipped (unresolved link)`);
   if (emaSummary.skippedLate) warnings.push(`${emaSummary.skippedLate} EMA prompt(s) protocol-skipped (late)`);
   if (sendMode !== "LIVE") warnings.push(`sending is ${sendMode}`);
-  // Mac timer leg (third EMA trigger): the always-on machine commits a
-  // daily heartbeat. Silence >26h means that redundancy layer is down —
-  // GitHub + Vercel legs still cover delivery, but say so.
+  // saer leg (the always-on Mac that holds the EMA backstop sender):
+  // it commits a daily heartbeat tagged leg="saer-agent". Silence >26h,
+  // or a heartbeat from a decommissioned host, means that redundancy
+  // layer is down — GitHub + Vercel legs still cover delivery, but say so.
+  const EXPECTED_LEG = "saer-agent";
   const hb = readJson(path.join(DATA_DIR, "local-timer-heartbeat.json"), null);
   if (hb?.at) {
     const ageH = Math.round((now - new Date(hb.at).getTime()) / 3600000);
-    if (ageH > 26) warnings.push(`Mac timer leg silent for ${ageH}h (EMA still covered by GitHub + Vercel legs)`);
+    if (ageH > 26) warnings.push(`saer EMA leg silent for ${ageH}h (EMA still covered by GitHub + Vercel legs)`);
+    else if (hb.leg && hb.leg !== EXPECTED_LEG) warnings.push(`EMA backstop heartbeat came from "${hb.leg}", expected "${EXPECTED_LEG}" — is saer's agent running?`);
+  } else {
+    warnings.push(`no saer EMA-leg heartbeat on record`);
   }
   // REDCap is down nightly ~12:40–7 AM ET, so several hours of staleness
   // is expected when the morning audit runs — only flag daytime staleness.
