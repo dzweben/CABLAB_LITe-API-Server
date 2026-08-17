@@ -85,7 +85,9 @@ jobs:
             fi
             echo "$OUT"; exit $RC
           fi
-          DEPLOY_URL=$(echo "$OUT" | tail -1)
+          # stdout+stderr are merged above (needed to see the quota error), so
+          # pick the deployment URL explicitly rather than trusting "last line".
+          DEPLOY_URL=$(echo "$OUT" | grep -oE 'https://[a-z0-9-]+\.vercel\.app' | tail -1)
           echo "Deployed to: $DEPLOY_URL"
           if [ -n "$DEPLOY_URL" ]; then
             vercel alias set "$DEPLOY_URL" cablab-lite.vercel.app --token=$VERCEL_TOKEN
