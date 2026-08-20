@@ -13788,5 +13788,29 @@
     "recipient": "(267) 789-5326",
     "status": "sent",
     "wave": 2
+  },
+  {
+    "id": "3027|63|2026-08-20T20:00:00.000Z",
+    "sendKey": "3027|63|2026-08-20T20:00:00.000Z|sms|(646) 574-1910",
+    "timestamp": "2026-08-20T20:02:27.208Z",
+    "pid": "3027",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(646) 574-1910",
+    "status": "sent"
+  },
+  {
+    "id": "3130|63|2026-08-20T20:00:00.000Z",
+    "sendKey": "3130|63|2026-08-20T20:00:00.000Z|sms|(267) 789-5326",
+    "timestamp": "2026-08-20T20:02:28.706Z",
+    "pid": "3130",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(267) 789-5326",
+    "status": "sent"
   }
 ]
