@@ -13812,5 +13812,29 @@
     "channel": "sms",
     "recipient": "(267) 789-5326",
     "status": "sent"
+  },
+  {
+    "id": "1018|289|2026-08-22T21:00:00.000Z",
+    "sendKey": "1018|289|2026-08-22T21:00:00.000Z|sms|(215) 498-6017",
+    "timestamp": "2026-08-22T21:24:48.146Z",
+    "pid": "1018",
+    "alertId": 289,
+    "instrument": "W2 STS-EMA Payment Follow-Up",
+    "kind": "payment_followup",
+    "channel": "sms",
+    "recipient": "(215) 498-6017",
+    "status": "sent"
+  },
+  {
+    "id": "3045|289|2026-08-22T21:00:00.000Z",
+    "sendKey": "3045|289|2026-08-22T21:00:00.000Z|sms|(215) 821-7201",
+    "timestamp": "2026-08-22T21:24:49.079Z",
+    "pid": "3045",
+    "alertId": 289,
+    "instrument": "W2 STS-EMA Payment Follow-Up",
+    "kind": "payment_followup",
+    "channel": "sms",
+    "recipient": "(215) 821-7201",
+    "status": "sent"
   }
 ]
