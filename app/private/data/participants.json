@@ -1302,7 +1302,7 @@
         "3": {
           "year": 3,
           "v1": {
-            "date": null,
+            "date": "2026-08-18",
             "forms": {
               "preenrollment_survey": 0,
               "phone_screener_visit_1_scheduling": 0,
@@ -1418,7 +1418,7 @@
               "payment_confirmation_form": 0,
               "scoring": 0
             },
-            "allComplete": false
+            "allComplete": true
           },
           "atHome": {
             "timestamp": "2026-08-18 11:46:24",
@@ -1437,11 +1437,73 @@
             "sectionsComplete": 8,
             "sectionsTotal": 8
           },
-          "sts1": null,
-          "sts2": null,
+          "sts1": {
+            "active": true,
+            "cycles": [
+              {
+                "index": 1,
+                "date": "2026-09-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=S4ZLrKXqhGyhFDaV"
+              },
+              {
+                "index": 2,
+                "date": "2026-10-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=CLIU2ebaiTBZ9pQZ"
+              },
+              {
+                "index": 3,
+                "date": "2026-11-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=boXtcX7YvN4sxxtP"
+              },
+              {
+                "index": 4,
+                "date": "2026-12-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=dRVMgk7znikfgWRs"
+              },
+              {
+                "index": 5,
+                "date": "2027-01-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=AyqRbXfG9BkqCNGr"
+              },
+              {
+                "index": 6,
+                "date": "2027-02-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=UxtCeNug57Jhdvfw"
+              }
+            ]
+          },
+          "sts2": {
+            "active": true,
+            "cycles": [
+              {
+                "index": 1,
+                "date": "2027-08-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=6Roys23zSNV2stEC"
+              },
+              {
+                "index": 2,
+                "date": "2027-09-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=Gv2Koq5arKEBvnet"
+              },
+              {
+                "index": 3,
+                "date": "2027-10-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=WfZDvFj8cpYdYYJs"
+              }
+            ]
+          },
           "ema": null,
           "v2": {
-            "date": null,
+            "date": "2026-08-18",
             "forms": {
               "preenrollment_survey": 0,
               "phone_screener_visit_1_scheduling": 0,
@@ -1492,11 +1554,11 @@
               "break_3": 0,
               "short_ant_task": 0,
               "uberball_task": 0,
-              "payment_info": 0,
+              "payment_info": 2,
               "receipt": 0,
-              "travel_payment_info": 0,
-              "travel_receipt": 0,
-              "travel_links": 0,
+              "travel_payment_info": 2,
+              "travel_receipt": 2,
+              "travel_links": 2,
               "chatroom_profile_creation_8c6d8d": 0,
               "chatroom_preference_task_a": 0,
               "chatroom_preference_task_b": 0,
@@ -1557,11 +1619,26 @@
               "payment_confirmation_form": 0,
               "scoring": 0
             },
-            "allComplete": false
+            "allComplete": true
+          },
+          "followupSheet": {
+            "record": 47,
+            "v1Date": "2026-08-18",
+            "v2Date": "2026-08-18",
+            "sts1Months": [],
+            "sts2Months": [],
+            "emaDate": null,
+            "emaStatus": null,
+            "w1Comp": null,
+            "w2Comp": null,
+            "wave2StartDate": null,
+            "wave3StartDate": null,
+            "raTag": null,
+            "notes": null
           }
         }
       },
-      "activeWave": 3
+      "activeWave": null
     },
     {
       "pid": "1003",
@@ -97735,11 +97812,84 @@
             "sectionsComplete": 8,
             "sectionsTotal": 8
           },
-          "sts1": null,
-          "sts2": null,
-          "ema": null,
+          "sts1": {
+            "active": true,
+            "cycles": [
+              {
+                "index": 1,
+                "date": "2026-09-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=PvHJE4f79QGA4GNY"
+              },
+              {
+                "index": 2,
+                "date": "2026-10-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=pRbLrBwo3sSZkyt5"
+              },
+              {
+                "index": 3,
+                "date": "2026-11-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=zIRRU5IDYhC8DLvh"
+              },
+              {
+                "index": 4,
+                "date": "2026-12-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=FTtPQQQZ2w4VfB7E"
+              },
+              {
+                "index": 5,
+                "date": "2027-01-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=zAbErjRxcYZ6Iam9"
+              },
+              {
+                "index": 6,
+                "date": "2027-02-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=yvndj8P8CoVeMXBo"
+              }
+            ]
+          },
+          "sts2": {
+            "active": true,
+            "cycles": [
+              {
+                "index": 1,
+                "date": "2027-08-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=MIXscbaZutNNiKIW"
+              },
+              {
+                "index": 2,
+                "date": "2027-09-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=EofCg7DafTutgI42"
+              },
+              {
+                "index": 3,
+                "date": "2027-10-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=JxKio8TFBonujSKt"
+              }
+            ]
+          },
+          "ema": {
+            "active": false,
+            "startDay": "2027-06-07",
+            "startDayCalc": null,
+            "enableConfirmed": false,
+            "settingsComplete": 0,
+            "paymentEmailButton": false,
+            "paymentComplete": 0,
+            "enableSent": false,
+            "phone": "(919) 428-0818",
+            "prompts": []
+          },
           "v2": {
-            "date": null,
+            "date": "2026-08-18",
             "forms": {
               "preenrollment_survey": 0,
               "phone_screener_visit_1_scheduling": 0,
@@ -97855,11 +98005,26 @@
               "payment_confirmation_form": 0,
               "scoring": 0
             },
-            "allComplete": false
+            "allComplete": true
+          },
+          "followupSheet": {
+            "record": 48,
+            "v1Date": null,
+            "v2Date": "2026-08-18",
+            "sts1Months": [],
+            "sts2Months": [],
+            "emaDate": null,
+            "emaStatus": null,
+            "w1Comp": null,
+            "w2Comp": null,
+            "wave2StartDate": null,
+            "wave3StartDate": null,
+            "raTag": null,
+            "notes": null
           }
         }
       },
-      "activeWave": 3
+      "activeWave": null
     },
     {
       "pid": "2007",
@@ -290310,5 +290475,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-24T15:43:55.503Z"
+  "fetchedAt": "2026-08-24T16:39:50.346Z"
 }
