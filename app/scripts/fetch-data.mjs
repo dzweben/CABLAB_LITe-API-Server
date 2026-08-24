@@ -1462,8 +1462,14 @@ async function main() {
   // This makes Y1 V1 the gate-in criterion for the whole dashboard.
   let droppedNoY1V1 = 0;
   const gated = [];
+  // LIVE-DRILL EXEMPTION (2026-08-24 — REMOVE with the REDCap record after
+  // 2026-09-03): record 3999 is the coordinator's own-phone EMA test
+  // participant. It exists only in REDCap (no cohort-tab V1 date), so the
+  // Y1-V1 gate would drop it; exempting it lets it ride the full real
+  // pipeline — schedule, links, precision sends — like any cohort-3 kid.
+  const TEST_DRILL_PIDS = new Set(["3999"]);
   for (const p of participants) {
-    if (!p.waves[1]?.v1?.allComplete) { droppedNoY1V1++; continue; }
+    if (!p.waves[1]?.v1?.allComplete && !TEST_DRILL_PIDS.has(p.pid)) { droppedNoY1V1++; continue; }
     // Per-wave gate: keep the wave entry if the team is actively
     // tracking the participant for that wave OR they have any actual
     // event data for it. The only thing we drop is completely-empty
