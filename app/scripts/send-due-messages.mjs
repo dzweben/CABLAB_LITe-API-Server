@@ -399,7 +399,29 @@ async function main() {
       }
     }
 
-    const body = renderMessage(tmpl.message, p, surveyLinks, d.expireDate);
+    // Progressive enable-nudge ladder (approved 2026-08-24): the weekly
+    // roll-forward resends the enable invite up to 4 times; later
+    // attempts acknowledge the repeat instead of reading like a bot on
+    // loop. Attempt number = distinct prior real-send DATES for this
+    // pid+wave (one attempt can hit two phones — count days, not rows).
+    // Only the opening line changes; the approved body stays verbatim.
+    let msgTemplate = tmpl.message;
+    if (d.kind === "ema_enable") {
+      const priorDates = new Set(sentLog.filter(e =>
+        e.kind === "ema_enable" && e.status === "sent" && !e.dryRun &&
+        e.pid === d.pid && String(e.instrument || "").includes(`Y${d.wave}`)
+      ).map(e => String(e.timestamp).slice(0, 10)));
+      const FIRST_LINE = "Hi [preenrollment_arm_1][first_name]! This is the project LITe Team.";
+      const OPENERS = [
+        null, // attempt 1: template as written
+        "Hi [preenrollment_arm_1][first_name]! It's the project LITe Team again — just a reminder in case you missed our last text.",
+        "Hi [preenrollment_arm_1][first_name]! It's the project LITe Team — we haven't heard from you yet, so here's one more reminder.",
+        "Hi [preenrollment_arm_1][first_name]! It's the project LITe Team with one more reminder about our social check.",
+      ];
+      const opener = OPENERS[Math.min(priorDates.size, 3)];
+      if (opener && msgTemplate.startsWith(FIRST_LINE)) msgTemplate = opener + msgTemplate.slice(FIRST_LINE.length);
+    }
+    const body = renderMessage(msgTemplate, p, surveyLinks, d.expireDate);
 
     // Never send a message with an unresolved link — a participant must
     // not receive "[SURVEY LINK PENDING]". Log for coordinator follow-up.
