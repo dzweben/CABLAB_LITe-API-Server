@@ -82,10 +82,7 @@ jobs:
           REDCAP_LITE_TOKEN: ${{ secrets.REDCAP_LITE_TOKEN }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           LITE_GOOGLE_SHEET_ID: ${{ secrets.LITE_GOOGLE_SHEET_ID }}
-        run: |
-          node --max-old-space-size=6144 scripts/fetch-data.mjs
-          echo "PROBE-A post-fetch: bytes=$(wc -c < private/data/ema-prompt-schedule.json) hash=$(git hash-object private/data/ema-prompt-schedule.json | cut -c1-8) HEAD=$(git rev-parse --short HEAD)"
-          echo "PROBE-A porcelain:"; git status --porcelain | head -10
+        run: node --max-old-space-size=6144 scripts/fetch-data.mjs
 
       # Send immediately after the fetch, so every send decision runs
       # against completion data that is MINUTES old (the send-time
@@ -110,10 +107,7 @@ jobs:
           QUO_API_KEY: ${{ secrets.QUO_API_KEY }}
           QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
           DRY_RUN: ${{ vars.LITE_SEND_LIVE == 'true' && 'false' || 'true' }}
-        run: |
-          echo "PROBE-B pre-send: bytes=$(wc -c < private/data/ema-prompt-schedule.json) hash=$(git hash-object private/data/ema-prompt-schedule.json | cut -c1-8) HEAD=$(git rev-parse --short HEAD)"
-          node scripts/send-due-messages.mjs
-          echo "PROBE-C post-send: bytes=$(wc -c < private/data/ema-prompt-schedule.json) hash=$(git hash-object private/data/ema-prompt-schedule.json | cut -c1-8) HEAD=$(git rev-parse --short HEAD)"
+        run: node scripts/send-due-messages.mjs
 
       # EMA WATCHDOG: this pipeline runs every ~30 min, so it doubles as
       # the safety net for the precision prompt sender. If we are inside
@@ -189,21 +183,20 @@ jobs:
           # Ledgers are append-only: union with origin BEFORE committing so
           # the -X theirs rebase below can never erase another run's rows.
           node scripts/merge-ledgers.mjs || true
-          # Forensic probe v2 (drill debugging): full git-context dump.
-          echo "PROBE pwd=$(pwd)"
-          echo "PROBE toplevel=$(git rev-parse --show-toplevel) HEAD=$(git rev-parse --short HEAD)"
-          echo "PROBE disk bytes=$(wc -c < private/data/ema-prompt-schedule.json 2>/dev/null) disk-hash=$(git hash-object private/data/ema-prompt-schedule.json 2>/dev/null | cut -c1-8)"
-          echo "PROBE head-blob=$(git rev-parse HEAD:app/private/data/ema-prompt-schedule.json 2>/dev/null | cut -c1-8) lsfiles=$(git ls-files app/private/data/ema-prompt-schedule.json)"
-          echo "PROBE porcelain-full:"; git status --porcelain | head -15
-          echo "PROBE stash: $(git stash list | head -2)"
-          git add private/data/participants.json private/data/due-reminders.json private/data/last-fetch.json 2>/dev/null || true
-          git add private/data/sent-log.json private/data/send-state.json 2>/dev/null || true
-          git add private/data/send-candidates.json private/data/recovery-sends.json 2>/dev/null || true
-          # EMA precision-sender inputs — the schedule was regenerating every
-          # fetch but never committed (silent gap: origin + the deployed
-          # sweeper kept reading a stale schedule). Anchor overrides persist
-          # rolled start-Mondays and must survive across runs.
-          git add private/data/ema-prompt-schedule.json private/data/ema-anchor-overrides.json 2>/dev/null || true
+          # ONE FILE PER git add. `git add A B` refuses to stage ANYTHING
+          # when any single pathspec matches no file, and `2>/dev/null ||
+          # true` hides that refusal — pairing the schedule with the
+          # then-nonexistent overrides file silently unstaged the schedule
+          # on EVERY run (found via the 2026-08-24 delivery drill).
+          git add private/data/participants.json 2>/dev/null || true
+          git add private/data/due-reminders.json 2>/dev/null || true
+          git add private/data/last-fetch.json 2>/dev/null || true
+          git add private/data/sent-log.json 2>/dev/null || true
+          git add private/data/send-state.json 2>/dev/null || true
+          git add private/data/send-candidates.json 2>/dev/null || true
+          git add private/data/recovery-sends.json 2>/dev/null || true
+          git add private/data/ema-prompt-schedule.json 2>/dev/null || true
+          git add private/data/ema-anchor-overrides.json 2>/dev/null || true
           # --quiet on `diff --cached` (staged index) — covers both
           # modified-tracked and brand-new-untracked files.
           if git diff --cached --quiet; then
