@@ -82,7 +82,10 @@ jobs:
           REDCAP_LITE_TOKEN: ${{ secrets.REDCAP_LITE_TOKEN }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           LITE_GOOGLE_SHEET_ID: ${{ secrets.LITE_GOOGLE_SHEET_ID }}
-        run: node --max-old-space-size=6144 scripts/fetch-data.mjs
+        run: |
+          node --max-old-space-size=6144 scripts/fetch-data.mjs
+          echo "PROBE-A post-fetch: bytes=$(wc -c < private/data/ema-prompt-schedule.json) hash=$(git hash-object private/data/ema-prompt-schedule.json | cut -c1-8) HEAD=$(git rev-parse --short HEAD)"
+          echo "PROBE-A porcelain:"; git status --porcelain | head -10
 
       # Send immediately after the fetch, so every send decision runs
       # against completion data that is MINUTES old (the send-time
@@ -107,7 +110,10 @@ jobs:
           QUO_API_KEY: ${{ secrets.QUO_API_KEY }}
           QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
           DRY_RUN: ${{ vars.LITE_SEND_LIVE == 'true' && 'false' || 'true' }}
-        run: node scripts/send-due-messages.mjs
+        run: |
+          echo "PROBE-B pre-send: bytes=$(wc -c < private/data/ema-prompt-schedule.json) hash=$(git hash-object private/data/ema-prompt-schedule.json | cut -c1-8) HEAD=$(git rev-parse --short HEAD)"
+          node scripts/send-due-messages.mjs
+          echo "PROBE-C post-send: bytes=$(wc -c < private/data/ema-prompt-schedule.json) hash=$(git hash-object private/data/ema-prompt-schedule.json | cut -c1-8) HEAD=$(git rev-parse --short HEAD)"
 
       # EMA WATCHDOG: this pipeline runs every ~30 min, so it doubles as
       # the safety net for the precision prompt sender. If we are inside
