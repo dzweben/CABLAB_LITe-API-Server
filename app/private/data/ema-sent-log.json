@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "key": "3999|2|ema_m1_734",
+    "pid": "3999",
+    "wave": 2,
+    "promptKey": "ema_m1_734",
+    "status": "skipped_late",
+    "sendAt": "2026-08-24T11:34:00.000Z",
+    "at": "2026-08-24T22:31:21.764Z"
+  },
+  {
+    "key": "3999|2|ema_m1_517",
+    "pid": "3999",
+    "wave": 2,
+    "promptKey": "ema_m1_517",
+    "status": "skipped_late",
+    "sendAt": "2026-08-24T21:17:00.000Z",
+    "at": "2026-08-24T22:31:21.764Z"
+  }
+]
