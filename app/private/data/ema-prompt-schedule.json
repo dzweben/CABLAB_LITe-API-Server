@@ -10,5 +10,17 @@
     "sendAt": "2026-08-24T18:58:44.000Z",
     "phone": "2025907688",
     "surveyLink": "https://cablab-lite.vercel.app/t/rowa8k3x"
+  },
+  {
+    "pid": "TEST-DZ",
+    "recordId": "TEST",
+    "wave": "T",
+    "key": "test_b",
+    "reportNum": 98,
+    "dayLabel": "Test day",
+    "timeLabel": "row B (sweeper)",
+    "sendAt": "2026-08-24T19:03:15.000Z",
+    "phone": "2025907688",
+    "surveyLink": "https://cablab-lite.vercel.app/t/rowb5m2q"
   }
 ]
