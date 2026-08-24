@@ -183,11 +183,13 @@ jobs:
           # Ledgers are append-only: union with origin BEFORE committing so
           # the -X theirs rebase below can never erase another run's rows.
           node scripts/merge-ledgers.mjs || true
-          # Forensic probe (drill debugging): what does the schedule look
-          # like on disk at commit time, and is anything stuck in stash?
-          echo "PROBE schedule bytes: $(wc -c < private/data/ema-prompt-schedule.json 2>/dev/null)"
-          echo "PROBE git status:"; git status --short private/data/ | head -12
-          echo "PROBE stash: $(git stash list | head -3)"
+          # Forensic probe v2 (drill debugging): full git-context dump.
+          echo "PROBE pwd=$(pwd)"
+          echo "PROBE toplevel=$(git rev-parse --show-toplevel) HEAD=$(git rev-parse --short HEAD)"
+          echo "PROBE disk bytes=$(wc -c < private/data/ema-prompt-schedule.json 2>/dev/null) disk-hash=$(git hash-object private/data/ema-prompt-schedule.json 2>/dev/null | cut -c1-8)"
+          echo "PROBE head-blob=$(git rev-parse HEAD:app/private/data/ema-prompt-schedule.json 2>/dev/null | cut -c1-8) lsfiles=$(git ls-files app/private/data/ema-prompt-schedule.json)"
+          echo "PROBE porcelain-full:"; git status --porcelain | head -15
+          echo "PROBE stash: $(git stash list | head -2)"
           git add private/data/participants.json private/data/due-reminders.json private/data/last-fetch.json 2>/dev/null || true
           git add private/data/sent-log.json private/data/send-state.json 2>/dev/null || true
           git add private/data/send-candidates.json private/data/recovery-sends.json 2>/dev/null || true
