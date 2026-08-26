@@ -64,5 +64,17 @@
     "at": "2026-08-26T01:01:58.000Z",
     "status": "already_delivered",
     "note": "confirmed by saer-agent via carrier history"
+  },
+  {
+    "key": "3999|2|ema_w1_812",
+    "pid": "3999",
+    "wave": 2,
+    "promptKey": "ema_w1_812",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12025907688",
+    "sendAt": "2026-08-26T12:12:00.000Z",
+    "at": "2026-08-26T12:12:00.048Z",
+    "latencySec": 0
   }
 ]
