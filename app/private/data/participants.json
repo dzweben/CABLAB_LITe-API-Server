@@ -7006,7 +7006,7 @@
         "3": {
           "year": 3,
           "v1": {
-            "date": null,
+            "date": "2026-08-26",
             "forms": {
               "preenrollment_survey": 0,
               "phone_screener_visit_1_scheduling": 0,
@@ -7054,12 +7054,12 @@
               "urbanicity": 2,
               "quicc": 0,
               "quic": 2,
-              "break_3": 0,
-              "short_ant_task": 0,
-              "uberball_task": 0,
+              "break_3": 2,
+              "short_ant_task": 2,
+              "uberball_task": 2,
               "payment_info": 0,
-              "receipt": 0,
-              "travel_payment_info": 0,
+              "receipt": 2,
+              "travel_payment_info": 2,
               "travel_receipt": 0,
               "travel_links": 0,
               "chatroom_profile_creation_8c6d8d": 0,
@@ -7122,20 +7122,113 @@
               "payment_confirmation_form": 0,
               "scoring": 0
             },
-            "allComplete": false
+            "allComplete": true
           },
           "atHome": {
             "timestamp": "2026-08-26 09:46:46",
             "break1Complete": 2,
-            "athomeMeasuresComplete": 0
+            "athomeMeasuresComplete": 1,
+            "formsFromReport": {
+              "texi": 2,
+              "bar": 2,
+              "bas": 0,
+              "zuckerman": 0,
+              "shs": 0,
+              "glteq": 0,
+              "phq": 0,
+              "pubertal_development": 0
+            },
+            "sectionsComplete": 2,
+            "sectionsTotal": 8
           },
-          "sts1": null,
-          "sts2": null,
+          "sts1": {
+            "active": true,
+            "cycles": [
+              {
+                "index": 1,
+                "date": "2026-09-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=EQs4umGII8kansku"
+              },
+              {
+                "index": 2,
+                "date": "2026-10-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=c7Bbswu3YStodecd"
+              },
+              {
+                "index": 3,
+                "date": "2026-11-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=rLngCuqKTy4VJkmF"
+              },
+              {
+                "index": 4,
+                "date": "2026-12-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=tUR3oh9d8oHpE8u8"
+              },
+              {
+                "index": 5,
+                "date": "2027-01-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=EYSBdn4NCH6pavfj"
+              },
+              {
+                "index": 6,
+                "date": "2027-02-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=3v4Mf2dI4s8pd7XS"
+              }
+            ]
+          },
+          "sts2": {
+            "active": true,
+            "cycles": [
+              {
+                "index": 1,
+                "date": "2027-08-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=vP9HILfXHRRnQsfW"
+              },
+              {
+                "index": 2,
+                "date": "2027-09-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=GAMQonkU8XBPuPUu"
+              },
+              {
+                "index": 3,
+                "date": "2027-10-20 17:00:00",
+                "complete": 0,
+                "surveyLink": "https://cphapps.temple.edu/surveys/?s=2UA4CyxxdmIRvyT3"
+              }
+            ]
+          },
           "ema": null,
-          "v2": null
+          "v2": {
+            "date": "2026-08-26",
+            "forms": {},
+            "allComplete": true
+          },
+          "followupSheet": {
+            "record": 133,
+            "v1Date": "2026-08-26",
+            "v2Date": "2026-08-26",
+            "sts1Months": [],
+            "sts2Months": [],
+            "emaDate": null,
+            "emaStatus": null,
+            "w1Comp": null,
+            "w2Comp": null,
+            "wave2StartDate": null,
+            "wave3StartDate": null,
+            "raTag": null,
+            "notes": null
+          }
         }
       },
-      "activeWave": 3
+      "activeWave": null
     },
     {
       "pid": "1009",
@@ -290826,5 +290919,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-26T14:50:24.207Z"
+  "fetchedAt": "2026-08-26T16:21:50.560Z"
 }
