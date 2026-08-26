@@ -1,0 +1,64 @@
+{
+  "date": "2026-08-25",
+  "generatedAt": "2026-08-26T11:05:37.786Z",
+  "verdict": "GREEN",
+  "problems": [],
+  "warnings": [],
+  "sendMode": "LIVE",
+  "dataFreshnessMin": 408,
+  "planned": 0,
+  "counts": {
+    "sent": 0,
+    "failed": 0,
+    "skipped": 0,
+    "completedBeforeSlot": 0,
+    "postponed": 0,
+    "slotStillOpen": 0,
+    "unaccounted": 0
+  },
+  "detail": {
+    "sent": [],
+    "failed": [],
+    "skipped": [],
+    "completedBeforeSlot": [],
+    "postponed": [],
+    "slotStillOpen": [],
+    "unaccounted": []
+  },
+  "ema": {
+    "planned": 3,
+    "sent": 1,
+    "sweeperRescued": 2,
+    "skippedLate": 0,
+    "failed": 0,
+    "unaccounted": 0,
+    "unaccountedDetail": [],
+    "maxLatencySec": 0,
+    "medianLatencySec": 0
+  },
+  "workflowRuns": {
+    "Refresh LITe REDCap Data": {
+      "success": 26,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "EMA Prompt Sender": {
+      "success": 7,
+      "failure": 0,
+      "cancelled": 2,
+      "other": 0
+    },
+    "Daily Server Audit": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
+  },
+  "totals": {
+    "participants": 419,
+    "queueUpcoming": 4129,
+    "sentAllTime": 529
+  }
+}

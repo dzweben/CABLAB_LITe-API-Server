@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-08-25",
+    "verdict": "GREEN",
+    "problems": 0,
+    "warnings": 0,
+    "generatedAt": "2026-08-26T11:05:37.786Z"
+  },
+  {
     "date": "2026-08-24",
     "verdict": "YELLOW",
     "problems": 0,
