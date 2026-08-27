@@ -110,5 +110,14 @@
     "status": "failed",
     "error": "OpenPhone 402: {\"message\":\"Your subscription has expired\",\"code\":\"0201402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Subscription Expired\",\"trace\":\"3974753838955532623\"}",
     "sendAt": "2026-08-27T21:32:00.000Z"
+  },
+  {
+    "key": "3999|2|ema_th_532",
+    "pid": "3999",
+    "wave": 2,
+    "promptKey": "ema_th_532",
+    "status": "failed",
+    "error": "OpenPhone 402: {\"message\":\"Your subscription has expired\",\"code\":\"0201402\",\"status\":402,\"docs\":\"https://quo.com/docs\",\"title\":\"Subscription Expired\",\"trace\":\"3413483655437655572\"}",
+    "sendAt": "2026-08-27T21:32:00.000Z"
   }
 ]
