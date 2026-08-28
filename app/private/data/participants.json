@@ -103133,8 +103133,8 @@
               {
                 "index": 2,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=d95dv7xtaGd3g2n2"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -105114,8 +105114,8 @@
               {
                 "index": 2,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=GVEqBUIQFzFf6etz"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -135378,8 +135378,8 @@
               {
                 "index": 4,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=2GSbpwmcFTdCV6yT"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 5,
@@ -257056,8 +257056,8 @@
               {
                 "index": 3,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=f7vcanH9njaSfH6X"
+                "complete": 2,
+                "surveyLink": null
               }
             ]
           },
@@ -291033,5 +291033,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-28T00:20:20.507Z"
+  "fetchedAt": "2026-08-28T21:26:39.797Z"
 }

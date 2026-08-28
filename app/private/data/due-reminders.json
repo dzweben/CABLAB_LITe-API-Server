@@ -154,28 +154,6 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=QiM9PaSDxGaFFRtg"
   },
   {
-    "pid": "2013",
-    "recordId": "2013",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 3)",
-    "scheduledAt": "2026-08-29T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=d95dv7xtaGd3g2n2"
-  },
-  {
-    "pid": "2016",
-    "recordId": "2016",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 3)",
-    "scheduledAt": "2026-08-29T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=GVEqBUIQFzFf6etz"
-  },
-  {
     "pid": "2018",
     "recordId": "2018",
     "wave": 2,
@@ -251,17 +229,6 @@
     "scheduledAt": "2026-08-29T21:00:00.000Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=FaYvFISPUrn89fMp"
-  },
-  {
-    "pid": "2059",
-    "recordId": "2059",
-    "wave": 2,
-    "alertId": 57,
-    "kind": "sts1_followup",
-    "instrument": "Screen Time Follow Up 1.4 (day 3)",
-    "scheduledAt": "2026-08-29T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=2GSbpwmcFTdCV6yT"
   },
   {
     "pid": "2069",
@@ -493,17 +460,6 @@
     "scheduledAt": "2026-08-29T21:00:00.000Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=ReWErgEmAnDAHTXJ"
-  },
-  {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 95,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.3 (day 3)",
-    "scheduledAt": "2026-08-29T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=f7vcanH9njaSfH6X"
   },
   {
     "pid": "3113",
@@ -761,28 +717,6 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=QiM9PaSDxGaFFRtg"
   },
   {
-    "pid": "2013",
-    "recordId": "2013",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=d95dv7xtaGd3g2n2"
-  },
-  {
-    "pid": "2016",
-    "recordId": "2016",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=GVEqBUIQFzFf6etz"
-  },
-  {
     "pid": "2018",
     "recordId": "2018",
     "wave": 2,
@@ -858,17 +792,6 @@
     "scheduledAt": "2026-08-31T21:00:00.000Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=FaYvFISPUrn89fMp"
-  },
-  {
-    "pid": "2059",
-    "recordId": "2059",
-    "wave": 2,
-    "alertId": 57,
-    "kind": "sts1_followup",
-    "instrument": "Screen Time Follow Up 1.4 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=2GSbpwmcFTdCV6yT"
   },
   {
     "pid": "2069",
@@ -1208,17 +1131,6 @@
     "complete": false,
     "expireDate": "2026-12-01T21:00:00.000Z",
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=iXASHfcfYGHpUjXg"
-  },
-  {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 95,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.3 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=f7vcanH9njaSfH6X"
   },
   {
     "pid": "3109",
@@ -28927,5 +28839,161 @@
     "scheduledAt": "2027-05-23T21:00:00.000Z",
     "complete": false,
     "expireDate": "2027-07-25T21:00:00.000Z"
+  },
+  {
+    "pid": "1067",
+    "recordId": "1067",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=J7vqqSbEdvdcnG9s"
+  },
+  {
+    "pid": "1068",
+    "recordId": "1068",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=LuJcHop7PIfkUBsx"
+  },
+  {
+    "pid": "1074",
+    "recordId": "1074",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=HZUtDhQNmAJCUEuS"
+  },
+  {
+    "pid": "1082",
+    "recordId": "1082",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=mgMucLGp9QNZj8wI"
+  },
+  {
+    "pid": "1083",
+    "recordId": "1083",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Q23rtRwSCaFPbwCi"
+  },
+  {
+    "pid": "1084",
+    "recordId": "1084",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=IJyaeVJ3f489WCgw"
+  },
+  {
+    "pid": "1097",
+    "recordId": "1097",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Uony4SSqT8PikJyP"
+  },
+  {
+    "pid": "1102",
+    "recordId": "1102",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=AGtpSWborZDCRdBZ"
+  },
+  {
+    "pid": "2050",
+    "recordId": "2050",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=tnoGtbpvkGQBFVZ6"
+  },
+  {
+    "pid": "2081",
+    "recordId": "2081",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=qnNr26N8x4stX9rA"
+  },
+  {
+    "pid": "2090",
+    "recordId": "2090",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=WNAeTjGsMEnQ4GXZ"
+  },
+  {
+    "pid": "2091",
+    "recordId": "2091",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=7C2W4E98c7N8kmoi"
+  },
+  {
+    "pid": "2095",
+    "recordId": "2095",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=DUIzGpoFJDRoodIi"
   }
 ]

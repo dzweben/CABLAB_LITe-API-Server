@@ -1,333 +1,5 @@
 [
   {
-    "pid": "3027",
-    "recordId": "3027",
-    "wave": 2,
-    "alertId": 63,
-    "kind": "ema_enable",
-    "instrument": "EMA Y2 Enable",
-    "scheduledAt": "2026-08-27T20:00:00.000Z",
-    "complete": false,
-    "hypotheticalStartDay": "2026-08-31",
-    "wouldTriggerPrompts": [
-      {
-        "key": "ema_m1_734",
-        "dayLabel": "Monday 1",
-        "timeLabel": "7:34 AM",
-        "scheduledAt": "2026-08-31 07:34:00"
-      },
-      {
-        "key": "ema_m1_517",
-        "dayLabel": "Monday 1",
-        "timeLabel": "5:17 PM",
-        "scheduledAt": "2026-08-31 17:17:00"
-      },
-      {
-        "key": "ema_m1_846",
-        "dayLabel": "Monday 1",
-        "timeLabel": "8:46 PM",
-        "scheduledAt": "2026-08-31 20:46:00"
-      },
-      {
-        "key": "ema_t1_832",
-        "dayLabel": "Tuesday 1",
-        "timeLabel": "8:32 AM",
-        "scheduledAt": "2026-09-01 08:32:00"
-      },
-      {
-        "key": "ema_t1_634",
-        "dayLabel": "Tuesday 1",
-        "timeLabel": "6:34 PM",
-        "scheduledAt": "2026-09-01 18:34:00"
-      },
-      {
-        "key": "ema_t1_858",
-        "dayLabel": "Tuesday 1",
-        "timeLabel": "8:58 PM",
-        "scheduledAt": "2026-09-01 20:58:00"
-      },
-      {
-        "key": "ema_w1_812",
-        "dayLabel": "Wednesday 1",
-        "timeLabel": "8:12 AM",
-        "scheduledAt": "2026-09-02 08:12:00"
-      },
-      {
-        "key": "ema_w1_900",
-        "dayLabel": "Wednesday 1",
-        "timeLabel": "9:00 PM",
-        "scheduledAt": "2026-09-02 21:00:00"
-      },
-      {
-        "key": "ema_th_711",
-        "dayLabel": "Thursday",
-        "timeLabel": "7:11 AM",
-        "scheduledAt": "2026-09-03 07:11:00"
-      },
-      {
-        "key": "ema_th_532",
-        "dayLabel": "Thursday",
-        "timeLabel": "5:32 PM",
-        "scheduledAt": "2026-09-03 17:32:00"
-      },
-      {
-        "key": "ema_f_900",
-        "dayLabel": "Friday",
-        "timeLabel": "9:00 AM",
-        "scheduledAt": "2026-09-04 09:00:00"
-      },
-      {
-        "key": "ema_f_704",
-        "dayLabel": "Friday",
-        "timeLabel": "7:04 PM",
-        "scheduledAt": "2026-09-04 19:04:00"
-      },
-      {
-        "key": "ema_f_841",
-        "dayLabel": "Friday",
-        "timeLabel": "8:41 PM",
-        "scheduledAt": "2026-09-04 20:41:00"
-      },
-      {
-        "key": "ema_sa_856",
-        "dayLabel": "Saturday",
-        "timeLabel": "8:56 AM",
-        "scheduledAt": "2026-09-05 08:56:00"
-      },
-      {
-        "key": "ema_sa_501",
-        "dayLabel": "Saturday",
-        "timeLabel": "5:01 PM",
-        "scheduledAt": "2026-09-05 17:01:00"
-      },
-      {
-        "key": "ema_su_755",
-        "dayLabel": "Sunday",
-        "timeLabel": "7:55 AM",
-        "scheduledAt": "2026-09-06 07:55:00"
-      },
-      {
-        "key": "ema_su_601",
-        "dayLabel": "Sunday",
-        "timeLabel": "6:01 PM",
-        "scheduledAt": "2026-09-06 18:01:00"
-      },
-      {
-        "key": "ema_su_736",
-        "dayLabel": "Sunday",
-        "timeLabel": "7:36 PM",
-        "scheduledAt": "2026-09-06 19:36:00"
-      },
-      {
-        "key": "ema_m2_849",
-        "dayLabel": "Monday 2",
-        "timeLabel": "8:49 AM",
-        "scheduledAt": "2026-09-07 08:49:00"
-      },
-      {
-        "key": "ema_m2_809",
-        "dayLabel": "Monday 2",
-        "timeLabel": "8:09 PM",
-        "scheduledAt": "2026-09-07 20:09:00"
-      },
-      {
-        "key": "ema_t2_733",
-        "dayLabel": "Tuesday 2",
-        "timeLabel": "7:33 AM",
-        "scheduledAt": "2026-09-08 07:33:00"
-      },
-      {
-        "key": "ema_t2_512",
-        "dayLabel": "Tuesday 2",
-        "timeLabel": "5:12 PM",
-        "scheduledAt": "2026-09-08 17:12:00"
-      },
-      {
-        "key": "ema_w2_840",
-        "dayLabel": "Wednesday 2",
-        "timeLabel": "8:40 AM",
-        "scheduledAt": "2026-09-09 08:40:00"
-      },
-      {
-        "key": "ema_w2_601",
-        "dayLabel": "Wednesday 2",
-        "timeLabel": "6:01 PM",
-        "scheduledAt": "2026-09-09 18:01:00"
-      },
-      {
-        "key": "ema_w2_736",
-        "dayLabel": "Wednesday 2",
-        "timeLabel": "7:36 PM",
-        "scheduledAt": "2026-09-09 19:36:00"
-      }
-    ],
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=UgcXmA2RfLsjVZi2"
-  },
-  {
-    "pid": "3130",
-    "recordId": "3130",
-    "wave": 2,
-    "alertId": 63,
-    "kind": "ema_enable",
-    "instrument": "EMA Y2 Enable",
-    "scheduledAt": "2026-08-27T20:00:00.000Z",
-    "complete": false,
-    "hypotheticalStartDay": "2026-08-31",
-    "wouldTriggerPrompts": [
-      {
-        "key": "ema_m1_734",
-        "dayLabel": "Monday 1",
-        "timeLabel": "7:34 AM",
-        "scheduledAt": "2026-08-31 07:34:00"
-      },
-      {
-        "key": "ema_m1_517",
-        "dayLabel": "Monday 1",
-        "timeLabel": "5:17 PM",
-        "scheduledAt": "2026-08-31 17:17:00"
-      },
-      {
-        "key": "ema_m1_846",
-        "dayLabel": "Monday 1",
-        "timeLabel": "8:46 PM",
-        "scheduledAt": "2026-08-31 20:46:00"
-      },
-      {
-        "key": "ema_t1_832",
-        "dayLabel": "Tuesday 1",
-        "timeLabel": "8:32 AM",
-        "scheduledAt": "2026-09-01 08:32:00"
-      },
-      {
-        "key": "ema_t1_634",
-        "dayLabel": "Tuesday 1",
-        "timeLabel": "6:34 PM",
-        "scheduledAt": "2026-09-01 18:34:00"
-      },
-      {
-        "key": "ema_t1_858",
-        "dayLabel": "Tuesday 1",
-        "timeLabel": "8:58 PM",
-        "scheduledAt": "2026-09-01 20:58:00"
-      },
-      {
-        "key": "ema_w1_812",
-        "dayLabel": "Wednesday 1",
-        "timeLabel": "8:12 AM",
-        "scheduledAt": "2026-09-02 08:12:00"
-      },
-      {
-        "key": "ema_w1_900",
-        "dayLabel": "Wednesday 1",
-        "timeLabel": "9:00 PM",
-        "scheduledAt": "2026-09-02 21:00:00"
-      },
-      {
-        "key": "ema_th_711",
-        "dayLabel": "Thursday",
-        "timeLabel": "7:11 AM",
-        "scheduledAt": "2026-09-03 07:11:00"
-      },
-      {
-        "key": "ema_th_532",
-        "dayLabel": "Thursday",
-        "timeLabel": "5:32 PM",
-        "scheduledAt": "2026-09-03 17:32:00"
-      },
-      {
-        "key": "ema_f_900",
-        "dayLabel": "Friday",
-        "timeLabel": "9:00 AM",
-        "scheduledAt": "2026-09-04 09:00:00"
-      },
-      {
-        "key": "ema_f_704",
-        "dayLabel": "Friday",
-        "timeLabel": "7:04 PM",
-        "scheduledAt": "2026-09-04 19:04:00"
-      },
-      {
-        "key": "ema_f_841",
-        "dayLabel": "Friday",
-        "timeLabel": "8:41 PM",
-        "scheduledAt": "2026-09-04 20:41:00"
-      },
-      {
-        "key": "ema_sa_856",
-        "dayLabel": "Saturday",
-        "timeLabel": "8:56 AM",
-        "scheduledAt": "2026-09-05 08:56:00"
-      },
-      {
-        "key": "ema_sa_501",
-        "dayLabel": "Saturday",
-        "timeLabel": "5:01 PM",
-        "scheduledAt": "2026-09-05 17:01:00"
-      },
-      {
-        "key": "ema_su_755",
-        "dayLabel": "Sunday",
-        "timeLabel": "7:55 AM",
-        "scheduledAt": "2026-09-06 07:55:00"
-      },
-      {
-        "key": "ema_su_601",
-        "dayLabel": "Sunday",
-        "timeLabel": "6:01 PM",
-        "scheduledAt": "2026-09-06 18:01:00"
-      },
-      {
-        "key": "ema_su_736",
-        "dayLabel": "Sunday",
-        "timeLabel": "7:36 PM",
-        "scheduledAt": "2026-09-06 19:36:00"
-      },
-      {
-        "key": "ema_m2_849",
-        "dayLabel": "Monday 2",
-        "timeLabel": "8:49 AM",
-        "scheduledAt": "2026-09-07 08:49:00"
-      },
-      {
-        "key": "ema_m2_809",
-        "dayLabel": "Monday 2",
-        "timeLabel": "8:09 PM",
-        "scheduledAt": "2026-09-07 20:09:00"
-      },
-      {
-        "key": "ema_t2_733",
-        "dayLabel": "Tuesday 2",
-        "timeLabel": "7:33 AM",
-        "scheduledAt": "2026-09-08 07:33:00"
-      },
-      {
-        "key": "ema_t2_512",
-        "dayLabel": "Tuesday 2",
-        "timeLabel": "5:12 PM",
-        "scheduledAt": "2026-09-08 17:12:00"
-      },
-      {
-        "key": "ema_w2_840",
-        "dayLabel": "Wednesday 2",
-        "timeLabel": "8:40 AM",
-        "scheduledAt": "2026-09-09 08:40:00"
-      },
-      {
-        "key": "ema_w2_601",
-        "dayLabel": "Wednesday 2",
-        "timeLabel": "6:01 PM",
-        "scheduledAt": "2026-09-09 18:01:00"
-      },
-      {
-        "key": "ema_w2_736",
-        "dayLabel": "Wednesday 2",
-        "timeLabel": "7:36 PM",
-        "scheduledAt": "2026-09-09 19:36:00"
-      }
-    ],
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=YK6Y2QHAbWpJBu74"
-  },
-  {
     "pid": "1006",
     "recordId": "1006",
     "wave": 2,
@@ -482,28 +154,6 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=QiM9PaSDxGaFFRtg"
   },
   {
-    "pid": "2013",
-    "recordId": "2013",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 3)",
-    "scheduledAt": "2026-08-29T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=d95dv7xtaGd3g2n2"
-  },
-  {
-    "pid": "2016",
-    "recordId": "2016",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 3)",
-    "scheduledAt": "2026-08-29T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=GVEqBUIQFzFf6etz"
-  },
-  {
     "pid": "2018",
     "recordId": "2018",
     "wave": 2,
@@ -579,17 +229,6 @@
     "scheduledAt": "2026-08-29T21:00:00.000Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=FaYvFISPUrn89fMp"
-  },
-  {
-    "pid": "2059",
-    "recordId": "2059",
-    "wave": 2,
-    "alertId": 57,
-    "kind": "sts1_followup",
-    "instrument": "Screen Time Follow Up 1.4 (day 3)",
-    "scheduledAt": "2026-08-29T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=2GSbpwmcFTdCV6yT"
   },
   {
     "pid": "2069",
@@ -821,17 +460,6 @@
     "scheduledAt": "2026-08-29T21:00:00.000Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=ReWErgEmAnDAHTXJ"
-  },
-  {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 95,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.3 (day 3)",
-    "scheduledAt": "2026-08-29T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=f7vcanH9njaSfH6X"
   },
   {
     "pid": "3113",
@@ -1089,28 +717,6 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=QiM9PaSDxGaFFRtg"
   },
   {
-    "pid": "2013",
-    "recordId": "2013",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=d95dv7xtaGd3g2n2"
-  },
-  {
-    "pid": "2016",
-    "recordId": "2016",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=GVEqBUIQFzFf6etz"
-  },
-  {
     "pid": "2018",
     "recordId": "2018",
     "wave": 2,
@@ -1186,17 +792,6 @@
     "scheduledAt": "2026-08-31T21:00:00.000Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=FaYvFISPUrn89fMp"
-  },
-  {
-    "pid": "2059",
-    "recordId": "2059",
-    "wave": 2,
-    "alertId": 57,
-    "kind": "sts1_followup",
-    "instrument": "Screen Time Follow Up 1.4 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=2GSbpwmcFTdCV6yT"
   },
   {
     "pid": "2069",
@@ -1536,17 +1131,6 @@
     "complete": false,
     "expireDate": "2026-12-01T21:00:00.000Z",
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=iXASHfcfYGHpUjXg"
-  },
-  {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 95,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.3 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=f7vcanH9njaSfH6X"
   },
   {
     "pid": "3109",
@@ -29255,5 +28839,161 @@
     "scheduledAt": "2027-05-23T21:00:00.000Z",
     "complete": false,
     "expireDate": "2027-07-25T21:00:00.000Z"
+  },
+  {
+    "pid": "1067",
+    "recordId": "1067",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=J7vqqSbEdvdcnG9s"
+  },
+  {
+    "pid": "1068",
+    "recordId": "1068",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=LuJcHop7PIfkUBsx"
+  },
+  {
+    "pid": "1074",
+    "recordId": "1074",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=HZUtDhQNmAJCUEuS"
+  },
+  {
+    "pid": "1082",
+    "recordId": "1082",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=mgMucLGp9QNZj8wI"
+  },
+  {
+    "pid": "1083",
+    "recordId": "1083",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Q23rtRwSCaFPbwCi"
+  },
+  {
+    "pid": "1084",
+    "recordId": "1084",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=IJyaeVJ3f489WCgw"
+  },
+  {
+    "pid": "1097",
+    "recordId": "1097",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Uony4SSqT8PikJyP"
+  },
+  {
+    "pid": "1102",
+    "recordId": "1102",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=AGtpSWborZDCRdBZ"
+  },
+  {
+    "pid": "2050",
+    "recordId": "2050",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=tnoGtbpvkGQBFVZ6"
+  },
+  {
+    "pid": "2081",
+    "recordId": "2081",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=qnNr26N8x4stX9rA"
+  },
+  {
+    "pid": "2090",
+    "recordId": "2090",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=WNAeTjGsMEnQ4GXZ"
+  },
+  {
+    "pid": "2091",
+    "recordId": "2091",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=7C2W4E98c7N8kmoi"
+  },
+  {
+    "pid": "2095",
+    "recordId": "2095",
+    "wave": 2,
+    "alertId": 287,
+    "kind": "payment_email",
+    "instrument": "W2 STS-EMA Payment email",
+    "scheduledAt": "2027-05-25T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z",
+    "surveyLink": "https://cphapps.temple.edu/surveys/?s=DUIzGpoFJDRoodIi"
   }
 ]
