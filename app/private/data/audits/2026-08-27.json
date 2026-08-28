@@ -1,0 +1,92 @@
+{
+  "date": "2026-08-27",
+  "generatedAt": "2026-08-28T21:15:00.515Z",
+  "verdict": "RED",
+  "problems": [
+    "2 send failure(s)",
+    "27 EMA prompt failure(s)"
+  ],
+  "warnings": [
+    "1 EMA prompt(s) protocol-skipped (late)",
+    "data 1255 min stale",
+    "Refresh LITe REDCap Data: 2 failed run(s)"
+  ],
+  "sendMode": "LIVE",
+  "dataFreshnessMin": 1255,
+  "planned": 2,
+  "counts": {
+    "sent": 0,
+    "failed": 2,
+    "skipped": 0,
+    "completedBeforeSlot": 0,
+    "postponed": 0,
+    "slotStillOpen": 0,
+    "unaccounted": 0
+  },
+  "detail": {
+    "sent": [],
+    "failed": [
+      {
+        "pid": "3027",
+        "wave": 2,
+        "kind": "ema_enable",
+        "instrument": "EMA Y2 Enable",
+        "scheduledAt": "2026-08-27T20:00:00.000Z",
+        "channels": [
+          "sms:failed"
+        ]
+      },
+      {
+        "pid": "3130",
+        "wave": 2,
+        "kind": "ema_enable",
+        "instrument": "EMA Y2 Enable",
+        "scheduledAt": "2026-08-27T20:00:00.000Z",
+        "channels": [
+          "sms:failed"
+        ]
+      }
+    ],
+    "skipped": [],
+    "completedBeforeSlot": [],
+    "postponed": [],
+    "slotStillOpen": [],
+    "unaccounted": []
+  },
+  "ema": {
+    "planned": 2,
+    "sent": 1,
+    "sweeperRescued": 0,
+    "skippedLate": 1,
+    "failed": 27,
+    "unaccounted": 0,
+    "unaccountedDetail": [],
+    "maxLatencySec": 194,
+    "medianLatencySec": 194
+  },
+  "workflowRuns": {
+    "EMA Prompt Sender": {
+      "success": 5,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Refresh LITe REDCap Data": {
+      "success": 1,
+      "failure": 2,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Daily Server Audit": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
+  },
+  "totals": {
+    "participants": 419,
+    "queueUpcoming": 2119,
+    "sentAllTime": 821
+  }
+}
