@@ -374,5 +374,17 @@
     "status": "skipped_late",
     "sendAt": "2026-08-28T13:00:00.000Z",
     "at": "2026-08-28T21:27:14.611Z"
+  },
+  {
+    "key": "3999|2|ema_f_704",
+    "pid": "3999",
+    "wave": 2,
+    "promptKey": "ema_f_704",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12025907688",
+    "sendAt": "2026-08-28T23:04:00.000Z",
+    "at": "2026-08-28T23:04:00.037Z",
+    "latencySec": 0
   }
 ]
