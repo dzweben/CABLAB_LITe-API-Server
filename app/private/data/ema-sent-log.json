@@ -365,5 +365,14 @@
     "at": "2026-08-28T13:03:29.000Z",
     "status": "failed",
     "note": "saer-agent OpenPhone 402"
+  },
+  {
+    "key": "3999|2|ema_f_900",
+    "pid": "3999",
+    "wave": 2,
+    "promptKey": "ema_f_900",
+    "status": "skipped_late",
+    "sendAt": "2026-08-28T13:00:00.000Z",
+    "at": "2026-08-28T21:27:14.611Z"
   }
 ]
