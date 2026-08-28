@@ -108444,8 +108444,8 @@
               {
                 "index": 2,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=bbSx4Skuz5DpCRKT"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -164308,8 +164308,8 @@
               {
                 "index": 2,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=DQ5gF26sygQUyGQU"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -291033,5 +291033,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-27T21:02:38.275Z"
+  "fetchedAt": "2026-08-28T00:20:20.507Z"
 }
