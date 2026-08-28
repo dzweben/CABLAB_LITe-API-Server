@@ -676,10 +676,16 @@ function computeDueReminders(participants) {
               scheduledAt: iso, complete: false,
             });
           }
-          // Follow-up days 1–6 are scheduled per-day. An invite that fired
-          // last week can still have day-5 / day-6 follow-ups queued for the
-          // future, as long as the survey is still incomplete.
-          for (let d = 1; d <= 6; d++) {
+          // Follow-up cadence (user directive 2026-08-27): THREE touches
+          // per cycle TOTAL — the invite, +3 days, +6 days. Replaces the
+          // old daily day-1..6 barrage. One-time transition: the Aug 2026
+          // cycle (invited the 26th per STS_DAY_OVERRIDES) sends its two
+          // follow-ups on the 29th and 31st (+3d, +5d) per explicit user
+          // order, keeping the whole cycle inside August. A follow-up
+          // only queues while the survey is still incomplete, as before.
+          const cycleMonth = String(c.date).slice(0, 7);
+          const followupOffsets = cycleMonth === "2026-08" ? [3, 5] : [3, 6];
+          for (const d of followupOffsets) {
             const t = baseT + d * 24 * 3600 * 1000;
             if (t < sendFloor || t > horizon) continue;
             const isoFu = safeIso(t); if (!isoFu) continue;
