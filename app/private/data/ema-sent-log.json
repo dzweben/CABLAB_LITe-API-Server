@@ -398,5 +398,17 @@
     "sendAt": "2026-08-29T00:41:00.000Z",
     "at": "2026-08-29T00:41:00.039Z",
     "latencySec": 0
+  },
+  {
+    "key": "3999|2|ema_sa_856",
+    "pid": "3999",
+    "wave": 2,
+    "promptKey": "ema_sa_856",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12025907688",
+    "sendAt": "2026-08-29T12:56:00.000Z",
+    "at": "2026-08-29T12:56:00.023Z",
+    "latencySec": 0
   }
 ]
