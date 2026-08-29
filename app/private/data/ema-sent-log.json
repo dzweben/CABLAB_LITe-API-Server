@@ -410,5 +410,18 @@
     "sendAt": "2026-08-29T12:56:00.000Z",
     "at": "2026-08-29T12:56:00.023Z",
     "latencySec": 0
+  },
+  {
+    "key": "3999|2|ema_sa_501",
+    "pid": "3999",
+    "wave": 2,
+    "promptKey": "ema_sa_501",
+    "channel": "sms",
+    "recipient": "+12025907688",
+    "sendAt": "2026-08-29T21:01:00.000Z",
+    "at": "2026-08-29T21:04:51.000Z",
+    "status": "sent",
+    "latencySec": 233,
+    "note": "saer-agent leg (GitHub legs missed the slot)"
   }
 ]
