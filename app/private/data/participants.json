@@ -87026,8 +87026,8 @@
               {
                 "index": 4,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=o2WD7ohFRqFnowe4"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 5,
@@ -291033,5 +291033,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-30T02:19:50.766Z"
+  "fetchedAt": "2026-08-30T15:17:56.388Z"
 }
