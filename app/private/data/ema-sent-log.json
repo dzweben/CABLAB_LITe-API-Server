@@ -423,5 +423,18 @@
     "status": "sent",
     "latencySec": 233,
     "note": "saer-agent leg (GitHub legs missed the slot)"
+  },
+  {
+    "key": "3999|2|ema_su_755",
+    "pid": "3999",
+    "wave": 2,
+    "promptKey": "ema_su_755",
+    "channel": "sms",
+    "recipient": "+12025907688",
+    "sendAt": "2026-08-30T11:55:00.000Z",
+    "at": "2026-08-30T11:58:58.000Z",
+    "status": "sent",
+    "latencySec": 239,
+    "note": "saer-agent leg (GitHub legs missed the slot)"
   }
 ]
