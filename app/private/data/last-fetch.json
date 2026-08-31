@@ -1,5 +1,5 @@
 {
   "ok": false,
-  "timestamp": "2026-08-30T21:55:46.644Z",
-  "error": "REDCap row count collapsed: 0 vs baseline 6594 (floor 60%). Likely a partial fetch — aborting before deploy."
+  "timestamp": "2026-08-31T00:17:05.829Z",
+  "error": "Completion report 10821 (ema y1) failed after retries: REDCap error 503: <!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>503 Service Unavailable</title>\n</head><body>\n<h1>Service Unavailable</h1>\n<p>The server is temporarily unable to service your\nrequest due to maintenance downtime or capacity\nproblems. Please try again later.</p>\n</body></html>\n. Aborting to avoid deploying wiped completion status."
 }
