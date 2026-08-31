@@ -101,28 +101,6 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=6RVMGnhefhMYo4mf"
   },
   {
-    "pid": "1096",
-    "recordId": "1096",
-    "wave": 2,
-    "alertId": 57,
-    "kind": "sts1_followup",
-    "instrument": "Screen Time Follow Up 1.4 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=mYSqhFPWDBBDSMJv"
-  },
-  {
-    "pid": "1103",
-    "recordId": "1103",
-    "wave": 2,
-    "alertId": 55,
-    "kind": "sts1_followup",
-    "instrument": "Screen Time Follow Up 1.2 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=fNJdHRY97YjZqA9L"
-  },
-  {
     "pid": "1124",
     "recordId": "1124",
     "wave": 2,
@@ -367,17 +345,6 @@
     "complete": false,
     "expireDate": "2026-12-01T21:00:00.000Z",
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=bpDmD5763gr4Z4qB"
-  },
-  {
-    "pid": "3077",
-    "recordId": "3077",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=D6gAp3SwkIarAhXC"
   },
   {
     "pid": "3086",
