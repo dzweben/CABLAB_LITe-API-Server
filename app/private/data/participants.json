@@ -270226,7 +270226,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(908) 644-5801",
@@ -291033,5 +291033,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-01T15:30:03.419Z"
+  "fetchedAt": "2026-09-01T18:51:34.587Z"
 }
