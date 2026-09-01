@@ -1,0 +1,627 @@
+{
+  "date": "2026-08-31",
+  "generatedAt": "2026-09-01T15:11:11.172Z",
+  "verdict": "YELLOW",
+  "problems": [],
+  "warnings": [
+    "data 757 min stale",
+    "Refresh LITe REDCap Data: 1 failed run(s)"
+  ],
+  "sendMode": "LIVE",
+  "dataFreshnessMin": 757,
+  "planned": 51,
+  "counts": {
+    "sent": 51,
+    "failed": 0,
+    "skipped": 0,
+    "completedBeforeSlot": 0,
+    "postponed": 0,
+    "slotStillOpen": 0,
+    "unaccounted": 0
+  },
+  "detail": {
+    "sent": [
+      {
+        "pid": "1006",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.3 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "1006",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "1015",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "1032",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.2 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "1038",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.1 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "1067",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.5 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "1082",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.5 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "1124",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.2 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "1128",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.2 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2018",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.1 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2019",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.4 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2028",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.1 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2029",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.1 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2050",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.5 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2055",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.2 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2075",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.6 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2077",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.2 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2084",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.4 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2085",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.3 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2091",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.5 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2098",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.2 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2105",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.3 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2116",
+        "wave": 2,
+        "kind": "sts1_followup",
+        "instrument": "Screen Time Follow Up 1.3 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2118",
+        "wave": 1,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.3 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2118",
+        "wave": 1,
+        "kind": "payment_email",
+        "instrument": "W1 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "2123",
+        "wave": 1,
+        "kind": "payment_email",
+        "instrument": "W1 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3073",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.3 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3073",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3086",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.3 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3086",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3088",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.1 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3091",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.2 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3093",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.1 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3094",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.3 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3094",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3095",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3098",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3107",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.2 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3108",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3109",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3110",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3113",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.2 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3116",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.2 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3118",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3120",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.3 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3120",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3121",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.3 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "3121",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3126",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3128",
+        "wave": 2,
+        "kind": "payment_email",
+        "instrument": "W2 STS-EMA Payment email",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3137",
+        "wave": 2,
+        "kind": "sts2_followup",
+        "instrument": "Screen Time Follow Up 2.1 (day 5)",
+        "scheduledAt": "2026-08-31T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "email:sent"
+        ]
+      }
+    ],
+    "failed": [],
+    "skipped": [],
+    "completedBeforeSlot": [],
+    "postponed": [],
+    "slotStillOpen": [],
+    "unaccounted": []
+  },
+  "ema": {
+    "planned": 2,
+    "sent": 2,
+    "sweeperRescued": 0,
+    "skippedLate": 0,
+    "failed": 0,
+    "unaccounted": 0,
+    "unaccountedDetail": [],
+    "maxLatencySec": 214,
+    "medianLatencySec": 214
+  },
+  "workflowRuns": {
+    "EMA Prompt Sender": {
+      "success": 7,
+      "failure": 0,
+      "cancelled": 1,
+      "other": 0
+    },
+    "Refresh LITe REDCap Data": {
+      "success": 4,
+      "failure": 1,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Daily Server Audit": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
+  },
+  "totals": {
+    "participants": 419,
+    "queueUpcoming": 2017,
+    "sentAllTime": 1040
+  }
+}
