@@ -12503,7 +12503,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(215) 429-5541",
@@ -13442,8 +13442,8 @@
               {
                 "index": 2,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=WvIsrGhevTYsxuNN"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -57496,8 +57496,8 @@
               {
                 "index": 5,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=nDE6YDxfAJoEqqSP"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 6,
@@ -174788,7 +174788,7 @@
             "enableConfirmed": false,
             "settingsComplete": 2,
             "paymentEmailButton": true,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 353-7829",
@@ -213126,8 +213126,8 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
-            "paymentRedeemed": false,
+            "paymentComplete": 2,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(267) 454-8584",
             "prompts": [
@@ -247494,7 +247494,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(206) 747-1567",
@@ -256217,7 +256217,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 288-7803",
@@ -261426,8 +261426,8 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
-            "paymentRedeemed": false,
+            "paymentComplete": 2,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(325) 386-7762",
             "prompts": [
@@ -264093,7 +264093,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(610) 427-3226",
@@ -266230,7 +266230,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 975-7291",
@@ -268952,7 +268952,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(847) 987-8535",
@@ -272465,8 +272465,8 @@
               {
                 "index": 3,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=iztRkY5FgcKtGGmI"
+                "complete": 2,
+                "surveyLink": null
               }
             ]
           },
@@ -272477,8 +272477,8 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
-            "paymentRedeemed": false,
+            "paymentComplete": 2,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(832) 239-2837",
             "prompts": [
@@ -291033,5 +291033,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-08-31T22:31:47.328Z"
+  "fetchedAt": "2026-09-01T01:29:30.538Z"
 }
