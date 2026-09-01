@@ -3,17 +3,6 @@
     "pid": "1006",
     "recordId": "1006",
     "wave": 2,
-    "alertId": 95,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.3 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=iPtHuI5e6kbJEHxt"
-  },
-  {
-    "pid": "1006",
-    "recordId": "1006",
-    "wave": 2,
     "alertId": 287,
     "kind": "payment_email",
     "instrument": "W2 STS-EMA Payment email",
@@ -33,17 +22,6 @@
     "complete": false,
     "expireDate": "2026-12-01T21:00:00.000Z",
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=ehZhIwBjri8fDMgr"
-  },
-  {
-    "pid": "1032",
-    "recordId": "1032",
-    "wave": 2,
-    "alertId": 94,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.2 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=NCKISH9DAgJ9PgNg"
   },
   {
     "pid": "1038",
@@ -88,17 +66,6 @@
     "scheduledAt": "2026-08-31T21:00:00.000Z",
     "complete": false,
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=VgYtCJaUsMryN52U"
-  },
-  {
-    "pid": "1128",
-    "recordId": "1128",
-    "wave": 2,
-    "alertId": 55,
-    "kind": "sts1_followup",
-    "instrument": "Screen Time Follow Up 1.2 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=QiM9PaSDxGaFFRtg"
   },
   {
     "pid": "2018",
@@ -372,17 +339,6 @@
     "pid": "3094",
     "recordId": "3094",
     "wave": 2,
-    "alertId": 95,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.3 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=63cvyn8NIrYsR29i"
-  },
-  {
-    "pid": "3094",
-    "recordId": "3094",
-    "wave": 2,
     "alertId": 287,
     "kind": "payment_email",
     "instrument": "W2 STS-EMA Payment email",
@@ -437,18 +393,6 @@
     "complete": false,
     "expireDate": "2026-12-01T21:00:00.000Z",
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=iXASHfcfYGHpUjXg"
-  },
-  {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 287,
-    "kind": "payment_email",
-    "instrument": "W2 STS-EMA Payment email",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=PWCvRcKof9JU3yTU"
   },
   {
     "pid": "3110",
@@ -543,18 +487,6 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=H5TrgsSDabVRfqjT"
   },
   {
-    "pid": "3126",
-    "recordId": "3126",
-    "wave": 2,
-    "alertId": 287,
-    "kind": "payment_email",
-    "instrument": "W2 STS-EMA Payment email",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=jnBLoUfujurW3W85"
-  },
-  {
     "pid": "3128",
     "recordId": "3128",
     "wave": 2,
@@ -565,17 +497,6 @@
     "complete": false,
     "expireDate": "2026-12-01T21:00:00.000Z",
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=2G86p7Y8DCBiK2bw"
-  },
-  {
-    "pid": "3137",
-    "recordId": "3137",
-    "wave": 2,
-    "alertId": 93,
-    "kind": "sts2_followup",
-    "instrument": "Screen Time Follow Up 2.1 (day 5)",
-    "scheduledAt": "2026-08-31T21:00:00.000Z",
-    "complete": false,
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=zC26vcusUcToT2Va"
   },
   {
     "pid": "2040",
@@ -1530,17 +1451,6 @@
     "expireDate": "2026-12-01T21:00:00.000Z"
   },
   {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 1",
-    "scheduledAt": "2026-09-14T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
     "pid": "3110",
     "recordId": "3110",
     "wave": 2,
@@ -1576,17 +1486,6 @@
   {
     "pid": "3121",
     "recordId": "3121",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 1",
-    "scheduledAt": "2026-09-14T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
-    "pid": "3126",
-    "recordId": "3126",
     "wave": 2,
     "alertId": 289,
     "kind": "payment_followup",
@@ -5018,17 +4917,6 @@
     "expireDate": "2026-12-01T21:00:00.000Z"
   },
   {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 2",
-    "scheduledAt": "2026-09-28T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
     "pid": "3110",
     "recordId": "3110",
     "wave": 2,
@@ -5064,17 +4952,6 @@
   {
     "pid": "3121",
     "recordId": "3121",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 2",
-    "scheduledAt": "2026-09-28T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
-    "pid": "3126",
-    "recordId": "3126",
     "wave": 2,
     "alertId": 289,
     "kind": "payment_followup",
@@ -6136,17 +6013,6 @@
     "expireDate": "2026-12-01T21:00:00.000Z"
   },
   {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 3",
-    "scheduledAt": "2026-10-12T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
     "pid": "3110",
     "recordId": "3110",
     "wave": 2,
@@ -6182,17 +6048,6 @@
   {
     "pid": "3121",
     "recordId": "3121",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 3",
-    "scheduledAt": "2026-10-12T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
-    "pid": "3126",
-    "recordId": "3126",
     "wave": 2,
     "alertId": 289,
     "kind": "payment_followup",
@@ -8905,17 +8760,6 @@
     "expireDate": "2026-12-01T21:00:00.000Z"
   },
   {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 4",
-    "scheduledAt": "2026-10-26T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
     "pid": "3110",
     "recordId": "3110",
     "wave": 2,
@@ -8951,17 +8795,6 @@
   {
     "pid": "3121",
     "recordId": "3121",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 4",
-    "scheduledAt": "2026-10-26T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
-    "pid": "3126",
-    "recordId": "3126",
     "wave": 2,
     "alertId": 289,
     "kind": "payment_followup",
@@ -10593,17 +10426,6 @@
     "expireDate": "2026-12-01T21:00:00.000Z"
   },
   {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 5",
-    "scheduledAt": "2026-11-09T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
     "pid": "3110",
     "recordId": "3110",
     "wave": 2,
@@ -10639,17 +10461,6 @@
   {
     "pid": "3121",
     "recordId": "3121",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 5",
-    "scheduledAt": "2026-11-09T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
-    "pid": "3126",
-    "recordId": "3126",
     "wave": 2,
     "alertId": 289,
     "kind": "payment_followup",
@@ -11836,17 +11647,6 @@
     "expireDate": "2026-12-01T21:00:00.000Z"
   },
   {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 6",
-    "scheduledAt": "2026-11-23T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
     "pid": "3110",
     "recordId": "3110",
     "wave": 2,
@@ -11882,17 +11682,6 @@
   {
     "pid": "3121",
     "recordId": "3121",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 6",
-    "scheduledAt": "2026-11-23T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
-    "pid": "3126",
-    "recordId": "3126",
     "wave": 2,
     "alertId": 289,
     "kind": "payment_followup",
@@ -13319,17 +13108,6 @@
     "expireDate": "2026-12-01T21:00:00.000Z"
   },
   {
-    "pid": "3109",
-    "recordId": "3109",
-    "wave": 2,
-    "alertId": 290,
-    "kind": "payment_expire",
-    "instrument": "W2 STS-EMA Payment Expired",
-    "scheduledAt": "2026-12-01T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
     "pid": "3110",
     "recordId": "3110",
     "wave": 2,
@@ -13365,17 +13143,6 @@
   {
     "pid": "3121",
     "recordId": "3121",
-    "wave": 2,
-    "alertId": 290,
-    "kind": "payment_expire",
-    "instrument": "W2 STS-EMA Payment Expired",
-    "scheduledAt": "2026-12-01T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-12-01T21:00:00.000Z"
-  },
-  {
-    "pid": "3126",
-    "recordId": "3126",
     "wave": 2,
     "alertId": 290,
     "kind": "payment_expire",

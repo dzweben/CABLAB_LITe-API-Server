@@ -4712,8 +4712,8 @@
               {
                 "index": 3,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=iPtHuI5e6kbJEHxt"
+                "complete": 2,
+                "surveyLink": null
               }
             ]
           },
@@ -4724,7 +4724,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(845) 754-1695",
@@ -27217,8 +27217,8 @@
               {
                 "index": 2,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=NCKISH9DAgJ9PgNg"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -91075,8 +91075,8 @@
               {
                 "index": 2,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=QiM9PaSDxGaFFRtg"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 3,
@@ -246517,8 +246517,8 @@
               {
                 "index": 3,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=63cvyn8NIrYsR29i"
+                "complete": 2,
+                "surveyLink": null
               }
             ]
           },
@@ -257068,8 +257068,8 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
-            "paymentRedeemed": false,
+            "paymentComplete": 2,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(717) 609-6355",
             "prompts": [
@@ -258033,7 +258033,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 226-8016",
@@ -268953,7 +268953,7 @@
             "settingsComplete": 0,
             "paymentEmailButton": false,
             "paymentComplete": 2,
-            "paymentRedeemed": false,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(847) 987-8535",
             "prompts": [
@@ -276816,8 +276816,8 @@
               {
                 "index": 1,
                 "date": "2026-08-26 17:00:00",
-                "complete": 0,
-                "surveyLink": "https://cphapps.temple.edu/surveys/?s=zC26vcusUcToT2Va"
+                "complete": 2,
+                "surveyLink": null
               },
               {
                 "index": 2,
@@ -291033,5 +291033,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-01T02:34:25.770Z"
+  "fetchedAt": "2026-09-01T15:30:03.419Z"
 }
