@@ -3,18 +3,6 @@
     "pid": "3999",
     "recordId": "3999",
     "wave": 2,
-    "key": "ema_t2_512",
-    "reportNum": 22,
-    "dayLabel": "Tuesday 2",
-    "timeLabel": "5:12 PM",
-    "sendAt": "2026-09-01T21:12:00.000Z",
-    "phone": "(202) 590-7688",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=8tiGNzt9NjF7PAFs"
-  },
-  {
-    "pid": "3999",
-    "recordId": "3999",
-    "wave": 2,
     "key": "ema_w2_840",
     "reportNum": 23,
     "dayLabel": "Wednesday 2",
