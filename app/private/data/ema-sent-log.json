@@ -536,5 +536,17 @@
     "sendAt": "2026-09-02T22:01:00.000Z",
     "at": "2026-09-02T22:01:00.004Z",
     "latencySec": 0
+  },
+  {
+    "key": "3999|2|ema_w2_736",
+    "pid": "3999",
+    "wave": 2,
+    "promptKey": "ema_w2_736",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12025907688",
+    "sendAt": "2026-09-02T23:36:00.000Z",
+    "at": "2026-09-02T23:36:00.036Z",
+    "latencySec": 0
   }
 ]
