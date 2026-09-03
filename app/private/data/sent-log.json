@@ -21173,5 +21173,113 @@
     "channel": "email",
     "recipient": "covingtonerica42@gmail.com",
     "status": "sent"
+  },
+  {
+    "id": "2040|63|2026-09-03T20:00:00.000Z",
+    "sendKey": "2040|63|2026-09-03T20:00:00.000Z|sms|(610) 781-1828",
+    "timestamp": "2026-09-03T21:19:24.979Z",
+    "pid": "2040",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(610) 781-1828",
+    "status": "sent"
+  },
+  {
+    "id": "2040|63|2026-09-03T20:00:00.000Z",
+    "sendKey": "2040|63|2026-09-03T20:00:00.000Z|sms|(610) 621-9974",
+    "timestamp": "2026-09-03T21:19:26.106Z",
+    "pid": "2040",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(610) 621-9974",
+    "status": "sent"
+  },
+  {
+    "id": "2048|63|2026-09-03T20:00:00.000Z",
+    "sendKey": "2048|63|2026-09-03T20:00:00.000Z|sms|(917) 734-2568",
+    "timestamp": "2026-09-03T21:19:27.270Z",
+    "pid": "2048",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(917) 734-2568",
+    "status": "sent"
+  },
+  {
+    "id": "2048|63|2026-09-03T20:00:00.000Z",
+    "sendKey": "2048|63|2026-09-03T20:00:00.000Z|sms|(215) 254-8653",
+    "timestamp": "2026-09-03T21:19:28.462Z",
+    "pid": "2048",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(215) 254-8653",
+    "status": "sent"
+  },
+  {
+    "id": "2049|63|2026-09-03T20:00:00.000Z",
+    "sendKey": "2049|63|2026-09-03T20:00:00.000Z|sms|(267) 303-7437",
+    "timestamp": "2026-09-03T21:19:29.526Z",
+    "pid": "2049",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(267) 303-7437",
+    "status": "sent"
+  },
+  {
+    "id": "2049|63|2026-09-03T20:00:00.000Z",
+    "sendKey": "2049|63|2026-09-03T20:00:00.000Z|sms|(267) 546-8234",
+    "timestamp": "2026-09-03T21:19:30.567Z",
+    "pid": "2049",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(267) 546-8234",
+    "status": "sent"
+  },
+  {
+    "id": "2052|63|2026-09-03T20:00:00.000Z",
+    "sendKey": "2052|63|2026-09-03T20:00:00.000Z|sms|(267) 240-9964",
+    "timestamp": "2026-09-03T21:19:31.794Z",
+    "pid": "2052",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(267) 240-9964",
+    "status": "sent"
+  },
+  {
+    "id": "2052|63|2026-09-03T20:00:00.000Z",
+    "sendKey": "2052|63|2026-09-03T20:00:00.000Z|sms|(267) 615-5394",
+    "timestamp": "2026-09-03T21:19:32.940Z",
+    "pid": "2052",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(267) 615-5394",
+    "status": "sent"
+  },
+  {
+    "id": "3043|63|2026-09-03T20:00:00.000Z",
+    "sendKey": "3043|63|2026-09-03T20:00:00.000Z|sms|(267) 304-1590",
+    "timestamp": "2026-09-03T21:19:34.364Z",
+    "pid": "3043",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(267) 304-1590",
+    "status": "sent"
   }
 ]
