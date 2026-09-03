@@ -1,11 +1,11 @@
 {
   "ok": true,
-  "timestamp": "2026-09-03T21:19:10.775Z",
+  "timestamp": "2026-09-03T23:33:20.071Z",
   "staleEmaAnchors": [],
   "sheetId": "18LScSoBcT8XmwA_WjfeN4Lt2PZESDm7FycAqocZ1cH4",
   "counts": {
     "participants": 419,
-    "dueNext7Days": 2007
+    "dueNext7Days": 2003
   },
   "metrics": {
     "redcapRows": 6600,
