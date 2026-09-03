@@ -91818,7 +91818,19 @@
           "atHome": {
             "timestamp": "2026-09-02 15:16:29",
             "break1Complete": 2,
-            "athomeMeasuresComplete": 0
+            "athomeMeasuresComplete": 1,
+            "formsFromReport": {
+              "texi": 2,
+              "bar": 2,
+              "bas": 2,
+              "zuckerman": 2,
+              "shs": 0,
+              "glteq": 0,
+              "phq": 0,
+              "pubertal_development": 0
+            },
+            "sectionsComplete": 4,
+            "sectionsTotal": 8
           },
           "sts1": null,
           "sts2": null,
@@ -209858,7 +209870,7 @@
         "childPhone": "",
         "cohortGroup": "99917951437140",
         "dob": "2005-09-03",
-        "age": 20
+        "age": 21
       },
       "waves": {
         "1": {
@@ -230274,7 +230286,7 @@
         "childPhone": "",
         "cohortGroup": "99794779559588",
         "dob": "2005-09-03",
-        "age": 20
+        "age": 21
       },
       "waves": {
         "1": {
@@ -291307,5 +291319,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-02T23:37:32.450Z"
+  "fetchedAt": "2026-09-03T01:30:29.739Z"
 }
