@@ -179980,11 +179980,11 @@
               "urbanicity": 2,
               "quicc": 0,
               "quic": 2,
-              "break_3": 0,
-              "short_ant_task": 0,
-              "uberball_task": 0,
-              "payment_info": 0,
-              "receipt": 0,
+              "break_3": 2,
+              "short_ant_task": 2,
+              "uberball_task": 2,
+              "payment_info": 2,
+              "receipt": 2,
               "travel_payment_info": 0,
               "travel_receipt": 0,
               "travel_links": 0,
@@ -291307,5 +291307,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-02T21:21:10.596Z"
+  "fetchedAt": "2026-09-02T23:37:32.450Z"
 }
