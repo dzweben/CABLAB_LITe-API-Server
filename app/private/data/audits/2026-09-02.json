@@ -1,0 +1,107 @@
+{
+  "date": "2026-09-02",
+  "generatedAt": "2026-09-03T14:43:08.063Z",
+  "verdict": "YELLOW",
+  "problems": [],
+  "warnings": [
+    "data 762 min stale"
+  ],
+  "sendMode": "LIVE",
+  "dataFreshnessMin": 762,
+  "planned": 4,
+  "counts": {
+    "sent": 4,
+    "failed": 0,
+    "skipped": 0,
+    "completedBeforeSlot": 0,
+    "postponed": 0,
+    "slotStillOpen": 0,
+    "unaccounted": 0
+  },
+  "detail": {
+    "sent": [
+      {
+        "pid": "1129",
+        "wave": 2,
+        "kind": "athome_sms",
+        "instrument": "At-Home Survey Send (Text)",
+        "scheduledAt": "2026-09-02T23:01:29.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "1129",
+        "wave": 2,
+        "kind": "athome_email",
+        "instrument": "At-Home Survey Send (Email)",
+        "scheduledAt": "2026-09-02T23:01:29.000Z",
+        "channels": [
+          "email:sent"
+        ]
+      },
+      {
+        "pid": "2130",
+        "wave": 2,
+        "kind": "athome_sms",
+        "instrument": "At-Home Survey Send (Text)",
+        "scheduledAt": "2026-09-02T23:48:09.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "2130",
+        "wave": 2,
+        "kind": "athome_email",
+        "instrument": "At-Home Survey Send (Email)",
+        "scheduledAt": "2026-09-02T23:48:09.000Z",
+        "channels": [
+          "email:sent"
+        ]
+      }
+    ],
+    "failed": [],
+    "skipped": [],
+    "completedBeforeSlot": [],
+    "postponed": [],
+    "slotStillOpen": [],
+    "unaccounted": []
+  },
+  "ema": {
+    "planned": 3,
+    "sent": 3,
+    "sweeperRescued": 0,
+    "skippedLate": 0,
+    "failed": 0,
+    "unaccounted": 0,
+    "unaccountedDetail": [],
+    "maxLatencySec": 241,
+    "medianLatencySec": 0
+  },
+  "workflowRuns": {
+    "Refresh LITe REDCap Data": {
+      "success": 6,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "EMA Prompt Sender": {
+      "success": 8,
+      "failure": 0,
+      "cancelled": 2,
+      "other": 0
+    },
+    "Daily Server Audit": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
+  },
+  "totals": {
+    "participants": 419,
+    "queueUpcoming": 2003,
+    "sentAllTime": 1044
+  }
+}
