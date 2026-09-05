@@ -1,27 +1,5 @@
 [
   {
-    "pid": "1018",
-    "recordId": "1018",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 3",
-    "scheduledAt": "2026-09-05T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-10-25T21:00:00.000Z"
-  },
-  {
-    "pid": "3045",
-    "recordId": "3045",
-    "wave": 2,
-    "alertId": 289,
-    "kind": "payment_followup",
-    "instrument": "W2 STS-EMA Payment Follow-Up 3",
-    "scheduledAt": "2026-09-05T21:00:00.000Z",
-    "complete": false,
-    "expireDate": "2026-10-25T21:00:00.000Z"
-  },
-  {
     "pid": "2048",
     "recordId": "2048",
     "wave": 2,
