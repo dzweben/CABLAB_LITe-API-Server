@@ -27699,5 +27699,82 @@
       }
     ],
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=A7WqjHy4yo9bA2km"
+  },
+  {
+    "pid": "1077",
+    "recordId": "1077",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 5",
+    "scheduledAt": "2027-06-03T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-06-25T22:00:00.000Z"
+  },
+  {
+    "pid": "2035",
+    "recordId": "2035",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 5",
+    "scheduledAt": "2027-06-03T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-06-25T22:00:00.000Z"
+  },
+  {
+    "pid": "2045",
+    "recordId": "2045",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 5",
+    "scheduledAt": "2027-06-03T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-06-25T22:00:00.000Z"
+  },
+  {
+    "pid": "2062",
+    "recordId": "2062",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 5",
+    "scheduledAt": "2027-06-03T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-06-25T22:00:00.000Z"
+  },
+  {
+    "pid": "3146",
+    "recordId": "3146",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 5",
+    "scheduledAt": "2027-06-03T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-06-25T22:00:00.000Z"
+  },
+  {
+    "pid": "3148",
+    "recordId": "3148",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 5",
+    "scheduledAt": "2027-06-03T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-06-25T22:00:00.000Z"
+  },
+  {
+    "pid": "3157",
+    "recordId": "3157",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 5",
+    "scheduledAt": "2027-06-03T22:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-06-25T22:00:00.000Z"
   }
 ]
