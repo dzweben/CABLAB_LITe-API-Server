@@ -1,0 +1,88 @@
+{
+  "date": "2026-09-05",
+  "generatedAt": "2026-09-06T13:47:39.628Z",
+  "verdict": "YELLOW",
+  "problems": [],
+  "warnings": [
+    "saer EMA leg silent for 51h (EMA still covered by GitHub + Vercel legs)",
+    "data 716 min stale"
+  ],
+  "sendMode": "LIVE",
+  "dataFreshnessMin": 716,
+  "planned": 2,
+  "counts": {
+    "sent": 2,
+    "failed": 0,
+    "skipped": 0,
+    "completedBeforeSlot": 0,
+    "postponed": 0,
+    "slotStillOpen": 0,
+    "unaccounted": 0
+  },
+  "detail": {
+    "sent": [
+      {
+        "pid": "1018",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 3",
+        "scheduledAt": "2026-09-05T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3045",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 3",
+        "scheduledAt": "2026-09-05T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      }
+    ],
+    "failed": [],
+    "skipped": [],
+    "completedBeforeSlot": [],
+    "postponed": [],
+    "slotStillOpen": [],
+    "unaccounted": []
+  },
+  "ema": {
+    "planned": 0,
+    "sent": 0,
+    "sweeperRescued": 0,
+    "skippedLate": 0,
+    "failed": 0,
+    "unaccounted": 0,
+    "unaccountedDetail": [],
+    "maxLatencySec": null,
+    "medianLatencySec": null
+  },
+  "workflowRuns": {
+    "EMA Prompt Sender": {
+      "success": 9,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Refresh LITe REDCap Data": {
+      "success": 8,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Daily Server Audit": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
+  },
+  "totals": {
+    "participants": 419,
+    "queueUpcoming": 2006,
+    "sentAllTime": 1057
+  }
+}
