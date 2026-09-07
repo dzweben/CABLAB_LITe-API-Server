@@ -548,5 +548,41 @@
     "sendAt": "2026-09-02T23:36:00.000Z",
     "at": "2026-09-02T23:36:00.036Z",
     "latencySec": 0
+  },
+  {
+    "key": "2040|2|ema_m1_734",
+    "pid": "2040",
+    "wave": 2,
+    "promptKey": "ema_m1_734",
+    "status": "skipped_late",
+    "sendAt": "2026-09-07T11:34:00.000Z",
+    "at": "2026-09-07T22:49:10.490Z"
+  },
+  {
+    "key": "2052|2|ema_m1_734",
+    "pid": "2052",
+    "wave": 2,
+    "promptKey": "ema_m1_734",
+    "status": "skipped_late",
+    "sendAt": "2026-09-07T11:34:00.000Z",
+    "at": "2026-09-07T22:49:10.490Z"
+  },
+  {
+    "key": "2040|2|ema_m1_517",
+    "pid": "2040",
+    "wave": 2,
+    "promptKey": "ema_m1_517",
+    "status": "skipped_late",
+    "sendAt": "2026-09-07T21:17:00.000Z",
+    "at": "2026-09-07T22:49:10.490Z"
+  },
+  {
+    "key": "2052|2|ema_m1_517",
+    "pid": "2052",
+    "wave": 2,
+    "promptKey": "ema_m1_517",
+    "status": "skipped_late",
+    "sendAt": "2026-09-07T21:17:00.000Z",
+    "at": "2026-09-07T22:49:10.490Z"
   }
 ]
