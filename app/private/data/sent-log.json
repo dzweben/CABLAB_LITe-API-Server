@@ -21329,5 +21329,41 @@
     "channel": "sms",
     "recipient": "(215) 821-7201",
     "status": "sent"
+  },
+  {
+    "id": "2049|63|2026-09-10T20:00:00.000Z",
+    "sendKey": "2049|63|2026-09-10T20:00:00.000Z|sms|(267) 303-7437",
+    "timestamp": "2026-09-10T21:09:34.228Z",
+    "pid": "2049",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(267) 303-7437",
+    "status": "sent"
+  },
+  {
+    "id": "2049|63|2026-09-10T20:00:00.000Z",
+    "sendKey": "2049|63|2026-09-10T20:00:00.000Z|sms|(267) 546-8234",
+    "timestamp": "2026-09-10T21:09:35.152Z",
+    "pid": "2049",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(267) 546-8234",
+    "status": "sent"
+  },
+  {
+    "id": "3043|63|2026-09-10T20:00:00.000Z",
+    "sendKey": "3043|63|2026-09-10T20:00:00.000Z|sms|(267) 304-1590",
+    "timestamp": "2026-09-10T21:09:35.900Z",
+    "pid": "3043",
+    "alertId": 63,
+    "instrument": "EMA Y2 Enable",
+    "kind": "ema_enable",
+    "channel": "sms",
+    "recipient": "(267) 304-1590",
+    "status": "sent"
   }
 ]
