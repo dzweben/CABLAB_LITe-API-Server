@@ -27416,5 +27416,148 @@
     "scheduledAt": "2027-06-06T21:00:00.000Z",
     "complete": false,
     "expireDate": "2027-07-25T21:00:00.000Z"
+  },
+  {
+    "pid": "1067",
+    "recordId": "1067",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "1068",
+    "recordId": "1068",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "1074",
+    "recordId": "1074",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "1082",
+    "recordId": "1082",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "1083",
+    "recordId": "1083",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "1084",
+    "recordId": "1084",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "1097",
+    "recordId": "1097",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "1102",
+    "recordId": "1102",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "2050",
+    "recordId": "2050",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "2081",
+    "recordId": "2081",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "2090",
+    "recordId": "2090",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "2091",
+    "recordId": "2091",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
+  },
+  {
+    "pid": "2095",
+    "recordId": "2095",
+    "wave": 2,
+    "alertId": 289,
+    "kind": "payment_followup",
+    "instrument": "W2 STS-EMA Payment Follow-Up 1",
+    "scheduledAt": "2027-06-08T21:00:00.000Z",
+    "complete": false,
+    "expireDate": "2027-08-25T21:00:00.000Z"
   }
 ]
