@@ -175783,7 +175783,7 @@
         "2": {
           "year": 2,
           "v1": {
-            "date": null,
+            "date": "2026-09-04",
             "forms": {
               "preenrollment_survey": 0,
               "phone_screener_visit_1_scheduling": 0,
@@ -175899,7 +175899,7 @@
               "payment_confirmation_form": 0,
               "scoring": 0
             },
-            "allComplete": false
+            "allComplete": true
           },
           "atHome": {
             "timestamp": "2026-09-04 14:19:19",
@@ -176113,7 +176113,22 @@
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
-          "v2": null
+          "v2": null,
+          "followupSheet": {
+            "record": 1845,
+            "v1Date": "2026-09-04",
+            "v2Date": null,
+            "sts1Months": [],
+            "sts2Months": [],
+            "emaDate": null,
+            "emaStatus": null,
+            "w1Comp": null,
+            "w2Comp": null,
+            "wave2StartDate": null,
+            "wave3StartDate": null,
+            "raTag": null,
+            "notes": null
+          }
         }
       },
       "activeWave": 2
@@ -269371,9 +269386,9 @@
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
-            "paymentComplete": 2,
-            "paymentRedeemed": true,
+            "paymentEmailButton": true,
+            "paymentComplete": 0,
+            "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(847) 987-8535",
             "prompts": [
@@ -291453,5 +291468,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-11T02:01:55.928Z"
+  "fetchedAt": "2026-09-11T14:59:49.344Z"
 }
