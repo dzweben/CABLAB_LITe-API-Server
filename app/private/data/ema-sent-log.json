@@ -800,5 +800,29 @@
     "sendAt": "2026-09-11T23:04:00.000Z",
     "at": "2026-09-11T23:04:00.001Z",
     "latencySec": 0
+  },
+  {
+    "key": "2040|2|ema_f_841",
+    "pid": "2040",
+    "wave": 2,
+    "promptKey": "ema_f_841",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+16106219974",
+    "sendAt": "2026-09-12T00:41:00.000Z",
+    "at": "2026-09-12T00:41:00.046Z",
+    "latencySec": 0
+  },
+  {
+    "key": "2052|2|ema_f_841",
+    "pid": "2052",
+    "wave": 2,
+    "promptKey": "ema_f_841",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12676155394",
+    "sendAt": "2026-09-12T00:41:00.000Z",
+    "at": "2026-09-12T00:41:00.046Z",
+    "latencySec": 0
   }
 ]
