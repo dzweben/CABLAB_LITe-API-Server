@@ -824,5 +824,47 @@
     "sendAt": "2026-09-12T00:41:00.000Z",
     "at": "2026-09-12T00:41:00.046Z",
     "latencySec": 0
+  },
+  {
+    "key": "2040|2|ema_sa_856",
+    "pid": "2040",
+    "wave": 2,
+    "promptKey": "ema_sa_856",
+    "status": "skipped_late",
+    "sendAt": "2026-09-12T12:56:00.000Z",
+    "at": "2026-09-12T21:23:08.155Z"
+  },
+  {
+    "key": "2052|2|ema_sa_856",
+    "pid": "2052",
+    "wave": 2,
+    "promptKey": "ema_sa_856",
+    "status": "skipped_late",
+    "sendAt": "2026-09-12T12:56:00.000Z",
+    "at": "2026-09-12T21:23:08.155Z"
+  },
+  {
+    "key": "2040|2|ema_sa_501",
+    "pid": "2040",
+    "wave": 2,
+    "promptKey": "ema_sa_501",
+    "status": "already_delivered",
+    "channel": "sms",
+    "recipient": "+16106219974",
+    "sendAt": "2026-09-12T21:01:00.000Z",
+    "at": "2026-09-12T21:23:08.155Z",
+    "note": "found in carrier history (backstop leg got it)"
+  },
+  {
+    "key": "2052|2|ema_sa_501",
+    "pid": "2052",
+    "wave": 2,
+    "promptKey": "ema_sa_501",
+    "status": "already_delivered",
+    "channel": "sms",
+    "recipient": "+12676155394",
+    "sendAt": "2026-09-12T21:01:00.000Z",
+    "at": "2026-09-12T21:23:08.155Z",
+    "note": "found in carrier history (backstop leg got it)"
   }
 ]
