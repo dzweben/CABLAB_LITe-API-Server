@@ -908,5 +908,29 @@
     "sendAt": "2026-09-13T22:01:00.000Z",
     "at": "2026-09-13T22:23:09.619Z",
     "latencySec": 1330
+  },
+  {
+    "key": "2040|2|ema_su_736",
+    "pid": "2040",
+    "wave": 2,
+    "promptKey": "ema_su_736",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+16106219974",
+    "sendAt": "2026-09-13T23:36:00.000Z",
+    "at": "2026-09-13T23:36:00.008Z",
+    "latencySec": 0
+  },
+  {
+    "key": "2052|2|ema_su_736",
+    "pid": "2052",
+    "wave": 2,
+    "promptKey": "ema_su_736",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12676155394",
+    "sendAt": "2026-09-13T23:36:00.000Z",
+    "at": "2026-09-13T23:36:00.008Z",
+    "latencySec": 0
   }
 ]
