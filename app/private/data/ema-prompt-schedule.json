@@ -1,29 +1,5 @@
 [
   {
-    "pid": "2040",
-    "recordId": "2040",
-    "wave": 2,
-    "key": "ema_su_755",
-    "reportNum": 16,
-    "dayLabel": "Sunday",
-    "timeLabel": "7:55 AM",
-    "sendAt": "2026-09-13T11:55:00.000Z",
-    "phone": "(610) 621-9974",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=jyEK72Ha8Zs3uYuq"
-  },
-  {
-    "pid": "2052",
-    "recordId": "2052",
-    "wave": 2,
-    "key": "ema_su_755",
-    "reportNum": 16,
-    "dayLabel": "Sunday",
-    "timeLabel": "7:55 AM",
-    "sendAt": "2026-09-13T11:55:00.000Z",
-    "phone": "(267) 615-5394",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=wpjGpfJ3fbf53vah"
-  },
-  {
     "pid": "2052",
     "recordId": "2052",
     "wave": 2,
