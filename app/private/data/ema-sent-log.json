@@ -977,5 +977,41 @@
     "status": "skipped_late",
     "sendAt": "2026-09-14T12:49:00.000Z",
     "at": "2026-09-14T20:52:12.036Z"
+  },
+  {
+    "key": "2048|2|ema_m1_517",
+    "pid": "2048",
+    "wave": 2,
+    "promptKey": "ema_m1_517",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12152548653",
+    "sendAt": "2026-09-14T21:17:00.000Z",
+    "at": "2026-09-14T21:17:00.019Z",
+    "latencySec": 0
+  },
+  {
+    "key": "2049|2|ema_m1_517",
+    "pid": "2049",
+    "wave": 2,
+    "promptKey": "ema_m1_517",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12675468234",
+    "sendAt": "2026-09-14T21:17:00.000Z",
+    "at": "2026-09-14T21:17:00.019Z",
+    "latencySec": 0
+  },
+  {
+    "key": "3043|2|ema_m1_517",
+    "pid": "3043",
+    "wave": 2,
+    "promptKey": "ema_m1_517",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12673041590",
+    "sendAt": "2026-09-14T21:17:00.000Z",
+    "at": "2026-09-14T21:17:00.019Z",
+    "latencySec": 0
   }
 ]
