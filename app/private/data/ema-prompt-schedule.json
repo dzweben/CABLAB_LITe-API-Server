@@ -24,18 +24,6 @@
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=wpjGpfJ3fbf53vah"
   },
   {
-    "pid": "2040",
-    "recordId": "2040",
-    "wave": 2,
-    "key": "ema_su_601",
-    "reportNum": 17,
-    "dayLabel": "Sunday",
-    "timeLabel": "6:01 PM",
-    "sendAt": "2026-09-13T22:01:00.000Z",
-    "phone": "(610) 621-9974",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=GaC58KgGcxowndxZ"
-  },
-  {
     "pid": "2052",
     "recordId": "2052",
     "wave": 2,
@@ -46,30 +34,6 @@
     "sendAt": "2026-09-13T22:01:00.000Z",
     "phone": "(267) 615-5394",
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=xNkPQINzs7uFvryi"
-  },
-  {
-    "pid": "2040",
-    "recordId": "2040",
-    "wave": 2,
-    "key": "ema_su_736",
-    "reportNum": 18,
-    "dayLabel": "Sunday",
-    "timeLabel": "7:36 PM",
-    "sendAt": "2026-09-13T23:36:00.000Z",
-    "phone": "(610) 621-9974",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=FTqV2W9e46fIiCsF"
-  },
-  {
-    "pid": "2052",
-    "recordId": "2052",
-    "wave": 2,
-    "key": "ema_su_736",
-    "reportNum": 18,
-    "dayLabel": "Sunday",
-    "timeLabel": "7:36 PM",
-    "sendAt": "2026-09-13T23:36:00.000Z",
-    "phone": "(267) 615-5394",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=g8XjopVEgrfZvEdL"
   },
   {
     "pid": "2048",
