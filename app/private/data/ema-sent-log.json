@@ -932,5 +932,50 @@
     "sendAt": "2026-09-13T23:36:00.000Z",
     "at": "2026-09-13T23:36:00.008Z",
     "latencySec": 0
+  },
+  {
+    "key": "2048|2|ema_m1_734",
+    "pid": "2048",
+    "wave": 2,
+    "promptKey": "ema_m1_734",
+    "status": "skipped_late",
+    "sendAt": "2026-09-14T11:34:00.000Z",
+    "at": "2026-09-14T20:52:12.036Z"
+  },
+  {
+    "key": "2049|2|ema_m1_734",
+    "pid": "2049",
+    "wave": 2,
+    "promptKey": "ema_m1_734",
+    "status": "skipped_late",
+    "sendAt": "2026-09-14T11:34:00.000Z",
+    "at": "2026-09-14T20:52:12.036Z"
+  },
+  {
+    "key": "3043|2|ema_m1_734",
+    "pid": "3043",
+    "wave": 2,
+    "promptKey": "ema_m1_734",
+    "status": "skipped_late",
+    "sendAt": "2026-09-14T11:34:00.000Z",
+    "at": "2026-09-14T20:52:12.036Z"
+  },
+  {
+    "key": "2040|2|ema_m2_849",
+    "pid": "2040",
+    "wave": 2,
+    "promptKey": "ema_m2_849",
+    "status": "skipped_late",
+    "sendAt": "2026-09-14T12:49:00.000Z",
+    "at": "2026-09-14T20:52:12.036Z"
+  },
+  {
+    "key": "2052|2|ema_m2_849",
+    "pid": "2052",
+    "wave": 2,
+    "promptKey": "ema_m2_849",
+    "status": "skipped_late",
+    "sendAt": "2026-09-14T12:49:00.000Z",
+    "at": "2026-09-14T20:52:12.036Z"
   }
 ]
