@@ -1,0 +1,68 @@
+{
+  "date": "2026-09-13",
+  "generatedAt": "2026-09-14T16:34:09.601Z",
+  "verdict": "YELLOW",
+  "problems": [],
+  "warnings": [
+    "2 EMA prompt(s) protocol-skipped (late)",
+    "saer EMA leg silent for 246h (EMA still covered by GitHub + Vercel legs)",
+    "data 859 min stale"
+  ],
+  "sendMode": "LIVE",
+  "dataFreshnessMin": 859,
+  "planned": 0,
+  "counts": {
+    "sent": 0,
+    "failed": 0,
+    "skipped": 0,
+    "completedBeforeSlot": 0,
+    "postponed": 0,
+    "slotStillOpen": 0,
+    "unaccounted": 0
+  },
+  "detail": {
+    "sent": [],
+    "failed": [],
+    "skipped": [],
+    "completedBeforeSlot": [],
+    "postponed": [],
+    "slotStillOpen": [],
+    "unaccounted": []
+  },
+  "ema": {
+    "planned": 3,
+    "sent": 4,
+    "sweeperRescued": 0,
+    "skippedLate": 2,
+    "failed": 0,
+    "unaccounted": 0,
+    "unaccountedDetail": [],
+    "maxLatencySec": 1330,
+    "medianLatencySec": 1330
+  },
+  "workflowRuns": {
+    "EMA Prompt Sender": {
+      "success": 8,
+      "failure": 0,
+      "cancelled": 1,
+      "other": 0
+    },
+    "Refresh LITe REDCap Data": {
+      "success": 7,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Daily Server Audit": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
+  },
+  "totals": {
+    "participants": 419,
+    "queueUpcoming": 2037,
+    "sentAllTime": 1060
+  }
+}
