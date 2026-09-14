@@ -209699,7 +209699,7 @@
                 "dayLabel": "Monday 1",
                 "timeLabel": "5:17 PM",
                 "scheduledAt": "2026-09-14 17:17:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_m1_846",
@@ -209864,7 +209864,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 0,
+            "promptsCompleteCount": 1,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -291468,5 +291468,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-14T20:51:46.693Z"
+  "fetchedAt": "2026-09-14T23:49:21.107Z"
 }
