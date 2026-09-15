@@ -1073,5 +1073,59 @@
     "sendAt": "2026-09-15T00:46:00.000Z",
     "at": "2026-09-15T00:46:00.053Z",
     "latencySec": 0
+  },
+  {
+    "key": "2040|2|ema_t2_733",
+    "pid": "2040",
+    "wave": 2,
+    "promptKey": "ema_t2_733",
+    "status": "skipped_late",
+    "sendAt": "2026-09-15T11:33:00.000Z",
+    "at": "2026-09-15T22:24:57.455Z"
+  },
+  {
+    "key": "2052|2|ema_t2_733",
+    "pid": "2052",
+    "wave": 2,
+    "promptKey": "ema_t2_733",
+    "status": "skipped_late",
+    "sendAt": "2026-09-15T11:33:00.000Z",
+    "at": "2026-09-15T22:24:57.455Z"
+  },
+  {
+    "key": "2048|2|ema_t1_832",
+    "pid": "2048",
+    "wave": 2,
+    "promptKey": "ema_t1_832",
+    "status": "skipped_late",
+    "sendAt": "2026-09-15T12:32:00.000Z",
+    "at": "2026-09-15T22:24:57.455Z"
+  },
+  {
+    "key": "2049|2|ema_t1_832",
+    "pid": "2049",
+    "wave": 2,
+    "promptKey": "ema_t1_832",
+    "status": "skipped_late",
+    "sendAt": "2026-09-15T12:32:00.000Z",
+    "at": "2026-09-15T22:24:57.455Z"
+  },
+  {
+    "key": "3043|2|ema_t1_832",
+    "pid": "3043",
+    "wave": 2,
+    "promptKey": "ema_t1_832",
+    "status": "skipped_late",
+    "sendAt": "2026-09-15T12:32:00.000Z",
+    "at": "2026-09-15T22:24:57.455Z"
+  },
+  {
+    "key": "2052|2|ema_t2_512",
+    "pid": "2052",
+    "wave": 2,
+    "promptKey": "ema_t2_512",
+    "status": "skipped_late",
+    "sendAt": "2026-09-15T21:12:00.000Z",
+    "at": "2026-09-15T22:24:57.455Z"
   }
 ]
