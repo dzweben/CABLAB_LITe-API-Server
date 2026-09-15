@@ -122519,7 +122519,7 @@
                 "dayLabel": "Tuesday 2",
                 "timeLabel": "5:12 PM",
                 "scheduledAt": "2026-09-15 17:12:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_w2_840",
@@ -122544,7 +122544,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 11,
+            "promptsCompleteCount": 12,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -247930,7 +247930,7 @@
             "settingsComplete": 0,
             "paymentEmailButton": false,
             "paymentComplete": 2,
-            "paymentRedeemed": false,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(206) 747-1567",
             "prompts": [
@@ -291468,5 +291468,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-15T19:23:47.694Z"
+  "fetchedAt": "2026-09-15T22:24:31.241Z"
 }
