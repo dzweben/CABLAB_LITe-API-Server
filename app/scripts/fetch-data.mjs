@@ -643,7 +643,16 @@ function computeDueReminders(participants) {
   // cycle. Completion still gates: a survey finished 10 minutes ago
   // removes its reminders from this run's candidates.
   const sendFloor = now - 24 * 3600 * 1000;
+  // Opt-outs (e.g. participant texted STOP): NOTHING queues for these
+  // PIDs — no STS, no EMA enable, no at-home, no payment, any channel.
+  // Registry: private/data/opt-outs.json (manual file, documented there).
+  let optOuts = new Set();
+  try {
+    const oo = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "opt-outs.json"), "utf-8"));
+    optOuts = new Set(Object.keys(oo).filter(k => !k.startsWith("_")));
+  } catch { /* no registry — nobody opted out */ }
   for (const p of participants) {
+    if (optOuts.has(String(p.pid))) continue;  // texted STOP — silence entirely
     for (const w of WAVES) {
       const wave = p.waves[w];
       if (!wave) continue;
@@ -1568,7 +1577,14 @@ async function main() {
     const anchorOverrides = (() => { try { return JSON.parse(fs.readFileSync(ANCHOR_OVERRIDES_PATH, "utf-8")); } catch { return {}; } })();
     let anchorOverridesChanged = false;
     const WEEK_MS = 7 * 24 * 3600 * 1000;
+    // Opt-outs apply to prompts too (see registry in opt-outs.json).
+    let emaOptOuts = new Set();
+    try {
+      const oo = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "opt-outs.json"), "utf-8"));
+      emaOptOuts = new Set(Object.keys(oo).filter(k => !k.startsWith("_")));
+    } catch { /* no registry */ }
     for (const p of participants) {
+      if (emaOptOuts.has(String(p.pid))) continue;  // texted STOP — no prompts
       for (const w of WAVES) {
         const ema = p.waves[w]?.ema;
         if (!emaEligibleCohort(p.pid)) continue;  // cohort 1: never EMA

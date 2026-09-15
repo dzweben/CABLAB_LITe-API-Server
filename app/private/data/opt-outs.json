@@ -1,0 +1,10 @@
+{
+  "_readme": "Participant opt-out registry. A PID listed here receives NO automated messages of any kind (SMS or email, all families: STS, EMA enable, EMA prompts, at-home, payment). Enforced at queue/schedule GENERATION in fetch-data.mjs and again at send time in send-due-messages.mjs. This file is manual — the pipeline reads it but never writes it. To reinstate someone, delete their entry and note why.",
+  "2018": {
+    "reason": "Participant texted STOP",
+    "date": "2026-09-15",
+    "channels": "all",
+    "recordedBy": "Danny Zweben (coordinator order)",
+    "lastMessageBeforeOptOut": "2026-08-31 STS2 follow-up (SMS)"
+  }
+}

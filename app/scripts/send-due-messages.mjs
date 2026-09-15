@@ -286,6 +286,10 @@ async function main() {
   const due = readJson(CANDIDATES_PATH, null) ?? readJson(DUE_PATH, []);
   const sentLog = readJson(SENT_LOG_PATH, []);
   const postponed = new Set((readJson(POSTPONED_PATH, [])).map(s => String(s).toLowerCase()));
+  // Opt-out registry (participant texted STOP): belt at send time — the
+  // queue generator already excludes these PIDs, but never trust a stale
+  // candidates file with someone's opt-out. See opt-outs.json.
+  const optedOut = new Set(Object.keys(readJson(path.join(DATA_DIR, "opt-outs.json"), {})).filter(k => !k.startsWith("_")));
   const state = readJson(STATE_PATH, null);
 
   // TEST-ONLY: freeze "now" to a specific instant (ISO) to exercise the
@@ -331,6 +335,7 @@ async function main() {
   const participantByPid = Object.fromEntries(data.participants.map(p => [p.pid, p]));
 
   const fires = due.filter(d => {
+    if (optedOut.has(String(d.pid))) return false;  // texted STOP
     if (postponed.has(String(d.pid).toLowerCase())) return false;
     if (d.complete) return false;
     if (d.mode === "manual") return false;
@@ -352,6 +357,7 @@ async function main() {
     const byPid = Object.fromEntries(data.participants.map(p => [p.pid, p]));
     let added = 0, dropped = 0, notYet = 0;
     for (const d of recovery) {
+      if (optedOut.has(String(d.pid))) { dropped++; continue; }  // texted STOP
       if (postponed.has(String(d.pid).toLowerCase())) { dropped++; continue; }
       // Live re-checks: STS completed since staging → drop. EMA cycle
       // already running (participant enabled on their own) → drop.
