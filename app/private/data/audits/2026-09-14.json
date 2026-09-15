@@ -1,0 +1,241 @@
+{
+  "date": "2026-09-14",
+  "generatedAt": "2026-09-15T15:22:33.269Z",
+  "verdict": "YELLOW",
+  "problems": [],
+  "warnings": [
+    "5 EMA prompt(s) protocol-skipped (late)",
+    "saer EMA leg silent for 269h (EMA still covered by GitHub + Vercel legs)",
+    "data 778 min stale"
+  ],
+  "sendMode": "LIVE",
+  "dataFreshnessMin": 778,
+  "planned": 17,
+  "counts": {
+    "sent": 17,
+    "failed": 0,
+    "skipped": 0,
+    "completedBeforeSlot": 0,
+    "postponed": 0,
+    "slotStillOpen": 0,
+    "unaccounted": 0
+  },
+  "detail": {
+    "sent": [
+      {
+        "pid": "1006",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "1015",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "2118",
+        "wave": 1,
+        "kind": "payment_followup",
+        "instrument": "W1 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "2123",
+        "wave": 1,
+        "kind": "payment_followup",
+        "instrument": "W1 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent",
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3073",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3086",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3094",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3095",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3098",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3108",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3110",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3118",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3120",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3121",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3126",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3128",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      },
+      {
+        "pid": "3131",
+        "wave": 2,
+        "kind": "payment_followup",
+        "instrument": "W2 STS-EMA Payment Follow-Up 1",
+        "scheduledAt": "2026-09-14T21:00:00.000Z",
+        "channels": [
+          "sms:sent"
+        ]
+      }
+    ],
+    "failed": [],
+    "skipped": [],
+    "completedBeforeSlot": [],
+    "postponed": [],
+    "slotStillOpen": [],
+    "unaccounted": []
+  },
+  "ema": {
+    "planned": 8,
+    "sent": 8,
+    "sweeperRescued": 0,
+    "skippedLate": 5,
+    "failed": 0,
+    "unaccounted": 0,
+    "unaccountedDetail": [],
+    "maxLatencySec": 0,
+    "medianLatencySec": 0
+  },
+  "workflowRuns": {
+    "EMA Prompt Sender": {
+      "success": 8,
+      "failure": 0,
+      "cancelled": 2,
+      "other": 0
+    },
+    "Refresh LITe REDCap Data": {
+      "success": 6,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Daily Server Audit": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
+  },
+  "totals": {
+    "participants": 419,
+    "queueUpcoming": 2020,
+    "sentAllTime": 1079
+  }
+}
