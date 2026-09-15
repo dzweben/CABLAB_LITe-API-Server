@@ -122505,7 +122505,7 @@
                 "dayLabel": "Monday 2",
                 "timeLabel": "8:09 PM",
                 "scheduledAt": "2026-09-14 20:09:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_t2_733",
@@ -122544,7 +122544,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 10,
+            "promptsCompleteCount": 11,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -127950,7 +127950,7 @@
                 "dayLabel": "Monday 1",
                 "timeLabel": "8:46 PM",
                 "scheduledAt": "2026-09-14 20:46:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_t1_832",
@@ -128108,7 +128108,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 0,
+            "promptsCompleteCount": 1,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -128915,7 +128915,7 @@
                 "dayLabel": "Monday 1",
                 "timeLabel": "8:46 PM",
                 "scheduledAt": "2026-09-14 20:46:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_t1_832",
@@ -129073,7 +129073,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 0,
+            "promptsCompleteCount": 1,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -131701,7 +131701,7 @@
                 "dayLabel": "Monday 2",
                 "timeLabel": "8:09 PM",
                 "scheduledAt": "2026-09-14 20:09:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_t2_733",
@@ -131740,7 +131740,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 8,
+            "promptsCompleteCount": 9,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -156723,7 +156723,7 @@
         "childPhone": "",
         "cohortGroup": "96771054078368",
         "dob": "2010-09-15",
-        "age": 15
+        "age": 16
       },
       "waves": {
         "1": {
@@ -246964,7 +246964,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(215) 687-4112",
@@ -250180,7 +250180,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(609) 647-2538",
@@ -265814,7 +265814,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(267) 317-0351",
@@ -291468,5 +291468,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-14T23:49:21.107Z"
+  "fetchedAt": "2026-09-15T02:24:34.947Z"
 }
