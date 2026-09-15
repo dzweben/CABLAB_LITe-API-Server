@@ -13,6 +13,7 @@ on:
       # by the refresh-data workflow, which deploys them itself; listing
       # them here would double-deploy and could race).
       - "app/src/**"
+      - "app/vercel.json"
       - "app/public/**"
       - "app/package.json"
       - "app/package-lock.json"

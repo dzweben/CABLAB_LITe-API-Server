@@ -59,13 +59,24 @@ jobs:
               print(f"Vercel scope: personal {user.get('username','?')} | plan: {plan}")
           print(f"PLAN={plan}")
 
-          # Upsert the three env vars into production.
-          for key in ("QUO_API_KEY", "QUO_FROM_NUMBER", "EMA_SWEEP_SECRET"):
-              val = os.environ.get(key, "")
+          # Upsert the env vars into production. CRON_SECRET mirrors
+          # EMA_SWEEP_SECRET: Vercel Cron invokes the sweeper with
+          # `Authorization: Bearer ${CRON_SECRET}` (Pro minute-cron is the
+          # sweeper's own clock as of 2026-09-15), and the route accepts
+          # that bearer when it equals EMA_SWEEP_SECRET.
+          pairs = [("QUO_API_KEY", os.environ.get("QUO_API_KEY", "")),
+                   ("QUO_FROM_NUMBER", os.environ.get("QUO_FROM_NUMBER", "")),
+                   ("EMA_SWEEP_SECRET", os.environ.get("EMA_SWEEP_SECRET", "")),
+                   ("CRON_SECRET", os.environ.get("EMA_SWEEP_SECRET", ""))]
+          for key, val in pairs:
               if not val:
                   print(f"{key}: MISSING from GitHub secrets — skipped"); continue
               code, body = api(f"/v10/projects/{project}/env?{team_q}upsert=true",
                                {"key": key, "value": val, "type": "encrypted", "target": ["production"]},
                                "POST")
               print(f"{key}: HTTP {code}" + ("" if code in (200, 201) else f" {json.dumps(body)[:200]}"))
+          # Report registered cron jobs so the run log proves the clock exists.
+          code, body = api(f"/v1/projects/{project}?{team_q}")
+          crons = (body.get("crons") or {}) if code == 200 else {}
+          print(f"project crons: {json.dumps(crons)[:300]}")
           PY

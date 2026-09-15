@@ -126,10 +126,15 @@ async function sweep(req: NextRequest) {
   if (!secret || !apiKey || !fromNumber) {
     return NextResponse.json({ armed: false, reason: "sweeper env not provisioned" }, { status: 503 });
   }
+  // Three accepted credentials: the x-sweep-secret header (GitHub pings),
+  // ?secret= (manual), and Vercel Cron's own Authorization header —
+  // Vercel invokes cron paths with `Authorization: Bearer ${CRON_SECRET}`,
+  // and CRON_SECRET is provisioned to the same value as EMA_SWEEP_SECRET.
   const given = req.headers.get("x-sweep-secret") || req.nextUrl.searchParams.get("secret") || "";
-  if (given !== secret) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  const bearerOk = req.headers.get("authorization") === `Bearer ${secret}`;
+  if (given !== secret && !bearerOk) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
-  const trigger = req.nextUrl.searchParams.get("trigger") || "unknown";
+  const trigger = req.nextUrl.searchParams.get("trigger") || (bearerOk ? "vercel-cron" : "unknown");
   const now = Date.now();
   const schedule = await readData<ScheduleRow[]>("ema-prompt-schedule.json", []);
   const late = schedule.filter(r => {
