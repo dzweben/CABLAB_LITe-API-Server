@@ -77,7 +77,9 @@ jobs:
           # once the quota resets. Defer loudly instead of failing.
           # Any OTHER deploy error still fails the run.
           set +e
-          OUT=$(vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN 2>&1)
+          # Server-side build (no --prebuilt): the canonical path for
+          # vercel.json cron registration (Stage A minute-clock).
+          OUT=$(vercel deploy --prod --token=$VERCEL_TOKEN 2>&1)
           RC=$?
           set -e
           if [ $RC -ne 0 ]; then

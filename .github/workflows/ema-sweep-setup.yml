@@ -75,6 +75,23 @@ jobs:
                                {"key": key, "value": val, "type": "encrypted", "target": ["production"]},
                                "POST")
               print(f"{key}: HTTP {code}" + ("" if code in (200, 201) else f" {json.dumps(body)[:200]}"))
+          PY
+          # Live proof: capture ~70s of runtime logs — a firing minute-cron
+          # shows as a GET /api/ema-sweep each minute.
+          npm install -g vercel >/dev/null 2>&1
+          echo "=== runtime log capture (70s) ==="
+          timeout 70 vercel logs https://cablab-lite.vercel.app --token=$VERCEL_TOKEN 2>&1 | grep -iE "ema-sweep|cron" | head -10 || true
+          python3 << 'PY'
+          import json, os, urllib.request, urllib.error
+          token = os.environ["VERCEL_TOKEN"]; org = os.environ["VERCEL_ORG_ID"]; project = os.environ["VERCEL_PROJECT_ID"]
+          team_q = f"teamId={org}&" if org.startswith("team_") else ""
+          def api(path, payload=None, method="GET"):
+              req = urllib.request.Request("https://api.vercel.com" + path,
+                  data=json.dumps(payload).encode() if payload else None,
+                  headers={"Authorization": "Bearer " + token, "Content-Type": "application/json"}, method=method)
+              try:
+                  with urllib.request.urlopen(req) as r: return r.status, json.loads(r.read().decode() or "{}")
+              except urllib.error.HTTPError as e: return e.code, json.loads(e.read().decode() or "{}")
           # Report registered cron jobs so the run log proves the clock exists.
           code, body = api(f"/v1/projects/{project}?{team_q}")
           crons = (body.get("crons") or {}) if code == 200 else {}
