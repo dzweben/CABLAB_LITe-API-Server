@@ -239757,7 +239757,7 @@
             "enableConfirmed": false,
             "settingsComplete": 0,
             "paymentEmailButton": false,
-            "paymentComplete": 0,
+            "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
             "phone": "(215) 669-1911",
@@ -270662,7 +270662,7 @@
             "settingsComplete": 0,
             "paymentEmailButton": false,
             "paymentComplete": 2,
-            "paymentRedeemed": false,
+            "paymentRedeemed": true,
             "enableSent": false,
             "phone": "(908) 644-5801",
             "prompts": [
@@ -291468,5 +291468,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-15T02:24:34.947Z"
+  "fetchedAt": "2026-09-15T15:21:12.384Z"
 }
