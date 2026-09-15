@@ -70,6 +70,7 @@ jobs:
           npm install -g vercel
           vercel pull --yes --environment=production --token=$VERCEL_TOKEN
           vercel build --prod --token=$VERCEL_TOKEN
+          echo "BUILD-OUTPUT crons: $(python3 -c "import json;print(json.load(open('.vercel/output/config.json')).get('crons'))" 2>/dev/null)"
           # Vercel free tier caps uploads at 5000/day. When the quota is
           # exhausted, failing this run is pure noise: the same code
           # deploys automatically on the next even-hour refresh cycle
