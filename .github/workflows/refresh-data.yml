@@ -10,6 +10,11 @@ on:
     # during REDCap's nightly downtime (~12:40 AM – 7:00 AM ET).
     - cron: "0,30 11-23 * * *"   # ~7 AM – 7:30 PM ET
     - cron: "0,30 0-5 * * *"     # ~8 PM – 12:30 AM ET (hr 5 covers EST)
+    # Off-peak extras (Sept 2026 cron starvation — see ema-prompt-sender):
+    # :00/:30 are the most contended minutes on GitHub's scheduler. These
+    # odd-minute duplicates give each half-hour a second firing chance.
+    - cron: "13,43 11-23 * * *"
+    - cron: "13,43 0-5 * * *"
   workflow_dispatch:
 
 permissions:
@@ -250,7 +255,7 @@ jobs:
         if: steps.gate.outputs.skip != 'true'
         run: |
           H=$(TZ=America/New_York date +%-H); M=$(TZ=America/New_York date +%-M)
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || { [ $((H % 2)) -eq 0 ] && [ "$M" -lt 30 ]; }; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || { [ $((H % 2)) -eq 0 ] && [ "$M" -lt 10 ]; }; then
             echo "deploy=true" >> "$GITHUB_OUTPUT"; echo "Deploying (hour=$H min=$M event=${{ github.event_name }})"
           else
             echo "deploy=false" >> "$GITHUB_OUTPUT"; echo "Skipping dashboard deploy this run (hour=$H min=$M) — next even-hour run deploys"

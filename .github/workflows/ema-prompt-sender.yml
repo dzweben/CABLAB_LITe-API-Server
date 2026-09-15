@@ -21,6 +21,14 @@ on:
     - cron: "10 10 * * *"   # 06:10 ET → morning (primary, 40 min early)
     - cron: "35 10 * * *"   # 06:35 ET → morning (backup)
     - cron: "5 11 * * *"    # 07:05 ET → morning (last chance, before 7:11 first prompt)
+    # Off-peak-minute extras (Sept 2026): GitHub's scheduler starved this
+    # repo's crons for a week — firings arrived HOURS late, mornings worst,
+    # and 19 prompts protocol-skipped. Odd minutes contend far less.
+    - cron: "13 10 * * *"   # 06:13 ET → morning
+    - cron: "27 10 * * *"   # 06:27 ET → morning
+    - cron: "53 10 * * *"   # 06:53 ET → morning
+    - cron: "17 11 * * *"   # 07:17 ET → morning (inside window; gate + grace handle it)
+    - cron: "41 11 * * *"   # 07:41 ET → morning (deep backstop)
     - cron: "10 15 * * *"   # 11:10 ET → midday (primary)
     - cron: "35 15 * * *"   # 11:35 ET → midday (backup)
     - cron: "5 16 * * *"    # 12:05 ET → midday (last chance)
