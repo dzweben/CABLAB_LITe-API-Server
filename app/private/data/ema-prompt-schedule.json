@@ -1,65 +1,5 @@
 [
   {
-    "pid": "2040",
-    "recordId": "2040",
-    "wave": 2,
-    "key": "ema_t2_733",
-    "reportNum": 21,
-    "dayLabel": "Tuesday 2",
-    "timeLabel": "7:33 AM",
-    "sendAt": "2026-09-15T11:33:00.000Z",
-    "phone": "(610) 621-9974",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=vK948q34ziRAj43j"
-  },
-  {
-    "pid": "2052",
-    "recordId": "2052",
-    "wave": 2,
-    "key": "ema_t2_733",
-    "reportNum": 21,
-    "dayLabel": "Tuesday 2",
-    "timeLabel": "7:33 AM",
-    "sendAt": "2026-09-15T11:33:00.000Z",
-    "phone": "(267) 615-5394",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=9iAMhYtE2UiP7qTn"
-  },
-  {
-    "pid": "2048",
-    "recordId": "2048",
-    "wave": 2,
-    "key": "ema_t1_832",
-    "reportNum": 4,
-    "dayLabel": "Tuesday 1",
-    "timeLabel": "8:32 AM",
-    "sendAt": "2026-09-15T12:32:00.000Z",
-    "phone": "(215) 254-8653",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=Mf72dZ6KU6Vag5Fu"
-  },
-  {
-    "pid": "2049",
-    "recordId": "2049",
-    "wave": 2,
-    "key": "ema_t1_832",
-    "reportNum": 4,
-    "dayLabel": "Tuesday 1",
-    "timeLabel": "8:32 AM",
-    "sendAt": "2026-09-15T12:32:00.000Z",
-    "phone": "(267) 546-8234",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=gXUc2Hx8I8QLpuNP"
-  },
-  {
-    "pid": "3043",
-    "recordId": "3043",
-    "wave": 2,
-    "key": "ema_t1_832",
-    "reportNum": 4,
-    "dayLabel": "Tuesday 1",
-    "timeLabel": "8:32 AM",
-    "sendAt": "2026-09-15T12:32:00.000Z",
-    "phone": "(267) 304-1590",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=iEh4ihaj7fjHXefX"
-  },
-  {
     "pid": "2052",
     "recordId": "2052",
     "wave": 2,
@@ -142,18 +82,6 @@
     "sendAt": "2026-09-16T12:12:00.000Z",
     "phone": "(267) 304-1590",
     "surveyLink": "https://cphapps.temple.edu/surveys/?s=Fh6cFge7VejFIhwq"
-  },
-  {
-    "pid": "2040",
-    "recordId": "2040",
-    "wave": 2,
-    "key": "ema_w2_840",
-    "reportNum": 23,
-    "dayLabel": "Wednesday 2",
-    "timeLabel": "8:40 AM",
-    "sendAt": "2026-09-16T12:40:00.000Z",
-    "phone": "(610) 621-9974",
-    "surveyLink": "https://cphapps.temple.edu/surveys/?s=fVR9VaQnSBxBkLkA"
   },
   {
     "pid": "2052",
