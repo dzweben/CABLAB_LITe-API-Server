@@ -127971,7 +127971,7 @@
                 "dayLabel": "Tuesday 1",
                 "timeLabel": "8:58 PM",
                 "scheduledAt": "2026-09-15 20:58:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_w1_812",
@@ -128108,7 +128108,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 1,
+            "promptsCompleteCount": 2,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -209727,7 +209727,7 @@
                 "dayLabel": "Tuesday 1",
                 "timeLabel": "8:58 PM",
                 "scheduledAt": "2026-09-15 20:58:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_w1_812",
@@ -209864,7 +209864,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 1,
+            "promptsCompleteCount": 2,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -291468,5 +291468,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-16T00:57:32.215Z"
+  "fetchedAt": "2026-09-16T02:15:57.213Z"
 }
