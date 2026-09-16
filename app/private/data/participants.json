@@ -122533,7 +122533,7 @@
                 "dayLabel": "Wednesday 2",
                 "timeLabel": "6:01 PM",
                 "scheduledAt": "2026-09-16 18:01:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_w2_736",
@@ -122544,7 +122544,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 13,
+            "promptsCompleteCount": 14,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -291468,5 +291468,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-16T19:15:20.536Z"
+  "fetchedAt": "2026-09-16T22:11:49.970Z"
 }
