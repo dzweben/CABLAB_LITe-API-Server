@@ -266664,7 +266664,7 @@
             "startDayCalc": 0,
             "enableConfirmed": false,
             "settingsComplete": 0,
-            "paymentEmailButton": false,
+            "paymentEmailButton": true,
             "paymentComplete": 2,
             "paymentRedeemed": false,
             "enableSent": false,
@@ -291468,5 +291468,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-16T15:26:45.945Z"
+  "fetchedAt": "2026-09-16T15:35:52.399Z"
 }
