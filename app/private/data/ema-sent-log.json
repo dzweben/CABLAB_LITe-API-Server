@@ -1301,5 +1301,32 @@
     "sendAt": "2026-09-17T01:00:00.000Z",
     "at": "2026-09-17T01:00:00.048Z",
     "latencySec": 0
+  },
+  {
+    "key": "2048|2|ema_th_711",
+    "pid": "2048",
+    "wave": 2,
+    "promptKey": "ema_th_711",
+    "status": "skipped_late",
+    "sendAt": "2026-09-17T11:11:00.000Z",
+    "at": "2026-09-17T14:59:04.099Z"
+  },
+  {
+    "key": "2049|2|ema_th_711",
+    "pid": "2049",
+    "wave": 2,
+    "promptKey": "ema_th_711",
+    "status": "skipped_late",
+    "sendAt": "2026-09-17T11:11:00.000Z",
+    "at": "2026-09-17T14:59:04.099Z"
+  },
+  {
+    "key": "3043|2|ema_th_711",
+    "pid": "3043",
+    "wave": 2,
+    "promptKey": "ema_th_711",
+    "status": "skipped_late",
+    "sendAt": "2026-09-17T11:11:00.000Z",
+    "at": "2026-09-17T14:59:04.099Z"
   }
 ]
