@@ -209755,7 +209755,7 @@
                 "dayLabel": "Thursday",
                 "timeLabel": "5:32 PM",
                 "scheduledAt": "2026-09-17 17:32:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_f_900",
@@ -209864,7 +209864,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 2,
+            "promptsCompleteCount": 3,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -291468,5 +291468,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-17T19:29:12.125Z"
+  "fetchedAt": "2026-09-17T22:28:55.211Z"
 }
