@@ -127985,7 +127985,7 @@
                 "dayLabel": "Wednesday 1",
                 "timeLabel": "9:00 PM",
                 "scheduledAt": "2026-09-16 21:00:00",
-                "complete": false
+                "complete": true
               },
               {
                 "key": "ema_th_711",
@@ -128108,7 +128108,7 @@
               }
             ],
             "formsFromReport": {},
-            "promptsCompleteCount": 2,
+            "promptsCompleteCount": 3,
             "promptsScheduledCount": 0,
             "promptsTotal": 25
           },
@@ -291468,5 +291468,5 @@
       "activeWave": null
     }
   ],
-  "fetchedAt": "2026-09-17T02:20:04.170Z"
+  "fetchedAt": "2026-09-17T15:33:28.419Z"
 }
