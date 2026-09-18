@@ -25,6 +25,7 @@ jobs:
           QUO_API_KEY: ${{ secrets.QUO_API_KEY }}
           QUO_FROM_NUMBER: ${{ secrets.QUO_FROM_NUMBER }}
           EMA_SWEEP_SECRET: ${{ secrets.EMA_SWEEP_SECRET }}
+          GH_DATA_TOKEN: ${{ secrets.GH_DATA_TOKEN }}
         run: |
           python3 << 'PY'
           import json, os, urllib.request, urllib.error
@@ -67,7 +68,8 @@ jobs:
           pairs = [("QUO_API_KEY", os.environ.get("QUO_API_KEY", "")),
                    ("QUO_FROM_NUMBER", os.environ.get("QUO_FROM_NUMBER", "")),
                    ("EMA_SWEEP_SECRET", os.environ.get("EMA_SWEEP_SECRET", "")),
-                   ("CRON_SECRET", os.environ.get("EMA_SWEEP_SECRET", ""))]
+                   ("CRON_SECRET", os.environ.get("EMA_SWEEP_SECRET", "")),
+                   ("GITHUB_DATA_TOKEN", os.environ.get("GH_DATA_TOKEN", ""))]
           for key, val in pairs:
               if not val:
                   print(f"{key}: MISSING from GitHub secrets — skipped"); continue

@@ -1,40 +1,18 @@
-name: EMA Prompt Sender
+name: EMA Prompt Sender (RETIRED — manual dry-run only)
 
-# Minute-precision delivery of the 25 EMA micro-survey texts. Three
-# long-lived segment jobs per day cover the whole prompt grid
-# (7:11 AM – 9:00 PM ET). Each cron fires ~40-100 min BEFORE its
-# segment's authority window; the job sleeps until the window opens,
-# then fires each prompt at its exact second. GitHub's cron jitter only
-# shifts the (idle) warm-up, never the sends.
+# RETIRED 2026-09-18. GitHub Actions no longer sends EMA prompts.
+# GitHub's cron scheduler starved this repo for two weeks (firings hours
+# late; 21+ prompts protocol-skipped) and cannot be trusted with
+# minute-precision delivery. The production sender is now the Vercel
+# route /api/ema-sweep, driven by Vercel Pro's minute cron — it reads
+# the schedule and ledger live from this repo's contents API, sends at
+# the slot, and writes the ledger back. The saer Mac is the independent
+# late backstop. Carrier-history dedup keeps every sender at-most-once.
 #
-# Segments (ET): morning 06:50-11:50 · midday 11:50-16:50 · evening 16:50-21:20
-# Crons are UTC, tuned for EDT (UTC-4); in EST the job just idles an
-# extra hour before its window — sends stay exact either way.
-#
-# LIVE/KILL: same LITE_SEND_LIVE repo variable as the main sender.
+# This workflow survives ONLY for manual dry-run rehearsals against the
+# schedule file. All cron schedules removed — it can never fire on its
+# own, and defaults to dry_run=true when dispatched.
 on:
-  schedule:
-    # THREE independent firing chances per segment. GitHub drops or
-    # delays individual cron firings under load — any one of the three
-    # starts the segment; the others queue in the same per-segment
-    # concurrency group and exit at the gate once the segment is covered.
-    - cron: "10 10 * * *"   # 06:10 ET → morning (primary, 40 min early)
-    - cron: "35 10 * * *"   # 06:35 ET → morning (backup)
-    - cron: "5 11 * * *"    # 07:05 ET → morning (last chance, before 7:11 first prompt)
-    # Off-peak-minute extras (Sept 2026): GitHub's scheduler starved this
-    # repo's crons for a week — firings arrived HOURS late, mornings worst,
-    # and 19 prompts protocol-skipped. Odd minutes contend far less.
-    - cron: "13 10 * * *"   # 06:13 ET → morning
-    - cron: "27 10 * * *"   # 06:27 ET → morning
-    - cron: "53 10 * * *"   # 06:53 ET → morning
-    - cron: "17 11 * * *"   # 07:17 ET → morning (inside window; gate + grace handle it)
-    - cron: "41 11 * * *"   # 07:41 ET → morning (deep backstop)
-    - cron: "10 15 * * *"   # 11:10 ET → midday (primary)
-    - cron: "35 15 * * *"   # 11:35 ET → midday (backup)
-    - cron: "5 16 * * *"    # 12:05 ET → midday (last chance)
-    - cron: "10 20 * * *"   # 16:10 ET → evening (primary)
-    - cron: "35 20 * * *"   # 16:35 ET → evening (backup)
-    - cron: "5 21 * * *"    # 17:05 ET → evening (last chance)
   workflow_dispatch:
     inputs:
       segment:
