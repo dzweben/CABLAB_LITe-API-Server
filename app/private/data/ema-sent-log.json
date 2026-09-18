@@ -1391,5 +1391,44 @@
     "status": "skipped_late",
     "sendAt": "2026-09-18T13:00:00.000Z",
     "at": "2026-09-18T14:30:51.818Z"
+  },
+  {
+    "key": "2048|2|ema_f_704",
+    "pid": "2048",
+    "wave": 2,
+    "promptKey": "ema_f_704",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12152548653",
+    "sendAt": "2026-09-18T23:04:00.000Z",
+    "at": "2026-09-18T23:07:23.588Z",
+    "latencySec": 204,
+    "note": "vercel-sender"
+  },
+  {
+    "key": "2049|2|ema_f_704",
+    "pid": "2049",
+    "wave": 2,
+    "promptKey": "ema_f_704",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12675468234",
+    "sendAt": "2026-09-18T23:04:00.000Z",
+    "at": "2026-09-18T23:07:24.712Z",
+    "latencySec": 205,
+    "note": "vercel-sender"
+  },
+  {
+    "key": "3043|2|ema_f_704",
+    "pid": "3043",
+    "wave": 2,
+    "promptKey": "ema_f_704",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12673041590",
+    "sendAt": "2026-09-18T23:04:00.000Z",
+    "at": "2026-09-18T23:07:25.711Z",
+    "latencySec": 206,
+    "note": "vercel-sender"
   }
 ]
