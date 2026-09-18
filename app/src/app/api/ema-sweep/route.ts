@@ -29,12 +29,24 @@ import path from "path";
 // `Authorization: Bearer ${CRON_SECRET}`.
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const GRACE_MS = 30 * 60 * 1000;
+// A slot due within this window is WAITED FOR inside the invocation and
+// fired at its exact second — precision comes from inside the process,
+// not from any scheduler's cadence. Kept just above the 60s invocation
+// cadence so at most ~2 invocations ever contend for one slot (the
+// ledger claim below resolves that contention).
+const LOOKAHEAD_MS = 75_000;
+// A "sending" claim row younger than this blocks other invocations; an
+// older one means the claimant died and the prompt is rescuable again.
+const CLAIM_FRESH_MS = 120_000;
 const QUO_BASE = "https://api.openphone.com/v1";
 const REPO = "dzweben/CABLAB_LITe-API-Server";
+const LEDGER_REPO_PATH = "app/private/data/ema-sent-log.json";
 const TERMINAL = new Set(["sent", "skipped_late", "skipped", "already_delivered"]);
+
+const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 interface ScheduleRow {
   pid: string; wave: number | string; key: string;
@@ -232,26 +244,39 @@ async function tick(req: NextRequest) {
     const t = new Date(r.sendAt).getTime();
     return !isNaN(t) && now - t > GRACE_MS && now - t <= 24 * 60 * 60 * 1000;
   });
+  // Slots coming up inside the look-ahead window: this invocation stays
+  // alive and fires each at its exact second.
+  const upcoming = eligible.filter(r => {
+    const t = new Date(r.sendAt).getTime();
+    return !isNaN(t) && t > now && t - now <= LOOKAHEAD_MS;
+  });
 
   const report = {
     armed: true, trigger, source, at: new Date(now).toISOString(),
-    scheduleRows: schedule.length, due: due.length,
+    scheduleRows: schedule.length, due: due.length, upcoming: upcoming.length,
     alreadyDone: 0, alreadyDelivered: 0, sent: [] as string[],
-    markedLate: [] as string[],
+    waitedFor: [] as string[], markedLate: [] as string[],
     unverifiable: 0, skippedBadRow: 0, ledgerWritten: false,
     errors: [] as string[],
   };
-  if (due.length === 0 && expired.length === 0) return NextResponse.json(report);
+  // Every invocation logs, so runtime logs can always attribute WHO
+  // invoked and what it saw (the 2026-09-18 clock post-mortem hinged on
+  // exactly this attribution being absent).
+  console.log(`ema-sender [${trigger}]: tick source=${source} rows=${schedule.length} due=${due.length} upcoming=${upcoming.length} expired=${expired.length}`);
+  if (due.length === 0 && expired.length === 0 && upcoming.length === 0) return NextResponse.json(report);
 
   // Ledger: live read for terminal-state dedup.
   let ledger: LedgerRow[] = [];
   let ledgerSha = "";
   if (ghToken) {
-    const led = await ghGetJsonWithSha("app/private/data/ema-sent-log.json", ghToken);
+    const led = await ghGetJsonWithSha(LEDGER_REPO_PATH, ghToken);
     if (led) { ledger = led.data as LedgerRow[]; ledgerSha = led.sha; }
   }
   if (!ledgerSha) ledger = await readBundled<LedgerRow[]>("ema-sent-log.json", []);
   const done = new Set(ledger.filter(e => TERMINAL.has(e.status) && !e.dryRun).map(e => e.key));
+  // A fresh "sending" row is another invocation's claim on that prompt.
+  const claimFresh = (e: LedgerRow) =>
+    e.status === "sending" && Date.now() - new Date(e.at || 0).getTime() < CLAIM_FRESH_MS;
 
   const newRows: LedgerRow[] = [];
   for (const row of expired) {
@@ -269,52 +294,54 @@ async function tick(req: NextRequest) {
     "participants.json", { participants: [] });
   const nameByPid = Object.fromEntries(parts.participants.map(p => [p.pid, p.contact?.firstName || ""]));
 
-  const pnId = due.length > 0 ? await phoneNumberId(apiKey, fromNumber) : null;
-  if (due.length > 0 && !pnId) {
+  const needSender = due.length > 0 || upcoming.length > 0;
+  const pnId = needSender ? await phoneNumberId(apiKey, fromNumber) : null;
+  if (needSender && !pnId) {
     report.errors.push("could not resolve phoneNumberId — fail closed, nothing sent");
   }
-
-  if (due.length > 0 && !tmpl) {
+  if (needSender && !tmpl) {
     // Template extraction broke (timeline.ts moved?). Loud error, no
-    // skip rows — the prompts stay retryable every minute until grace.
+    // skip rows — the prompts stay retryable on every tick until grace.
     report.errors.push("EMA prompt template (alert 64) not found in timeline.ts — nothing sent");
   }
 
-  for (const row of due) {
-    if (!pnId || !tmpl) break;
+  // One prompt through the full gauntlet: ledger dedup → sibling-claim
+  // check → carrier-history check → send → record. Used for both
+  // catch-up (due-now) rows and exact-second (waited-for) rows.
+  async function fireRow(row: ScheduleRow): Promise<void> {
+    if (!pnId || !tmpl) return;
     const k = `${row.pid}|${row.wave}|${row.key}`;
-    if (done.has(k)) { report.alreadyDone++; continue; }
-    if (sentThisInstance.has(k)) { report.alreadyDone++; continue; }
+    if (done.has(k) || sentThisInstance.has(k)) { report.alreadyDone++; return; }
+    if (ledger.some(e => e.key === k && claimFresh(e))) { report.alreadyDone++; return; }
     const phone = normalizePhone(row.phone);
     const link = row.surveyLink;
     if (!phone || !link) {
       // Bad data is terminal (same as every sender before): record it so
-      // the audit sees it instead of a silent minute-by-minute retry.
+      // the audit sees it instead of a silent tick-by-tick retry.
       report.skippedBadRow++;
       newRows.push({ key: k, pid: row.pid, wave: row.wave, promptKey: row.key, status: "skipped",
         error: !phone ? `bad phone "${row.phone}"` : "no survey link", sendAt: row.sendAt,
         at: new Date().toISOString(), note: "vercel-sender" });
       done.add(k);
-      continue;
+      return;
     }
     const sendAtMs = new Date(row.sendAt).getTime();
     try {
       // Carrier history is the shared source of truth across every
       // sender past and present. If the check itself errors: with a LIVE
-      // ledger just read (seconds fresh) we are the protocol-authoritative
-      // primary inside grace, so we fail OPEN and send — a lost prompt is
-      // worse than the vanishing double-send case. Without a live ledger
-      // (bundle fallback, could be stale) we fail CLOSED and retry next
-      // minute.
+      // ledger in hand we are the protocol-authoritative primary inside
+      // grace, so we fail OPEN and send — a lost prompt is worse than
+      // the vanishing double-send case. Without a live ledger (bundle
+      // fallback, could be stale) we fail CLOSED and retry next tick.
       const delivered = await alreadyDelivered(apiKey, pnId, phone, link, sendAtMs);
-      if (delivered === null && !ledgerSha) { report.unverifiable++; continue; }
+      if (delivered === null && !ledgerSha) { report.unverifiable++; return; }
       if (delivered) {
         report.alreadyDelivered++;
         newRows.push({ key: k, pid: row.pid, wave: row.wave, promptKey: row.key, status: "already_delivered",
           channel: "sms", recipient: phone, sendAt: row.sendAt, at: new Date().toISOString(),
           note: "confirmed by vercel-sender via carrier history" });
         done.add(k);
-        continue;
+        return;
       }
       const firstName = row.firstName || nameByPid[row.pid] || "";
       await sendSMS(apiKey, fromNumber, phone, renderPrompt(tmpl, firstName, link));
@@ -329,29 +356,95 @@ async function tick(req: NextRequest) {
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       report.errors.push(`${k}: ${msg}`);
-      // "failed" is NOT terminal — the next minute tick retries until
-      // the 30-min grace runs out (same rule as before).
+      // "failed" is NOT terminal — the next tick retries until the
+      // 30-min grace runs out (same rule as before).
       newRows.push({ key: k, pid: row.pid, wave: row.wave, promptKey: row.key, status: "failed",
         error: msg.slice(0, 300), sendAt: row.sendAt, at: new Date().toISOString(), note: "vercel-sender" });
     }
   }
 
-  // Ledger write-back with sha retry (3 attempts, union-safe).
-  if (newRows.length > 0 && ghToken) {
+  // Ledger write-back with sha retry (3 attempts, union-safe). Claims
+  // whose outcome row is landing are replaced by that outcome; stale
+  // claims (>10 min) are swept.
+  async function writeLedger(): Promise<void> {
+    if (newRows.length === 0 || !ghToken) return;
     for (let attempt = 1; attempt <= 3; attempt++) {
-      const led = await ghGetJsonWithSha("app/private/data/ema-sent-log.json", ghToken);
+      const led = await ghGetJsonWithSha(LEDGER_REPO_PATH, ghToken);
       if (!led) break;
-      const cur = led.data as LedgerRow[];
+      const remote = led.data as LedgerRow[];
+      const finalized = new Set(newRows.map(r => r.key));
+      const cur = remote.filter(e => !(e.status === "sending" &&
+        (finalized.has(e.key) || Date.now() - new Date(e.at || 0).getTime() > 10 * 60 * 1000)));
       const have = new Set(cur.map(e => `${e.key}|${e.status}`));
       const fresh = newRows.filter(r => !have.has(`${r.key}|${r.status}`));
-      if (fresh.length === 0) { report.ledgerWritten = true; break; }
-      const ok = await ghPutJson("app/private/data/ema-sent-log.json", ghToken,
+      if (fresh.length === 0 && cur.length === remote.length) { report.ledgerWritten = true; break; }
+      const ok = await ghPutJson(LEDGER_REPO_PATH, ghToken,
         [...cur, ...fresh], led.sha, `vercel-sender ledger [${new Date().toISOString()}]`);
       if (ok) { report.ledgerWritten = true; break; }
     }
-    if (!report.ledgerWritten) report.errors.push("ledger write failed after 3 attempts (sends are still carrier-deduped)");
+    if (!report.ledgerWritten) report.errors.push("ledger write failed after 3 attempts (sends are still claim- and carrier-deduped)");
   }
 
-  console.log(`ema-sender [${trigger}]: source=${source} due=${report.due} done=${report.alreadyDone} sent=${report.sent.length} carrierDup=${report.alreadyDelivered} late=${report.markedLate.length} unverifiable=${report.unverifiable} ledger=${report.ledgerWritten}`);
+  for (const row of due) await fireRow(row);
+  await writeLedger();
+
+  // EXACT-SECOND DELIVERY: wait in-process for each upcoming slot and
+  // fire on the second. Before firing, CLAIM the slot's prompts in the
+  // ledger via compare-and-swap on the file sha — of any invocations
+  // waiting on the same slot, exactly one wins the PUT; the rest see the
+  // conflict (or the claim on re-read) and back off. No cadence
+  // assumption about who invokes us survives in this design.
+  if (upcoming.length > 0 && pnId && tmpl) {
+    const groups = new Map<number, ScheduleRow[]>();
+    for (const r of upcoming) {
+      const t = new Date(r.sendAt).getTime();
+      if (!groups.has(t)) groups.set(t, []);
+      groups.get(t)!.push(r);
+    }
+    for (const [slotMs, rows] of [...groups.entries()].sort((a, b) => a[0] - b[0])) {
+      if (slotMs > now + 280_000) break; // stay inside maxDuration
+      const waitMs = slotMs - Date.now();
+      if (waitMs > 0) await sleep(waitMs);
+      const wantKeys = rows.map(r => `${r.pid}|${r.wave}|${r.key}`);
+      let toFire: string[] = [];
+      let resolved = false;
+      if (ghToken) {
+        for (let attempt = 1; attempt <= 2 && !resolved; attempt++) {
+          const led = await ghGetJsonWithSha(LEDGER_REPO_PATH, ghToken);
+          if (!led) break;
+          ledger = led.data as LedgerRow[];
+          ledgerSha = led.sha;
+          for (const e of ledger) if (TERMINAL.has(e.status) && !e.dryRun) done.add(e.key);
+          const contest = wantKeys.filter(k => !done.has(k) && !sentThisInstance.has(k)
+            && !ledger.some(e => e.key === k && claimFresh(e)));
+          if (contest.length === 0) { resolved = true; break; }
+          const claimRows: LedgerRow[] = contest.map(k => {
+            const r = rows.find(x => `${x.pid}|${x.wave}|${x.key}` === k)!;
+            return { key: k, pid: r.pid, wave: r.wave, promptKey: r.key, status: "sending",
+              sendAt: r.sendAt, at: new Date().toISOString(), note: "vercel-sender claim" };
+          });
+          const ok = await ghPutJson(LEDGER_REPO_PATH, ghToken, [...ledger, ...claimRows],
+            led.sha, `vercel-sender claim [${new Date().toISOString()}]`);
+          if (ok) { toFire = contest; resolved = true; }
+          // PUT conflict → a sibling claimed first; loop re-reads.
+        }
+      }
+      if (!resolved) {
+        // GitHub read/claim degraded at fire time. Live-primary
+        // doctrine: fire rather than lose the slot — carrier dedup and
+        // the instance memory still guard.
+        toFire = wantKeys.filter(k => !done.has(k) && !sentThisInstance.has(k));
+      }
+      for (const r of rows) {
+        const k = `${r.pid}|${r.wave}|${r.key}`;
+        if (!toFire.includes(k)) { report.alreadyDone++; continue; }
+        report.waitedFor.push(k);
+        await fireRow(r);
+      }
+      await writeLedger();
+    }
+  }
+
+  console.log(`ema-sender [${trigger}]: source=${source} due=${report.due} waited=${report.waitedFor.length} done=${report.alreadyDone} sent=${report.sent.length} carrierDup=${report.alreadyDelivered} late=${report.markedLate.length} unverifiable=${report.unverifiable} ledger=${report.ledgerWritten}`);
   return NextResponse.json(report);
 }
