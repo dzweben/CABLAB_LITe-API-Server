@@ -94,8 +94,27 @@ jobs:
               try:
                   with urllib.request.urlopen(req) as r: return r.status, json.loads(r.read().decode() or "{}")
               except urllib.error.HTTPError as e: return e.code, json.loads(e.read().decode() or "{}")
-          # Report registered cron jobs so the run log proves the clock exists.
-          code, body = api(f"/v1/projects/{project}?{team_q}")
-          crons = (body.get("crons") or {}) if code == 200 else {}
-          print(f"project crons: {json.dumps(crons)[:300]}")
+          # CRON GROUND TRUTH — three independent views:
+          # 1. Project-level cron state (enabled/disabled + definitions).
+          code, body = api(f"/v9/projects/{project}?{team_q}")
+          crons = body.get("crons") if code == 200 else None
+          print(f"PROJECT crons (v9, HTTP {code}): {json.dumps(crons)[:500]}")
+          # 2. The CURRENT production deployment and what crons it carries.
+          code, deps = api(f"/v6/deployments?{team_q}projectId={project}&target=production&state=READY&limit=1")
+          uid = url = None
+          if code == 200 and deps.get("deployments"):
+              d = deps["deployments"][0]
+              uid, url = d.get("uid"), d.get("url")
+              print(f"CURRENT prod deployment: {url} created {d.get('created')}")
+          if uid:
+              code, dep = api(f"/v13/deployments/{uid}?{team_q}")
+              print(f"DEPLOYMENT crons (v13, HTTP {code}): {json.dumps(dep.get('crons'))[:500]}")
+              cfg = dep.get("config") or {}
+              print(f"DEPLOYMENT config keys: {sorted(cfg.keys()) if cfg else sorted(k for k in dep.keys())[:40]}")
+          # 3. If the project says crons are DISABLED, try to enable them.
+          if isinstance(crons, dict) and crons.get("disabledAt"):
+              print(f"crons DISABLED at {crons['disabledAt']} — attempting enable via project PATCH")
+              for payload in ({"crons": {"enabled": True}},):
+                  code, r = api(f"/v9/projects/{project}?{team_q}", payload, "PATCH")
+                  print(f"PATCH enable attempt: HTTP {code} {json.dumps(r)[:300]}")
           PY
