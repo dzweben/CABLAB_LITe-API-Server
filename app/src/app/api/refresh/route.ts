@@ -78,7 +78,17 @@ async function run(req: NextRequest) {
     return NextResponse.json({ error: "only mode=shadow exists until the Phase 2 gate passes" }, { status: 400 });
   }
   if (!ghToken) return NextResponse.json({ error: "GITHUB_DATA_TOKEN missing" }, { status: 503 });
+  try {
+    return await shadowRun(ghToken);
+  } catch (e) {
+    const msg = e instanceof Error ? `${e.name}: ${e.message}` : String(e);
+    console.error(`refresh-shadow FAILED: ${msg}`);
+    return NextResponse.json({ error: msg.slice(0, 400) }, { status: 500 });
+  }
+}
 
+async function shadowRun(ghToken: string) {
+  const mode = "shadow";
   const started = Date.now();
   const ws = path.join("/tmp", `refresh-${started}`);
   const wsScripts = path.join(ws, "scripts");
@@ -92,14 +102,15 @@ async function run(req: NextRequest) {
 
   // Mirror the LIVE data directory (not the bundle — the bundle can be
   // hours old) so the run starts from exactly what GitHub's leg would.
+  console.log("refresh-shadow: mirroring live data dir");
   const listing = (await ghJson(DATA_DIR_REPO, ghToken)) as Array<{ name: string; type: string }>;
   const before = new Map<string, { hash: string; bytes: number; count: number | null }>();
-  for (const f of listing) {
-    if (f.type !== "file" || !f.name.endsWith(".json")) continue;
+  await Promise.all(listing.filter(f => f.type === "file" && f.name.endsWith(".json")).map(async f => {
     const buf = await ghRaw(`${DATA_DIR_REPO}/${f.name}`, ghToken);
     await fs.writeFile(path.join(wsData, f.name), buf);
     before.set(f.name, { hash: sha1(buf), bytes: buf.length, count: topLevelCount(buf) });
-  }
+  }));
+  console.log(`refresh-shadow: mirrored ${before.size} files, spawning pipeline (node=${process.execPath})`);
 
   // Run the pipeline exactly as refresh-data.yml does (same entrypoint,
   // same env names; heap capped under the function's memory).
@@ -119,8 +130,12 @@ async function run(req: NextRequest) {
   child.stderr.on("data", (d: Buffer) => { err = (err + d.toString()).slice(-6000); });
   const exitCode: number | null = await new Promise(resolve => {
     const t = setTimeout(() => { child.kill("SIGKILL"); resolve(-1); }, CHILD_TIMEOUT_MS);
+    // Without this handler a spawn failure (ENOENT etc.) is an
+    // unhandled 'error' event and kills the whole function.
+    child.on("error", e => { clearTimeout(t); err += `spawn error: ${e.message}`; resolve(-2); });
     child.on("close", code => { clearTimeout(t); resolve(code); });
   });
+  console.log(`refresh-shadow: pipeline exited ${exitCode} after ${Math.round((Date.now() - started) / 1000)}s`);
 
   // Diff: what the identical code produced from the identical inputs.
   const changed: Array<Record<string, unknown>> = [];
