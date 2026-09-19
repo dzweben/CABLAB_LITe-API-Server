@@ -73,6 +73,34 @@ function semanticallyEqual(a: Buffer, b: Buffer): boolean | null {
            JSON.stringify(normalize(JSON.parse(b.toString())));
   } catch { return null; }
 }
+// Names the exact paths that differ after normalization, so a
+// semanticMatch=false is a finding, not a mystery.
+function deepDiff(a: unknown, b: unknown, p: string, out: string[], cap: number): void {
+  if (out.length >= cap) return;
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) { out.push(`${p}: array length ${a.length} → ${b.length}`); return; }
+    for (let i = 0; i < a.length && out.length < cap; i++) deepDiff(a[i], b[i], `${p}[${i}]`, out, cap);
+    return;
+  }
+  if (a && b && typeof a === "object" && typeof b === "object" && !Array.isArray(a) && !Array.isArray(b)) {
+    const keys = new Set([...Object.keys(a as object), ...Object.keys(b as object)]);
+    for (const k of keys) {
+      if (out.length >= cap) return;
+      deepDiff((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k], `${p}.${k}`, out, cap);
+    }
+    return;
+  }
+  if (JSON.stringify(a) !== JSON.stringify(b)) {
+    out.push(`${p}: ${String(JSON.stringify(a)).slice(0, 80)} → ${String(JSON.stringify(b)).slice(0, 80)}`);
+  }
+}
+function sampleDivergences(a: Buffer, b: Buffer): string[] {
+  try {
+    const out: string[] = [];
+    deepDiff(normalize(JSON.parse(a.toString())), normalize(JSON.parse(b.toString())), "$", out, 40);
+    return out;
+  } catch { return ["<unparseable>"]; }
+}
 
 function topLevelCount(buf: Buffer): number | null {
   try {
@@ -221,6 +249,8 @@ async function shadowRun(ghToken: string) {
       // patch's known signature); false = REAL divergence; null =
       // unparseable. last-fetch.json always differs (fresh timestamps).
       semanticMatch: name === "last-fetch.json" ? "timestamp-churn" : semanticallyEqual(prev?.buf ?? Buffer.from("null"), buf),
+      ...(name !== "last-fetch.json" && prev && semanticallyEqual(prev.buf, buf) === false
+        ? { divergences: sampleDivergences(prev.buf, buf) } : {}),
     });
   }
   await fs.rm(ws, { recursive: true, force: true }).catch(() => {});
