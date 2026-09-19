@@ -96,9 +96,20 @@ async function shadowRun(ghToken: string) {
   await fs.mkdir(wsScripts, { recursive: true });
   await fs.mkdir(wsData, { recursive: true });
 
-  // The script itself ships in this function's bundle.
-  const script = await fs.readFile(path.join(process.cwd(), "scripts", "fetch-data.mjs"));
-  await fs.writeFile(path.join(wsScripts, "fetch-data.mjs"), script);
+  // The script itself ships in this function's bundle — with ONE
+  // sandbox-only memory patch: parseCSV originally stores a property
+  // for EVERY export column on EVERY row, and REDCap flat exports
+  // carry a column for every field in the project (~thousands, nearly
+  // all empty per event). That made ~4,000 rows weigh >3GB and OOM'd
+  // three shadow runs. Skipping empty cells keeps reads identical for
+  // all `row.field || fallback` access (undefined vs "") and shrinks
+  // rows ~50x. The diff gate proves output-equality against GitHub's
+  // unpatched leg before this ever lands in the script proper.
+  const ANCHOR = 'for (let j = 0; j < headers.length; j++) r[headers[j]] = vals[j] ?? "";';
+  const PATCH = 'for (let j = 0; j < headers.length; j++) { const v = vals[j] ?? ""; if (v !== "") r[headers[j]] = v; }';
+  const scriptSrc = (await fs.readFile(path.join(process.cwd(), "scripts", "fetch-data.mjs"), "utf-8"));
+  if (!scriptSrc.includes(ANCHOR)) throw new Error("memory-patch anchor not found in fetch-data.mjs — refusing to run unpatched");
+  await fs.writeFile(path.join(wsScripts, "fetch-data.mjs"), scriptSrc.replace(ANCHOR, PATCH));
 
   const mem = (label: string) => {
     const m = process.memoryUsage();
