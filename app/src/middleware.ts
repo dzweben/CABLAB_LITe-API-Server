@@ -12,6 +12,8 @@ const PUBLIC_PATHS = [
   // auth (x-sweep-secret) — its callers (GitHub workflow, launchd) have
   // no login cookie. The route itself 401s without the secret.
   "/api/ema-sweep",
+  // Migration probe: same shared-secret auth, no data exposure.
+  "/api/redcap-probe",
 ];
 
 function isPublic(pathname: string): boolean {
