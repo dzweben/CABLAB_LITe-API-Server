@@ -103,19 +103,20 @@ async function run(req: NextRequest) {
 
   // Run the pipeline exactly as refresh-data.yml does (same entrypoint,
   // same env names; heap capped under the function's memory).
+  const childEnv: NodeJS.ProcessEnv = {
+    NODE_ENV: process.env.NODE_ENV,
+    PATH: process.env.PATH || "",
+    REDCAP_API_URL: process.env.REDCAP_API_URL || "",
+    REDCAP_LITE_TOKEN: process.env.REDCAP_LITE_TOKEN || "",
+    GOOGLE_SERVICE_ACCOUNT_JSON: process.env.GOOGLE_SERVICE_ACCOUNT_JSON || "",
+    LITE_GOOGLE_SHEET_ID: process.env.LITE_GOOGLE_SHEET_ID || "",
+  };
   const child = spawn(process.execPath, ["--max-old-space-size=2800", "scripts/fetch-data.mjs"], {
-    cwd: ws,
-    env: {
-      PATH: process.env.PATH || "",
-      REDCAP_API_URL: process.env.REDCAP_API_URL || "",
-      REDCAP_LITE_TOKEN: process.env.REDCAP_LITE_TOKEN || "",
-      GOOGLE_SERVICE_ACCOUNT_JSON: process.env.GOOGLE_SERVICE_ACCOUNT_JSON || "",
-      LITE_GOOGLE_SHEET_ID: process.env.LITE_GOOGLE_SHEET_ID || "",
-    },
+    cwd: ws, env: childEnv, stdio: ["ignore", "pipe", "pipe"],
   });
   let out = "", err = "";
-  child.stdout.on("data", d => { out = (out + d.toString()).slice(-6000); });
-  child.stderr.on("data", d => { err = (err + d.toString()).slice(-6000); });
+  child.stdout.on("data", (d: Buffer) => { out = (out + d.toString()).slice(-6000); });
+  child.stderr.on("data", (d: Buffer) => { err = (err + d.toString()).slice(-6000); });
   const exitCode: number | null = await new Promise(resolve => {
     const t = setTimeout(() => { child.kill("SIGKILL"); resolve(-1); }, CHILD_TIMEOUT_MS);
     child.on("close", code => { clearTimeout(t); resolve(code); });
