@@ -122,7 +122,10 @@ async function shadowRun(ghToken: string) {
     GOOGLE_SERVICE_ACCOUNT_JSON: process.env.GOOGLE_SERVICE_ACCOUNT_JSON || "",
     LITE_GOOGLE_SHEET_ID: process.env.LITE_GOOGLE_SHEET_ID || "",
   };
-  const child = spawn(process.execPath, ["--max-old-space-size=2800", "scripts/fetch-data.mjs"], {
+  // Child heap capped well under the function's 3009MB allocation
+  // (parent + buffers need room too). GitHub ran this with a 6GB flag
+  // out of abundance; the stderr tail reports if the cap is ever hit.
+  const child = spawn(process.execPath, ["--max-old-space-size=2300", "scripts/fetch-data.mjs"], {
     cwd: ws, env: childEnv, stdio: ["ignore", "pipe", "pipe"],
   });
   let out = "", err = "";

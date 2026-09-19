@@ -4,5 +4,11 @@
       "path": "/api/ema-sweep",
       "schedule": "* * * * *"
     }
-  ]
+  ],
+  "functions": {
+    "src/app/api/refresh/route.ts": {
+      "memory": 3009,
+      "maxDuration": 800
+    }
+  }
 }
