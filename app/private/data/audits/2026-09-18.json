@@ -1,0 +1,80 @@
+{
+  "date": "2026-09-18",
+  "generatedAt": "2026-09-19T13:59:17.728Z",
+  "verdict": "YELLOW",
+  "problems": [],
+  "warnings": [
+    "3 EMA prompt(s) protocol-skipped (late)",
+    "saer EMA leg silent for 363h (EMA still covered by GitHub + Vercel legs)",
+    "data 557 min stale"
+  ],
+  "sendMode": "LIVE",
+  "dataFreshnessMin": 557,
+  "planned": 0,
+  "counts": {
+    "sent": 0,
+    "failed": 0,
+    "skipped": 0,
+    "completedBeforeSlot": 0,
+    "postponed": 0,
+    "slotStillOpen": 0,
+    "unaccounted": 0
+  },
+  "detail": {
+    "sent": [],
+    "failed": [],
+    "skipped": [],
+    "completedBeforeSlot": [],
+    "postponed": [],
+    "slotStillOpen": [],
+    "unaccounted": []
+  },
+  "ema": {
+    "planned": 5,
+    "sent": 6,
+    "sweeperRescued": 0,
+    "skippedLate": 3,
+    "failed": 0,
+    "unaccounted": 0,
+    "unaccountedDetail": [],
+    "maxLatencySec": 206,
+    "medianLatencySec": 204
+  },
+  "workflowRuns": {
+    "EMA Sweeper Setup (Vercel env)": {
+      "success": 5,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    },
+    "Refresh LITe REDCap Data": {
+      "success": 12,
+      "failure": 0,
+      "cancelled": 2,
+      "other": 0
+    },
+    "Deploy LITe (code/UI changes)": {
+      "success": 2,
+      "failure": 0,
+      "cancelled": 1,
+      "other": 0
+    },
+    "EMA Prompt Sender": {
+      "success": 6,
+      "failure": 0,
+      "cancelled": 5,
+      "other": 0
+    },
+    "Daily Server Audit": {
+      "success": 1,
+      "failure": 0,
+      "cancelled": 0,
+      "other": 0
+    }
+  },
+  "totals": {
+    "participants": 419,
+    "queueUpcoming": 1994,
+    "sentAllTime": 1079
+  }
+}
