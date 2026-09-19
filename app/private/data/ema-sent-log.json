@@ -1430,5 +1430,35 @@
     "at": "2026-09-18T23:07:25.711Z",
     "latencySec": 206,
     "note": "vercel-sender"
+  },
+  {
+    "key": "2048|2|ema_f_841",
+    "pid": "2048",
+    "wave": 2,
+    "promptKey": "ema_f_841",
+    "status": "sending",
+    "sendAt": "2026-09-19T00:41:00.000Z",
+    "at": "2026-09-19T00:41:00.112Z",
+    "note": "vercel-sender claim"
+  },
+  {
+    "key": "2049|2|ema_f_841",
+    "pid": "2049",
+    "wave": 2,
+    "promptKey": "ema_f_841",
+    "status": "sending",
+    "sendAt": "2026-09-19T00:41:00.000Z",
+    "at": "2026-09-19T00:41:00.112Z",
+    "note": "vercel-sender claim"
+  },
+  {
+    "key": "3043|2|ema_f_841",
+    "pid": "3043",
+    "wave": 2,
+    "promptKey": "ema_f_841",
+    "status": "sending",
+    "sendAt": "2026-09-19T00:41:00.000Z",
+    "at": "2026-09-19T00:41:00.112Z",
+    "note": "vercel-sender claim"
   }
 ]
