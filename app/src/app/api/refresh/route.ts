@@ -100,6 +100,11 @@ async function shadowRun(ghToken: string) {
   const script = await fs.readFile(path.join(process.cwd(), "scripts", "fetch-data.mjs"));
   await fs.writeFile(path.join(wsScripts, "fetch-data.mjs"), script);
 
+  const mem = (label: string) => {
+    const m = process.memoryUsage();
+    console.log(`refresh-shadow MEM [${label}]: rss=${Math.round(m.rss / 1e6)}MB heap=${Math.round(m.heapUsed / 1e6)}MB`);
+  };
+  mem("start");
   // Mirror the LIVE data directory (not the bundle — the bundle can be
   // hours old) so the run starts from exactly what GitHub's leg would.
   console.log("refresh-shadow: mirroring live data dir");
@@ -108,8 +113,12 @@ async function shadowRun(ghToken: string) {
   await Promise.all(listing.filter(f => f.type === "file" && f.name.endsWith(".json")).map(async f => {
     const buf = await ghRaw(`${DATA_DIR_REPO}/${f.name}`, ghToken);
     await fs.writeFile(path.join(wsData, f.name), buf);
-    before.set(f.name, { hash: sha1(buf), bytes: buf.length, count: topLevelCount(buf) });
+    // Counts only for small files at mirror time — parsing the 9MB
+    // participants.json here (13 files in parallel) spikes the heap for
+    // a purely cosmetic report field.
+    before.set(f.name, { hash: sha1(buf), bytes: buf.length, count: buf.length < 2_000_000 ? topLevelCount(buf) : null });
   }));
+  mem("post-mirror");
   console.log(`refresh-shadow: mirrored ${before.size} files, spawning pipeline (node=${process.execPath})`);
 
   // Run the pipeline exactly as refresh-data.yml does (same entrypoint,
@@ -122,12 +131,13 @@ async function shadowRun(ghToken: string) {
     GOOGLE_SERVICE_ACCOUNT_JSON: process.env.GOOGLE_SERVICE_ACCOUNT_JSON || "",
     LITE_GOOGLE_SHEET_ID: process.env.LITE_GOOGLE_SHEET_ID || "",
   };
-  // Child heap capped well under the function's 3009MB allocation
-  // (parent + buffers need room too). GitHub ran this with a 6GB flag
-  // out of abundance; the stderr tail reports if the cap is ever hit.
-  const child = spawn(process.execPath, ["--max-old-space-size=2300", "scripts/fetch-data.mjs"], {
+  // No explicit heap flag: V8 sizes itself from what the container
+  // actually reports available. (GitHub's 6GB flag was abundance, not
+  // need; an explicit large cap here invited the OOM killer.)
+  const child = spawn(process.execPath, ["scripts/fetch-data.mjs"], {
     cwd: ws, env: childEnv, stdio: ["ignore", "pipe", "pipe"],
   });
+  const memTimer = setInterval(() => mem("child-running"), 15_000);
   let out = "", err = "";
   child.stdout.on("data", (d: Buffer) => { out = (out + d.toString()).slice(-6000); });
   child.stderr.on("data", (d: Buffer) => { err = (err + d.toString()).slice(-6000); });
@@ -138,6 +148,8 @@ async function shadowRun(ghToken: string) {
     child.on("error", e => { clearTimeout(t); err += `spawn error: ${e.message}`; resolve(-2); });
     child.on("close", code => { clearTimeout(t); resolve(code); });
   });
+  clearInterval(memTimer);
+  mem("child-exited");
   console.log(`refresh-shadow: pipeline exited ${exitCode} after ${Math.round((Date.now() - started) / 1000)}s`);
 
   // Diff: what the identical code produced from the identical inputs.

@@ -99,7 +99,9 @@ jobs:
           # shows as a GET /api/ema-sweep each minute.
           npm install -g vercel >/dev/null 2>&1
           echo "=== runtime log capture (70s) ==="
-          timeout 70 vercel logs https://cablab-lite.vercel.app --token=$VERCEL_TOKEN 2>&1 | grep -iE "ema-sweep|ema-sender|cron|refresh-shadow|error" | head -30 || true
+          timeout 70 vercel logs https://cablab-lite.vercel.app --token=$VERCEL_TOKEN 2>&1 | grep -iE "ema-sweep|ema-sender|cron|refresh-shadow|error" | head -40 || true
+          echo "=== function config ground truth ==="
+          vercel inspect https://cablab-lite.vercel.app --token=$VERCEL_TOKEN 2>&1 | head -50 || true
           python3 << 'PY'
           import json, os, urllib.request, urllib.error
           token = os.environ["VERCEL_TOKEN"]; org = os.environ["VERCEL_ORG_ID"]; project = os.environ["VERCEL_PROJECT_ID"]
