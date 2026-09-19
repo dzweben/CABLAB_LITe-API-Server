@@ -160,7 +160,12 @@ async function shadowRun(ghToken: string) {
   // rows ~50x. The diff gate proves output-equality against GitHub's
   // unpatched leg before this ever lands in the script proper.
   const ANCHOR = 'for (let j = 0; j < headers.length; j++) r[headers[j]] = vals[j] ?? "";';
-  const PATCH = 'for (let j = 0; j < headers.length; j++) { const v = vals[j] ?? ""; if (v !== "") r[headers[j]] = v; }';
+  // Empty cells are dropped EXCEPT `_complete` fields: those are
+  // enumerated downstream (the per-visit forms dict records 0 = "not
+  // started"), and diff run 9 proved they are the ONLY output-visible
+  // consumers of empty cells. Keeping them restores byte-identical
+  // outputs; dropping the rest still eliminates the multi-GB blowup.
+  const PATCH = 'for (let j = 0; j < headers.length; j++) { const v = vals[j] ?? ""; if (v !== "" || headers[j].endsWith("_complete")) r[headers[j]] = v; }';
   const scriptSrc = (await fs.readFile(path.join(process.cwd(), "scripts", "fetch-data.mjs"), "utf-8"));
   if (!scriptSrc.includes(ANCHOR)) throw new Error("memory-patch anchor not found in fetch-data.mjs — refusing to run unpatched");
   await fs.writeFile(path.join(wsScripts, "fetch-data.mjs"), scriptSrc.replace(ANCHOR, PATCH));
