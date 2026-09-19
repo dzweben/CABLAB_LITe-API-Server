@@ -105,6 +105,16 @@ async function shadowRun(ghToken: string) {
     console.log(`refresh-shadow MEM [${label}]: rss=${Math.round(m.rss / 1e6)}MB heap=${Math.round(m.heapUsed / 1e6)}MB`);
   };
   mem("start");
+  // Ground truth on what memory this container ACTUALLY has (config
+  // claims are not trusted after two silent OOM kills).
+  let limitMB = 0;
+  for (const p of ["/sys/fs/cgroup/memory.max", "/sys/fs/cgroup/memory/memory.limit_in_bytes"]) {
+    try {
+      const v = (await fs.readFile(p, "utf-8")).trim();
+      if (v && v !== "max") { limitMB = Math.round(Number(v) / 1e6); break; }
+    } catch { /* next path */ }
+  }
+  console.log(`refresh-shadow: container memory limit = ${limitMB || "unknown"}MB`);
   // Mirror the LIVE data directory (not the bundle — the bundle can be
   // hours old) so the run starts from exactly what GitHub's leg would.
   console.log("refresh-shadow: mirroring live data dir");
@@ -131,10 +141,13 @@ async function shadowRun(ghToken: string) {
     GOOGLE_SERVICE_ACCOUNT_JSON: process.env.GOOGLE_SERVICE_ACCOUNT_JSON || "",
     LITE_GOOGLE_SHEET_ID: process.env.LITE_GOOGLE_SHEET_ID || "",
   };
-  // No explicit heap flag: V8 sizes itself from what the container
-  // actually reports available. (GitHub's 6GB flag was abundance, not
-  // need; an explicit large cap here invited the OOM killer.)
-  const child = spawn(process.execPath, ["scripts/fetch-data.mjs"], {
+  // Child heap sized from the MEASURED container limit, leaving ~700MB
+  // for the parent, buffers, and non-heap child memory. (V8's own
+  // auto-size picked ~1.1GB and starved; an over-promise invites the
+  // cgroup OOM killer — this threads between the two.)
+  const childHeapMB = limitMB ? Math.max(1200, limitMB - 700) : 1900;
+  console.log(`refresh-shadow: child max-old-space-size=${childHeapMB}MB`);
+  const child = spawn(process.execPath, [`--max-old-space-size=${childHeapMB}`, "scripts/fetch-data.mjs"], {
     cwd: ws, env: childEnv, stdio: ["ignore", "pipe", "pipe"],
   });
   const memTimer = setInterval(() => mem("child-running"), 15_000);
@@ -170,6 +183,7 @@ async function shadowRun(ghToken: string) {
 
   const report = {
     mode, exitCode, durationMs: Date.now() - started,
+    containerMemMB: limitMB, childHeapMB,
     inputFiles: before.size, changed, unchanged,
     stdoutTail: out.slice(-2500), stderrTail: err.slice(-2500),
   };

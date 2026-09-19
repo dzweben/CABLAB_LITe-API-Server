@@ -136,4 +136,14 @@ jobs:
               for payload in ({"crons": {"enabled": True}},):
                   code, r = api(f"/v9/projects/{project}?{team_q}", payload, "PATCH")
                   print(f"PATCH enable attempt: HTTP {code} {json.dumps(r)[:300]}")
+          # 4. Fluid-compute machine tier: the refresh pipeline needs the
+          # 4GB performance tier; per-function vercel.json memory did not
+          # take effect under fluid. Idempotent upgrade attempt.
+          code, body = api(f"/v9/projects/{project}?{team_q}")
+          rc = (body.get("resourceConfig") or {}) if code == 200 else {}
+          print(f"resourceConfig: {json.dumps(rc)[:300]}")
+          if rc.get("functionDefaultMemoryType") != "performance":
+              code2, r2 = api(f"/v9/projects/{project}?{team_q}",
+                              {"resourceConfig": {"functionDefaultMemoryType": "performance"}}, "PATCH")
+              print(f"PATCH functionDefaultMemoryType=performance: HTTP {code2} {json.dumps(r2)[:250]}")
           PY
