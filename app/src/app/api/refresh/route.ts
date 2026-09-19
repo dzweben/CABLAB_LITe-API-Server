@@ -48,6 +48,32 @@ async function ghRaw(pathname: string, token: string): Promise<Buffer> {
 }
 const sha1 = (b: Buffer) => crypto.createHash("sha1").update(b).digest("hex");
 
+// Semantic equality for the diff gate: the sandbox's parseCSV patch
+// legitimately drops empty-string fields, so byte-compare fails while
+// meaning is identical. Normalize both sides (recursively drop ""/null
+// values and empty objects) and deep-compare. Anything that differs
+// AFTER normalization is a real behavioral divergence.
+function normalize(v: unknown): unknown {
+  if (Array.isArray(v)) return v.map(normalize);
+  if (v && typeof v === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [k, val] of Object.entries(v as Record<string, unknown>)) {
+      if (val === "" || val === null || val === undefined) continue;
+      const n = normalize(val);
+      if (n && typeof n === "object" && !Array.isArray(n) && Object.keys(n).length === 0) continue;
+      out[k] = n;
+    }
+    return out;
+  }
+  return v;
+}
+function semanticallyEqual(a: Buffer, b: Buffer): boolean | null {
+  try {
+    return JSON.stringify(normalize(JSON.parse(a.toString()))) ===
+           JSON.stringify(normalize(JSON.parse(b.toString())));
+  } catch { return null; }
+}
+
 function topLevelCount(buf: Buffer): number | null {
   try {
     const d = JSON.parse(buf.toString());
@@ -130,14 +156,14 @@ async function shadowRun(ghToken: string) {
   // hours old) so the run starts from exactly what GitHub's leg would.
   console.log("refresh-shadow: mirroring live data dir");
   const listing = (await ghJson(DATA_DIR_REPO, ghToken)) as Array<{ name: string; type: string }>;
-  const before = new Map<string, { hash: string; bytes: number; count: number | null }>();
+  const before = new Map<string, { hash: string; bytes: number; count: number | null; buf: Buffer }>();
   await Promise.all(listing.filter(f => f.type === "file" && f.name.endsWith(".json")).map(async f => {
     const buf = await ghRaw(`${DATA_DIR_REPO}/${f.name}`, ghToken);
     await fs.writeFile(path.join(wsData, f.name), buf);
     // Counts only for small files at mirror time — parsing the 9MB
     // participants.json here (13 files in parallel) spikes the heap for
     // a purely cosmetic report field.
-    before.set(f.name, { hash: sha1(buf), bytes: buf.length, count: buf.length < 2_000_000 ? topLevelCount(buf) : null });
+    before.set(f.name, { hash: sha1(buf), bytes: buf.length, count: buf.length < 2_000_000 ? topLevelCount(buf) : null, buf });
   }));
   mem("post-mirror");
   console.log(`refresh-shadow: mirrored ${before.size} files, spawning pipeline (node=${process.execPath})`);
@@ -191,6 +217,10 @@ async function shadowRun(ghToken: string) {
       file: name, new: !prev,
       beforeBytes: prev?.bytes ?? 0, afterBytes: buf.length,
       beforeCount: prev?.count ?? null, afterCount: topLevelCount(buf),
+      // true = only empty-string/formatting differences (the sandbox
+      // patch's known signature); false = REAL divergence; null =
+      // unparseable. last-fetch.json always differs (fresh timestamps).
+      semanticMatch: name === "last-fetch.json" ? "timestamp-churn" : semanticallyEqual(prev?.buf ?? Buffer.from("null"), buf),
     });
   }
   await fs.rm(ws, { recursive: true, force: true }).catch(() => {});
