@@ -1436,29 +1436,38 @@
     "pid": "2048",
     "wave": 2,
     "promptKey": "ema_f_841",
-    "status": "sending",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12152548653",
     "sendAt": "2026-09-19T00:41:00.000Z",
-    "at": "2026-09-19T00:41:00.112Z",
-    "note": "vercel-sender claim"
+    "at": "2026-09-19T00:41:01.846Z",
+    "latencySec": 2,
+    "note": "vercel-sender"
   },
   {
     "key": "2049|2|ema_f_841",
     "pid": "2049",
     "wave": 2,
     "promptKey": "ema_f_841",
-    "status": "sending",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12675468234",
     "sendAt": "2026-09-19T00:41:00.000Z",
-    "at": "2026-09-19T00:41:00.112Z",
-    "note": "vercel-sender claim"
+    "at": "2026-09-19T00:41:02.750Z",
+    "latencySec": 3,
+    "note": "vercel-sender"
   },
   {
     "key": "3043|2|ema_f_841",
     "pid": "3043",
     "wave": 2,
     "promptKey": "ema_f_841",
-    "status": "sending",
+    "status": "sent",
+    "channel": "sms",
+    "recipient": "+12673041590",
     "sendAt": "2026-09-19T00:41:00.000Z",
-    "at": "2026-09-19T00:41:00.112Z",
-    "note": "vercel-sender claim"
+    "at": "2026-09-19T00:41:03.872Z",
+    "latencySec": 4,
+    "note": "vercel-sender"
   }
 ]
