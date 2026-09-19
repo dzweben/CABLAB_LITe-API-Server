@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
     // The EMA sweeper reads the prompt schedule + participants, and
     // renders the exact prompt text from the timeline source.
     "/api/ema-sweep": ["./private/data/**/*", "./src/lib/timeline.ts"],
+    // The refresh runner ships the untouched pipeline script and runs
+    // it in a /tmp sandbox against live-mirrored data.
+    "/api/refresh": ["./scripts/fetch-data.mjs"],
   },
 };
 

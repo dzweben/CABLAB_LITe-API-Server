@@ -14,6 +14,8 @@ const PUBLIC_PATHS = [
   "/api/ema-sweep",
   // Migration probe: same shared-secret auth, no data exposure.
   "/api/redcap-probe",
+  // Phase 2 refresh runner: same shared-secret auth.
+  "/api/refresh",
 ];
 
 function isPublic(pathname: string): boolean {
