@@ -3,6 +3,10 @@
     {
       "path": "/api/ema-sweep",
       "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/refresh",
+      "schedule": "20 */2 * * *"
     }
   ],
   "functions": {

@@ -59,6 +59,9 @@ function normalize(v: unknown): unknown {
     const out: Record<string, unknown> = {};
     for (const [k, val] of Object.entries(v as Record<string, unknown>)) {
       if (val === "" || val === null || val === undefined) continue;
+      // Run-stamps legitimately differ between legs (proven the sole
+      // participants.json divergence in gate run 10).
+      if (k === "fetchedAt") continue;
       const n = normalize(val);
       if (n && typeof n === "object" && !Array.isArray(n) && Object.keys(n).length === 0) continue;
       out[k] = n;
