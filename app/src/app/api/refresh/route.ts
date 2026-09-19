@@ -145,7 +145,10 @@ async function shadowRun(ghToken: string) {
   // for the parent, buffers, and non-heap child memory. (V8's own
   // auto-size picked ~1.1GB and starved; an over-promise invites the
   // cgroup OOM killer — this threads between the two.)
-  const childHeapMB = limitMB ? Math.max(1200, limitMB - 700) : 1900;
+  // cgroup files are unreadable in this sandbox (limitMB=0), so the
+  // default assumes the project's fluid PERFORMANCE tier (4GB): proven
+  // applied when a 1.9GB child died without taking the instance down.
+  const childHeapMB = limitMB ? Math.max(1200, limitMB - 700) : 3100;
   console.log(`refresh-shadow: child max-old-space-size=${childHeapMB}MB`);
   const child = spawn(process.execPath, [`--max-old-space-size=${childHeapMB}`, "scripts/fetch-data.mjs"], {
     cwd: ws, env: childEnv, stdio: ["ignore", "pipe", "pipe"],
